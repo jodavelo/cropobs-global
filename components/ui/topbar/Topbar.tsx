@@ -2,7 +2,6 @@
 import styles from './Topbar.module.css';
 import { TopbarLogo, TopbarOptions } from './';
 
-
 export const Topbar = () => {
     return (
         <div

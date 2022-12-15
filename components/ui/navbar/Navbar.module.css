@@ -1,0 +1,18 @@
+
+.spacingNavbarOptions {
+    /* margin: 0px 4vw; */
+    flex-basis: 78vw;
+}
+
+.spaceNavbarContainer {
+    padding: 0px 40px;
+}
+
+@media (max-width: 1000px){
+    .spacingNavbarOptions {
+        flex-basis: 0vw;
+    }   
+    .spaceNavbarContainer {
+        padding: 0px 10px;
+    }
+}

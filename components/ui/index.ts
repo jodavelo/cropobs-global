@@ -1,6 +1,4 @@
 
 
-export * from './Navbar';
-export * from './Topbar';
-export * from './TopbarLogo';
-export * from './TopbarOptions';
+export * from './navbar';
+export * from './topbar';

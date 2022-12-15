@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 import { Layout } from "../components/layouts";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
 const Index: NextPage = () => {
     return (
-        <Layout title="Index">
-            <h1>Hola mundo</h1>
+        <Layout title="Home">
+            <h1>Home page</h1>
         </Layout>
     )
 }

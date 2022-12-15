@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Head from 'next/head';
-import { Topbar } from "../ui";
+import { Topbar, NavbarComponent } from "../ui";
 
 interface Props {
     children: React.ReactNode,
@@ -16,7 +16,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Topbar/>
-            {/* Navbar */}
+            <NavbarComponent/>
             <main>
                 { children }
             </main>
