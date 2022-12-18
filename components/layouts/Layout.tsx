@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import Head from 'next/head';
-import { Topbar, NavbarComponent } from "../ui";
+import { Topbar, NavbarComponent, Footer } from "../ui";
+
+import styles from './Layout.module.css';
 
 interface Props {
     children: React.ReactNode,
@@ -17,10 +19,10 @@ export const Layout: FC<Props> = ({ children, title }) => {
             </Head>
             <Topbar/>
             <NavbarComponent/>
-            <main>
+            <main className={ styles.content }>
                 { children }
             </main>
-            {/* footer */}
+            <Footer/>
         </div>
     )
 }

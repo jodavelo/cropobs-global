@@ -7,7 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Index: NextPage = () => {
     return (
         <Layout title="Home">
-            <h1>Home page</h1>
+            <div>
+                <h1>Home page</h1>
+            </div>
         </Layout>
     )
 }
