@@ -8,11 +8,21 @@
     padding: 0px 40px;
 }
 
+.nav-styles {
+    padding: 0px !important;
+}
+
 @media (max-width: 1000px){
     .spacingNavbarOptions {
         flex-basis: 0vw;
     }   
     .spaceNavbarContainer {
         padding: 0px 10px;
+    }
+}
+
+@media (min-width: 1000px) {
+    .nav-styles {
+        padding: 5px 50px !important;
     }
 }

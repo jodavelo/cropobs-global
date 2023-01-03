@@ -12,7 +12,7 @@ export const NavbarComponent = () => {
             {['lg'].map((expand) => (
                 <Navbar key={expand || ''} style={{
                     backgroundColor: '#D6D8D7' // TODO: Aqui para modificar el color del navbar!
-                }} expand={expand} className="mb-3">
+                }} expand={expand} className={ styles['nav-styles'] }>
                     <Container fluid className={ styles.spaceNavbarContainer }>
                         {/* <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand> */}
                         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
