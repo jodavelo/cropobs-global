@@ -14,7 +14,7 @@ interface Props {
 
 export const LinkComponent: FC<Props> = ({ href }) => {
 
-    console.log(href)
+    // console.log(href)
 
     return (
         <a href={ `https://` + href } target="_blank" rel={ 'noopener noreferrer' } style={ style } >{ href }</a>

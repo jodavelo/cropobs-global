@@ -21,7 +21,7 @@ interface Props {
 
 export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
     
-    const { asPath } = useRouter();
+    const { asPath, locale } = useRouter();
 
     if( hasMoreOptions ){
         return (
@@ -42,7 +42,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
         )
     }
     return (
-        <Link key={ href } href={ href } passHref legacyBehavior>
+        <Link key={ href } href={ href } locale={ locale } passHref legacyBehavior>
             <Nav.Link style={ href === asPath ? style : undefined } className={ styles.spacingNavbarOptions }>{ text }</Nav.Link>
         </Link>
     )

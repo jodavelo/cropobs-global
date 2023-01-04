@@ -43,6 +43,10 @@
     margin: 0px 20px;
 }
 
+.link-options {
+    text-decoration: none;
+}
+
 @media (max-width: 500px) {
     .container{
         height: 150px;
