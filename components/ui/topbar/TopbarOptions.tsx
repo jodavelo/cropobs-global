@@ -33,7 +33,7 @@ export const TopbarOptions = () => {
         >
             {
                 languages!.map( optionLocale => (
-                    <div className={ styles['options-language'] }><Link href={ asPath } locale={ optionLocale.locale } legacyBehavior >{ optionLocale.label }</Link></div>        
+                    <div key={ optionLocale.locale } className={ styles['options-language'] }><Link href={ asPath } locale={ optionLocale.locale } legacyBehavior >{ optionLocale.label }</Link></div>        
                 ))
             }
         
