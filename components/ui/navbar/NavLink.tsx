@@ -23,6 +23,8 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
     
     const { asPath, locale } = useRouter();
 
+    console.log(asPath)
+
     if( hasMoreOptions ){
         return (
             <NavDropdown
@@ -30,12 +32,16 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
                 id={`offcanvasNavbarDropdown-expand-${expand}`}
                 style={ href === asPath ? style : undefined } //TODO: Falta revisar el active link de los dropdown
             >
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
+                <Link href={ href } legacyBehavior>
+                    <NavDropdown.Item >
+                        Action
+                    </NavDropdown.Item>
+                </Link>
+                <NavDropdown.Item href={ href }>
                     Another action
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
+                <NavDropdown.Item href={ href }>
                     Something else here
                 </NavDropdown.Item>
             </NavDropdown>

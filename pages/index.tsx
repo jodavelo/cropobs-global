@@ -16,13 +16,16 @@ const Index: NextPage = () => {
         <Layout title="Home">
             <div>
                 <h1>{ homeTranslate('title-page') }</h1>
-                <h2>{ commonTranslate('text-test') }</h2>
+                {/* <h2>{ commonTranslate('text-test') }</h2> */}
             </div>
         </Layout>
     )
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
+
+    console.log(locale)
+
     return {
         props: {
             ...( await serverSideTranslations( locale!, ['common'] ) ),
