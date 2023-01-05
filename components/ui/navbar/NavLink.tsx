@@ -23,7 +23,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
     
     const { asPath, locale } = useRouter();
 
-    console.log(asPath)
+    // console.log(asPath)
 
     if( hasMoreOptions ){
         return (

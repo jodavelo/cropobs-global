@@ -6,6 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Layout } from '../components/layouts';
+import { MainHome } from '../components/home';
 
 const Index: NextPage = () => {
 
@@ -14,10 +15,13 @@ const Index: NextPage = () => {
 
     return (
         <Layout title="Home">
-            <div>
+            {/* <div>
                 <h1>{ homeTranslate('title-page') }</h1>
-                {/* <h2>{ commonTranslate('text-test') }</h2> */}
-            </div>
+                <h2>{ commonTranslate('text-test') }</h2>
+            </div> */}
+            <>
+                <MainHome/>
+            </>
         </Layout>
     )
 }
