@@ -6,7 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Layout } from '../components/layouts';
-import { MainHome } from '../components/home';
+import { MainHome, SubmainHome } from '../components/home';
 
 const Index: NextPage = () => {
 
@@ -21,6 +21,7 @@ const Index: NextPage = () => {
             </div> */}
             <>
                 <MainHome/>
+                <SubmainHome/>
             </>
         </Layout>
     )
