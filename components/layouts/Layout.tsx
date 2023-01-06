@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import Head from 'next/head';
 import { Topbar, NavbarComponent, Footer } from "../ui";
 
 import styles from './Layout.module.css';
+import { LayoutContext } from "../../context/layout";
 
 interface Props {
     children: React.ReactNode,
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export const Layout: FC<Props> = ({ children, title }) => {
+
+    const { isHome } = useContext( LayoutContext );
     return (
         <div>
             <Head>
@@ -19,7 +22,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
             </Head>
             <Topbar/>
             <NavbarComponent/>
-            <main className={ styles.content }>
+            <main className={ !isHome ? styles.content : styles['general-content'] }>
                 { children }
             </main>
             <Footer/>

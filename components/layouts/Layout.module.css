@@ -1,4 +1,27 @@
 
 .content {
-    height: 80vh; /* TODO: Para el alto del contenido main */
+    height: 300vh; /* TODO: Para el alto del contenido main */
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .content {
+        height: 230vh; 
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 500px){
+    .content {
+        height: 190vh; 
+    }
+    
+}
+
+@media (min-width: 1000px){ 
+    .content {
+        height: 200vh; 
+    }
+}
+
+.general-content {
+    height: 60vh;
 }

@@ -1,10 +1,11 @@
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Nav } from 'react-bootstrap';
 
 import styles from './Navbar.module.css';
+import { LayoutContext } from '../../../context/layout';
 
 const style: CSSProperties = {
     color: '#0070f3',
@@ -22,6 +23,13 @@ interface Props {
 export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
     
     const { asPath, locale } = useRouter();
+    const { enableIsHome, unenableIsHome, isHome } = useContext( LayoutContext );
+
+    const setIsHome = () => {
+        console.log({ isHome })
+        if( asPath == '/' ) enableIsHome();
+        else unenableIsHome();
+    }
 
     // console.log(asPath)
 
@@ -49,7 +57,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
     }
     return (
         <Link key={ href } href={ href } locale={ locale } passHref legacyBehavior>
-            <Nav.Link style={ href === asPath ? style : undefined } className={ styles.spacingNavbarOptions }>{ text }</Nav.Link>
+            <Nav.Link onClick={ setIsHome } style={ href === asPath ? style : undefined } className={ styles.spacingNavbarOptions }>{ text }</Nav.Link>
         </Link>
     )
 }

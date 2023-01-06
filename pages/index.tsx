@@ -6,7 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Layout } from '../components/layouts';
-import { MainHome, SubmainHome } from '../components/home';
+import { Indicators, MainHome, SubmainHome } from '../components/home';
 
 const Index: NextPage = () => {
 
@@ -22,6 +22,7 @@ const Index: NextPage = () => {
             <>
                 <MainHome/>
                 <SubmainHome/>
+                <Indicators/>
             </>
         </Layout>
     )
@@ -29,7 +30,7 @@ const Index: NextPage = () => {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
-    console.log(locale)
+    // console.log(locale)
 
     return {
         props: {
