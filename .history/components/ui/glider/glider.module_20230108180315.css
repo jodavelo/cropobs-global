@@ -1,0 +1,25 @@
+
+
+/* .glider-container {
+    height: 40vh;
+    width: 80vw;
+    background-color: transparent;
+    padding: 20px 150px;
+    border: 1px black solid;
+} */
+
+.glider {
+    height: 40vh !important;
+    width: 100%;
+    padding: 20px 150px;
+}
+
+.container {
+    /* height: 40vh;
+    width: 100%; */
+}
+
+.slide {
+    height: 35vh !important;
+    /* border: 1px black solid; */
+}

@@ -21,8 +21,8 @@
 }
 /* TODO: modificar aqui para agregar mas indicadores */
 .img-icon {
-    height: 50%;
-    width: 10%;
+    height: 60%;
+    width: 20%;
     object-fit: contain;
     opacity: 0.2;
 }

@@ -1,0 +1,23 @@
+
+
+.glider-container {
+    height: 40vh;
+    width: 80vw;
+    background-color: transparent;
+    padding: 0px 0px;
+}
+
+.glider {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    height: 80%;
+    width: 100%;
+}
+
+.slide {
+    height: 35vh !important;
+    border: 1px black solid;
+}

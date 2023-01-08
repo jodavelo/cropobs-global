@@ -1,7 +1,7 @@
 
 
 .indicators-container {
-    height: 60vh; /*TODO: Modificar aqui si hay mas de 4 indicadores...*/
+    height: 50vh; /*TODO: Modificar aqui si hay mas de 4 indicadores...*/
     width: 100vw;
     background-color: rgb(191, 191, 191);
     display: flex;
@@ -21,8 +21,8 @@
 }
 /* TODO: modificar aqui para agregar mas indicadores */
 .img-icon {
-    height: 50%;
-    width: 10%;
+    height: 60%;
+    width: 20%;
     object-fit: contain;
     opacity: 0.2;
 }
