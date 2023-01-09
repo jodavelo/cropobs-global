@@ -10,9 +10,7 @@
 
 .glider-component {
     width: 100vw;
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 40px;
+    padding: 10px 10px !important;
     height: 30vh;
 }
 
@@ -26,19 +24,6 @@
     height: 300px !important;
     border: 1px black solid;
 }
-
-@media (min-width: 800px){
-    .glider-component { 
-        height: 33vh;
-    }
-
-    .slide {
-        height: 30vh !important;
-        border: 1px black solid;
-        
-    }
-}
-
 
 .glider {
     height: 40vh !important;

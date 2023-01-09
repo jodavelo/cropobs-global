@@ -29,13 +29,7 @@
 
 @media (min-width: 800px){
     .glider-component { 
-        height: 33vh;
-    }
-
-    .slide {
-        height: 30vh !important;
-        border: 1px black solid;
-        
+        height: 35vh;
     }
 }
 

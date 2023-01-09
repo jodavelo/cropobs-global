@@ -9,7 +9,7 @@ import 'glider-js/glider.min.css';
 import styles from './glider.module.css';
 
 interface Props {
-    children: JSX.Element[]
+    children: any
 }
 
 // const ContainerElement: FC<Props> = ({ children }) => {
@@ -18,9 +18,8 @@ interface Props {
 //     )
 // }
 
-// export const GliderComponent: FC<Props> = ({ children }) => {
+export const GliderComponent = () => {
 
-export const GliderComponent= (  ) => {
     const INTERVAL = 5000;
     const MAX = 11;
 

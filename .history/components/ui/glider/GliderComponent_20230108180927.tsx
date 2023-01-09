@@ -9,7 +9,7 @@ import 'glider-js/glider.min.css';
 import styles from './glider.module.css';
 
 interface Props {
-    children: JSX.Element[]
+    children: any
 }
 
 // const ContainerElement: FC<Props> = ({ children }) => {
@@ -18,9 +18,8 @@ interface Props {
 //     )
 // }
 
-// export const GliderComponent: FC<Props> = ({ children }) => {
+export const GliderComponent = () => {
 
-export const GliderComponent= (  ) => {
     const INTERVAL = 5000;
     const MAX = 11;
 
@@ -53,58 +52,50 @@ export const GliderComponent= (  ) => {
     );
 
     return (
-        <div className={ styles['glider-component'] }>
+        <div style={{ width: '90vw' }}>
             <Glider
-                className={ styles['glider-container'] }
+                className="glider-container"
                 draggable
-                // hasDots
+                hasDots
                 hasArrows
                 slidesToShow={1}
                 scrollLock
                 ref={callbackRef}
-                responsive={[
-                    {
-                        breakpoint: 800,
-                        settings: {
-                        slidesToShow: 2,
-                        },
-                    },
-                ]}
             >
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>1</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>2</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>3</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>4</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>5</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>6</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>7</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>8</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>9</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>10</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>11</span>
                 </div>
-                <div className={ styles.slide }>
+                <div className="slide">
                 <span>12</span>
                 </div>
             </Glider>
