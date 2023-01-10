@@ -74,7 +74,7 @@ export const GliderComponent: FC<Props> = ({ items }) => {
                 {
                     items.map( (content, idx) => (
                         <div className={ styles.slide } key={ idx }>
-                            <span>{idx + 1} hello world</span>
+                            <span>{idx + 1}</span>
                         </div>
                     ))
                 }

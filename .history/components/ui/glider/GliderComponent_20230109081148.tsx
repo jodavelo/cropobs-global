@@ -9,7 +9,7 @@ import 'glider-js/glider.min.css';
 import styles from './glider.module.css';
 
 interface Props {
-    items: JSX.Element[]
+    content: JSX.Element
 }
 
 // const ContainerElement: FC<Props> = ({ children }) => {
@@ -18,7 +18,7 @@ interface Props {
 //     )
 // }
 
-export const GliderComponent: FC<Props> = ({ items }) => {
+export const GliderComponent: FC<Props> = ({ content }) => {
 
 // export const GliderComponent= (  ) => {
     const INTERVAL = 5000;
@@ -71,15 +71,7 @@ export const GliderComponent: FC<Props> = ({ items }) => {
                     },
                 ]}
             >
-                {
-                    items.map( (content, idx) => (
-                        <div className={ styles.slide } key={ idx }>
-                            <span>{idx + 1} hello world</span>
-                        </div>
-                    ))
-                }
-
-                {/* <div className={ styles.slide }>
+                <div className={ styles.slide }>
                 <span>1</span>
                 </div>
                 <div className={ styles.slide }>
@@ -114,7 +106,7 @@ export const GliderComponent: FC<Props> = ({ items }) => {
                 </div>
                 <div className={ styles.slide }>
                 <span>12</span>
-                </div> */}
+                </div>
             </Glider>
         </div>
     );
