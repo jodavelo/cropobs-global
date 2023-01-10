@@ -13,28 +13,32 @@
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 40px;
-    height: 30vh;
+    height: 35vh;
 }
 
 .glider-container{
-    height: 30vh;
+    height: 35vh;
     width: 100%;
-    border: 1px bisque solid;
+    border: none;
+    /* border: 1px bisque solid; */
 }
 
 .slide {
     height: 300px !important;
-    border: 1px black solid;
+    border: none;
+    /* border: 1px black solid; */
 }
 
 @media (min-width: 800px){
     .glider-component { 
         height: 33vh;
+        width: 90vw;
+        padding-left: calc(100vw - 90vw);
     }
 
     .slide {
-        height: 30vh !important;
-        border: 1px black solid;
+        height: 20vh !important;
+        /* border: 1px black solid; */
         
     }
 }

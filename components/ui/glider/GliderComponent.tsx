@@ -9,7 +9,9 @@ import 'glider-js/glider.min.css';
 import styles from './glider.module.css';
 
 interface Props {
-    items: JSX.Element[]
+    items: JSX.Element[],
+    breakpoint: number,
+    slidesToShow: number
 }
 
 // const ContainerElement: FC<Props> = ({ children }) => {
@@ -18,7 +20,7 @@ interface Props {
 //     )
 // }
 
-export const GliderComponent: FC<Props> = ({ items }) => {
+export const GliderComponent: FC<Props> = ({ items, breakpoint, slidesToShow }) => {
 
 // export const GliderComponent= (  ) => {
     const INTERVAL = 5000;
@@ -64,9 +66,9 @@ export const GliderComponent: FC<Props> = ({ items }) => {
                 ref={callbackRef}
                 responsive={[
                     {
-                        breakpoint: 800,
+                        breakpoint: breakpoint,
                         settings: {
-                        slidesToShow: 2,
+                        slidesToShow: slidesToShow,
                         },
                     },
                 ]}
@@ -74,7 +76,7 @@ export const GliderComponent: FC<Props> = ({ items }) => {
                 {
                     items.map( (content, idx) => (
                         <div className={ styles.slide } key={ idx }>
-                            <span>{idx + 1} hello world</span>
+                            { content }
                         </div>
                     ))
                 }
