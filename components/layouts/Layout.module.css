@@ -1,24 +1,31 @@
 
 .content {
-    height: 300vh; /* TODO: Para el alto del contenido main */
+    height: 400vh; /* TODO: Para el alto del contenido main */
 }
 
 @media (max-width: 500px) and (min-width: 300px){
     .content {
-        height: 230vh; 
+        height: 380vh; 
     }
 }
 
-@media (max-width: 1000px) and (min-width: 500px){
+@media (max-width: 800px) and (min-width: 500px){
     .content {
-        height: 250vh; 
+        height: 410vh; 
+    }
+    
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .content {
+        height: 310vh; 
     }
     
 }
 
 @media (min-width: 1000px){ 
     .content {
-        height: 200vh; 
+        height: 290vh; 
     }
 }
 

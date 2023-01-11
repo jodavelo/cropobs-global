@@ -1,0 +1,103 @@
+
+
+.quick-link-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    background-color: #000;
+    height: 40vh;
+    margin-bottom: 3vh;
+    cursor: pointer;
+    opacity: .8;
+    align-items: center;
+}
+.quick-link-container:hover img{
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.1); 
+    opacity: 1;
+}
+.quick-link-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: .4;
+    transition: .5s;
+    max-width: 100%;
+    min-width: 100%;
+    z-index: 50;
+}
+.quick-link-text-container {
+    position: absolute;
+    width: 100%;
+    height: 50vh;
+    max-height: 50vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.quick-link-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.7rem;
+    height: fit-content;
+    margin: 20px;
+    margin-bottom: 0;
+    text-align: center;
+}
+.quick-link-description {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    height: fit-content;
+    margin: 20px;
+    margin-top: 0;
+    text-align: center;
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .quick-link-container {
+        height: 30vh;
+    }
+    .quick-link-text-container{
+        height: 30vh;
+    }
+}
+
+@media (max-width: 700px) and (min-width: 500px){
+    .quick-link-container {
+        height: 30vh;
+    }
+    .quick-link-text-container{
+        height: 30vh;
+    }
+    
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .quick-link-container {
+        height: 50vh;
+        width: 100%;
+    }
+    .quick-link-text-container{
+        height: 40vh;
+    }
+    
+}
+
+@media (min-width: 1000px){ 
+    .quick-link-container {
+        height: 40vh;
+        width: 100%;
+    }
+    .quick-link-text-container{
+        height: 40vh;
+    }
+}
+
