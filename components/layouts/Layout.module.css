@@ -1,31 +1,34 @@
 
+/* extra components: ( videos, sign up o caoursel ) */
+
 .content {
-    height: 400vh; /* TODO: Para el alto del contenido main */
+    height: 400vh; /* TODO: Para el alto del contenido main */ /* 400 vh without extra components  */
+    /* border: 1px black solid; */
 }
 
 @media (max-width: 500px) and (min-width: 300px){
     .content {
-        height: 380vh; 
+        height: 380vh;   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
     }
 }
 
 @media (max-width: 800px) and (min-width: 500px){
     .content {
-        height: 410vh; 
+        height: 410vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
     }
     
 }
 
 @media (max-width: 1000px) and (min-width: 800px){
     .content {
-        height: 310vh; 
+        height: 310vh; /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
     }
     
 }
 
 @media (min-width: 1000px){ 
     .content {
-        height: 290vh; 
+        height: 290vh; /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
     }
 }
 

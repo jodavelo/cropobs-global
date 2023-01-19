@@ -6,7 +6,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Layout } from '../components/layouts';
-import { Indicators, MainHome, NewsContainer, PublicationsContainer, QuickLinksContainer, SubmainHome } from '../components/home';
+import { Indicators, MainHome, NewsContainer, PublicationsContainer, QuickLinksContainer, SignUp, SubmainHome } from '../components/home';
+import { CarouselComponent } from '../components/ui';
+import { VideoContainer } from '../components/home/extras/Video';
+import { VideoProvider } from '../context/ui';
 
 const Index: NextPage = () => {
 
@@ -26,6 +29,11 @@ const Index: NextPage = () => {
                 <NewsContainer/>
                 <PublicationsContainer/>
                 <QuickLinksContainer/>
+                {/* <CarouselComponent/>
+                <SignUp/> */}
+                {/* <VideoProvider>
+                    <VideoContainer/>
+                </VideoProvider> */}
             </>
         </Layout>
     )
