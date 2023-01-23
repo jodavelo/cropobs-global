@@ -2,8 +2,7 @@ import { createContext } from 'react';
 
 interface ContextProps {
     isHome: boolean,
-    enableIsHome: () => void; 
-    unenableIsHome: () => void;
+    setIsHome: (settingIsHome: boolean) => void;
 }
 
 export const LayoutContext = createContext({} as ContextProps);

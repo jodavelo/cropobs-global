@@ -6,7 +6,7 @@ export interface LayoutState {
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
-    isHome: false
+    isHome: true
 }
 
 interface Props {
@@ -17,12 +17,8 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
     
     const [state, dispatch] = useReducer(layoutReducer, LAYOUT_INITIAL_STATE);
 
-    const enableIsHome = () => {
-        dispatch({ type: '[Layout] - Enable is Home' });
-    }
-
-    const unenableIsHome = () => {
-        dispatch({ type: '[Layout] - Unenable is Home' });
+    const setIsHome = ( settingIsHome: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Home', payload: settingIsHome });
     }
 
     return (
@@ -30,8 +26,7 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             ...state,
 
             // Methods
-            enableIsHome,
-            unenableIsHome
+            setIsHome
         }}>
             { children }
         </LayoutContext.Provider>

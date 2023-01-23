@@ -1,9 +1,15 @@
 
 
+import { FC } from 'react';
 import styles from './Footer.module.css';
 
-export const CopyrightComponent = () => {
+interface Props {
+    text: string;
+    important: boolean
+}
+
+export const CopyrightComponent: FC<Props> = ({ text, important }) => {
     return (
-        <div className={ styles['footer-copyright'] }>Copyright © 2023 The Alliance of Bioversity International and International Center for Tropical Agriculture (CIAT)</div>
+        <div className={ important ? styles['important-text-copyright'] : styles['footer-copyright'] }>{ text }</div>
     )
 }

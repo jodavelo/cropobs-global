@@ -7,21 +7,22 @@ import { Layout } from '../../components/layouts'
 
 const AboutPage: NextPage = () => {
 
-    // const { t: dataTranslate } = useTranslation('data');
+    const { t: dataTranslate } = useTranslation('about');
 
     return (
         <Layout title="Data">
-            <h1> About Page </h1>
+            <h1>{ dataTranslate('about-title') }</h1>
         </Layout>
     )
 }
 
-// export const getStaticProps: GetStaticProps = async ({ locale }) => {
-//     return {
-//         props: {
-//             ...( await serverSideTranslations( locale!, ['common'] ) ),
-//         }
-//     }
-// }
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    return {
+        props: {
+            // ...( await serverSideTranslations( locale!, ['common'] ) ),
+            ...( await serverSideTranslations( locale!, ['about'] ) )
+        }
+    }
+}
 
 export default AboutPage

@@ -19,7 +19,7 @@ const DataPage: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...( await serverSideTranslations( locale!, ['common'] ) ),
+            // ...( await serverSideTranslations( locale!, ['common'] ) ),
             ...( await serverSideTranslations( locale!, ['data'] ) )
         }
     }

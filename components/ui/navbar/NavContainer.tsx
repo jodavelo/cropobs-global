@@ -25,30 +25,30 @@ const menuItems = [
         text_pt: 'Dados',
         hasMoreOptions: false
     },
+    // {
+    //     text: 'Link 1',
+    //     href: '#action1',
+    //     text_es: 'Link 1',
+    //     text_pt: 'Link 1',
+    //     hasMoreOptions: false
+    // },
+    // {
+    //     text: 'Link 2',
+    //     href: '#action2',
+    //     text_es: 'Link 2',
+    //     text_pt: 'Link 2',
+    //     hasMoreOptions: false
+    // },
+    // {
+    //     text: 'Link 3',
+    //     text_es: 'Link 3',
+    //     text_pt: 'Link 3',
+    //     href: '#action3',
+    //     hasMoreOptions: false
+    // },
     {
-        text: 'Link 1',
-        href: '#action1',
-        text_es: 'Link 1',
-        text_pt: 'Link 1',
-        hasMoreOptions: false
-    },
-    {
-        text: 'Link 2',
-        href: '#action2',
-        text_es: 'Link 2',
-        text_pt: 'Link 2',
-        hasMoreOptions: false
-    },
-    {
-        text: 'Link 3',
-        text_es: 'Link 3',
-        text_pt: 'Link 3',
-        href: '#action3',
-        hasMoreOptions: false
-    },
-    {
-        text: 'About',
-        text_es: 'Acerca de',
+        text: 'About - Observatory',
+        text_es: 'Acerca del observatorio',
         text_pt: 'Sobre nós',
         href: '/about',
         hasMoreOptions: true
