@@ -34,21 +34,17 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
     const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
 
     const onSetIsHome = () => {
-        console.log({ href })
         if( href === '/' ) {
-            // console.log('entro') 
             setIsHome( true ); 
             setIsAboutUs( false );
             setIsData( false );
         }
         else if ( href === '/data' ){
-            // console.log('f') 
             setIsHome( false ); 
             setIsAboutUs( false );
             setIsData( true );
         }
         else if ( href === '/about' ){
-            // console.log('f') 
             setIsHome( false ); 
             setIsAboutUs( true );
             setIsData( false );

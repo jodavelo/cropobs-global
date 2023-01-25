@@ -11,7 +11,7 @@
 }
 
 .about-us {
-    height: 20vh;
+    height: 180vh;
 }
 
 @media (max-width: 500px) and (min-width: 300px){
@@ -20,14 +20,14 @@
     }
     .data {
         height: 70vh;
-    }
+    } 
 }
 
 @media (max-width: 800px) and (min-width: 500px){
     .home {
         height: 410vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
     }
-    
+       
 }
 
 @media (max-width: 1000px) and (min-width: 800px){
@@ -43,3 +43,35 @@
     }
 }
 
+
+
+/* for react bootstrap grid system */
+/* @media (max-width: 575px){
+    .about-us {
+        height: 100vh;
+    }
+} */
+
+@media (min-width: 576px) and (max-width: 767px){
+    .about-us {
+        height: 100vh;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    .about-us {
+        height: 60vh;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+    .about-us {
+        height: 70vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .about-us {
+        height: 60vh;
+    }
+}
