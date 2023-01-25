@@ -1,37 +1,45 @@
 
 /* extra components: ( videos, sign up o caoursel ) */
 
-.content {
+.home {
     height: 400vh; /* TODO: Para el alto del contenido main */ /* 400 vh without extra components  */
     /* border: 1px black solid; */
 }
 
+.data {
+    height: 90vh;
+}
+
+.about-us {
+    height: 20vh;
+}
+
 @media (max-width: 500px) and (min-width: 300px){
-    .content {
+    .home {
         height: 380vh;   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
+    }
+    .data {
+        height: 70vh;
     }
 }
 
 @media (max-width: 800px) and (min-width: 500px){
-    .content {
+    .home {
         height: 410vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
     }
     
 }
 
 @media (max-width: 1000px) and (min-width: 800px){
-    .content {
+    .home {
         height: 310vh; /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
     }
     
 }
 
 @media (min-width: 1000px){ 
-    .content {
+    .home {
         height: 290vh; /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
     }
 }
 
-.general-content {
-    height: 60vh;
-}

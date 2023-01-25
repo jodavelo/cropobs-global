@@ -1,9 +1,9 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
-import { Topbar, NavbarComponent, Footer } from "../ui";
+import { Topbar, NavbarComponent, Footer } from '../ui';
 
 import styles from './Layout.module.css';
-import { LayoutContext } from "../../context/layout";
+import { LayoutContext } from '../../context/layout';
 
 interface Props {
     children: React.ReactNode,
@@ -12,7 +12,15 @@ interface Props {
 
 export const Layout: FC<Props> = ({ children, title }) => {
 
-    const { isHome } = useContext( LayoutContext );
+    const [layoutClassName, setLayoutClassName] = useState('');
+    const { isHome, isData, isAboutUs } = useContext( LayoutContext );
+    useEffect(() => {
+        if( isHome ) setLayoutClassName( styles.home );
+        else if ( isData ) setLayoutClassName( styles.data );
+        else if ( isAboutUs ) setLayoutClassName( styles['about-us'] )
+    }, [])
+    
+    
     return (
         <div style={{ overflow: 'hidden' }}>
             <Head>
@@ -22,10 +30,11 @@ export const Layout: FC<Props> = ({ children, title }) => {
             </Head>
             <Topbar/>
             <NavbarComponent/>
-            <main className={ isHome ? styles.content : styles['general-content'] }>
+            <main className={ layoutClassName }>
                 { children }
             </main>
             <Footer/>
         </div>
     )
 }
+

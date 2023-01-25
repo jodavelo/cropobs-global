@@ -2,11 +2,15 @@ import { FC, useReducer } from 'react'
 import { LayoutContext, layoutReducer } from './'
 
 export interface LayoutState {
-    isHome: boolean
+    isHome: boolean;
+    isData: boolean;
+    isAboutUs: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
-    isHome: true
+    isHome: true,
+    isData: false,
+    isAboutUs: false
 }
 
 interface Props {
@@ -21,12 +25,22 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Home', payload: settingIsHome });
     }
 
+    const setIsData = ( settingIsData: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Data', payload: settingIsData });
+    }
+
+    const setIsAboutUs = ( settingIsAboutUs: boolean ) => {
+        dispatch({ type: '[Layout] - Set is About Us', payload: settingIsAboutUs });
+    }
+
     return (
         <LayoutContext.Provider value={{
             ...state,
 
             // Methods
-            setIsHome
+            setIsHome,
+            setIsData,
+            setIsAboutUs
         }}>
             { children }
         </LayoutContext.Provider>
