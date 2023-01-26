@@ -21,6 +21,7 @@ export const CardNew: FC<Props> = ({ news }) => {
             className={ styles.card }
             href={ news.link }
             target="_blank"
+            rel="noreferrer"
         >
             <div>
                 <div className={ styles['news-date-text'] }>{ news.ago_text }</div>

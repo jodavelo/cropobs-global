@@ -9,9 +9,9 @@ export const SubmainContentHome = () => {
             </div>
             <div className={ styles['description-container'] }>
                 <span>
-                    <span className={ styles['custom-color'] }>"Orci varius </span>
+                    <span className={ styles['custom-color'] }>&apos;Orci varius </span>
                     natoque penatibus et magnis dis parturient montes, nascetur
-                    <span className={ styles['custom-color'] }> ridiculus mus"</span>
+                    <span className={ styles['custom-color'] }> ridiculus mus&apos;</span>
                 </span>
             </div>
         </div>

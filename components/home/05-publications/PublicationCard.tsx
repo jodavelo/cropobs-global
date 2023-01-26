@@ -17,7 +17,7 @@ export const PublicationCard: FC<Props> = ({ publication }) => {
             </div>
             <div className={ styles['card-body'] }>
                 <h5 className={ styles['title-card'] }>{ title }</h5>
-                <a href={ link } target="_blank" className={ styles['view-resource'] }>View resource</a>
+                <a href={ link } target="_blank" rel="noreferrer" className={ styles['view-resource'] }>View resource</a>
             </div>
         </div>
     )
