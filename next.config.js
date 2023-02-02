@@ -6,7 +6,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   i18n,
-  
+  images: {
+    domains: ['commonbeanobservatorytst.ciat.cgiar.org']
+  } 
 }
 
 module.exports = nextConfig

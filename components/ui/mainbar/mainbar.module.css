@@ -1,0 +1,42 @@
+
+
+.container {
+    height: 100px;
+    width: 100%;
+    background-color: rgb(163, 163, 163);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 0 14px;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .container{
+        height: 80px;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 800px) and (min-width: 500px){
+    .container{
+        height: 60px;
+        font-size: 1rem;
+    }      
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .container{
+        height: 60px;
+        font-size: 1.1rem;
+    }  
+}
+
+@media (min-width: 1000px){ 
+    .container{
+        height: 50px;
+        justify-content: flex-start;
+        font-size: 1rem;
+    }
+}

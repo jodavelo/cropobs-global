@@ -3,12 +3,15 @@ import '../styles/globals.css'
 
 import { appWithTranslation } from "next-i18next";
 import { LayoutProvider } from '../context/layout';
+import { ProSidebarProvider } from 'react-pro-sidebar';
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <LayoutProvider>
-      <Component {...pageProps} />
-    </LayoutProvider>
+    <ProSidebarProvider>
+      <LayoutProvider>
+        <Component {...pageProps} />
+      </LayoutProvider>
+    </ProSidebarProvider>
   )
 }
 

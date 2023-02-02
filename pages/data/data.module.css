@@ -1,0 +1,26 @@
+
+.sidebar {
+    height: 20vh; 
+    border: 1px transparent;
+}
+
+.content-data {
+    height: 70vh;
+    border: 1px transparent;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+.no-margin{
+    margin: 0 !important;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        height: 90vh;
+    }
+    .content-data {
+        height: 90vh;
+    }
+}
