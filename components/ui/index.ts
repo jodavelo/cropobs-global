@@ -7,3 +7,4 @@ export * from './quicklink';
 export * from './carousel';
 export * from './sidebar';
 export * from './mainbar';
+export * from './map';

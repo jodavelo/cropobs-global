@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
-import { MainBar, SidebarComponent } from '../../components/ui';
+import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, Podium } from '../../components/data';
+import { DataPodium, PlotlyChartComponent, Podium } from '../../components/data';
 
 const data: DataPodium[] = [
     {
@@ -67,9 +67,12 @@ const DataPage: NextPage = () => {
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 }></Col>
+                                <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <MapView/>
+                                </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
-                                    <Podium data={ data }/>
+                                    {/* <Podium data={ data }/>
+                                    <PlotlyChartComponent/> */}
                                 </Col>
                             </Row>
                             
