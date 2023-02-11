@@ -1,2 +1,2 @@
 
-export * from './PlotlyChartComponent';
+export * from './PlotlyChartStackedArea';

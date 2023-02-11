@@ -5,6 +5,7 @@ import { appWithTranslation } from "next-i18next";
 import { LayoutProvider } from '../context/layout';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
+import 'mapbox-gl/dist/mapbox-gl.css';
  
 // TO MAKE THE MAP APPEAR YOU MUST
 // ADD YOUR ACCESS TOKEN FROM
