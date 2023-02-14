@@ -25,6 +25,13 @@ const menuItems = [
         text_pt: 'Dados',
         hasMoreOptions: false
     },
+    {
+        text: 'Test',
+        href: '/test',
+        text_es: 'Test',
+        text_pt: 'Test',
+        hasMoreOptions: false
+    },
     // {
     //     text: 'Link 1',
     //     href: '#action1',
