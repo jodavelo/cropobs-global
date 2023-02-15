@@ -4,9 +4,6 @@ export interface Years {
     ticks: number[];
 }
 
-export interface Labels {
-    labels: number[];
-}
 
 export interface Observation {
     value: number;
@@ -19,6 +16,6 @@ export interface Observation {
     unit: string;
 }
 
-export interface Observations {
-    observations: any[];
-}
+// export interface Observations {
+//     observations: Observation[];
+// }

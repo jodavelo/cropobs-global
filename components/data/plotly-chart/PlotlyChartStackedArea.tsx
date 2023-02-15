@@ -1,19 +1,22 @@
 
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { v4 as uuidv4 } from 'uuid';
+import { useWindowSize } from '../../../hooks';
+
+// import Plot from 'react-plotly.js';
 
 export interface traceObject {
-    dataX: number[];
-    dataY: number[];
-    group: 'one';
-    groupNorm: 'percent';
+    x: number[];
+    y: number[];
+    stackgroup: 'one';
+    groupnorm?: 'percent';
     name: string;
-    fillColor: string;
-    markerColor: {
+    fillcolor: string;
+    marker: {
         color: string
     };
-    template: string;
+    hovertemplate?: string;
 }
 
 interface Props {
@@ -23,62 +26,66 @@ interface Props {
 }
 
 
-export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, ticks, title }) => {
-    const PlotlyChart = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, })
-    const handleClick = (evt: any) => console.log('')
-    const handleHover = (evt: any) => console.log('')
 
-    // const traces = [
-    //     {x: [1,2,3], y: [2,1,4], stackgroup: 'one', groupnorm:'percent', name: 'something', fillcolor: '#10b7c9', marker: {color: '#10b7c9'},  hovertemplate:'%{y:,.0f} ha'},
-    //     {x: [1,2,3], y: [1,1,2], stackgroup: 'one', groupnorm:'percent', name: 'something 2'},
-    //     {x: [1,2,3], y: [3,0,2], stackgroup: 'one', groupnorm:'percent', name: 'something 3'}
-    // ];
-    const traces = dataTraces;
-    const layout = {
-        // annotations: [
-        //     {
-        //         text: 'simple annotation',
-        //         x: 0,
-        //         xref: 'paper',
-        //         y: 0,
-        //         yref: 'paper'
-        //     }
-        // ],
-        title: 'simple example',
-        xaxis: {
-            tickvals:[],
-            /* Set the text displayed at the ticks position via tickvals */
-            ticktext: [],
-            tickangle: -45,
-        },
-        legend: {"orientation": "h", y: -0.2, xanchor: 'center', x: 0.5, traceorder: 'normal'},
-        boxmode: 'group',
-        yaxis: {
-            title:{
-                text: 'Area + ha',
-                standoff: 20
-            },
-            //zeroline: true,
-            autorange: true,
-            automargin: true,
+export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, ticks, title }) => {
+    const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, })
+    const { width } = useWindowSize();
+    const [chartHeight, setChartHeight] = useState(0);
+    const [positionLegend, setPositionLegend] = useState(0);
+    const [chartFontSize, setChartFontSize] = useState(0);
+    //console.log({ dataTraces })
     
-            rangemode: 'tozero',
-            //hoverformat: ",.2r"
-            //hoverformat: "~s"
-            //tickformat: ".0%",
-            // range: [0, 2000]
-        },
-        font: {
-            family: 'Arial',//'Bahnschrift SemiBold',
-            size: 12,
-            color: '#666',
-            //font-weight: 'normal'
-        },
-    }
+    useEffect(() => {
+      if( width < 300 ) {
+        setChartHeight(700);
+        setPositionLegend(-0.6);
+        setChartFontSize(8);
+      }
+      else if( width > 300 && width < 400) {
+        setChartHeight(500);
+        setPositionLegend(-1);
+        setChartFontSize(10);
+      }
+      else if( width > 400 && width < 500) {
+        // setChartHeight(500);
+        setPositionLegend(-0.6);
+        setChartFontSize(11);
+      }
+      else if( width > 500 && width < 700) {
+        // setChartHeight(500);
+        setPositionLegend(-0.4);
+        setChartFontSize(12);
+      }
+      else if( width > 700 && width < 1000) {
+        // setChartHeight(500);
+        setPositionLegend(-0.4);
+        setChartFontSize(13);
+      }
+      else if( width > 1000 && width < 1200) {
+        // setChartHeight(500);
+        setPositionLegend(-0.38);
+        setChartFontSize(14);
+      }
+      else if( width > 1200 && width < 1400) {
+        // setChartHeight(500);
+        setPositionLegend(-0.5);
+        // setChartFontSize(14);
+      }
+      else if( width > 1200 && width < 1400) {
+        // setChartHeight(500);
+        setPositionLegend(-0.5);
+        // setChartFontSize(14);
+      }
+      else if( width > 1600 ) setPositionLegend(-0.4);
+    
+      
+    }, [width])
+    
+    
     const byShareLayoutCrops = {
         font: {
             family: "'Open Sans', sans-serif",
-            size: 14,
+            size: chartFontSize,
             color: '#54667a'
         },
         title: {
@@ -127,7 +134,7 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, ticks, title }) 
             //borderwidth: 5,
             orientation: "h",
             yanchor: 'bottom',
-            y: -0.3,
+            y: positionLegend,
             xanchor: 'center',
             x: 0.5,
             itemsizing: 'constant',
@@ -135,14 +142,21 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, ticks, title }) 
             traceorder: 'normal'
         },
         boxmode: 'group',
-        autosize: true
+        autosize: true,
+        height: chartHeight
     };
 
     return (
-        <PlotlyChart data={ traces } key={ uuidv4() }
-                        layout={byShareLayoutCrops}
-                        onClick={handleClick}
-                        onHover={handleHover}
+        <Plot
+            // data={[data]}
+            // layout={{
+            //     title: "Real-time Data App",
+            //     xaxis: { range: [-5, count] },
+            //     yaxis: { range: [-5, count] }
+            // }}
+            key={ uuidv4() }
+            data={ dataTraces }
+            layout={ byShareLayoutCrops }
         />
-    );
+      );
 }
