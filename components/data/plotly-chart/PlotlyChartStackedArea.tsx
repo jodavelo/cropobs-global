@@ -68,16 +68,19 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, ticks, title }) 
       }
       else if( width > 1200 && width < 1400) {
         // setChartHeight(500);
-        setPositionLegend(-0.5);
+        setPositionLegend(-0.6);
         // setChartFontSize(14);
       }
-      else if( width > 1200 && width < 1400) {
-        // setChartHeight(500);
-        setPositionLegend(-0.5);
-        // setChartFontSize(14);
+      else if( width > 1400 && width < 1600 ) {
+        setChartHeight(450);
+        setPositionLegend(-0.62);
+        setChartFontSize(14);
       }
-      else if( width > 1600 ) setPositionLegend(-0.4);
-    
+      else if( width > 1600 && width < 3000){
+        setChartHeight(450);
+        setPositionLegend(-0.60);
+        setChartFontSize(15);
+      }
       
     }, [width])
     
