@@ -11,7 +11,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
 import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription } from '../../components/data';
+import { PercentContainer } from '../../components/data/percent-info';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
+import { Percent } from '@mui/icons-material';
 
 const data: DataPodium[] = [
     {
@@ -3204,6 +3206,8 @@ const DataPage: NextPage = () => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
+                                  <Podium data={ data }></Podium>
+                                  <PercentContainer ></PercentContainer>
                                     {/* <Podium data={ data }/> */}
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
