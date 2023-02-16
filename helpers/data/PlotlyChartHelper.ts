@@ -16,7 +16,7 @@ export const getYearsPlotlyChart = (years: number[]): Years => {
 }
 
 
-export const buildPlotStackedAreaObject = (observationsApi: Observation[], labels: number[]): traceObject[] => {
+export const buildPlotStackedAreaObject = (observationsApi: Observation[], labels: number[], crop: string, cropAux?: string): traceObject[] => {
     let it: number = 2;
     let datasets: any[] = [];
     let dataArr: any = {};
@@ -33,10 +33,10 @@ export const buildPlotStackedAreaObject = (observationsApi: Observation[], label
     })
     for( const key in names ) {
        // console.log( names[key] )
-        if( names[key] !== 'Beans, dry' && names[key] !== 'Pulses excl. Beans' ) sorted.push( [key, names[key], Math.max(...dataArr[key]) ] );
+        if( names[key] !== crop && names[key] !== cropAux ) sorted.push( [key, names[key], Math.max(...dataArr[key]) ] );
         else {
-            if( names[key] === 'Beans, dry' ) sorted.push([ key, names[key], 2000000000 ]);
-            else if ( names[key] === 'Pulses excl. Beans' ) sorted.push([ key, names[key], 1000000000 ]);
+            if( names[key] === crop ) sorted.push([ key, names[key], 2000000000 ]);
+            else if ( names[key] === cropAux ) sorted.push([ key, names[key], 1000000000 ]);
         }
     }
     sorted.sort(function (a, b) {
@@ -47,9 +47,9 @@ export const buildPlotStackedAreaObject = (observationsApi: Observation[], label
         let colorCalc = Object.values( beanColors )[it % Object.values( beanColors ).length ];
         let newElem = {
             name: sorted[idx][1],
-            fillColor: sorted[idx][1][1] === 'Beans, dry' ? '#A82F31' : sorted[idx][1][1] === 'Pulses excl. Beans' ? '#F89A21' : colorCalc,
+            fillColor: sorted[idx][1][1] === crop ? '#A82F31' : sorted[idx][1][1] === cropAux ? '#F89A21' : colorCalc,
             marker: {
-                color: sorted[idx][1][1] === 'Beans, dry' ? '#A82F31' : sorted[idx][1][1] === 'Pulses excl. Beans' ? '#F89A21' : colorCalc
+                color: sorted[idx][1][1] === crop ? '#A82F31' : sorted[idx][1][1] === cropAux ? '#F89A21' : colorCalc
             },
             fill: true,
             pointRadius: 1,
@@ -64,3 +64,4 @@ export const buildPlotStackedAreaObject = (observationsApi: Observation[], label
     })
     return datasets;
 }
+//'Beans, dry' ? '#A82F31' : sorted[idx][1][1] === 'Pulses excl. Beans'

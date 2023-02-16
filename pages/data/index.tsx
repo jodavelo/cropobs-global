@@ -10,7 +10,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription, traceObject } from '../../components/data';
+import { DataPodium, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject } from '../../components/data';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
 import { Observation } from '../../interfaces/data/Helpers';
 import { useFetch } from '../../hooks';
@@ -58,6 +58,7 @@ const DataPage: NextPage = () => {
     const [open, setOpen] = useState(false);
     // const [open2, setOpen2] = useState(false);
     const [traces, setTraces] = useState([]);
+    const [stackedAreaTraces, setStackedAreaTraces] = useState([]);
     const [ticks, setTicks] = useState<number[]>([]);
     // const observationsAPI: Observation[] = observations;
     // const labelsAPI: number[] = labels;
@@ -67,10 +68,11 @@ const DataPage: NextPage = () => {
         const response = await beansApi.get('api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]');
         const { labels, observations } = response.data.data;
         //console.log({ labels, observations })
-        const datasets = buildPlotStackedAreaObject(observations, labels);
+        const datasets = buildPlotStackedAreaObject(observations, labels, 'Beans, dry', 'Pulses excl. Beans');
         const { ticks } = getYearsPlotlyChart( labels );
         setTicks(ticks);
         let dataArr: any = [];
+        let dataArrStckedArea: any = [];
         datasets.map(dataset => {
           //console.log(dataset.data)
           const { y , fillcolor, marker, name, stackgroup, groupnorm } = dataset;
@@ -86,9 +88,22 @@ const DataPage: NextPage = () => {
             groupnorm,
             hovertemplate: '%{y:,.2f}'
           }
+          const stackedArea: traceObject = {
+            x: labels,
+            y,
+            fillcolor, 
+            marker: {
+                color: marker.color
+            },
+            name, 
+            stackgroup, 
+            hovertemplate: '%{y:,.2f}'
+          }
           dataArr.push(trace)
+          dataArrStckedArea.push(stackedArea)
         });
         setTraces(dataArr);
+        setStackedAreaTraces(dataArrStckedArea)
       }
       algo();
       
@@ -117,7 +132,9 @@ const DataPage: NextPage = () => {
                                     <Podium data={ data }/>
                                     <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
-                                    <PlotlyChartStackedArea title='aaa' ticks={ ticks } dataTraces={ traces } />
+                                    {/* <PlotlyChartStackedAreaNormalized title='aaa' ticks={ ticks } dataTraces={ traces } /> */}
+                                    <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 1' yAxisLabel='Area (ha)'/>
+                                    {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 2' yAxisLabel='Area (ha) 2'/> */}
                                     {/* <SecondChart/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
