@@ -10,8 +10,10 @@ export const SidebarComponent = () => {
     const [sidebarWidth, setSidebarWidth] = useState('');
 
     useEffect(() => {
-        if( width < 991 ) setSidebarWidth('90vw');
-        else if ( width > 992 && width < 1200 ) setSidebarWidth('23vw')
+        if (width){
+            if( width < 991 ) setSidebarWidth('90vw');
+            else if ( width > 992 && width < 1200 ) setSidebarWidth('23vw')
+        }
         else setSidebarWidth('15vw')
 
     }, [ width ])
