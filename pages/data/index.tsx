@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -10,26 +10,110 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription } from '../../components/data';
+import { DataPodium, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject } from '../../components/data';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
+import { Observation } from '../../interfaces/data/Helpers';
+import { useFetch } from '../../hooks';
+import { beansApi } from '../../apis';
 
 import { annual_growth_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts/ChartSelection';
 import { ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const data: DataPodium[] = [
+    {
+        rank: 3,
+        cropName: 'Crop 3', 
+        urlIcon: 'https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-4.png',
+        heightBar: '65%',
+        heightTransparentBar: '35%',
+        color:  'rgb(181, 181, 181)',
+    },
+    {
+        rank: 1,
+        cropName: 'Crop 1', 
+        urlIcon: 'https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-4.png',
+        heightBar: '100%',
+        heightTransparentBar: '0%',
+        color:  'rgb(181, 181, 181)',
+    },
+    
+    {
+        rank: 2,
+        cropName: 'Crop 2', 
+        urlIcon: 'https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-4.png',
+        heightBar: '80%',
+        heightTransparentBar: '20%',
+        color:  'rgb(181, 181, 181)',
+    }, 
+    {
+        rank: 4,
+        cropName: 'Crop 4', 
+        urlIcon: 'https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-4.png',
+        heightBar: '40%',
+        heightTransparentBar: '60%',
+        color:  'rgb(181, 181, 181)',
+    }
+]
 
 
-const DataPage: NextPage<{ data: Record<string, any> }> = ({ data }) => {
+const DataPage: NextPage = () => {
 
     const { t: dataTranslate } = useTranslation('data');
-    // const datasets = datasetGenerator(data.observations, data.labels, 'id_element', 'crop_name');
-    // const datax = {labels: data.labels, datasets};
-    // console.log(datax);
-    // const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     // const [open2, setOpen2] = useState(false);
-    //const { labels, observations } = data.data;
-    // buildPlotStackedAreaObject(observations, labels);
+    const [traces, setTraces] = useState([]);
+    const [stackedAreaTraces, setStackedAreaTraces] = useState([]);
+    const [ticks, setTicks] = useState<number[]>([]);
+    // const observationsAPI: Observation[] = observations;
+    // const labelsAPI: number[] = labels;
+    
+    useEffect(() => {
+      const algo = async() => {
+        const response = await beansApi.get('api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]');
+        const { labels, observations } = response.data.data;
+        //console.log({ labels, observations })
+        const datasets = buildPlotStackedAreaObject(observations, labels, 'Beans, dry', 'Pulses excl. Beans');
+        const { ticks } = getYearsPlotlyChart( labels );
+        setTicks(ticks);
+        let dataArr: any = [];
+        let dataArrStckedArea: any = [];
+        datasets.map(dataset => {
+          //console.log(dataset.data)
+          const { y , fillcolor, marker, name, stackgroup, groupnorm } = dataset;
+          const trace: traceObject = {
+            x: labels,
+            y,
+            fillcolor, 
+            marker: {
+                color: marker.color
+            },
+            name, 
+            stackgroup, 
+            groupnorm,
+            hovertemplate: '%{y:,.2f}'
+          }
+          const stackedArea: traceObject = {
+            x: labels,
+            y,
+            fillcolor, 
+            marker: {
+                color: marker.color
+            },
+            name, 
+            stackgroup, 
+            hovertemplate: '%{y:,.2f}'
+          }
+          dataArr.push(trace)
+          dataArrStckedArea.push(stackedArea)
+        });
+        setTraces(dataArr);
+        setStackedAreaTraces(dataArrStckedArea)
+      }
+      algo();
+      
+    }, [])
+    
     
 
     return (
@@ -57,6 +141,13 @@ const DataPage: NextPage<{ data: Record<string, any> }> = ({ data }) => {
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
                                     {/* <PlotlyChartStackedArea/> */}
+                                    <Podium data={ data }/>
+                                    <Button onClick={ () => setOpen(!open) } >Ok</Button>
+                                    <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
+                                    {/* <PlotlyChartStackedAreaNormalized title='aaa' ticks={ ticks } dataTraces={ traces } /> */}
+                                    <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 1' yAxisLabel='Area (ha)'/>
+                                    {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 2' yAxisLabel='Area (ha) 2'/> */}
+                                    {/* <SecondChart/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
                                     
@@ -79,7 +170,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         props: {
             // ...( await serverSideTranslations( locale!, ['common'] ) ),
             ...( await serverSideTranslations( locale!, ['data'] ) ),
-            // data: JSON.parse(dataw).data
         }
     }
 }
