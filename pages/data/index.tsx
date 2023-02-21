@@ -12,12 +12,10 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './data.module.css';
 import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription } from '../../components/data';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
-import { datasetGenerator } from '../../helpers/data/chartJsHelper';
-import { LineChartjs } from '../../components/data/chartjs-charts/LineChartjs';
 
-import { annual_growth_options } from '../../helpers/data/chartjs-options/annual-growth';
+import { annual_growth_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts/ChartSelection';
-import { ten_year_moving_average_options } from '../../helpers/data/chartjs-options/10-year-moving-average';
+import { ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -25,9 +23,9 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const DataPage: NextPage<{ data: Record<string, any> }> = ({ data }) => {
 
     const { t: dataTranslate } = useTranslation('data');
-    const datasets = datasetGenerator(data.observations, data.labels, 'id_element', 'crop_name');
-    const datax = {labels: data.labels, datasets};
-    console.log(datax);
+    // const datasets = datasetGenerator(data.observations, data.labels, 'id_element', 'crop_name');
+    // const datax = {labels: data.labels, datasets};
+    // console.log(datax);
     // const [open, setOpen] = useState(false);
     // const [open2, setOpen2] = useState(false);
     //const { labels, observations } = data.data;
@@ -52,7 +50,8 @@ const DataPage: NextPage<{ data: Record<string, any> }> = ({ data }) => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
-                                    <ChartSelection dataArr={[datax, datax]} optionsArr={[annual_growth_options, ten_year_moving_average_options]} namesArr={['Annual Growth', '10-day moving average']}/>
+                                    {/* <LineChartjs dataURL={'http://192.168.0.181:3000/api/dummy'} options={annual_growth_options}/> */}
+                                    <ChartSelection dataURLArr={['https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1001,1002,1003]&cropIds=[176]', 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1007,1008,1009]&cropIds=[176]']} optionsArr={[annual_growth_options, ten_year_moving_average_options]} configArr={[{key: 'id_element', name:'id_element'}, {key: 'id_element', name:'id_element'}]} namesArr={['Annual Growth', '10-day moving average']}/>
                                     {/* <LineChartjs options={annual_growth_options} data={datax}/> */}
                                     {/* <Podium data={ data }/> */}
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
@@ -75,12 +74,12 @@ const DataPage: NextPage<{ data: Record<string, any> }> = ({ data }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-    const dataw = await fetcher('http://localhost:3000/api/dummy');
+    // const dataw = await fetcher('http://localhost:3000/api/dummy');
     return {
         props: {
             // ...( await serverSideTranslations( locale!, ['common'] ) ),
             ...( await serverSideTranslations( locale!, ['data'] ) ),
-            data: JSON.parse(dataw).data
+            // data: JSON.parse(dataw).data
         }
     }
 }
