@@ -24,6 +24,7 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yA
         {x: [1,2,3], y: [3,0,2], stackgroup: 'one'}
     ];
     useEffect(() => {
+      if (width){
         if( width < 300 ) {
           setChartHeight(700);
           setPositionLegend(-0.6);
@@ -69,8 +70,8 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yA
           setPositionLegend(-0.60);
           setChartFontSize(15);
         }
-        
-      }, [width])
+      }
+    }, [width])
     //const layout = {title: 'stacked and filled line chart'}
     const layout = {
         font: {
