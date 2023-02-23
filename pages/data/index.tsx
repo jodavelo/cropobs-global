@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
 import { MainBar, MapView, SidebarComponent } from '../../components/ui';
-
+import Collapse from 'react-bootstrap/Collapse';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
@@ -14,6 +14,7 @@ import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription } from '.
 import { PercentContainer } from '../../components/data/percent-info';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
 import { Percent } from '@mui/icons-material';
+import { TabComponent } from '../../components/data/tabs';
 
 const data: DataPodium[] = [
     {
@@ -3187,19 +3188,30 @@ const DataPage: NextPage = () => {
     // buildPlotStackedAreaObject(observations, labels);
     console.log(datax.data)
     
+    const [open, setOpen] = useState(false);
 
     return (
         <Layout title={ dataTranslate('title-header') }>
             <Container fluid>
                 <Row>
-                    <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
-                        <SidebarComponent/>
+                  <Button className={styles["toggle-dropdown"]}   onClick={() => setOpen(!open)} aria-controls="collapse-button" aria-expanded={open}>
+                    <svg viewBox="0 0 448 512" width="100">
+                    <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+                    </svg>
+                  </Button>
+                  <Collapse in={open}>
+                   <Col xs={ 12 } lg={ 3 } xl={ 2 }   className={styles["sidebar"]}  id="collapse-button">
+                        <SidebarComponent />
                     </Col>
+                    </Collapse>
                     <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
-
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <TabComponent></TabComponent>
+                                </Col>
+
+                                {/* <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
@@ -3208,14 +3220,13 @@ const DataPage: NextPage = () => {
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
                                   <Podium data={ data }></Podium>
                                   <PercentContainer ></PercentContainer>
+                                </Col> */}
                                     {/* <Podium data={ data }/> */}
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
                                     {/* <PlotlyChartStackedArea/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
-                                    
-                                </Col>
                             </Row>
                             
                         </Container>
