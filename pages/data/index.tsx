@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -10,8 +10,8 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription } from '../../components/data';
-import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
+import { DataPodium, PlotlyChartStackedArea, Podium, ToggleDescription, ModalForm, MultichartContainer } from '../../components/data';
+import { buildPlotStackedAreaObject, getYearsPlotlyChart, GenerateDataJson, GetChartData} from '../../helpers/data';
 
 const data: DataPodium[] = [
     {
@@ -3178,13 +3178,22 @@ const datax = {
 
 const DataPage: NextPage = () => {
 
-    const { t: dataTranslate } = useTranslation('data');
-    // const [open, setOpen] = useState(false);
-    // const [open2, setOpen2] = useState(false);
-    const { labels, observations } = datax.data;
-    // buildPlotStackedAreaObject(observations, labels);
-    console.log(datax.data)
-    
+  let [prodJson, setProdJson] = useState([]);
+  let [harvJson, setHarvJson] = useState([]);
+  let [yieldJson, setYieldJson] = useState([]);
+  let [xlabels, setXlabels] = useState([]);
+  let [showModal, setShowModal] = useState(false);
+  let [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    GetChartData(setXlabels,setProdJson,setHarvJson,setYieldJson)
+  }, []);
+
+  const x_labels = xlabels;
+  const prod_data = prodJson.map((datum: any) => datum.value);
+  const area_data = harvJson.map((datum: any) => datum.value);
+  const yield_data = yieldJson.map((datum: any) => datum.value);
+  const { t: dataTranslate } = useTranslation('data');
 
     return (
         <Layout title={ dataTranslate('title-header') }>
@@ -3204,13 +3213,18 @@ const DataPage: NextPage = () => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
-                                    {/* <Podium data={ data }/> */}
+                                    <Podium data={ data }/>
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
                                     {/* <PlotlyChartStackedArea/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
-                                    
+                                    <MultichartContainer xLabels={x_labels} dataProd={prod_data} dataHarv={area_data} dataYield={yield_data} setShowModal={setShowModal} setOpen= {setOpen}  open={open} />
+                                    <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
+                                    {showModal ? (
+                                      <div> <ModalForm dataJson={GenerateDataJson(x_labels,prod_data,area_data,yield_data)} setShowModal={setShowModal}/> </div>
+                                    ) : null
+                                    }
                                 </Col>
                             </Row>
                             
