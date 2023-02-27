@@ -4,6 +4,7 @@ import {Multichart} from './'
 import styles from './multichart.module.css';
 import DownloadIcon from '@mui/icons-material/Download';
 import InfoIcon from '@mui/icons-material/Info';
+import DescriptionIcon from '@mui/icons-material/Description';
 import download from 'downloadjs';
 import { toPng } from "html-to-image";
 
@@ -41,7 +42,7 @@ export const MultichartContainer: FC<Props> = ({xLabels, dataProd, dataHarv, dat
             <div className={ styles['multichart-footer'] }>
                 <Button className={ styles.button } onClick={ () => setOpen(!open) } ><InfoIcon/></Button>
                 <Button className={ styles.button } onClick={ chartDownload } ><DownloadIcon/></Button>
-                <Button className={ styles.button } onClick={ () => setShowModal(true) } ><i className='fa fa-file-image-o' aria-hidden="true"></i></Button>
+                <Button className={ styles.button } onClick={ () => setShowModal(true) } ><DescriptionIcon/></Button>
             </div>
         </div>
     )
