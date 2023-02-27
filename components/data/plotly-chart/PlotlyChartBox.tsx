@@ -44,8 +44,7 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL }) => {
     // if (error) return <div>Failed to load {error.message}</div>
     // if (isLoading) return <div>Loading...</div>
 
-    const data = boxDataGenerator(predata[0], 'nominal');
-    console.log(data);
+    const data = boxDataGenerator(predata, 'nominal');
 
     return (
         <Plot

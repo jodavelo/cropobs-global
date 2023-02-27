@@ -10,7 +10,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartBox, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject } from '../../components/data';
+import { DataPodium, PlotlyChartBox, PlotlyChartLine, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject } from '../../components/data';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
 import { Observation } from '../../interfaces/data/Helpers';
 import { useFetch } from '../../hooks';
@@ -146,7 +146,8 @@ const DataPage: NextPage = () => {
                                     <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
                                     {/* <PlotlyChartStackedAreaNormalized title='aaa' ticks={ ticks } dataTraces={ traces } /> */}
-                                    <PlotlyChartBox dataURL={'https://cassavalighthousetest.ciat.cgiar.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7876'}/>
+                                    <PlotlyChartLine dataURL={'https://cassavalighthousetest.ciat.cgiar.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7876'}/>
+                                    {/* <PlotlyChartBox dataURL={'https://cassavalighthousetest.ciat.cgiar.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7876'}/> */}
                                     {/* <PlotlyChartTreeMap dataURL={'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/WLRD/3002/713999/2021'} totalURL={'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/1/WLRD/3002/713999/2021'}/> */}
                                     {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 1' yAxisLabel='Area (ha)'/> */}
                                     {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 2' yAxisLabel='Area (ha) 2'/> */}
