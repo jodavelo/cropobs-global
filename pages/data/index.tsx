@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -10,11 +10,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject } from '../../components/data';
-import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
-import { Observation } from '../../interfaces/data/Helpers';
-import { useFetch } from '../../hooks';
-import { beansApi } from '../../apis';
+import { DataPodium, PlotlyChartStackedAreaContainer } from '../../components/data';
 
 import { annual_growth_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts/ChartSelection';
@@ -82,59 +78,12 @@ const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const [open, setOpen] = useState(false);
     // const [open2, setOpen2] = useState(false);
-    const [traces, setTraces] = useState([]);
-    const [stackedAreaTraces, setStackedAreaTraces] = useState([]);
-    const [ticks, setTicks] = useState<number[]>([]);
+    
     // const observationsAPI: Observation[] = observations;
     // const labelsAPI: number[] = labels;
     
-    useEffect(() => {
-      const algo = async() => {
-        const response = await beansApi.get('api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]');
-        const { labels, observations } = response.data.data;
-        //console.log({ labels, observations })
-        const datasets = buildPlotStackedAreaObject(observations, labels, 'Beans, dry', 'Pulses excl. Beans');
-        const { ticks } = getYearsPlotlyChart( labels );
-        setTicks(ticks);
-        let dataArr: any = [];
-        let dataArrStckedArea: any = [];
-        datasets.map(dataset => {
-          //console.log(dataset.data)
-          const { y , fillcolor, marker, name, stackgroup, groupnorm } = dataset;
-          const trace: traceObject = {
-            x: labels,
-            y,
-            fillcolor, 
-            marker: {
-                color: marker.color
-            },
-            name, 
-            stackgroup, 
-            groupnorm,
-            hovertemplate: '%{y:,.2f}'
-          }
-          const stackedArea: traceObject = {
-            x: labels,
-            y,
-            fillcolor, 
-            marker: {
-                color: marker.color
-            },
-            name, 
-            stackgroup, 
-            hovertemplate: '%{y:,.2f}'
-          }
-          dataArr.push(trace)
-          dataArrStckedArea.push(stackedArea)
-        });
-        setTraces(dataArr);
-        setStackedAreaTraces(dataArrStckedArea)
-      }
-      algo();
-      
-    }, [])
-    
-    
+    //
+    // 
 
     return (
         <Layout title={ dataTranslate('title-header') }>
@@ -154,6 +103,7 @@ const DataPage: NextPage = () => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
+                                    <PlotlyChartStackedAreaContainer fetchDataUrl='api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]' cropNameToFind='Beans, dry' secondCropName='Pulses excl. Beans' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} />
                                     {/* <LineChartjs dataURL={'http://192.168.0.181:3000/api/dummy'} options={annual_growth_options}/> */}
                                     {/* <ChartSelection dataURLArr={['https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1001,1002,1003]&cropIds=[176]', 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1007,1008,1009]&cropIds=[176]']} optionsArr={[annual_growth_options, ten_year_moving_average_options]} configArr={[{key: 'id_element', name:'id_element'}, {key: 'id_element', name:'id_element'}]} namesArr={['Annual Growth', '10-day moving average']}/> */}
                                     {/* <LineChartjs options={annual_growth_options} data={datax}/> */}
@@ -164,8 +114,7 @@ const DataPage: NextPage = () => {
                                     {/* <Podium data={ data }/> */}
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button> */}
                                     {/* <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
-                                    {/* <PlotlyChartStackedAreaNormalized title='aaa' ticks={ ticks } dataTraces={ traces } /> */}
-                                    {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 1' yAxisLabel='Area (ha)'/> */}
+                                    
                                     {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 2' yAxisLabel='Area (ha) 2'/> */}
                                     {/* <SecondChart/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>

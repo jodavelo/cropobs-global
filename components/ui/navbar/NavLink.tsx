@@ -26,9 +26,10 @@ interface Props {
     text: string;
     href: string;
     hasMoreOptions: boolean;
+    isHugeMenu?: boolean;
 }
 
-export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
+export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, isHugeMenu }) => {
     
     const { asPath, locale } = useRouter();
     const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
@@ -50,8 +51,53 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, expand }) => {
             setIsData( false );
         }
     }
-
+    // console.log(href.includes(asPath))
+    // console.log({href, asPath})
+    if( isHugeMenu ) {
+        return (
+            <div className={ styles.dropdown2 }>
+                <button className={ styles.dropbtn2 } onClick={ onSetIsHome } style={ href.includes(asPath) && href !== '/'  ? style : undefined }>{ text } 
+                    <i className="fa fa-caret-down"></i>
+                </button>
+                <div className={ styles['dropdown2-content'] }>
+                {/* <div className={ styles.header }>
+                    <h2>Mega Menu</h2>
+                </div>    */}
+                <div className={ styles.row }>
+                    <div className={ styles.column }>
+                    <h3>Category 1</h3>
+                        <Link key={ href } href={ href } locale={ locale } passHref onClick={ onSetIsHome } >
+                            Data SF
+                        </Link>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                    <div className={ styles.column }>
+                    <h3>Category 2</h3>
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                    <div className={ styles.column }>
+                    <h3>Category 3</h3>
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                    <div className={ styles.column }>
+                    <h3>Category </h3>
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+                </div>
+            </div> 
+        );
+    }
+    
     if( hasMoreOptions ){
+        
         return (
             // <NavDropdown
             //     title="Dropdown"

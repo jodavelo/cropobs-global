@@ -29,7 +29,7 @@ interface Props {
 
 export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ dataTraces, ticks, title }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, })
-    const { width } = useWindowSize();
+    const { width = 0 } = useWindowSize();
     const [chartHeight, setChartHeight] = useState(0);
     const [positionLegend, setPositionLegend] = useState(0);
     const [chartFontSize, setChartFontSize] = useState(0);
