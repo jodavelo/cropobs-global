@@ -10,8 +10,8 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject } from '../../components/data';
-import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../helpers/data';
+import { DataPodium, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject, ModalForm, MultichartContainer  } from '../../components/data';
+import { buildPlotStackedAreaObject, getYearsPlotlyChart, GenerateDataJson, GetChartData } from '../../helpers/data';
 import { Observation } from '../../interfaces/data/Helpers';
 import { useFetch } from '../../hooks';
 import { beansApi } from '../../apis';
@@ -59,8 +59,6 @@ const data: DataPodium[] = [
 
 const DataPage: NextPage = () => {
 
-    const { t: dataTranslate } = useTranslation('data');
-    const [open, setOpen] = useState(false);
     // const [open2, setOpen2] = useState(false);
     const [traces, setTraces] = useState([]);
     const [stackedAreaTraces, setStackedAreaTraces] = useState([]);
@@ -115,6 +113,22 @@ const DataPage: NextPage = () => {
     }, [])
     
     
+  let [prodJson, setProdJson] = useState([]);
+  let [harvJson, setHarvJson] = useState([]);
+  let [yieldJson, setYieldJson] = useState([]);
+  let [xlabels, setXlabels] = useState([]);
+  let [showModal, setShowModal] = useState(false);
+  let [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    GetChartData(setXlabels,setProdJson,setHarvJson,setYieldJson)
+  }, []);
+
+  const x_labels = xlabels;
+  const prod_data = prodJson.map((datum: any) => datum.value);
+  const area_data = harvJson.map((datum: any) => datum.value);
+  const yield_data = yieldJson.map((datum: any) => datum.value);
+  const { t: dataTranslate } = useTranslation('data');
 
     return (
         <Layout title={ dataTranslate('title-header') }>
@@ -134,10 +148,7 @@ const DataPage: NextPage = () => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
-                                    {/* <LineChartjs dataURL={'http://192.168.0.181:3000/api/dummy'} options={annual_growth_options}/> */}
-                                    <ChartSelection dataURLArr={['https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1001,1002,1003]&cropIds=[176]', 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1007,1008,1009]&cropIds=[176]']} optionsArr={[annual_growth_options, ten_year_moving_average_options]} configArr={[{key: 'id_element', name:'id_element'}, {key: 'id_element', name:'id_element'}]} namesArr={['Annual Growth', '10-day moving average']}/>
-                                    {/* <LineChartjs options={annual_growth_options} data={datax}/> */}
-                                    {/* <Podium data={ data }/> */}
+                                    <Podium data={ data }/>
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
                                     {/* <PlotlyChartStackedArea/> */}
@@ -150,7 +161,12 @@ const DataPage: NextPage = () => {
                                     {/* <SecondChart/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
-                                    
+                                    <MultichartContainer xLabels={x_labels} dataProd={prod_data} dataHarv={area_data} dataYield={yield_data} setShowModal={setShowModal} setOpen= {setOpen}  open={open} />
+                                    <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
+                                    {showModal ? (
+                                      <div> <ModalForm dataJson={GenerateDataJson(x_labels,prod_data,area_data,yield_data)} setShowModal={setShowModal}/> </div>
+                                    ) : null
+                                    }
                                 </Col>
                             </Row>
                             
