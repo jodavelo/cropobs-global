@@ -1,12 +1,29 @@
 .card-container{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.card-body{
     /*height: 300px;*/
     position: relative;
     overflow: hidden;
-    margin: 20px;
     background-color: black;
+    margin-bottom: 10px;
 }
 
-.card-container img{
+.card-footer{
+    text-decoration: none;
+    color: #54667A;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.card-footer:hover{
+    color: #0D6EFD;
+}
+
+.card-body img{
     transition: transform .7s ease, opacity .7s;
     height: inherit;
     width: inherit;
@@ -30,7 +47,7 @@
     transition: .5s;
 }
 
-.card-container:hover img {
+.card-body:hover img {
     transform: scale(1.5);
     
     transition: transform .7s ease,opacity .7s;

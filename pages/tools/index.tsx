@@ -9,12 +9,14 @@ const cards = [
     {
         href: "https://www.google.com",
         imgUrl: "/home/homeimage1.jpg",
+        text: "Lorem ipsum",
         height: "300px",
         width: "400px",
     },
     {
         href: "https://www.google.com",
         imgUrl: "https://flowersofcolombia.co/wp-content/uploads/2018/11/el-trigal-ambassador-440x419.jpg",
+        text: "Lorem ipsum",
         height: "250px",
         width: "250px",
     },
@@ -27,14 +29,14 @@ const ToolsPage: NextPage = () => {
             <div className={styles['tools-container']}>
                 <h2 className={styles['tools-tittle']}> Tools </h2>
                 <div className={styles['tools-cards']}>
-                    {cards.map( (card, idx) => ( <Card key={idx} href = {card.href} imgUrl={card.imgUrl} height={card.height} width={card.width}  /> ) )}
+                    {cards.map( (card, idx) => ( <Card key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width}  /> ) )}
                 </div>
                 <div className={styles['tools-cards']}>
-                    {cards.map( (card, idx) => ( <Card key={idx} href = {card.href} imgUrl={card.imgUrl} height={card.height} width={card.width}  /> ) )}
+                    {cards.map( (card, idx) => ( <Card key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width}  /> ) )}
                 </div>
                 <h2 className={styles['tools-tittle']}> Country briefs </h2>
                 <div className={styles['tools-cards']}>
-                    {cards.map( (card, idx) => ( <Card key={idx} href = {card.href} imgUrl={card.imgUrl} height={card.height} width={card.width}  /> ) )}
+                    {cards.map( (card, idx) => ( <Card key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width}  /> ) )}
                 </div>
             </div>
         </Layout>
