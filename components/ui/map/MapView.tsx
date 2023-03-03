@@ -1,16 +1,31 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import { Map } from 'mapbox-gl';
+import { MapContext } from '../../../context/map';
+import { LeftSideMenuContainer } from './filters';
+import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
 
-export const MapView = () => {
+interface Props {
+    children?: JSX.Element | JSX.Element[]
+}
+
+export const MapView = ({ children }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
+    const { setMap } = useContext( MapContext );
 
     useEffect(() => {
         const map = new Map({
             container: mapDiv.current!, // container ID
-            style: 'mapbox://styles/ciatkm/ckhgg16y61fot19nlo5sbe9el', // style URL
+            style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
             center: [-74.5, 40], // starting position [lng, lat]
             zoom: 2, // starting zoom
+            trackResize: true
             });
+        setMap( map );
+        
+        map.on('load', () => {
+            map.resize();
+        })
+
     }, [  ])
 
     return (
@@ -20,6 +35,8 @@ export const MapView = () => {
                 height: '100%',
                 width: '100%',
             }}
-        >MapView</div>
+        >
+            { children }
+        </div>
     )
 }

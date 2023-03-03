@@ -6,6 +6,8 @@ import { LayoutProvider } from '../context/layout';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { MapProvider } from '../context/map';
+import { LeftSideMenuProvider } from '../context/map/leftsidemenu';
  
 // TO MAKE THE MAP APPEAR YOU MUST
 // ADD YOUR ACCESS TOKEN FROM
@@ -17,7 +19,11 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <ProSidebarProvider>
       <LayoutProvider>
-        <Component {...pageProps} />
+        <MapProvider>
+          <LeftSideMenuProvider>  
+            <Component {...pageProps} />
+          </LeftSideMenuProvider>
+        </MapProvider>
       </LayoutProvider>
     </ProSidebarProvider>
   )

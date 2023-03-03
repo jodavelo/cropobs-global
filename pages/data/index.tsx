@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,10 @@ import { annual_growth_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts/ChartSelection';
 import { ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
 import { PercentInfoProps } from '../../interfaces/data';
+import { geojsonApi } from '../../apis/geojsonApi';
+import { LeftSideMenuContext, LeftSideMenuProvider } from '../../context/map/leftsidemenu';
+import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui/map/filters';
+import { useWindowSize } from '../../hooks';
 
 const data: DataPodium[] = [
     {
@@ -77,32 +81,68 @@ const DataPage: NextPage = () => {
 
     const { t: dataTranslate } = useTranslation('data');
     const [open, setOpen] = useState(false);
-    // const [open2, setOpen2] = useState(false);
+    const { width = 0} = useWindowSize();
+    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const [mapCol, setMapCol] = useState(0);
+    const [graphsCol, setGraphsCol] = useState(0);
+    const [showMap, setShowMap] = useState(false);
+    const [showGraphs, setShowGraphs] = useState(false);
+    useEffect(() => {
+        if( buttonBoth ) {
+            setMapCol(6)
+            setGraphsCol(5)
+            setShowMap(true)
+            setShowGraphs(true)
+        }
+        if( buttonGraphs ) {
+            setMapCol(0)
+            setGraphsCol(11)
+            setShowMap(false)
+            setShowGraphs(true)
+        }
+        if( buttonMap ) {
+            setMapCol(11)
+            setGraphsCol(0)
+            setShowMap(true)
+            setShowGraphs(false)
+        }
+    }, [buttonBoth, buttonGraphs, buttonMap]);
     
-    // const observationsAPI: Observation[] = observations;
-    // const labelsAPI: number[] = labels;
-    
-    //
-    // 
 
+    console.log({ buttonBoth, buttonGraphs, buttonMap })
     return (
         <Layout title={ dataTranslate('title-header') }>
+            
             <Container fluid>
                 <Row>
                     <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
                         <SidebarComponent/>
                     </Col>
+                    
                     <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
-
-                                <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <Col className='offset-xs-1'></Col>
+                                <Col xs={ 11 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MapView/>
+                                
+                            </Row>
+                            <Row>
+                                { 
+                                    width < 992 ? undefined : (
+                                <Col lg={ 1 }>
+                                    <LeftSideMenuContainer/>
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
+                                    )
+                                }
+                                
+                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <MapView>
+                                        <TopSideMenuContainer/>
+                                    </MapView>
+                                </Col>
+                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid' } : { display: 'none' } }>
                                     <PlotlyChartStackedAreaContainer fetchDataUrl='api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]' cropNameToFind='Beans, dry' secondCropName='Pulses excl. Beans' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} />
                                     {/* <LineChartjs dataURL={'http://192.168.0.181:3000/api/dummy'} options={annual_growth_options}/> */}
                                     {/* <ChartSelection dataURLArr={['https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1001,1002,1003]&cropIds=[176]', 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1007,1008,1009]&cropIds=[176]']} optionsArr={[annual_growth_options, ten_year_moving_average_options]} configArr={[{key: 'id_element', name:'id_element'}, {key: 'id_element', name:'id_element'}]} namesArr={['Annual Growth', '10-day moving average']}/> */}
@@ -135,6 +175,8 @@ const DataPage: NextPage = () => {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // const dataw = await fetcher('http://localhost:3000/api/dummy');
+    // const data = await geojsonApi.get('api/v1/geojson/countries');
+    // console.log(data.data)
     return {
         props: {
             // ...( await serverSideTranslations( locale!, ['common'] ) ),
