@@ -1,4 +1,4 @@
-import Scale, { Tick } from 'chart.js/dist/core/core.scale';
+import { Tick } from 'chart.js/dist/core/core.scale';
 
 export const ten_year_moving_average_options = {
     responsive: true,
@@ -19,9 +19,6 @@ export const ten_year_moving_average_options = {
             }
         }
     },
-    interaction: {
-        intersect: false
-    },
     plugins: {
       legend: {
         position: 'bottom' as const,
@@ -30,5 +27,24 @@ export const ten_year_moving_average_options = {
         display: true,
         text: '10-year moving average',
       },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+        callbacks: {
+            label: function(context: Record<string, any>) {
+                console.log("test");
+                let value = context.parsed.y;
+                let units = context.dataset.unit;
+                let label = context.dataset.label;
+                if (units !== '%' && units !== 't/ha') {
+                    value = value.toLocaleString(undefined, {maximumFractionDigits:2});
+                }
+                else {
+                    value = value.toFixed(2);
+                }
+                return `${label}: ${value} ${units}`;
+            }
+        }
+      }
     },
 };
