@@ -1,0 +1,20 @@
+.tools-container{
+    display: flex;
+    flex-direction: column;
+}
+.tools-tittle{
+    margin-top: 20px ;
+    text-align: center;
+}
+.tools-cards{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 800px) {
+    .tools-cards{
+        flex-direction: column;
+    }
+}

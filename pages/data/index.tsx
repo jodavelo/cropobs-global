@@ -10,16 +10,28 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
+<<<<<<< HEAD
 import { DataPodium, PlotlyChartStackedAreaContainer } from '../../components/data';
+=======
+import { DataPodium, PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, Podium, ToggleDescription, traceObject, ModalForm, MultichartContainer, PlotlyChartBox, PlotlyChartLine,  } from '../../components/data';
+import { buildPlotStackedAreaObject, getYearsPlotlyChart, GenerateDataJson, GetChartData } from '../../helpers/data';
+import { Observation } from '../../interfaces/data/Helpers';
+import { useFetch } from '../../hooks';
+import { beansApi } from '../../apis';
+>>>>>>> 1bb67b6fd3bebcb71a442371d3231a00985c5488
 
 import { annual_growth_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts/ChartSelection';
 import { ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
+<<<<<<< HEAD
 import { PercentInfoProps } from '../../interfaces/data';
 import { geojsonApi } from '../../apis/geojsonApi';
 import { LeftSideMenuContext, LeftSideMenuProvider } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui/map/filters';
 import { useWindowSize } from '../../hooks';
+=======
+import { PlotlyChartTreeMap } from '../../components/data/plotly-chart/PlotlyChartTreeMap';
+>>>>>>> 1bb67b6fd3bebcb71a442371d3231a00985c5488
 
 const data: DataPodium[] = [
     {
@@ -79,8 +91,7 @@ const items: PercentInfoProps[] = [
 ]
 const DataPage: NextPage = () => {
 
-    const { t: dataTranslate } = useTranslation('data');
-    const [open, setOpen] = useState(false);
+
     const { width = 0} = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
     const [mapCol, setMapCol] = useState(0);
@@ -108,6 +119,22 @@ const DataPage: NextPage = () => {
         }
     }, [buttonBoth, buttonGraphs, buttonMap]);
     
+  let [prodJson, setProdJson] = useState([]);
+  let [harvJson, setHarvJson] = useState([]);
+  let [yieldJson, setYieldJson] = useState([]);
+  let [xlabels, setXlabels] = useState([]);
+  let [showModal, setShowModal] = useState(false);
+  let [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    GetChartData(setXlabels,setProdJson,setHarvJson,setYieldJson)
+  }, []);
+
+  const x_labels = xlabels;
+  const prod_data = prodJson.map((datum: any) => datum.value);
+  const area_data = harvJson.map((datum: any) => datum.value);
+  const yield_data = yieldJson.map((datum: any) => datum.value);
+  const { t: dataTranslate } = useTranslation('data');
 
     console.log({ buttonBoth, buttonGraphs, buttonMap })
     return (
@@ -134,6 +161,7 @@ const DataPage: NextPage = () => {
                                 <Col lg={ 1 }>
                                     <LeftSideMenuContainer/>
                                 </Col>
+<<<<<<< HEAD
                                     )
                                 }
                                 
@@ -155,11 +183,31 @@ const DataPage: NextPage = () => {
                                     {/* <Button onClick={ () => setOpen(!open) } >Ok</Button> */}
                                     {/* <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
                                     
+=======
+                                <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
+                                    <Podium data={ data }/>
+                                    {/* <Button onClick={ () => setOpen(!open) } >Ok</Button>
+                                    <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
+                                    {/* <PlotlyChartStackedArea/> */}
+                                    <Podium data={ data }/>
+                                    <Button onClick={ () => setOpen(!open) } >Ok</Button>
+                                    <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
+                                    {/* <PlotlyChartStackedAreaNormalized title='aaa' ticks={ ticks } dataTraces={ traces } /> */}
+                                    <PlotlyChartLine dataURL={'https://cassavalighthousetest.ciat.cgiar.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7876'}/>
+                                    {/* <PlotlyChartBox dataURL={'https://cassavalighthousetest.ciat.cgiar.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7876'}/> */}
+                                    {/* <PlotlyChartTreeMap dataURL={'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/WLRD/3002/713999/2021'} totalURL={'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/1/WLRD/3002/713999/2021'}/> */}
+                                    {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 1' yAxisLabel='Area (ha)'/> */}
+>>>>>>> 1bb67b6fd3bebcb71a442371d3231a00985c5488
                                     {/* <PlotlyChartStackedArea dataTraces={ stackedAreaTraces } ticks={ ticks } title='Stacked 2' yAxisLabel='Area (ha) 2'/> */}
                                     {/* <SecondChart/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
-                                    
+                                    <MultichartContainer xLabels={x_labels} dataProd={prod_data} dataHarv={area_data} dataYield={yield_data} setShowModal={setShowModal} setOpen= {setOpen}  open={open} />
+                                    <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
+                                    {showModal ? (
+                                      <div> <ModalForm dataJson={GenerateDataJson(x_labels,prod_data,area_data,yield_data)} setShowModal={setShowModal}/> </div>
+                                    ) : null
+                                    }
                                 </Col>
                             </Row>
                             
