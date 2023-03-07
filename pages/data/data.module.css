@@ -21,6 +21,7 @@
     border: 1px transparent;
     padding: 0;
     margin-top: 60px;
+    transition:left,right,293ms;
 }
 
 .content-data {

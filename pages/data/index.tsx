@@ -3199,11 +3199,9 @@ const DataPage: NextPage = () => {
                     <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
                     </svg>
                   </Button>
-                  <Collapse in={open}>
-                   <Col xs={ 12 } lg={ 3 } xl={ 2 }   className={styles["sidebar"]}  id="collapse-button">
+                   <Col xs={ 12 } lg={ 3 } xl={ 2 } style={{width: open ? "60px" : ""}}   className={styles["sidebar"]}  id="collapse-button">
                         <SidebarComponent />
                     </Col>
-                    </Collapse>
                     <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
