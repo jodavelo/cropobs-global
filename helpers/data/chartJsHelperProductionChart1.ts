@@ -33,7 +33,7 @@ const chartColors = {
 	light_yellow_bean: '#ffc985',
 }
 
-export const datasetGenerator = (entries: any[], labels: Number[], key_attr: string, locale_attr: string, orderList: Record<number, number>=[], chartID: string = '', config: ChartjsConfig = {fill: false, pointRadius: 1, yAxisID: 'y'}): any[] => {
+export const datasetGeneratorProductionChart1 = (entries: any[], labels: Number[], key_attr: string, locale_attr: string, orderList: Record<number, number>=[], config: ChartjsConfig = {fill: false, pointRadius: 1, yAxisID: 'y'}): any[] => {
     
     const dataArr: Record<string, Number[]> = {};
     const items: ItemNames[] = [];
@@ -54,34 +54,16 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
     });
 
     items.forEach( (item, index) => {
-        let dataObj;
-        switch (true) {
-            case (chartID === 'prod1' && item.id == '1000'):
-                dataObj = {
-                    label: item.name,
-                    borderColor: Object.values(chartColors)[index],
-                    backgroundColor: Object.values(chartColors)[index],
-                    fill: false,
-                    pointRadius: 3,
-                    data: dataArr[item.id],
-                    unit: units[item.id],
-                    yAxisID: 'y2',
-                    showLine: false
-                };
-                break;
-            default:
-                dataObj = {
-                    label: item.name,
-                    borderColor: Object.values(chartColors)[index],
-                    backgroundColor: Object.values(chartColors)[index],
-                    fill: config.fill,
-                    pointRadius: config.pointRadius,
-                    data: dataArr[item.id],
-                    yAxisID: config.yAxisID,
-                    unit: units[item.id]
-                };
-                break;
-        }
+        const dataObj = {
+            label: item.name,
+            borderColor: Object.values(chartColors)[index],
+            backgroundColor: Object.values(chartColors)[index],
+            fill: config.fill,
+            pointRadius: config.pointRadius,
+            data: dataArr[item.id],
+            yAxisID: config.yAxisID,
+            unit: units[item.id]
+        };
         datasets.push(dataObj);
     });
 
