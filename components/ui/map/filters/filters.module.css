@@ -2,11 +2,10 @@
 
 .left-side-menu-container {
     background-color: transparent;
-    width: 50px;
+    width: 70px;
     height: 750px;
-    left: 0;
-    position: sticky;
-    z-index: 0;
+    position: absolute;
+    z-index: 999;
     display: flex;
     justify-content: center;
     flex-direction: column;
