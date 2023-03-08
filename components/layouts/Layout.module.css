@@ -48,7 +48,7 @@
         height: 290vh; /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
     }
     .data {
-        height: 300vh;
+        height: 200vh;
     } 
 }
 

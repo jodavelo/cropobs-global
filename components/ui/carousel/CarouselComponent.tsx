@@ -3,7 +3,7 @@ import { useWindowSize } from '../../../hooks';
 
 export const CarouselComponent = () => {
 
-    const { width } = useWindowSize();
+    const { width = 0 } = useWindowSize();
     let heightVariable = 250;
     console.log( width )
     if( width < 300 ) heightVariable = 190;
