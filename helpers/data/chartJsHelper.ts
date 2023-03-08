@@ -46,7 +46,7 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
         if (!dataArr[`${key}`]){
             dataArr[`${key}`] = Array(labels.length).fill(0);
             const item = {id: key, name: entry[locale_attr]};
-            if (orderList[key]) items[orderList[key]] = item;
+            if (orderList[key] !== undefined) items[orderList[key]] = item;
             else items.push(item)
             units[`${key}`] = entry.unit;
         }
@@ -84,6 +84,6 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
         }
         datasets.push(dataObj);
     });
-
+    console.log(datasets);
     return datasets;
 }

@@ -85,7 +85,7 @@ const DataPage: NextPage = () => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
-                                    <LineChartjs dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/default/beans_production/${regionCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} />
+                                    <LineChartjs dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/default/beans_production/${regionCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5510:1, 5312:2}}/>
                                     <PodiumSelection podiumsList={podiumConfig} />
                                     <ChartSelection chartConfigList={chartConfig} />
                                 </Col>
