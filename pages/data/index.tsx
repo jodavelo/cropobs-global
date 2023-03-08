@@ -20,6 +20,7 @@ import { geojsonApi } from '../../apis/geojsonApi';
 import { LeftSideMenuContext, LeftSideMenuProvider } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui/map/filters';
 import { useWindowSize } from '../../hooks';
+import { MapContext } from '../../context/map';
 
 const data: DataPodium[] = [
     {
@@ -82,6 +83,7 @@ const DataPage: NextPage = () => {
 
     const { width = 0} = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const { map } = useContext( MapContext );
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
@@ -106,6 +108,15 @@ const DataPage: NextPage = () => {
             setShowGraphs(false)
         }
     }, [buttonBoth, buttonGraphs, buttonMap]);
+
+    useEffect( () => {
+        if( buttonBoth ) {
+            if (map) map.resize();
+        }
+        if( buttonMap ) {
+            if (map) map.resize();
+        }
+    });
     
   let [prodJson, setProdJson] = useState([]);
   let [harvJson, setHarvJson] = useState([]);
