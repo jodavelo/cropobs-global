@@ -8,7 +8,7 @@ export interface LayoutState {
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
-    isHome: true,
+    isHome: false,
     isData: false,
     isAboutUs: false
 }
