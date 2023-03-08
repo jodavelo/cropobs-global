@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
 import { MainBar, MapView, SidebarComponent } from '../../components/ui';
-import Collapse from 'react-bootstrap/Collapse';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
