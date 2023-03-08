@@ -16,7 +16,6 @@ interface Props {
 export const LeftSideButton = ({ toolTipText, urlImage, isActiveButton, buttonId }: Props) => {
 
     const { activeBothButtons, activeGraphsButton, activeMapButton } = useContext( LeftSideMenuContext );
-    const { map, setMap } = useContext( MapContext );
 
     const [isActive, setIsActive] = useState(false);
     useEffect(() => {
@@ -30,16 +29,12 @@ export const LeftSideButton = ({ toolTipText, urlImage, isActiveButton, buttonId
                 activeGraphsButton();
                 break;
             case 2:
-                map?.resize();
-                setMap(map!);
                 activeBothButtons();
                 break;
-            case 3:
-                
-                map?.resize();
-                
+            case 3:        
                 activeMapButton();
-                console.log('clickckkkk')
+                console.log('clickckkkk');
+                break;
             default:
                 
                 break;

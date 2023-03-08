@@ -20,6 +20,7 @@ import { geojsonApi } from '../../apis/geojsonApi';
 import { LeftSideMenuContext, LeftSideMenuProvider } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui/map/filters';
 import { useWindowSize } from '../../hooks';
+import { MapContext } from '../../context/map';
 
 const data: DataPodium[] = [
     {
@@ -82,6 +83,7 @@ const DataPage: NextPage = () => {
 
     const { width = 0} = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const { map } = useContext( MapContext );
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
@@ -89,23 +91,32 @@ const DataPage: NextPage = () => {
     useEffect(() => {
         if( buttonBoth ) {
             setMapCol(6)
-            setGraphsCol(5)
+            setGraphsCol(6)
             setShowMap(true)
             setShowGraphs(true)
         }
         if( buttonGraphs ) {
             setMapCol(0)
-            setGraphsCol(11)
+            setGraphsCol(12)
             setShowMap(false)
             setShowGraphs(true)
         }
         if( buttonMap ) {
-            setMapCol(11)
+            setMapCol(12)
             setGraphsCol(0)
             setShowMap(true)
             setShowGraphs(false)
         }
     }, [buttonBoth, buttonGraphs, buttonMap]);
+
+    useEffect( () => {
+        if( buttonBoth ) {
+            if (map) map.resize();
+        }
+        if( buttonMap ) {
+            if (map) map.resize();
+        }
+    });
     
   let [prodJson, setProdJson] = useState([]);
   let [harvJson, setHarvJson] = useState([]);
@@ -137,20 +148,13 @@ const DataPage: NextPage = () => {
                     <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
-                                <Col className='offset-xs-1'></Col>
-                                <Col xs={ 11 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
                                 
                             </Row>
                             <Row>
-                                { 
-                                    width < 992 ? undefined : (
-                                <Col lg={ 1 }>
-                                    <LeftSideMenuContainer/>
-                                </Col>
-                                    )
-                                }
+                                <LeftSideMenuContainer/>
                                 
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MapView>
