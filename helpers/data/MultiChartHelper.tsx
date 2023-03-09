@@ -23,28 +23,28 @@ const config_yield = {
 }
 
 const config_data1 = {
-  url: 'https://commonbeanobservatory.org/api/v1/chart/default/beans_production_value/WLRD',
+  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
   params: {
     "elementIds": JSON.stringify([152]),
     "cropIds": JSON.stringify([176]),//beans
   }
 }
 const config_data2 = {
-  url: 'https://commonbeanobservatory.org/api/v1/chart/default/beans_production_value/WLRD',
+  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
   params: {
     "elementIds": JSON.stringify([152]),
     "cropIds": JSON.stringify([96001]),//pulses
   }
 }
 const config_data3 = {
-  url: 'https://commonbeanobservatory.org/api/v1/chart/default/beans_production_value/WLRD',
+  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
   params: {
     "elementIds": JSON.stringify([152]),
     "cropIds": JSON.stringify([998]),//crops
   }
 }
 const config_data4 = {
-  url: 'https://commonbeanobservatory.org/api/v1/chart/default/beans_production_value/WLRD',
+  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
   params: {
     "elementIds": JSON.stringify([152]),
     "cropIds": JSON.stringify([2051]),//agric

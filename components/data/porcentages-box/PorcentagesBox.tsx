@@ -12,7 +12,7 @@ export const PorcentagesBox: FC<Props> = ({data_1, data_2}) => {
         <div className={styles["porcentages-container"]}>
             <div className={styles["porcentage-box"]}>
                 <h2 className={styles["porcentage-value"]}>
-                    {Number(data_1.value)*100 + "%"}
+                    {Math.round(Number(data_1.value)*10000)/100 + "%"}
                 </h2>
                 <div className={styles["porcentage-text"]}>
                     {data_1.text}
@@ -20,7 +20,7 @@ export const PorcentagesBox: FC<Props> = ({data_1, data_2}) => {
             </div>
             <div className={styles["porcentage-box"]} >
                 <h2 className={styles["porcentage-value"]}>
-                    {Number(data_2.value)*100 + "%"}
+                {Math.round(Number(data_1.value)*10000)/100 + "%"}
                 </h2>
                 <div className={styles["porcentage-text"]}>
                     {data_2.text}

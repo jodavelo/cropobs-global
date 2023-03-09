@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,10 @@ import { GenerateDataJson2, GetChartData2 } from '../../helpers/data';
 import { annual_growth_options, ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts';
 import axios from 'axios';
+import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui/map/filters';
+import { useWindowSize } from '../../hooks';
+import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
+import { MapContext } from '../../context/map';
 
 
 interface sectionState {
@@ -33,6 +37,43 @@ const DataPage: NextPage = () => {
         year: 2020
     });
     const { elementId, regionCode, year } = sectionState;
+
+    const { width = 0} = useWindowSize();
+    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const { map } = useContext( MapContext );
+    const [mapCol, setMapCol] = useState(0);
+    const [graphsCol, setGraphsCol] = useState(0);
+    const [showMap, setShowMap] = useState(false);
+    const [showGraphs, setShowGraphs] = useState(false);
+    useEffect(() => {
+        if( buttonBoth ) {
+            setMapCol(6)
+            setGraphsCol(6)
+            setShowMap(true)
+            setShowGraphs(true)
+        }
+        if( buttonGraphs ) {
+            setMapCol(0)
+            setGraphsCol(12)
+            setShowMap(false)
+            setShowGraphs(true)
+        }
+        if( buttonMap ) {
+            setMapCol(12)
+            setGraphsCol(0)
+            setShowMap(true)
+            setShowGraphs(false)
+        }
+    }, [buttonBoth, buttonGraphs, buttonMap]);
+
+    useEffect( () => {
+        if( buttonBoth ) {
+            if (map) map.resize();
+        }
+        if( buttonMap ) {
+            if (map) map.resize();
+        }
+    });
 
     const chartConfig = [
         {
@@ -77,12 +118,12 @@ const DataPage: NextPage = () => {
     });
 
     useEffect( () => {
-        axios({url: `https://commonbeanobservatory.org/api/v1/data/value/beans_production_value/VALUE/${regionCode}/1153/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${regionCode}/1153/176/${year}`})
         .then(response => {
             setPorc1({value: response.data, text: dataPorcentage1.text})
         })
 
-        axios({url: `https://commonbeanobservatory.org/api/v1/data/value/beans_production_value/VALUE/${regionCode}/1154/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${regionCode}/1154/176/${year}`})
         .then(response => {
             setPorc2({value: response.data, text: dataPorcentage2.text})
         })
@@ -102,11 +143,16 @@ const DataPage: NextPage = () => {
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
+                            </Row>
+                            <Row>
+                                <LeftSideMenuContainer/>
                                 <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MapView/>
+                                    <MapView>
+                                        <TopSideMenuContainer/>
+                                    </MapView>
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid', overflowY: 'scroll', }}>
-                                    <PodiumWithLink dataURL='https://commonbeanobservatory.org/api/v1/data/podium/WLRD/252/176/2020' text={`In ${year}, beans were the 28 most important crop in relation to the value of production`} />
+                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid' } : { display: 'none' } }>
+                                    <PodiumWithLink dataURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/WLRD/252/176/2020' text={`In ${year}, beans were the 28 most important crop in relation to the value of production`} />
                                     <PorcentagesBox data_1={dataPorcentage1} data_2={dataPorcentage2} />
                                     <MultichartContainerPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} setShowModal={setShowModal} setOpen= {setOpen}  open={open} />
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
