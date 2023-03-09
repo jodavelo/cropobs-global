@@ -22,7 +22,7 @@ export const podiumDataProcess = (predata: RankingData[]) => {
         const { pos, heightBar, heightTransparentBar } = getRankObj(entry.ranking);
         if ( typeof data[pos] !== "undefined"){
             data[pos+2]= {
-                rank: entry.ranking,
+                rank: entry.ranking+1,
                 cropName: entry.crop_name,
                 urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
                 heightBar,
