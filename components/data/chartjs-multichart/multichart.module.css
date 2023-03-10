@@ -1,0 +1,23 @@
+.multichart-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.multichart-title{
+    display: flex;
+    justify-content: center;
+}
+
+.multichart-body{
+    display: flex;
+    justify-content: center;
+}
+
+.multichart-footer{
+    display: flex;
+    justify-content: center;
+}
+
+.button{
+    margin : 10px
+}

@@ -7,7 +7,7 @@
 }
 
 .data {
-    height: 130vh;
+    height: 150vh;
 }
 
 .about-us {
@@ -19,7 +19,7 @@
         height: 380vh;   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
     }
     .data {
-        height: 70vh;
+        height: 300vh;
     } 
 }
 
@@ -27,6 +27,9 @@
     .home {
         height: 410vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
     }
+    .data {
+        height: 300vh;
+    } 
        
 }
 
@@ -34,6 +37,9 @@
     .home {
         height: 310vh; /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
     }
+    .data {
+        height: 300vh;
+    } 
     
 }
 
@@ -41,6 +47,9 @@
     .home {
         height: 290vh; /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
     }
+    .data {
+        height: 200vh;
+    } 
 }
 
 
