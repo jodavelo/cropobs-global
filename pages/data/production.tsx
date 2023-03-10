@@ -98,14 +98,16 @@ const ProductionPage: NextPage = () => {
             options: annual_growth_options,
             config: {key: 'id_element', name:'id_element'},
             name: 'Annual growth',
-            elementsURL: 'https://cropobs-central.ciat.cgiar.org/api/v1/data/elements/2'
+            elementsURL: 'https://cropobs-central.ciat.cgiar.org/api/v1/data/elements/2',
+            description: 'gráfico 2 de producción'
         },
         {
             dataURL: `https://cropobs-central.ciat.cgiar.org/api/v1/chart/default/beans_production/${regionCode}?elementIds=[1007,1008,1009]&cropIds=[176]`,
             options: ten_year_moving_average_options,
             config: {key: 'id_element', name:'id_element'},
             name: '10-year moving average',
-            elementsURL: 'https://cropobs-central.ciat.cgiar.org/api/v1/data/elements/2'
+            elementsURL: 'https://cropobs-central.ciat.cgiar.org/api/v1/data/elements/2',
+            description: 'gráfico 3 de producción'
         }
     ];
 
@@ -135,7 +137,7 @@ const ProductionPage: NextPage = () => {
                                     <MapView/>
                                 </Col>
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                    <LineChartjs dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/default/beans_production/${regionCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL='https://cropobs-central.ciat.cgiar.org/api/v1/data/elements/2' options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5510:1, 5312:2}}/>
+                                    <LineChartjs dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/default/beans_production/${regionCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL='https://cropobs-central.ciat.cgiar.org/api/v1/data/elements/2' options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5510:1, 5312:2}}/>
                                     <br/>
                                     <PodiumSelection podiumsList={podiumConfig} />
                                     <br/>

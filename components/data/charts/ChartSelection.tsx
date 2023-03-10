@@ -5,6 +5,7 @@ interface ChartConfig {
     dataURL: string
     options: Record<string, any>
     config: Record<string, any>
+    description: string
     name: string
     elementsURL: string
     orderList?: Record<number, number>
@@ -36,7 +37,7 @@ export const ChartSelection: FC<Props> = ({ chartConfigList }) => {
             >
                 { chartConfigList.map( (chartConfig: Record<string, any>, index: number) => <option key={index} value={index}>{chartConfig.name}</option>)}
             </select>
-            <LineChartjs dataURL={chartConfigList[Number(selected)].dataURL} options={chartConfigList[Number(selected)].options} config={chartConfigList[Number(selected)].config} orderList={chartConfigList[Number(selected)].orderList} chartID={chartConfigList[Number(selected)].chartID} chartConf={chartConfigList[Number(selected)].chartConfig} elementsURL={chartConfigList[Number(selected)].elementsURL} />;
+            <LineChartjs { ...chartConfigList[Number(selected)] } />
         </>
     )
 }

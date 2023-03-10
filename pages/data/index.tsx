@@ -10,7 +10,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { DataPodium, PlotlyChartStackedAreaContainer } from '../../components/data';
+import { DataPodium, ModalForm, MultichartContainer, PlotlyChartStackedAreaContainer, ToggleDescription } from '../../components/data';
 
 import { annual_growth_options } from '../../helpers/data/chartjs-options';
 import { ChartSelection } from '../../components/data/charts/ChartSelection';
@@ -21,6 +21,7 @@ import { LeftSideMenuContext, LeftSideMenuProvider } from '../../context/map/lef
 import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui/map/filters';
 import { useWindowSize } from '../../hooks';
 import { MapContext } from '../../context/map';
+import { GenerateDataJson } from '../../helpers/data';
 
 const data: DataPodium[] = [
     {
@@ -178,12 +179,12 @@ const DataPage: NextPage = () => {
                                     {/* <SecondChart/> */}
                                     {/* <Button onClick={ () => setOpen2(!open2) } >Ok</Button>
                                     <ToggleDescription isOpen={ open2 } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' /> */}
-                                    {/* <MultichartContainer xLabels={x_labels} dataProd={prod_data} dataHarv={area_data} dataYield={yield_data} setShowModal={setShowModal} setOpen= {setOpen}  open={open} />
+                                    <MultichartContainer xLabels={x_labels} dataProd={prod_data} dataHarv={area_data} dataYield={yield_data} setShowModal={setShowModal} setOpen= {setOpen}  open={open} />
                                     <ToggleDescription isOpen={ open } text='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dapibus, massa nec auctor aliquet, urna ex tristique ante, ac tempus quam dui et metus. Proin finibus venenatis nisl, ut egestas dui consequat id. Fusce consequat hendrerit ornare. Aliquam id imperdiet libero. Cras sodales blandit urna ac pellentesque. Nullam venenatis neque nibh, sit amet commodo mauris tincidunt nec. Curabitur maximus a nisl a pretium. Proin iaculis, erat id rhoncus pulvinar,' />
                                     {showModal ? (
                                       <div> <ModalForm dataJson={GenerateDataJson(x_labels,prod_data,area_data,yield_data)} setShowModal={setShowModal}/> </div>
                                     ) : null
-                                    } */}
+                                    }
                                 </Col>
                             </Row>
                             
