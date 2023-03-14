@@ -156,7 +156,7 @@ const DataPage: NextPage = () => {
                                     <TabComponent></TabComponent>
                                 </Col> */}
 
-                                {/* <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
                                 
@@ -165,11 +165,11 @@ const DataPage: NextPage = () => {
                                 <LeftSideMenuContainer/>
                                 
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MapView>
+                                    <MapView >
                                         <TopSideMenuContainer/>
                                     </MapView>
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
+                               {/*  <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
                                   <Podium data={ data }></Podium>
                                   <PercentContainer ></PercentContainer>
                                 </Col> */}

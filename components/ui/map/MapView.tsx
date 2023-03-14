@@ -1,5 +1,5 @@
 import { useEffect, useRef, useContext, useState } from 'react';
-import mapboxgl, { Map } from 'mapbox-gl';
+import mapboxgl, { Map, Marker } from 'mapbox-gl';
 import { MapContext } from '../../../context/map';
 import { LeftSideMenuContainer } from './filters';
 import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
@@ -44,7 +44,7 @@ export const MapView = ({ children }: Props) => {
                 height: '100%',
                 width: '100%',
             }}
-        >
+        > 
             { children }
         </div>
     )
