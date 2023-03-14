@@ -4243,6 +4243,25 @@ const geojson = {
     ]
  }
 
+const adminJson = {
+   "BDI": 6990,
+   "COD": 51,
+   "ETH": 18816.5,
+   "MDG": 703,
+   "MWI": 4396,
+   "TZA": 1067.857142857143,
+   "UGA": 20292
+}
+
+
+const featureValueUpdate = (source, newData) => {
+   source.features.forEach( (feature) => {
+      feature.properties.value = newData[feature.properties.iso3]
+   });
+}
+
+featureValueUpdate(geojson, adminJson);
+console.log(geojson);
 
 const MapTest: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
@@ -4302,8 +4321,19 @@ const MapTest: NextPage = () => {
                     type: 'fill',
                     source: 'geo_countries',
                     paint: {
-                        'fill-color': '#888888',
-                        'fill-opacity': 0.4
+                        'fill-color': [
+                           'case',
+                           ['==', ['get', 'value'], null],
+                           'white',
+                           ['step', ['get', 'value'],
+                              '#E4A0A1', 775.971429,
+                              '#DB8081', 2399.114286,
+                              '#D26062', 5952.4,
+                              '#C94042', 16451.2,
+                              '#A82F31'
+                           ]
+                        ],
+                        'fill-opacity': 0.5
                     }
                 });
                 map.addLayer({
