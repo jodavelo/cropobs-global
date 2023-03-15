@@ -13,9 +13,10 @@ import { podiumDataProcess } from '../../../helpers/data/podium/podiumDataProces
 interface Props {
     dataURL: string,
     text: string
+    textAlignCenter?: boolean;
 }
 
-export const PodiumWithLink: FC<Props> = ({ dataURL, text }) => {
+export const PodiumWithLink: FC<Props> = ({ dataURL, text, textAlignCenter }) => {
 
     const htmlRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +40,7 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text }) => {
 
     return (
         <div ref={ htmlRef } className={ styles['podium-container'] }>
-            <div className={ styles['podium-description'] }>
+            <div className={ [styles['podium-description'],  textAlignCenter ? styles['text-align-center'] : ''].join(' ') }>
                 <span className={ styles['podium-text-description'] }>{ text }</span>
             </div>
             <div className={ styles['podium-body'] }>

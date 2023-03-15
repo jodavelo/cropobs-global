@@ -3,7 +3,8 @@ import { PodiumWithLink } from './PodiumWithLink';
 
 
 interface Props {
-    podiumsList: PodiumInfo[]
+    podiumsList: PodiumInfo[],
+    showSelect?: boolean;
 }
 
 interface PodiumInfo {
@@ -12,20 +13,24 @@ interface PodiumInfo {
     name: string
 }
 
-export const PodiumSelection: FC<Props> = ({ podiumsList }) => {
+export const PodiumSelection: FC<Props> = ({ podiumsList, showSelect = true }) => {
 
     const [selected, setSelected] = useState('0');
 
     return (
         <>
-            <select
-                value={selected}
-                onChange={(e) => {
-                    setSelected(e.target.value);
-                }}
-            >
-                { podiumsList.map( (podiumInfo, index) => <option key={index} value={index}>{podiumInfo.name}</option>)}
-            </select>
+            {
+                showSelect ? (
+                    <select
+                        value={selected}
+                        onChange={(e) => {
+                            setSelected(e.target.value);
+                        }}
+                    >
+                        { podiumsList.map( (podiumInfo, index) => <option key={index} value={index}>{podiumInfo.name}</option>)}
+                    </select>
+                ) : ''
+            }
             <PodiumWithLink dataURL={podiumsList[Number(selected)].url} text={podiumsList[Number(selected)].text}/>
         </>
     )

@@ -7,3 +7,4 @@ export * from './boxDataGenerator';
 export * from './pricesLineDataGenerator';
 export * from './ModalHelper';
 export * from './MultiChartHelper';
+export * from './common';
