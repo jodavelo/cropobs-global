@@ -43,6 +43,7 @@ const DataPage: NextPage = () => {
             .then(res=>{setPriceData( res.data.data.geo_points)})
     }
 
+
     const getTitle = () => {
         // logic to determine the title based on priceType
         if (priceType === 300052) {
@@ -69,7 +70,7 @@ const DataPage: NextPage = () => {
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <Select options={filterOptions} value={filterOptions.filter(option => option.value=== priceType)} onChange={(e) =>  handleSelect(e)}/>
-                                    <MapView></MapView>
+                                    <MapView ></MapView>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid', overflow: 'auto' }}>
                                     <select name="" id="">
@@ -77,8 +78,8 @@ const DataPage: NextPage = () => {
                                         <option>Real</option>
                                         <option>Dolares</option>
                                     </select>
-                                    <PlotlyChartBox title={getTitle()}/>
-                                    <PlotlyChartLine  title={getTitle()}/>
+                                    <PlotlyChartBox dataURL='https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7880'  title={getTitle()}/>
+                                    <PlotlyChartLine dataURL='https://cassavalighthouse.org/api/v1/charts/prices/national/line/300050?id_country=174&id_geo_point=7847' title={getTitle()}/>
                                 </Col>
                             </Row>                            
                         </Container>

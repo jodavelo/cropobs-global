@@ -21,6 +21,7 @@ export const boxDataGenerator = (inputData: Record<string, any>, currencyType: s
             trace.x = [...trace.x, ...Array(group.minAndMax.length).fill(entry.year)];
         });
         data.push(trace);
+
     });
     return data;
 }
