@@ -22,121 +22,21 @@ const dropDownStyle: CSSProperties = {
     // textDecoration: 'underline',
 }
 
+interface hugeMenu {
+    isHugeMenu?: boolean;
+    items?: menuItems[]
+}
+
 interface Props {
     expand: string;
     text: string;
     href: string;
     hasMoreOptions: boolean;
-    isHugeMenu?: boolean;
+    bigMenu?: hugeMenu;
 }
 
-const items: menuItems[] = [
-    {
-        titleCategory: 'Category 1',
-        menuOptions: [
-            {
-                menuLabel: 'Link 1',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 2',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 3',
-                href: '/data'
-            },
-        ]
-    },
-    {
-        titleCategory: 'Category 2',
-        menuOptions: [
-            {
-                menuLabel: 'Link 1',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 2',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 3',
-                href: '/data'
-            },
-        ]
-    },
-    {
-        titleCategory: 'Category 3',
-        menuOptions: [
-            {
-                menuLabel: 'Link 1',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 2',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 3',
-                href: '/data'
-            },
-        ]
-    },
-    {
-        titleCategory: 'Category 4',
-        menuOptions: [
-            {
-                menuLabel: 'Link 1',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 2',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 3',
-                href: '/data'
-            },
-        ]
-    },
-    {
-        titleCategory: 'Category 5',
-        menuOptions: [
-            {
-                menuLabel: 'Link 1',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 2',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 3',
-                href: '/data'
-            },
-        ]
-    },
-    {
-        titleCategory: 'Category 6',
-        menuOptions: [
-            {
-                menuLabel: 'Link 1',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 2',
-                href: '/data'
-            },
-            {
-                menuLabel: 'Link 3',
-                href: '/data'
-            },
-        ]
-    }
-]
+export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
 
-export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, isHugeMenu }) => {
-    
     const { asPath, locale } = useRouter();
     const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
 
@@ -159,9 +59,10 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, isHugeMenu }) =
     }
     // console.log(href.includes(asPath))
     // console.log({href, asPath})
-    if( isHugeMenu ) {
+    if( bigMenu?.isHugeMenu ) {
         return (
-            <BigMenu key={ uuidv4() } title='Data' options={ items } />
+            // console.log(bigMenu.isHugeMenu, bigMenu.items)
+            <BigMenu key={ uuidv4() } title='Data' options={ bigMenu.items! } />
             // <div className={ styles.dropdown2 }>
             //     <button className={ styles.dropbtn2 } onClick={ onSetIsHome } style={ href.includes(asPath) && href !== '/'  ? style : undefined }>{ text } 
             //         <i className="fa fa-caret-down"></i>

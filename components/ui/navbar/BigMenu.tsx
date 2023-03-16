@@ -5,6 +5,7 @@ import { LayoutContext } from '../../../context/layout';
 import styles from './Navbar.module.css';
 import { style } from './NavLink';
 import { v4 as uuidv4  } from 'uuid';
+import { useWindowSize } from '../../../hooks';
 
 export interface menuOption {
     menuLabel: string;
@@ -24,13 +25,20 @@ export interface Props {
 //
 export const BigMenu = ({ title, options }: Props) => {
     
-    const [columnWidth, setColumnWidth] = useState(0)
+    const [columnWidth, setColumnWidth] = useState(0);
     let href = '/data';
     const { asPath, locale } = useRouter();
     const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
+    const { width = 0 } = useWindowSize();
 
     useEffect(() => {
-        setColumnWidth( 100 / options.length );
+        if( width < 1000 && width > 0 ){
+            setColumnWidth( 100 );
+        }else {
+            // alert('aaa')
+            setColumnWidth( 100 / options.length ); 
+        }
+        
     }, [ options ])
     
 
@@ -61,7 +69,7 @@ export const BigMenu = ({ title, options }: Props) => {
             {/* <div className={ styles.header }>
                 <h2>Mega Menu</h2>
             </div>    */}
-                <div className={ styles.row }>
+                <div className={ styles.row } style={width <= 1000 ? { display: 'flex', flexDirection: 'column' }: undefined}>
                     {/* <div className={ styles.column } style={{ width: `${ columnWidth }%` }}>
                         <h3>Category 1</h3>
                             <a href="#">Link 1</a>
