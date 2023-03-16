@@ -13,6 +13,9 @@ import styles from './data.module.css';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer } from '../../components/ui/map/filters';
+import { dataFetcher, generateElementsObject } from '../../helpers/data';
+import useSWR from 'swr';
+import { MapSelect } from '../../components/ui/map/filters';
 
 
 interface sectionState {
@@ -22,10 +25,13 @@ interface sectionState {
     admin: string
 }
 
+const mapFilterElements = [1201, 1202];
+let elementsOptions = undefined;
+
 const MapTest: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const [ sectionState, setSectionState ] = useState<sectionState>({
-        elementId: -1,
+        elementId: 1201,
         regionCode: 'WLRD',
         year: 2020,
         admin: 'World'
@@ -38,6 +44,13 @@ const MapTest: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+
+    const { data: elements } = useSWR(`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/elements/1`, dataFetcher);
+
+    if (elements) {
+        // elements.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value) );
+        elementsOptions = generateElementsObject(elements, 'ELEMENT_EN', mapFilterElements);
+    }
 
     useEffect(() => {
         if( buttonBoth ) {
@@ -87,8 +100,11 @@ const MapTest: NextPage = () => {
                             </Row>
                             <Row>
                                 <LeftSideMenuContainer/>
-                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MapView admin={admin} geoJsonURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/geojson/countries/beans_surface_context/ISO3/176' adminIdsURL={`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/2021?id_elements=["1201"]`} percentileURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/percentile/values/undefined/data_production_surface_context/1201/176/2021?tradeFlow=undefined' quintilURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/percentile/heatmap' />
+                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <Row style={{ position: 'absolute', right: '50px', zIndex: '999' }}>
+                                        <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                    </Row>
+                                    <MapView admin={admin} geoJsonURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/geojson/countries/beans_surface_context/ISO3/176' adminIdsURL={`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/2021?id_elements=[${elementId}]`} percentileURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/percentile/values/undefined/data_production_surface_context/1201/176/2021?tradeFlow=undefined' quintilURL='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/percentile/heatmap' />
                                 </Col>
                             </Row>                            
                         </Container>

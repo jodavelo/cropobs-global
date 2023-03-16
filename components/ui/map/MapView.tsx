@@ -5,9 +5,9 @@ import { LeftSideMenuContainer } from './filters';
 import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
 import useSWR from 'swr';
 import { dataFetcher } from '../../../helpers/data';
+import { MapLegend } from './legend/MapLegend';
 
 interface Props {
-    children?: JSX.Element | JSX.Element[]
     geoJsonURL: string
     adminIdsURL: string
     percentileURL: string
@@ -4290,12 +4290,13 @@ const changeLineWidth = (map, adminIds, mode='') => {
     map.setPaintProperty('country_layer_line', 'line-width', lineWidth);
 }
 
-export const MapView = ({ children, geoJsonURL, adminIdsURL, percentileURL, quintilURL, admin }: Props) => {
+export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, admin }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
     const [lat, setLat] = useState(42.35);
     const [zoom, setZoom] = useState(1);
+    const [loaded, setLoaded] = useState(false)
     const { setMap } = useContext( MapContext );
     let hoveredStateId = null;
 
@@ -4316,6 +4317,7 @@ export const MapView = ({ children, geoJsonURL, adminIdsURL, percentileURL, quin
 
     useEffect(() => {
         if (map.current) return;
+        console.log('creating new map canvas');
         map.current = new Map({
             container: mapDiv.current!, // container ID
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
@@ -4423,25 +4425,26 @@ export const MapView = ({ children, geoJsonURL, adminIdsURL, percentileURL, quin
             map.current.on('click', 'country_layer_alter', (e) => {
                 console.log('alter');
             });
+            setLoaded(true);
         });
         setMap( map.current );
     });
 
     useEffect( () => {
-        if (predata && map.current?.getSource('geo_countries')) {
+         console.log('Geo:'+isLoadingGeo+' '+'Quintil:'+isLoadingQuintil);
+        if (!isLoadingGeo && !isLoadingQuintil && loaded) {
             const { data: geojson } = predata;
             if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);
             console.log(geojson);
             map.current.getSource('geo_countries').setData(geojson);
-            if (quintilArray) {
-                map.current.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
-                map.current.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
-                if (admin !== 'World') changeLineWidth(map.current, adminIds)
-                else changeLineWidth(map.current, adminIds, 'default');
-                changeFillColor(map.current, quintilArray);
-            }
+            console.log('in');
+            map.current.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
+            map.current.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
+            if (admin !== 'World') changeLineWidth(map.current, adminIds)
+            else changeLineWidth(map.current, adminIds, 'default');
+            changeFillColor(map.current, quintilArray);
         }
-    }, [isLoadingGeo, isLoadingQuintil]);
+    }, [isLoadingGeo, isLoadingQuintil, loaded]);
 
     
     /* useEffect(() => {
@@ -4459,14 +4462,16 @@ export const MapView = ({ children, geoJsonURL, adminIdsURL, percentileURL, quin
     }, [geoJsonURL]); */
 
     return (
-        <div 
+      <>
+         <div 
             ref={ mapDiv }
             style={{ 
                 height: '100%',
                 width: '100%',
             }}
-        >
-            { children }
-        </div>
+         >
+         </div>
+         <MapLegend percentiles={quintilArray ?? Array(5).fill(0)} />
+      </>
     )
 }
