@@ -26,7 +26,7 @@ export const pricesLineDataGenerator = (inputData: Record<string, any>, currency
             connectgaps: false,
             showlegend: true
         });
-        console.log(data);
+        //console.log(data);
 
         
         const trace1 = {
@@ -42,7 +42,7 @@ export const pricesLineDataGenerator = (inputData: Record<string, any>, currency
           };
 
           const inputData = data;
-          console.log(inputData)
+          //console.log(inputData)
     
     });
     return data;

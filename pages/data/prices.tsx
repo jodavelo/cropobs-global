@@ -19,9 +19,19 @@ interface OptionType {
     label: string;
   }
 
+  interface filterPriceState {
+    id_price_type: number;
+}
+
+
 const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
-    const [priceType, setPriceType] = useState(300050);
+    const [ filterPriceState, setFilterPriceState ] = useState<filterPriceState>({
+        id_price_type: 300050,
+    });
+    const { id_price_type } = filterPriceState;
+
+    const [priceFilter, setPriceFilter] = useState(300051);
     const[priceData, setPriceData] = useState([]);
     
     
@@ -34,21 +44,21 @@ const DataPage: NextPage = () => {
 
       const handleSelect = (e)=> { 
         getPriceData(e.value);
-        setPriceType(e.value);
+        setPriceFilter(e.value);
     }
   
   
-    const getPriceData = (id_price_type) => {
+    const getPriceData = (id_price_type: any) => {
         axios.get(`https://cassavalighthouse.org/api/v1/geojson/admin2/prices/Nals/${id_price_type}`)
             .then(res=>{setPriceData( res.data.data.geo_points)})
     }
 
 
     const getTitle = () => {
-        // logic to determine the title based on priceType
-        if (priceType === 300052) {
+        // logic to determine the title based on priceFilter
+        if (priceFilter === 300052) {
           return 'Producer Price';
-        } else if (priceType === 300051) {
+        } else if (priceFilter === 300051) {
           return 'Consumer Price';
         } else {
           return 'Wholesale price';
@@ -69,17 +79,13 @@ const DataPage: NextPage = () => {
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <Select options={filterOptions} value={filterOptions.filter(option => option.value=== priceType)} onChange={(e) =>  handleSelect(e)}/>
+                                {/* <Select options={filterOptions} value={filterOptions.filter(option => option.value=== priceFilter)} onChange={(e) =>  handleSelect(e)}/>  */}
                                     <MapView ></MapView>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid', overflow: 'auto' }}>
-                                    <select name="" id="">
-                                        <option>Nominal</option>
-                                        <option>Real</option>
-                                        <option>Dolares</option>
-                                    </select>
-                                    <PlotlyChartBox dataURL='https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/300050?id_country=32&id_geo_point=7880'  title={getTitle()}/>
-                                    <PlotlyChartLine dataURL='https://cassavalighthouse.org/api/v1/charts/prices/national/line/300050?id_country=174&id_geo_point=7847' title={getTitle()}/>
+                                 
+                                    <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${id_price_type}?id_country=174&id_geo_point=7847`} title={getTitle()}/>
+                                    <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${id_price_type}?id_country=174&id_geo_point=7847`} title={getTitle()}/>
                                 </Col>
                             </Row>                            
                         </Container>

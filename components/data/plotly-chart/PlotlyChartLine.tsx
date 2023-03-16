@@ -17,6 +17,8 @@ interface Props {
 
 export const PlotlyChartLine: FC<Props> = ({ dataURL, title }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
+    const [priceType, setPriceType] = useState('nominal');
+
    
     const {data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
 
@@ -32,15 +34,23 @@ export const PlotlyChartLine: FC<Props> = ({ dataURL, title }) => {
         },
         autosize: true,
         legend: {"orientation": "h"},
+        colorway: '#679436'
     };
 
-    const data = pricesLineDataGenerator(predata[0], 'nominal')
+    const data = pricesLineDataGenerator(predata[0], priceType)
 
     return (
-        <Plot
-            key={ uuidv4() }
-            data={ data }
-            layout={ layout }
-        />
+        <div>
+        <select value={priceType} onChange={(e) => setPriceType(e.target.value)}>
+          <option value="nominal">Nominal</option>
+          <option value="ipc">Real</option>
+          <option value="usd">Dolares</option>
+        </select>
+            <Plot
+                key={ uuidv4() }
+                data={ data }
+                layout={ layout }
+            />
+        </div>
     );
 }
