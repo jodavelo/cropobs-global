@@ -1,9 +1,11 @@
 .select-filter {
     color: #a82f31;
-    width: 120px;
+    width: 145px;
     font-weight: 800;
     text-align-last: center;
     outline: none;
     border-radius: 6px;
     border: 2px solid black;
+    padding-right: 0px;
+    padding-left: 0px;
 }

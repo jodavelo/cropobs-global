@@ -25,7 +25,7 @@ export const MapLegend = ({ title='aaaa', percentiles=[0.000089,0.002921,0.00788
                             val2 = commarize(percentiles[index+1]);
                             break;
                     }
-                    return <><i style={{ background: `${colorRange[index]}` }}></i> {(percentiles[index]*100 < 0.01 ? '>' : '')}{val1}-{(percentiles[index+1]*100 < 0.01 ? '>' : '')}{val2}<br></br></>
+                    return <><i key={`${index}_i`} style={{ background: `${colorRange[index]}` }}></i> <span key={`${index}_span`}>{(percentiles[index]*100 < 0.01 ? '>' : '')}{val1}-{(percentiles[index+1]*100 < 0.01 ? '>' : '')}{val2}</span><br key={`${index}_br`}></br></>
                 }
             })
         }
