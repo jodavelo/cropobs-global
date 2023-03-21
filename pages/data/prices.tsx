@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
-import { MainBar, MapView, SidebarComponent } from '../../components/ui';
+import { MainBar, MapViewPrices, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 import Select from 'react-select';
 import styles from './data.module.css';
@@ -80,7 +80,7 @@ const DataPage: NextPage = () => {
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 {/* <Select options={filterOptions} value={filterOptions.filter(option => option.value=== priceFilter)} onChange={(e) =>  handleSelect(e)}/>  */}
-                                    <MapView ></MapView>
+                                    <MapViewPrices ></MapViewPrices>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid', overflow: 'auto' }}>
                                  
