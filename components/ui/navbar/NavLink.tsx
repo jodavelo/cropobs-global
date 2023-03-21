@@ -63,68 +63,12 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
         return (
             // console.log(bigMenu.isHugeMenu, bigMenu.items)
             <BigMenu key={ uuidv4() } title='Data' options={ bigMenu.items! } />
-            // <div className={ styles.dropdown2 }>
-            //     <button className={ styles.dropbtn2 } onClick={ onSetIsHome } style={ href.includes(asPath) && href !== '/'  ? style : undefined }>{ text } 
-            //         <i className="fa fa-caret-down"></i>
-            //     </button>
-            //     <div className={ styles['dropdown2-content'] }>
-            //     {/* <div className={ styles.header }>
-            //         <h2>Mega Menu</h2>
-            //     </div>    */}
-            //     <div className={ styles.row }>
-            //         <div className={ styles.column }>
-            //         <h3>Category 1</h3>
-            //             <Link key={ href } href={ href } locale={ locale } passHref onClick={ onSetIsHome } >
-            //                 Data SF
-            //             </Link>
-            //             <a href="#">Link 2</a>
-            //             <a href="#">Link 3</a>
-            //         </div>
-            //         <div className={ styles.column }>
-            //         <h3>Category 2</h3>
-            //             <a href="#">Link 1</a>
-            //             <a href="#">Link 2</a>
-            //             <a href="#">Link 3</a>
-            //         </div>
-            //         <div className={ styles.column }>
-            //         <h3>Category 3</h3>
-            //             <a href="#">Link 1</a>
-            //             <a href="#">Link 2</a>
-            //             <a href="#">Link 3</a>
-            //         </div>
-            //         <div className={ styles.column }>
-            //         <h3>Category </h3>
-            //             <a href="#">Link 1</a>
-            //             <a href="#">Link 2</a>
-            //             <a href="#">Link 3</a>
-            //         </div>
-            //     </div>
-            //     </div>
-            // </div> 
         );
     }
     
     if( hasMoreOptions ){
         
         return (
-            // <NavDropdown
-            //     title="Dropdown"
-            //     id={`offcanvasNavbarDropdown-expand-${expand}`}
-            //     style={ href === asPath ? dropDownStyle : undefined } //TODO: Falta revisar el active link de los dropdown
-            // >
-            //     <Link href={ href } legacyBehavior passHref>
-            //         <NavDropdown.Item  onClick={ onSetIsHome }>
-            //             { text }
-            //         </NavDropdown.Item>
-            //     </Link>
-            //     {/* <NavDropdown.Item href={ href }>
-            //         { text }
-            //     </NavDropdown.Item>
-            //     <NavDropdown.Divider />
-            //     <NavDropdown.Item href={ href }>
-            //         Something else here
-            //     </NavDropdown.Item> */}
-            // </NavDropdown>
             <div className={styles.dropdown} >
                 {/* <button className={ styles.dropbtn } style={{ padding: 0, border:'none', background: 'none',  }} >About  */}
                 <div className={ styles.dropbtn } style={ href === asPath ? style : undefined } >About 
@@ -141,8 +85,10 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
         )
     }
     return (
-        <Link key={ href } href={ href } locale={ locale } passHref legacyBehavior>
-            <Nav.Link onClick={ onSetIsHome } style={ href === asPath ? style : undefined } className={ styles.spacingNavbarOptions }>{ text }</Nav.Link>
-        </Link>
+        <div className={styles.dropdown}>
+            <Link key={ href } href={ href } locale={ locale } passHref legacyBehavior>
+                <Nav.Link onClick={ onSetIsHome } style={ href === asPath ? style : undefined } className={ styles.spacingNavbarOptions }>{ text }</Nav.Link>
+            </Link>
+        </div>
     )
 }

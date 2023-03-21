@@ -29,17 +29,15 @@ export const BigMenu = ({ title, options }: Props) => {
     let href = '/data';
     const { asPath, locale } = useRouter();
     const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
-    const { width = 0 } = useWindowSize();
+    const { width = 100 } = useWindowSize();
 
     useEffect(() => {
         if( width < 1000 && width > 0 ){
             setColumnWidth( 100 );
-        }else {
-            // alert('aaa')
-            setColumnWidth( 100 / options.length ); 
         }
+        if( width > 1000 ) setColumnWidth( 100 / options.length ); 
         
-    }, [ options ])
+    }, [ width ])
     
 
     const onSetIsHome = () => {
