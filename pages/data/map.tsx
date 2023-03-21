@@ -16,6 +16,7 @@ import { LeftSideMenuContainer } from '../../components/ui/map/filters';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 import useSWR from 'swr';
 import { MapSelect } from '../../components/ui/map/filters';
+import { ElementsData, MacroRegionsData, RegionsData, SelectOptions, YearsData } from '../../interfaces/data';
 
 
 interface sectionState {
@@ -27,10 +28,29 @@ interface sectionState {
     admin: string
 }
 
+interface ElementsState {
+    elementsObj: Record<string, ElementsData>
+    elementsOptions: SelectOptions
+}
+
+interface YearsState {
+    yearsOptions: SelectOptions
+}
+
+interface MacroRegionsState {
+    macroRegionsObj: Record<string, MacroRegionsData>
+    macroRegionsOptions: SelectOptions
+}
+
+interface RegionsState {
+    regionsObj: Record<string, RegionsData>
+    regionsOptions: SelectOptions
+}
+
 const mapFilterElements = [1201, 1202];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
-let clickId = null;
+let clickId: string | number | null = null;
 
 const MapTest: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
@@ -43,19 +63,19 @@ const MapTest: NextPage = () => {
         admin: 'World'
     });
     const { elementId, regionCode, year, admin, macroRegionCode } = sectionState;
-    const [elementsState, setElements] = useState({
+    const [elementsState, setElements] = useState<ElementsState>({
         elementsObj: {},
         elementsOptions: { values: [], names: []}
     });
     const { elementsObj, elementsOptions } = elementsState;
-    const [yearsState, setYears] = useState({ yearsOptions: {values: [], names: []}});
+    const [yearsState, setYears] = useState<YearsState>({ yearsOptions: {values: [], names: []}});
     const { yearsOptions } = yearsState;
-    const [macroRegionsState, setMacroRegions] = useState({
+    const [macroRegionsState, setMacroRegions] = useState<MacroRegionsState>({
         macroRegionsObj: {},
         macroRegionsOptions: { values: [], names: []}
     });
     const { macroRegionsOptions, macroRegionsObj } = macroRegionsState;
-    const [regionsState, setRegions] = useState({
+    const [regionsState, setRegions] = useState<RegionsState>({
         regionsObj: {},
         regionsOptions: { values: [], names: []}
     });
@@ -67,13 +87,13 @@ const MapTest: NextPage = () => {
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
+    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
 
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
+    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId]}/176/${year}`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
 
     useEffect(() => {
         if( buttonBoth ) {
@@ -110,17 +130,17 @@ const MapTest: NextPage = () => {
             map.on('click', 'country_layer', (e) => {
                 setSectionState( (prevState) => ({
                     ...prevState,
-                    countryCode: e.features[0].properties.iso3
+                    countryCode: e.features![0].properties!.iso3
                 }));
-                console.log(e.features[0].properties.country_name);
-                clickId = e.features[0].id;
+                console.log(e.features![0].properties!.country_name);
+                clickId = e.features![0].id ?? null;
             });
         }
     }, [map]);
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
-            const elemsObj = {};
+            const elemsObj: Record<string, ElementsData> = {};
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
             setElements({
                 elementsObj: elemsObj,
@@ -146,12 +166,12 @@ const MapTest: NextPage = () => {
 
     useEffect(() => {
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
-            console.log(macroRegionsObj[macroRegionCode]);
+            console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
             setRegions({
                 regionsObj: regionsData,
-                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, 'region_name', macroRegionsObj[macroRegionCode].id_geo_regions)
+                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, 'region_name', macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
             });
-            let codeRegion;
+            let codeRegion : string;
             let idx = -1;
             macroRegionsObj[macroRegionCode]?.id_geo_regions.forEach( (value, index) => {
                 if (regionsObj[value] && idx == -1){
@@ -159,7 +179,6 @@ const MapTest: NextPage = () => {
                     idx = index;
                 }
             });
-            console.log(codeRegion);
             setSectionState( (prevState) => ({
                 ...prevState,
                 admin: macroRegionCode == '10' ? 'World' : 'region',
@@ -167,10 +186,12 @@ const MapTest: NextPage = () => {
                 countryCode: codeRegion
             }));
             if(map){
-                map.setFeatureState(
-                    { source: 'geo_countries', id: clickId },
-                    { clicked: false }
-                );
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
                 clickId = null;
             }
         }
@@ -183,10 +204,12 @@ const MapTest: NextPage = () => {
             countryCode: regionCode
         }));
         if(map){
-            map.setFeatureState(
-                { source: 'geo_countries', id: clickId },
-                { clicked: false }
-            );
+            if (clickId !== null){
+                map.setFeatureState(
+                    { source: 'geo_countries', id: clickId },
+                    { clicked: false }
+                );
+            }
             clickId = null;
         }
     }, [regionCode])
@@ -214,7 +237,7 @@ const MapTest: NextPage = () => {
                                         <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
                                         <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
                                         <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == 10 ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                     </Row>
                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
                                 </Col>

@@ -1,4 +1,4 @@
-function decimalAdjust(type, value, exp) {
+function decimalAdjust(type: string, value: any, exp: number) {
 	// Si el exp no está definido o es cero...
 	if (typeof exp === 'undefined' || +exp === 0) {
 		return Math[type](value);
@@ -18,7 +18,7 @@ function decimalAdjust(type, value, exp) {
 	return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
 }
 
-export const commarize = (value) => {
+export const commarize = (value: number) => {
 	// Alter numbers larger than 1k
 	if (value >= 1e3) {
 		var units = ["k", "M", "B", "T"];

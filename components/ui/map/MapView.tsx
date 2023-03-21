@@ -1,11 +1,10 @@
 import { useEffect, useRef, useContext, useState } from 'react';
 import mapboxgl, { Map } from 'mapbox-gl';
 import { MapContext } from '../../../context/map';
-import { LeftSideMenuContainer } from './filters';
-import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
 import useSWR from 'swr';
 import { dataFetcher } from '../../../helpers/data';
 import { MapLegend } from './legend/MapLegend';
+import { Data, GeoJSONData } from '../../../interfaces/data/map';
 
 interface Props {
     geoJsonURL: string
@@ -16,13 +15,18 @@ interface Props {
     legendTitle: string
 }
 
-const featureValueUpdate = (source, newData) => {
+interface AdminJsonData {
+    adminJson: Record<string, number>
+    values: Number[]
+}
+
+const featureValueUpdate = (source: Data, newData: Record<string, number>) => {
    source.features.forEach( (feature) => {
       feature.properties.value = newData[feature.properties.iso3]
    });
 }
 
-const changeFillColor = (map, steps) => {
+const changeFillColor = (map: mapboxgl.Map, steps: Number[]) => {
     const fillColor = [
         'case',
         ['boolean', ['feature-state', 'clicked'], false],
@@ -40,7 +44,7 @@ const changeFillColor = (map, steps) => {
     map.setPaintProperty('country_layer', 'fill-color', fillColor);
 }
 
-const changeLineWidth = (map, adminIds, mode='') => {
+const changeLineWidth = (map: mapboxgl.Map, adminIds: String[], mode='') => {
     const lineWidth = mode !== 'default' ? [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
@@ -68,41 +72,34 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
     const [zoom, setZoom] = useState(0.41);
     const [loaded, setLoaded] = useState(false)
     const { setMap } = useContext( MapContext );
-    let hoveredStateId = null;
-    let clickedStateId = null;
+    let hoveredStateId: number | string | null = null;
+    let clickedStateId: number | string | null = null;
 
-    const { data: predata, isLoading: isLoadingGeo, error: errorGeo } = useSWR(geoJsonURL, dataFetcher);
+    const { data: predata, isLoading: isLoadingGeo, error: errorGeo } = useSWR<GeoJSONData>(geoJsonURL, dataFetcher);
 
-    const { data: adminIds } = useSWR(adminIdsURL, dataFetcher);
-    const { data: adminJsonValues } = useSWR( () => percentileURL + `&adminIds=${JSON.stringify( adminIds )}`, dataFetcher);
-    const { data: quintilArray, isLoading: isLoadingQuintil } = useSWR( () => quintilURL + `?valuesArray=${JSON.stringify(adminJsonValues.values)}`, dataFetcher);
+    const { data: adminIds } = useSWR<String[]>(adminIdsURL, dataFetcher);
+    const { data: adminJsonValues } = useSWR<AdminJsonData>( () => percentileURL + `&adminIds=${JSON.stringify( adminIds )}`, dataFetcher);
+    const { data: quintilArray, isLoading: isLoadingQuintil } = useSWR<Number[]>( () => quintilURL + `?valuesArray=${JSON.stringify(adminJsonValues?.values)}`, dataFetcher);
 
     if (errorGeo) console.log('error')
-    /* else if (predata && map.current?.getSource('geo_countries')) {
-        const { data: geojson } = predata;
-        if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);
-        console.log(geojson);
-        map.current.getSource('geo_countries').setData(geojson);
-        if (quintilArray) changeFillColor(map.current, quintilArray);
-    } */
 
     useEffect(() => {
-        if (map.current) return;
+        if (map.current!) return;
         console.log('creating new map canvas');
-        map.current = new Map({
+        map.current! = new Map({
             container: mapDiv.current!, // container ID
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
             center: [lng, lat], // starting position [lng, lat]
             zoom: zoom, // starting zoom
             trackResize: true
         });
-        map.current.on('load', () => {
-            map.current.addSource('geo_countries', {
+        map.current!.on('load', () => {
+            map.current!!.addSource('geo_countries', {
                 type: 'geojson',
-                data: {},
+                data: undefined,
                 generateId: true
             });
-            map.current.addLayer({
+            map.current!.addLayer({
                 id: 'country_layer',
                 type: 'fill',
                 source: 'geo_countries',
@@ -111,7 +108,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
                     'fill-opacity': 0.7
                 }
             });
-            map.current.addLayer({
+            map.current!.addLayer({
                 id: 'country_layer_alter',
                 type: 'fill',
                 source: 'geo_countries',
@@ -125,7 +122,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
                     'fill-opacity': 0.7
                 }
             });
-            map.current.addLayer({
+            map.current!.addLayer({
                 id: 'country_layer_line',
                 type: 'line',
                 source: 'geo_countries',
@@ -139,140 +136,125 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
                     ]
                 }
             });
-            map.current.on('mouseenter', 'country_layer', () => {
-                map.current.getCanvas().style.cursor = 'pointer';
+            map.current!.on('mouseenter', 'country_layer', () => {
+                map.current!.getCanvas().style.cursor = 'pointer';
             });
-            map.current.on('mousemove', 'country_layer', (e) => {
-                if (e.features.length > 0) {
+            map.current!.on('mousemove', 'country_layer', (e) => {
+                if (e.features?.length! > 0) {
                     if (hoveredStateId !== null) {
-                        map.current.setFeatureState(
+                        map.current!.setFeatureState(
                             { source: 'geo_countries', id: hoveredStateId},
                             { hover: false }
                         );
                     }
-                    hoveredStateId = e.features[0].id;
-                    map.current.setFeatureState(
-                        { source: 'geo_countries', id: hoveredStateId },
+                    hoveredStateId = e.features![0].id ?? null;
+                    map.current!.setFeatureState(
+                        { source: 'geo_countries', id: hoveredStateId == null ? undefined : hoveredStateId },
                         { hover: true }
                     );
                 }
             });
-            map.current.on('mouseleave', 'country_layer', () => {
+            map.current!.on('mouseleave', 'country_layer', () => {
                 if (hoveredStateId !== null) {
-                    map.current.setFeatureState(
+                    map.current!.setFeatureState(
                         { source: 'geo_countries', id: hoveredStateId},
                         { hover: false }
                     );
                 }
-                map.current.getCanvas().style.cursor = '';
+                map.current!.getCanvas().style.cursor = '';
                 hoveredStateId = null;
             });
-            map.current.on('click', 'country_layer', (e) => {
-                if (e.features.length > 0) {
+            map.current!.on('click', 'country_layer', (e) => {
+                if (e.features?.length! > 0) {
                     console.log("on click");
                     if (clickedStateId == null) {
-                        map.current.setFeatureState(
-                            { source: 'geo_countries', id: clickedStateId},
+                        map.current!.setFeatureState(
+                            { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
                             { clicked: true }
                         );
                     }
                     else {
-                        map.current.setFeatureState(
+                        map.current!.setFeatureState(
                             { source: 'geo_countries', id: clickedStateId},
                             { clicked: false }
                         );
                     }
-                    clickedStateId = e.features[0].id;
-                    map.current.setFeatureState(
-                        { source: 'geo_countries', id: clickedStateId },
+                    clickedStateId = e.features![0].id ?? null;
+                    map.current!.setFeatureState(
+                        { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
                         { clicked: true }
                     );
                 }
             });
-            map.current.on('mouseenter', 'country_layer_alter', () => {
-                map.current.getCanvas().style.cursor = 'pointer';
+            map.current!.on('mouseenter', 'country_layer_alter', () => {
+                map.current!.getCanvas().style.cursor = 'pointer';
             });
-            map.current.on('mousemove', 'country_layer_alter', (e) => {
-                if (e.features.length > 0) {
+            map.current!.on('mousemove', 'country_layer_alter', (e) => {
+                if (e.features?.length! > 0) {
                     if (hoveredStateId !== null) {
-                        map.current.setFeatureState(
+                        map.current!.setFeatureState(
                             { source: 'geo_countries', id: hoveredStateId},
                             { hover: false }
                         );
                     }
-                    hoveredStateId = e.features[0].id;
-                    map.current.setFeatureState(
-                        { source: 'geo_countries', id: hoveredStateId },
+                    hoveredStateId = e.features![0].id ?? null;
+                    map.current!.setFeatureState(
+                        { source: 'geo_countries', id: hoveredStateId == null ? undefined : hoveredStateId },
                         { hover: true }
                     );
                 }
             });
-            map.current.on('mouseleave', 'country_layer_alter', () => {
+            map.current!.on('mouseleave', 'country_layer_alter', () => {
                 if (hoveredStateId !== null) {
-                    map.current.setFeatureState(
+                    map.current!.setFeatureState(
                         { source: 'geo_countries', id: hoveredStateId},
                         { hover: false }
                     );
                 }
-                map.current.getCanvas().style.cursor = '';
+                map.current!.getCanvas().style.cursor = '';
                 hoveredStateId = null;
             });
-            map.current.on('click', 'country_layer_alter', (e) => {
-                if (e.features.length > 0) {
+            map.current!.on('click', 'country_layer_alter', (e) => {
+                if (e.features?.length! > 0) {
                     if (clickedStateId == null) {
-                        map.current.setFeatureState(
-                            { source: 'geo_countries', id: clickedStateId},
+                        map.current!.setFeatureState(
+                            { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId},
                             { clicked: true }
                         );
                     }
                     else {
-                        map.current.setFeatureState(
+                        map.current!.setFeatureState(
                             { source: 'geo_countries', id: clickedStateId},
                             { clicked: false }
                         );
                     }
-                    clickedStateId = e.features[0].id;
-                    map.current.setFeatureState(
-                        { source: 'geo_countries', id: clickedStateId },
+                    clickedStateId = e.features![0].id ?? null;
+                    map.current!.setFeatureState(
+                        { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
                         { clicked: true }
                     );
                 }
             });
             setLoaded(true);
         });
-        setMap( map.current );
+        setMap( map.current! );
     });
 
     useEffect( () => {
          console.log('Geo:'+isLoadingGeo+' '+'Quintil:'+isLoadingQuintil);
-        if (!isLoadingGeo && !isLoadingQuintil && loaded && quintilArray) {
+        if (!isLoadingGeo && !isLoadingQuintil && loaded && quintilArray && predata) {
             const { data: geojson } = predata;
             if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);
             console.log(geojson);
-            map.current.getSource('geo_countries').setData(geojson);
+            map.current!.getSource('geo_countries').setData(geojson);
             console.log('in');
-            map.current.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
-            map.current.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
-            if (admin !== 'World') changeLineWidth(map.current, adminIds)
-            else changeLineWidth(map.current, adminIds, 'default');
-            changeFillColor(map.current, quintilArray);
+            map.current!.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
+            map.current!.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
+            if (admin !== 'World' && adminIds) changeLineWidth(map.current!, adminIds)
+            else if (adminIds) changeLineWidth(map.current!, adminIds, 'default');
+            changeFillColor(map.current!, quintilArray);
         }
     }, [adminIdsURL, isLoadingGeo, isLoadingQuintil, loaded]);
-
-    
-    /* useEffect(() => {
-        if (!map.current) return; // wait for map to initialize
-        map.current.on('move', () => {
-            setLng(Number(map.current!.getCenter().lng.toFixed(4)));
-            setLat(Number(map.current!.getCenter().lat.toFixed(4)));
-            setZoom(Number(map.current!.getZoom().toFixed(2)));
-        });
-    }); */
-
-    /* useEffect(() => {
-        if (!map.current) return; // wait for map to initialize
-        map.current.getSource().setData();
-    }, [geoJsonURL]); */
 
     return (
       <>
