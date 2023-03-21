@@ -1,6 +1,7 @@
 .podium-container {
     height: 50%;
     width: 100%;
+    margin-bottom: 18px;
     background-color: transparent;
 }
 .podium-description {
@@ -24,7 +25,8 @@
     border: 1px transparent solid;
 }
 .podium-footer {
-    height: 10%;
+    margin-top: 18px;
+    height: 13%;
     width: 100%;
     border: 1px transparent solid;
     display: flex;
@@ -49,8 +51,13 @@
     width: 100%;
 }
 .bar-description {
-    height: 30%;
-    width: 90%;
+    margin-top: 4px;
+    padding-right: 15px;
+    height: 35%;
+    width: 85px;
+    text-align: center;
+    font-weight: 350;
+    font-size: 0.95rem;
     display: flex;
     flex-direction: column;
 }
