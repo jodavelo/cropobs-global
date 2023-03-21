@@ -1,9 +1,18 @@
+import React, { FC } from 'react';
+import { SelectOptions } from '../../../../interfaces/data';
 import styles from './mapSelect.module.css';
 
-export const MapSelect = ({ options={ values: [], names: []}, selected, setSelected, atrName }) => {
+interface MapSelectInterface {
+    options: SelectOptions
+    selected: string | number
+    setSelected: Function
+    atrName: string
+}
+
+export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName }) => {
     const { values, names } = options;
-    const handleSelect = (e) => {
-        setSelected( (prevState) => ({
+    const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelected( (prevState: Record<string, any>) => ({
             ...prevState,
             [atrName]: e.target.value
         }));
