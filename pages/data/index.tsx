@@ -136,7 +136,6 @@ const DataPage: NextPage = () => {
   const yield_data = yieldJson.map((datum: any) => datum.value);
   const { t: dataTranslate } = useTranslation('data');
 
-    console.log({ buttonBoth, buttonGraphs, buttonMap })
     return (
         <Layout title={ dataTranslate('title-header') }>
             

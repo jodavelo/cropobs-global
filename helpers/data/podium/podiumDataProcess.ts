@@ -20,14 +20,27 @@ export const podiumDataProcess = (predata: RankingData[]) => {
     const data = Array(predata.length);
     predata.forEach( (entry: RankingData) => {
         const { pos, heightBar, heightTransparentBar } = getRankObj(entry.ranking);
-        data[pos]= {
-            rank: entry.ranking,
-            cropName: entry.crop_name,
-            urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
-            heightBar,
-            heightTransparentBar,
-            color:  'rgb(181, 181, 181)'
-        };
+        if ( typeof data[pos] !== "undefined"){
+            data[pos+2]= {
+                rank: entry.ranking+1,
+                cropName: entry.crop_name,
+                urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                heightBar,
+                heightTransparentBar,
+                color:  'rgb(181, 181, 181)'
+            };
+        }
+        else{
+            data[pos]= {
+                rank: entry.ranking,
+                cropName: entry.crop_name,
+                urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                heightBar,
+                heightTransparentBar,
+                color:  'rgb(181, 181, 181)'
+            };
+        }
+        
     });
     return data;
 }

@@ -1,0 +1,19 @@
+.porcentages-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.porcentage-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: -webkit-fill-available;
+}
+
+.porcentage-value{
+
+}
+
+.porcentage-text{
+
+}
