@@ -9,16 +9,14 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './data.module.css';
-import { DataPodium, Podium } from '../../components/data';
 import { LineChartjs } from '../../components/data/chartjs-charts';
 import { annual_growth_options, ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
-import { PodiumWithLink } from '../../components/data/podium/PodiumWithLink';
-import { PodiumSelection } from '../../components/data/podium/PodiumSelection';
+import { PodiumSelection } from '../../components/data/podium';
 import { ChartSelection } from '../../components/data/charts';
 import { harvested_production_yield } from '../../helpers/data/chartjs-options/harvested-production-yield';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
-import { LeftSideMenuContainer, MapSelect, TopSideMenuContainer } from '../../components/ui/map/filters';
+import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
 import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, YearsData, YearsState } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 
@@ -268,7 +266,7 @@ const ProductionPage: NextPage = () => {
                             <Row>
                                 <LeftSideMenuContainer/>
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
+                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
                                         <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
                                         <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
                                         <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
