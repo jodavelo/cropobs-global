@@ -31,3 +31,22 @@ export interface SelectOptions {
     values: number[] | string[];
     names: string[];
 }
+
+export interface ElementsState {
+    elementsObj: Record<string, ElementsData>
+    elementsOptions: SelectOptions
+}
+
+export interface YearsState {
+    yearsOptions: SelectOptions
+}
+
+export interface MacroRegionsState {
+    macroRegionsObj: Record<string, MacroRegionsData>
+    macroRegionsOptions: SelectOptions
+}
+
+export interface RegionsState {
+    regionsObj: Record<string, RegionsData>
+    regionsOptions: SelectOptions
+}

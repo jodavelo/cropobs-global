@@ -13,8 +13,8 @@ export const LeftSideMenuContainer = () => {
     return (
         <div className={ styles['left-side-menu-container'] }>
             <LeftSideButton buttonId={1} isActiveButton={ buttonGraphs } toolTipText='Something' urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-10.png'/>
-            <LeftSideButton buttonId={2} isActiveButton={ buttonBoth } toolTipText='Something' urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-10.png'/>
-            <LeftSideButton buttonId={3} isActiveButton={ buttonMap } toolTipText='Something' urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-10.png'/>
+            <LeftSideButton buttonId={2} isActiveButton={ buttonBoth } toolTipText='Something' urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-09.png'/>
+            <LeftSideButton buttonId={3} isActiveButton={ buttonMap } toolTipText='Something' urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-08.png'/>
         </div>
     )
 }
