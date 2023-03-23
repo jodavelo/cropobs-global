@@ -5,11 +5,16 @@ import { LeftSideMenuContainer } from './filters';
 import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
 
 
-interface Props {
-    children?: JSX.Element | JSX.Element[]
+interface marker {    
+    priceDataGeopoint: object
 }
 
-export const MapViewPrices = ({ children }: Props) => {
+interface Props {
+    children?: JSX.Element | JSX.Element[]
+    markers?: marker
+}
+
+export const MapViewPrices = ({ children,  markers }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
@@ -26,17 +31,8 @@ export const MapViewPrices = ({ children }: Props) => {
             zoom: zoom, // starting zoom
             trackResize: true
         });
-        setMap( map.current );
-
-        const marker = new Marker({
-            color: "#679436",
-            draggable: true
-        })
-            .setLngLat([122.4, 37.8])
-            .addTo(map.current!);
+        setMap( map.current );   
     });
-
-    
    
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize
@@ -46,6 +42,20 @@ export const MapViewPrices = ({ children }: Props) => {
             setZoom(Number(map.current!.getZoom().toFixed(2)));
         });
     });
+
+    
+    useEffect(()=>{
+      let points=[]
+        if(map.current && markers?.priceDataGeopoint &&  markers?.priceDataGeopoint.features){
+            
+          
+         console.log(markers?.priceDataGeopoint?.features)
+        points = markers?.priceDataGeopoint?.features
+           points.map((m)=>{ 
+              return new Marker().setLngLat(m.geometry.coordinates).addTo(map.current!);
+            })
+        }
+    },[markers, map])
 
     return (
         <div 

@@ -16,7 +16,7 @@ export const ToggleDescription: FC<Props> = ({ isOpen, text }) => {
     return (
         <>
             <Collapse in={ isOpen }>
-                <div id={ uuidv4() } key={ uuidv4() }>
+                <div key={ uuidv4() }>
                     { text }
                 </div>
             </Collapse>
