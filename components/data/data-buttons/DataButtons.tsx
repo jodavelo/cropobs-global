@@ -6,6 +6,8 @@ import { Button, Collapse } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
 import { FC, useState } from 'react';
 import { saveAs } from 'file-saver';
+import domtoimage from 'dom-to-image';
+import { Blob } from 'buffer';
 
 interface Props {
     text: string
@@ -14,8 +16,8 @@ interface Props {
 }
 
 const saveCanvas = (elementId: string) => {
-    const canvasSave = document.getElementById(elementId) as HTMLCanvasElement;
-    canvasSave!.toBlob( (blob) => saveAs(blob, `${elementId}.png`) );
+    domtoimage.toBlob( document.getElementById(elementId))
+        .then( (blob: Blob) => saveAs(blob, `${elementId}.png`) );
 }
 
 export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {

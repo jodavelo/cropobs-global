@@ -210,17 +210,20 @@ const ProductionPage: NextPage = () => {
         {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1103/176/${year}`,
             text: `In ${year}, crop was the fastest-growing crop in production in relation to ${year - 1}`,
-            name: 'Production'
+            name: 'Production',
+            description: 'podium de producción'
         },
         {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1101/176/${year}`,
             text: `In ${year}, crop was the fastest-growing crop in area in relation to ${year - 1}`,
-            name: 'Area'
+            name: 'Area',
+            description: 'podium de área'
         },
         {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1102/176/${year}`,
             text: `In ${year}, crop was the fastest-growing crop in yield in relation to ${year - 1}`,
-            name: 'Yield'
+            name: 'Yield',
+            description: 'podium de yield'
         },
     ]
 

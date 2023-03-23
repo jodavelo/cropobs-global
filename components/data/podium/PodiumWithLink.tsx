@@ -1,23 +1,26 @@
-import { useRef, useCallback, FC } from 'react';
-import Button from 'react-bootstrap/Button';
-import DownloadIcon from '@mui/icons-material/Download';
+import { useRef, useCallback, FC, useState } from 'react';
 import useSWR from 'swr';
 import { dataFetcher } from "../../../helpers/data";
 import download from 'downloadjs';
 import { toPng } from "html-to-image";
 import styles from './podium.module.css';
-import { DataPodium, PodiumBarContainer } from './';
+import { PodiumBarContainer } from './';
 import { podiumDataProcess } from '../../../helpers/data/podium/podiumDataProcess';
+import { DataButtons } from '../data-buttons';
+import { ModalForm } from '../modal-form';
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface Props {
-    dataURL: string,
+    dataURL: string
     text: string
+    description: string
 }
 
-export const PodiumWithLink: FC<Props> = ({ dataURL, text }) => {
+export const PodiumWithLink: FC<Props> = ({ dataURL, text, description='' }) => {
 
     const htmlRef = useRef<HTMLDivElement>(null);
+    const [showModal, setShowModal] = useState(false);
 
     const podumDownload = useCallback(async() => {
         if( htmlRef.current ){
@@ -37,17 +40,25 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text }) => {
 
     const data = podiumDataProcess(predata);
 
+    const id = uuidv4();
+
     return (
-        <div ref={ htmlRef } className={ styles['podium-container'] }>
-            <div className={ styles['podium-description'] }>
-                <span className={ styles['podium-text-description'] }>{ text }</span>
+        <>
+            <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
+                <div className={ styles['podium-description'] }>
+                    <span className={ styles['podium-text-description'] }>{ text }</span>
+                </div>
+                <div className={ styles['podium-body'] }>
+                    <PodiumBarContainer data={ data } />
+                </div>
             </div>
-            <div className={ styles['podium-body'] }>
-                <PodiumBarContainer data={ data } />
-            </div>
-            <div className={ styles['podium-footer'] }>
-                <Button className={ styles.button } onClick={ podumDownload }><DownloadIcon/></Button>
-            </div>
-        </div>
+            <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
+            {showModal ? (
+                <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+            ) : null
+            }
+        </>
+
+
     )
 }
