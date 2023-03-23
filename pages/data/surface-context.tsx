@@ -13,10 +13,14 @@ import styles from './data.module.css';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer } from '../../components/ui/map/filters';
-import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
+import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions, removeDuplicateObjects } from '../../helpers/data';
 import useSWR from 'swr';
 import { MapSelect } from '../../components/ui/map/filters';
-import { ElementsData, MacroRegionsData, RegionsData, SelectOptions, YearsData } from '../../interfaces/data';
+import { ElementsData, MacroRegionsData, PercentInfoProps, RegionsData, SelectOptions, YearsData } from '../../interfaces/data';
+import { PodiumWithLink } from '../../components/data/podium';
+import { PercentContainer } from '../../components/data/percent-info';
+import { PlotlyChartStackedAreaContainer } from '../../components/data';
+import { beansApi } from '../../apis';
 
 
 interface sectionState {
@@ -63,6 +67,8 @@ const MapTest: NextPage = () => {
         admin: 'World'
     });
     const { elementId, regionCode, year, admin, macroRegionCode } = sectionState;
+    const [onAverageIndicator, setOnAverageIndicator] = useState(0);
+    const [indicators, setIndicators] = useState<PercentInfoProps[]>([]);
     const [elementsState, setElements] = useState<ElementsState>({
         elementsObj: {},
         elementsOptions: { values: [], names: []}
@@ -96,7 +102,7 @@ const MapTest: NextPage = () => {
     const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
 
     useEffect(() => {
-        console.log(`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`)
+        // console.log(`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`)
         if( buttonBoth ) {
             setMapCol(6)
             setGraphsCol(6)
@@ -129,16 +135,17 @@ const MapTest: NextPage = () => {
     useEffect(() => {
         if (map){
             map.on('click', 'country_layer', (e) => {
+                console.log('aaaaaaa')
                 setSectionState( (prevState) => ({
                     ...prevState,
                     countryCode: e.features![0].properties!.iso3
                 }));
-                console.log(e.features![0].properties!.country_name);
+                // console.log(e.features![0].properties!.country_name);
                 clickId = e.features![0].id ?? null;
             });
         }
     }, [map]);
-
+// ------------------------------------------------------------------------------------------------
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
             const elemsObj: Record<string, ElementsData> = {};
@@ -167,7 +174,7 @@ const MapTest: NextPage = () => {
 
     useEffect(() => {
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
-            console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
+            // console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
             setRegions({
                 regionsObj: regionsData,
                 regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, 'region_name', macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
@@ -215,8 +222,66 @@ const MapTest: NextPage = () => {
         }
     }, [regionCode])
 
+    // useEffect(() => {
+    //     const request = async() => {
+    //         const response = await beansApi.get(`/api/v1/data/podium/WLRD/5412/27${ year }`);
+    //         console.log(response)
+    //     }
+    //     request();
+    // }, [regionCode, year])
 
+    useEffect(() => {
+        // ---------------------------------------------------------------------------------------------------
+        // To get indicators data
+        // ---------------------------------------------------------------------------------------------------
+        beansApi.get('api/v1/data/value/rice_surface_context/VALUE/WLRD/1101/27/'+year).then((response) => {
+            // console.log(response.data)
+            setOnAverageIndicator( response.data );
+        })
+        beansApi.get('api/v1/data/value/rice_surface_context/VALUE/WLRD/1201/27/'+year).then((response) => {
+            const percent = Number(response.data * 100).toFixed(2);
+            console.log(percent)
+            const indicatorObject: PercentInfoProps = {
+                label: 'of the total cropland area',
+                percent
+            }
+            setIndicators( indicators => [...indicators, indicatorObject] );
+        })
+        beansApi.get('api/v1/data/value/rice_surface_context/VALUE/WLRD/1202/27/'+year).then((response) => {
+            const percent2 = Number(response.data * 100).toFixed(2);
+            const indicatorObject2: PercentInfoProps = {
+                label: 'of the total cereal area',
+                percent: percent2
+            }
+            setIndicators( indicators => [...indicators, indicatorObject2] );
+        })
+        const arr = removeDuplicateObjects(indicators)
+        console.log(arr)
+        setIndicators(arr)
+    }, [year])
+    
 
+    const podiumConfigSurface = [
+        {
+            url: `https://cropobs-central.ciat.cgiar.org/api/v1/data/podium/WLRD/5412/27/2020`,
+            text: `Rice was the 3° most important crop in relation to harvested area (ranking) in year 2020 to ${2020 - 1}`,
+            name: 'Surface'
+        },
+        // {
+        //     url: `https://cropobs-central.ciat.cgiar.org/api/v1/data/podium/${regionCode}/1101/176/${year}`,
+        //     text: `Ìn 2020, crop was the fastest-growing crop in area in relation to ${year - 1}`,
+        //     name: 'Area'
+        // },
+        // {
+        //     url: `https://cropobs-central.ciat.cgiar.org/api/v1/data/podium/${regionCode}/1102/176/2020`,
+        //     text: `Ìn 2020, crop was the fastest-growing crop in yield in relation to ${year - 1}`,
+        //     name: 'Yield'
+        // },
+    ]
+
+    // console.log({ 'first': `${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`, 'second': `${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`, 'thrid': `${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`, 'fouth': `${baseURL}/api/v1/percentile/heatmap`})
+    // console.log(sectionState)
+    // console.log(`${ baseURL }/api/v1/chart/default/rice_surface_context/${regionCode}?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]`)
     return (
         <Layout title={ dataTranslate('title-header') }>
             <Container fluid>
@@ -240,7 +305,17 @@ const MapTest: NextPage = () => {
                                         <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
                                         { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                     </Row>
-                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
+                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
+                                </Col>
+                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid', overflow: 'auto' } : { display: 'none' } }>
+                                    
+                                    {/* <PodiumSelection podiumsList={podiumConfigSurface} showSelect={ false }/> */}
+                                    <PodiumWithLink dataURL={ `${ baseURL }/api/v1/data/podium/WLRD/5412/27/${ year }` } text={`Rice was the 3° most important crop in relation to harvested area (ranking) in year ${year}`} />
+                                    <p style={{ textAlign: 'center', padding: '20px 0px' }}>	On average, rice was the { onAverageIndicator }° crop to growth the most in the last decade</p>
+                                    <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p>
+                                    <PercentContainer data={ indicators } percentAlone={ false } />
+                                    <PlotlyChartStackedAreaContainer fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${regionCode}?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} />
+                                    <PlotlyChartStackedAreaContainer fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${regionCode}?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} />
                                 </Col>
                             </Row>                            
                         </Container>

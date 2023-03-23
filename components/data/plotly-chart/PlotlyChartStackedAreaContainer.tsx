@@ -64,7 +64,7 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({ fetchDataUrl, cropN
         }
         algo();
         
-    }, [])
+    }, [fetchDataUrl])
     ///console.log({ selected })
     return (
         <>

@@ -4,7 +4,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import styles from './percent.module.css';
 
 interface Props {
-  percent: number;
+  percent: string;
   label: string;
   secondaryLabel?: string;
 }
