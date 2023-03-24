@@ -27,9 +27,8 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text, description='' }) => 
             download( await toPng( htmlRef.current, { filter: filter } ), "test.png" );
         }
     }, [htmlRef?.current]);
-
     const filter = (node: HTMLElement) => {
-        const exclusionClasses = ['podium_podium-footer__a0i9H'];
+        const exclusionClasses = ['podium-footer'];
         return !exclusionClasses.some((classname) => node.classList?.contains(classname));
     }
 
