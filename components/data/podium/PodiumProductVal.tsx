@@ -12,19 +12,21 @@ import { podiumDataProcess } from '../../../helpers/data/podium/podiumDataProces
 
 interface Props {
     dataURL: string,
-    text: string
+    year: number,
 }
 
-export const PodiumWithLink: FC<Props> = ({ dataURL, text }) => {
+export const PodiumProductVal: FC<Props> = ({ dataURL, year }) => {
 
     const htmlRef = useRef<HTMLDivElement>(null);
+
     const podumDownload = useCallback(async() => {
         if( htmlRef.current ){
             download( await toPng( htmlRef.current, { filter: filter } ), "test.png" );
         }
     }, [htmlRef?.current]);
+
     const filter = (node: HTMLElement) => {
-        const exclusionClasses = ['podium-footer'];
+        const exclusionClasses = ['podium_podium-footer__a0i9H'];
         return !exclusionClasses.some((classname) => node.classList?.contains(classname));
     }
 
@@ -38,7 +40,7 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text }) => {
     return (
         <div ref={ htmlRef } className={ styles['podium-container'] }>
             <div className={ styles['podium-description'] }>
-                <span className={ styles['podium-text-description'] }>{ text }</span>
+                <span className={ styles['podium-text-description'] }>In {year}, beans were the {data[3].rank}° most important crop in relation to the value of production  </span>
             </div>
             <div className={ styles['podium-body'] }>
                 <PodiumBarContainer data={ data } />
