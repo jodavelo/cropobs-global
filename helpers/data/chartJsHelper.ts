@@ -1,3 +1,5 @@
+import { hexToRgbA } from "../hexToRgbA";
+
 interface ItemNames {
     id: string,
     name: string
@@ -73,7 +75,7 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
                 dataObj = {
                     label: item.name,
                     borderColor: Object.values(chartColors)[index],
-                    backgroundColor: Object.values(chartColors)[index],
+                    backgroundColor: hexToRgbA(Object.values(chartColors)[index], 0.6),
                     fill: config.fill,
                     pointRadius: config.pointRadius,
                     data: dataArr[item.id],

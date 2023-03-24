@@ -16,7 +16,7 @@ import { LeftSideMenuContainer } from '../../components/ui/map/filters';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 import useSWR from 'swr';
 import { MapSelect } from '../../components/ui/map/filters';
-import { ElementsData, MacroRegionsData, RegionsData, SelectOptions, YearsData } from '../../interfaces/data';
+import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, SelectOptions, YearsData, YearsState } from '../../interfaces/data';
 
 
 interface sectionState {
@@ -26,25 +26,6 @@ interface sectionState {
     countryCode: string
     year: number
     admin: string
-}
-
-interface ElementsState {
-    elementsObj: Record<string, ElementsData>
-    elementsOptions: SelectOptions
-}
-
-interface YearsState {
-    yearsOptions: SelectOptions
-}
-
-interface MacroRegionsState {
-    macroRegionsObj: Record<string, MacroRegionsData>
-    macroRegionsOptions: SelectOptions
-}
-
-interface RegionsState {
-    regionsObj: Record<string, RegionsData>
-    regionsOptions: SelectOptions
 }
 
 const mapFilterElements = [1201, 1202];
