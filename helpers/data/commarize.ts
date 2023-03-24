@@ -1,6 +1,7 @@
 function decimalAdjust(type: string, value: any, exp: number) {
 	// Si el exp no está definido o es cero...
 	if (typeof exp === 'undefined' || +exp === 0) {
+		//@ts-ignore: No encuentro qué tipo debe tener type para que sea reconocible como un atributo de Math
 		return Math[type](value);
 	}
 
@@ -12,6 +13,7 @@ function decimalAdjust(type: string, value: any, exp: number) {
 	}
 	// Shift
 	value = value.toString().split('e');
+	//@ts-ignore: No encuentro qué tipo debe tener type para que sea reconocible como un atributo de Math
 	value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
 	// Shift back
 	value = value.toString().split('e');

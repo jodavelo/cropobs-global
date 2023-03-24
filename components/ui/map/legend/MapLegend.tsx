@@ -6,11 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 interface MapLegendInterface {
     title: string
     percentiles: number[]
-    colorRange: string[]
-    unit: string
+    colorRange?: string[]
+    unit?: string
 }
 
-export const MapLegend: FC<MapLegendInterface> = ({ title='No title', percentiles=[], colorRange=['#E4A0A1','#DB8081','#D26062','#C94042','#A82F31'], unit }) => {
+export const MapLegend: FC<MapLegendInterface> = ({ title='No title', percentiles=[], colorRange=['#E4A0A1','#DB8081','#D26062','#C94042','#A82F31'], unit='' }) => {
   return (
     <div className={ `${styles['info']} ${styles['legend']}` }>
         <strong>{ title }</strong><br></br>
