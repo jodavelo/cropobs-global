@@ -40,25 +40,15 @@ const DataPage: NextPage = () => {
         elementsOptions: { values: [], names: []}
     });
     const { elementsObj, elementsOptions } = elementsState;
-    
+    const [chartTitle, setChartTitle] = useState<string>('');
+ 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
   
     const getPriceData = (elementId: SetStateAction<number>) => {
         axios.get(`https://cassavalighthouse.org/api/v1/geojson/admin2/prices/Nals/${elementId}`)
             .then(res=>{setPriceData( res.data.data.geo_points)})
     }
-
-    const getTitle = () => {
-         // logic to determine the title based on priceFilter
-        if (elementId === 300052) {
-           return 'Producer Price';
-        } else if (elementId === 300051) {
-           return 'Consumer Price';
-        } else {
-           return 'Wholesale price';
-        }
-    }
-
+    
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
             const elemsObj: Record<string, ElementsData> = {};
@@ -70,9 +60,15 @@ const DataPage: NextPage = () => {
         }
     }, [isLoadingElements]);
     //console.log(elementsData);
-
+    useEffect(() => {
+        if (elementsObj[elementId]) {
+            const elementName = elementsObj[elementId].ELEMENT_EN;
+            setChartTitle(` ${elementName}`);
+        }
+    }, [elementId, elementsObj]);
+    
     useEffect(()=>{
-        getPriceData(elementId)
+        getPriceData(elementId);
     },[elementId])
 
     return (
@@ -88,16 +84,16 @@ const DataPage: NextPage = () => {
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                 {/* <Select options={filterOptions} value={filterOptions.filter(option => option.value=== priceFilter)} onChange={(e) =>  handleSelect(e)}/>   */}
-                                        <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-
-                                         <MapViewPrices markers={{priceDataGeopoint: priceData}}></MapViewPrices>
+                                <Col xs={ 12 }  xl={ 6 } style={ { display: 'block', height: '80vh', position: 'relative' }} className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
+                                            <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                    </Row>
+                                        <MapViewPrices markers={{priceDataGeopoint: priceData}} ></MapViewPrices>
                                 </Col>
                                 <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid', overflow: 'auto' }}>
                                  
-                                    <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=174&id_geo_point=7847`} title={getTitle()}/>
-                                    <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=174&id_geo_point=7847`} title={getTitle()}/>
+                                    <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=174&id_geo_point=7847`} title={chartTitle}/>
+                                    <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=174&id_geo_point=7847`} title={chartTitle}/>
                                 </Col>
                             </Row>                            
                         </Container>

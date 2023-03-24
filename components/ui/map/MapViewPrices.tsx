@@ -49,9 +49,9 @@ export const MapViewPrices = ({ children,  markers }: Props) => {
         if(map.current && markers?.priceDataGeopoint &&  markers?.priceDataGeopoint.features){
             
           
-         console.log(markers?.priceDataGeopoint?.features)
+        //console.log(markers?.priceDataGeopoint?.features)
         points = markers?.priceDataGeopoint?.features
-           points.map((m)=>{ 
+           points.map((m: { geometry: { coordinates: mapboxgl.LngLatLike; }; })=>{ 
               return new Marker().setLngLat(m.geometry.coordinates).addTo(map.current!);
             })
         }
