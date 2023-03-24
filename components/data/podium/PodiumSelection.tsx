@@ -7,9 +7,10 @@ interface Props {
 }
 
 interface PodiumInfo {
-    url: string,
-    text: string,
+    url: string
+    text: string
     name: string
+    description: string
 }
 
 export const PodiumSelection: FC<Props> = ({ podiumsList }) => {
@@ -26,7 +27,7 @@ export const PodiumSelection: FC<Props> = ({ podiumsList }) => {
             >
                 { podiumsList.map( (podiumInfo, index) => <option key={index} value={index}>{podiumInfo.name}</option>)}
             </select>
-            <PodiumWithLink dataURL={podiumsList[Number(selected)].url} text={podiumsList[Number(selected)].text}/>
+            <PodiumWithLink dataURL={podiumsList[Number(selected)].url} text={podiumsList[Number(selected)].text} description={podiumsList[Number(selected)].description}/>
         </>
     )
 }
