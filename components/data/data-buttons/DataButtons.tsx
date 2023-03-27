@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { FC, useState } from 'react';
 import { saveAs } from 'file-saver';
 import domtoimage from 'dom-to-image';
-import { Blob } from 'buffer';
 
 interface Props {
     text: string
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const saveCanvas = (elementId: string) => {
-    domtoimage.toBlob( document.getElementById(elementId))
+    domtoimage.toBlob( document.getElementById(elementId) as HTMLElement)
         .then( (blob: Blob) => saveAs(blob, `${elementId}.png`) );
 }
 

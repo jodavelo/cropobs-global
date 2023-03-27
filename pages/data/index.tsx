@@ -157,9 +157,6 @@ const DataPage: NextPage = () => {
                                 <LeftSideMenuContainer/>
                                 
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MapView>
-                                        <TopSideMenuContainer/>
-                                    </MapView>
                                 </Col>
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid' } : { display: 'none' } }>
                                     <PlotlyChartStackedAreaContainer fetchDataUrl='api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]' cropNameToFind='Beans, dry' secondCropName='Pulses excl. Beans' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} />

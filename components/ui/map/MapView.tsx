@@ -1,10 +1,11 @@
 import { useEffect, useRef, useContext, useState } from 'react';
-import mapboxgl, { Map } from 'mapbox-gl';
+import mapboxgl, { GeoJSONSource, Map } from 'mapbox-gl';
 import { MapContext } from '../../../context/map';
 import useSWR from 'swr';
 import { dataFetcher } from '../../../helpers/data';
 import { MapLegend } from './legend/MapLegend';
 import { Data, GeoJSONData } from '../../../interfaces/data/map';
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
 
 interface Props {
     geoJsonURL: string
@@ -246,7 +247,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             const { data: geojson } = predata;
             if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);
             console.log(geojson);
-            map.current!.getSource('geo_countries').setData(geojson);
+            (map.current!.getSource('geo_countries') as GeoJSONSource).setData(geojson as FeatureCollection<Geometry, GeoJsonProperties>);
             console.log('in');
             map.current!.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
             map.current!.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
@@ -266,6 +267,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             }}
          >
          </div>
+         {/* Unit should de passed as a prop. TODO */}
          <MapLegend title={legendTitle} percentiles={quintilArray ?? Array(5).fill(0)} />
       </>
     )
