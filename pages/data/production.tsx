@@ -19,6 +19,7 @@ import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
 import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, YearsData, YearsState } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
+import { BackButton } from '../../components/data/back-button';
 
 
 
@@ -206,6 +207,25 @@ const ProductionPage: NextPage = () => {
         }
     }, [regionCode]);
 
+    // This useEffect is used when the back button is clicked
+    useEffect(() => {
+        if ([...Object.keys(regionsObj), 'WLRD'].includes(countryCode)){
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+            }));
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                clickId = null;
+            }
+        }
+    }, [countryCode])
+
     const podiumConfig = [
         {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1103/176/${year}`,
@@ -263,7 +283,9 @@ const ProductionPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Production - ${locationName}`} />
+                                    <MainBar key={ uuidv4() } section={`Production - ${locationName}`} >
+                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                    </MainBar>
                                 </Col>
                             </Row>
                             <Row>
