@@ -45,12 +45,6 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
         });
     });
     useEffect(()=>{
-    map.current.loadImage(
-        'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
-        (error, image) => {
-        if (error) throw error;
-        map.current.addImage('custom-marker', image);
-        })
       if(map.current?.getSource('earthquakes') != undefined){
         map.current?.removeLayer('unclustered-point')
         map.current?.removeLayer('cluster-count')
@@ -58,6 +52,12 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
         map.current?.removeSource('earthquakes')
       }
         if(map.current && markers?.priceDataGeopoint &&  markers?.priceDataGeopoint.hasOwnProperty('features')){
+            map.current.loadImage(
+                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                (error, image) => {
+                if (error) throw error;
+                map.current.addImage('custom-marker', image);
+            })
             //console.log(map.current.getSource('earthquakes'))
             let datans = markers?.priceDataGeopoint            
             map.current.addSource('earthquakes', {
@@ -156,9 +156,9 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
             
             map.current.on('click', 'unclustered-point', (e) => { 
                 let id_country = e.features[0].properties?.id_country 
-                let id_geo_pont = e.features[0].properties?.id_geo_point 
+                let id_geo_point = e.features[0].properties?.id_geo_point 
                 setIdCountry(id_country) 
-                setIdGeoPoint(id_geo_pont) 
+                setIdGeoPoint(id_geo_point)
             }); 
         }
         

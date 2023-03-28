@@ -12,9 +12,11 @@ import { DataPodium, ModalForm, MultichartContainer, PlotlyChartStackedAreaConta
 import {PlotlyChartBox } from '../../components/data';
 import { PlotlyChartLine } from '../../components/data';
 import axios from 'axios';
-import { MapSelect } from '../../components/ui/map/filters';
-import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
+import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
+import { dataFetcher, generateElementsOptions } from '../../helpers/data';
 import useSWR from 'swr';
+import { MapContext } from '../../context/map';
+import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { ElementsData,SelectOptions } from '../../interfaces/data';
 
 
@@ -32,6 +34,7 @@ const baseURL = 'https://cassavalighthouse.org';
 const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const[priceData, setPriceData] = useState([]);
+    const { map } = useContext( MapContext );
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 300050, 
     });
@@ -44,8 +47,43 @@ const DataPage: NextPage = () => {
     const [chartTitle, setChartTitle] = useState<string>('');
     const [idCountry, setIdCountry] = useState(0); 
     const [idGeoPoint, setIdGeoPoint] = useState(0);
+    const [mapCol, setMapCol] = useState(0);
+    const [graphsCol, setGraphsCol] = useState(0);
+    const [showMap, setShowMap] = useState(false);
+    const [showGraphs, setShowGraphs] = useState(true);
+    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
     
+    useEffect(() => {
+        if( buttonBoth ) {
+            setMapCol(6)
+            setGraphsCol(6)
+            setShowMap(true)
+            setShowGraphs(true)
+        }
+        if( buttonGraphs ) {
+            setMapCol(0)
+            setGraphsCol(12)
+            setShowMap(false)
+            setShowGraphs(true)
+        }
+        if( buttonMap ) {
+            setMapCol(12)
+            setGraphsCol(0)
+            setShowMap(true)
+            setShowGraphs(false)
+        }
+    }, [buttonBoth, buttonGraphs, buttonMap]);
+
+    useEffect( () => {
+        if( buttonBoth ) {
+            if (map) map.resize();
+        }
+        if( buttonMap ) {
+            if (map) map.resize();
+        }
+    });
+
     const getPriceData = (elementId: SetStateAction<number>) => {
         axios.get(`https://cassavalighthouse.org/api/v1/geojson/admin2/prices/Nals/${elementId}`)
             .then(res=>{setPriceData( res.data.data.geo_points)})
@@ -86,13 +124,14 @@ const DataPage: NextPage = () => {
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
-                                <Col xs={ 12 }  xl={ 6 } style={ { display: 'block', height: '80vh', position: 'relative' }} className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <LeftSideMenuContainer/>
+                                <Col xs={ 12 } lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
                                             <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
                                     </Row>
                                         <MapViewPrices setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={{priceDataGeopoint: priceData}} ></MapViewPrices>
                                 </Col>
-                                <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid', overflow: 'auto' }}>
+                                <Col xs={ 12 } xl={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                  
                                     <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle}/>
                                     <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle}/>
