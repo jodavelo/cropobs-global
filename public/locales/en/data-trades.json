@@ -1,0 +1,21 @@
+{
+    "title-header": "Data-Trade",
+    "title-page": "Data Page",
+    "label-cropland-area": "Of the total cropland area",
+    "label-chart1": "Where did ",
+    "label-chart2": "World ",
+    "label-chart3": "import ",
+    "label-chart4": "common beans ",
+    "label-chart5": "in ",
+
+    "label-chart6": "Total ",
+    "label-chart7": "import ",
+    "label-chart8": "value ",
+
+    "label-perc1": "of total food and beverage imports value",
+    "label-perc2": "of total food and beverage imports (primary) value",
+    "label-perc3": "of total pulses imports value",
+
+    "chart2-opt1": "Annual growth",
+    "chart2-opt2": "10-year moving average"
+}

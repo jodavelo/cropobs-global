@@ -1,2 +1,2 @@
 export * from './PorcentagesBox';
-export * from './APorcentagesBox';
+export * from './PorcentagesBoxTr';
