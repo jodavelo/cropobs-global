@@ -8,6 +8,7 @@ import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapProvider } from '../context/map';
 import { LeftSideMenuProvider } from '../context/map/leftsidemenu';
+import { TourProvider } from '@reactour/tour';
  
 // TO MAKE THE MAP APPEAR YOU MUST
 // ADD YOUR ACCESS TOKEN FROM
@@ -17,15 +18,17 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2lhdGttIiwiYSI6ImNraGdmbDZjejAxNTMycXBwNXppe
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <ProSidebarProvider>
-      <LayoutProvider>
-        <MapProvider>
-          <LeftSideMenuProvider>  
-            <Component {...pageProps} />
-          </LeftSideMenuProvider>
-        </MapProvider>
-      </LayoutProvider>
-    </ProSidebarProvider>
+    <TourProvider steps={[]}>
+      <ProSidebarProvider>
+        <LayoutProvider>
+          <MapProvider>
+            <LeftSideMenuProvider>  
+              <Component {...pageProps} />
+            </LeftSideMenuProvider>
+          </MapProvider>
+        </LayoutProvider>
+      </ProSidebarProvider>
+    </TourProvider>
   )
 }
 

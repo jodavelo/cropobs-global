@@ -20,6 +20,9 @@ import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filter
 import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, YearsData, YearsState } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 import { BackButton } from '../../components/data/back-button';
+import { TourProvider, useTour } from '@reactour/tour';
+import { production_steps } from '../../helpers/data/tour';
+import { getCookie, setCookie } from 'cookies-next';
 
 
 
@@ -74,6 +77,7 @@ const ProductionPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+    const { setSteps, setIsOpen } = useTour();    
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
 
@@ -224,7 +228,18 @@ const ProductionPage: NextPage = () => {
                 clickId = null;
             }
         }
-    }, [countryCode])
+    }, [countryCode]);
+
+    // Executes the tour for production. This useEffect runs only once
+    useEffect(() => {
+        if ( !getCookie('production_tour') ) {
+            if (setSteps) {
+                setSteps(production_steps);
+                setCookie('production_tour', true);
+                setIsOpen(true);
+            }
+        }
+    }, []);
 
     const podiumConfig = [
         {
@@ -273,45 +288,45 @@ const ProductionPage: NextPage = () => {
     ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
     return (
-        <Layout title={ dataTranslate('title-header') }>
-            <Container fluid>
-                <Row>
-                    <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
-                        <SidebarComponent/>
-                    </Col>
-                    <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
-                        <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
-                            <Row>
-                                <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Production - ${locationName}`} >
-                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
-                                    </MainBar>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <LeftSideMenuContainer/>
-                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                        <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                        <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                        <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                    </Row>
-                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
-                                </Col>
-                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                    <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
-                                    <br/>
-                                    <PodiumSelection podiumsList={podiumConfig} />
-                                    <br/>
-                                    <ChartSelection chartConfigList={chartConfig} />
-                                </Col>
-                            </Row>                            
-                        </Container>
-                    </Col>
-                </Row>
-            </Container>
-        </Layout>
+            <Layout title={ dataTranslate('title-header') }>
+                <Container fluid>
+                    <Row>
+                        <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
+                            <SidebarComponent/>
+                        </Col>
+                        <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
+                            <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
+                                <Row>
+                                    <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                        <MainBar key={ uuidv4() } section={`Production - ${locationName}`} >
+                                            <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                        </MainBar>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <LeftSideMenuContainer/>
+                                    <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
+                                            <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                            <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                            <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                        </Row>
+                                        <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
+                                    </Col>
+                                    <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                        <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                        <br/>
+                                        <PodiumSelection podiumsList={podiumConfig} />
+                                        <br/>
+                                        <ChartSelection chartConfigList={chartConfig} />
+                                    </Col>
+                                </Row>                            
+                            </Container>
+                        </Col>
+                    </Row>
+                </Container>
+            </Layout>
     )
 }
 
