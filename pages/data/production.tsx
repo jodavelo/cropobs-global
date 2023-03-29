@@ -20,8 +20,8 @@ import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filter
 import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, YearsData, YearsState } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 import { BackButton } from '../../components/data/back-button';
-import { TourProvider, useTour } from '@reactour/tour';
-import { production_steps } from '../../helpers/data/tour';
+import { useTour } from '@reactour/tour';
+import { general_data_steps } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 
 
@@ -234,7 +234,7 @@ const ProductionPage: NextPage = () => {
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
             if (setSteps) {
-                setSteps(production_steps);
+                setSteps(general_data_steps);
                 setCookie('production_tour', true);
                 setIsOpen(true);
             }
@@ -307,9 +307,9 @@ const ProductionPage: NextPage = () => {
                                     <LeftSideMenuContainer/>
                                     <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                         <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                            <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                            <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                            <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
                                             { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                         </Row>
                                         <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />

@@ -18,7 +18,13 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2lhdGttIiwiYSI6ImNraGdmbDZjejAxNTMycXBwNXppe
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <TourProvider steps={[]}>
+    <TourProvider
+      styles={{
+        //@ts-ignore: Can't solve this typescript error
+        popover: (base) => ({...base, '--reactour-accent': '#b0b0b0'})
+      }}
+      steps={[]}
+    >
       <ProSidebarProvider>
         <LayoutProvider>
           <MapProvider>
