@@ -1,0 +1,21 @@
+{
+    "title-header": "Dados-Comercio",
+    "title-page": "Página do datos",
+    "label-cropland-area": "Da área total cultivada",
+    "label-chart1": "Onde ",
+    "label-chart2": "Mundo ",
+    "label-chart3": "importou ",
+    "label-chart4": "common beans ",
+    "label-chart5": "em ",
+
+    "label-chart6": "Valor ",
+    "label-chart7": "importação ",
+    "label-chart8": "total",
+    
+    "label-perc1": "del valor total de las importaciones de alimentos y bebidas",
+    "label-perc2": "del valor total de las importaciones de alimentos y bebidas (primario)",
+    "label-perc3": "del valor total de las importaciones de legumbre",
+
+    "chart2-opt1": "Crescimento Anual",
+    "chart2-opt2": "Média móvel de 10 anos"
+}
