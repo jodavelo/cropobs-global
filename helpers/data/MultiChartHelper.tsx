@@ -131,6 +131,25 @@ export const GenerateDataJson2 = (xLabels : number[], data1 : number[], data2 : 
   return data_json
 }
 
+interface DataDocument {
+  label : string,
+  values: number[]
+}
+
+export const GenerateDataJsonGeneric = (data : DataDocument[]) => {
+  console.log(data)
+  const dataJson = Array<Object>(0)
+  const labels = data.map(e => e.label)
+  if(data.length > 0) {
+    data[0].values.forEach((elem, idxValue)=>{
+      const row = Object();
+      labels.forEach((label,idxCol) => row[label] = data[idxCol].values[idxValue])
+      dataJson.push(row)
+    })
+  }
+  return dataJson  
+}
+
 // ServerSideRendering ALTERNATIVE
 /*
 export const GetChartData = async () => {
