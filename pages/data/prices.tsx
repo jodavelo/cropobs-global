@@ -31,6 +31,8 @@ interface ElementsState {
 
 const mapFilterElements = [300050, 300051, 300052];
 const baseURL = 'https://cassavalighthouse.org';
+let clickId: string | number | null = null;
+
 const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const[priceData, setPriceData] = useState([]);
@@ -50,39 +52,36 @@ const DataPage: NextPage = () => {
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
-    const [showGraphs, setShowGraphs] = useState(true);
-    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const [showGraphs, setShowGraphs] = useState(false);
+    const [onlyMap]= useState(true);
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
     
     useEffect(() => {
-        if( buttonBoth ) {
-            setMapCol(6)
-            setGraphsCol(6)
-            setShowMap(true)
-            setShowGraphs(true)
-        }
-        if( buttonGraphs ) {
-            setMapCol(0)
-            setGraphsCol(12)
-            setShowMap(false)
-            setShowGraphs(true)
-        }
-        if( buttonMap ) {
+        if( onlyMap ) {
             setMapCol(12)
             setGraphsCol(0)
             setShowMap(true)
             setShowGraphs(false)
         }
-    }, [buttonBoth, buttonGraphs, buttonMap]);
+       
+       
+    }, [onlyMap]);
 
     useEffect( () => {
-        if( buttonBoth ) {
-            if (map) map.resize();
-        }
-        if( buttonMap ) {
+       
+        if( onlyMap ) {
             if (map) map.resize();
         }
     });
+
+    const  handleClick = () => {
+        if( onlyMap ) {
+            setMapCol(6)
+            setGraphsCol(6)
+            setShowMap(true)
+            setShowGraphs(true)
+        }
+    };
 
     const getPriceData = (elementId: SetStateAction<number>) => {
         axios.get(`https://cassavalighthouse.org/api/v1/geojson/admin2/prices/Nals/${elementId}`)
@@ -121,17 +120,16 @@ const DataPage: NextPage = () => {
                     <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
-                                <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <Col xs={ 12 }  className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
                                 </Col>
-                                <LeftSideMenuContainer/>
-                                <Col xs={ 12 } lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <Col xs={ 12 } lg={ mapCol }  onClick={handleClick} style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
                                             <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
                                     </Row>
                                         <MapViewPrices setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={{priceDataGeopoint: priceData}} ></MapViewPrices>
                                 </Col>
-                                <Col xs={ 12 } xl={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                  
                                     <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle}/>
                                     <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle}/>

@@ -50,13 +50,14 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
         map.current?.removeLayer('cluster-count')
         map.current?.removeLayer('clusters')
         map.current?.removeSource('earthquakes')
+        map.current?.removeImage('custom-marker')
       }
         if(map.current && markers?.priceDataGeopoint &&  markers?.priceDataGeopoint.hasOwnProperty('features')){
             map.current.loadImage(
                 'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
                 (error, image) => {
                 if (error) throw error;
-                map.current.addImage('custom-marker', image);
+                map.current?.addImage('custom-marker', image);
             })
             //console.log(map.current.getSource('earthquakes'))
             let datans = markers?.priceDataGeopoint            
@@ -66,7 +67,7 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
                 generateId: true,
                 cluster: true,
                 clusterMaxZoom: 14,
-                clusterRadius: 50            
+                clusterRadius: 40            
             });
             map.current.addLayer({
                 id: 'clusters',
@@ -124,8 +125,8 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
                 hoveredStateId = null;
             });
             map.current.on('click', 'clusters', (e) => {
-                const clusterId = e.features[0].properties.cluster_id;
-                const clusterSource = map.current?.getSource('earthquakes');
+                const clusterId = e.features![0].properties.cluster_id;
+                const clusterSource:  any = map.current?.getSource('earthquakes');
                 
                 clusterSource.getClusterExpansionZoom(clusterId, (err: any, zoom: any) => {
                     if (err) {
@@ -137,7 +138,7 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
                         zoom: zoom,
                     });
                     
-                    map.current.getCanvas().style.cursor = '';
+                    map.current!.getCanvas().style.cursor = '';
                 });
             });
             map.current.on('mouseenter', 'unclustered-point', () => {
@@ -155,8 +156,8 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
             });
             
             map.current.on('click', 'unclustered-point', (e) => { 
-                let id_country = e.features[0].properties?.id_country 
-                let id_geo_point = e.features[0].properties?.id_geo_point 
+                let id_country = e.features![0].properties?.id_country 
+                let id_geo_point = e.features![0].properties?.id_geo_point 
                 setIdCountry(id_country) 
                 setIdGeoPoint(id_geo_point)
             }); 
