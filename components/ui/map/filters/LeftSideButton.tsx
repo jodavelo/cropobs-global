@@ -11,9 +11,10 @@ interface Props {
     urlImage: string;
     isActiveButton: boolean;
     buttonId: number;
+    id?: string;
 }
 
-export const LeftSideButton = ({ toolTipText, urlImage, isActiveButton, buttonId }: Props) => {
+export const LeftSideButton = ({ toolTipText, urlImage, isActiveButton, buttonId, id=undefined }: Props) => {
 
     const { activeBothButtons, activeGraphsButton, activeMapButton } = useContext( LeftSideMenuContext );
 
@@ -50,7 +51,7 @@ export const LeftSideButton = ({ toolTipText, urlImage, isActiveButton, buttonId
     );
     return (
         <OverlayTrigger placement="right" overlay={tooltip}>
-            <div className={ styles['left-side-button'] } onClick={ onActiveButton } style={ isActive ?  { background: '#fff' } : { background: 'rgb(211, 211, 211)' } }>
+            <div id={id} className={ styles['left-side-button'] } onClick={ onActiveButton } style={ isActive ?  { background: '#fff' } : { background: 'rgb(211, 211, 211)' } }>
                 <Image width={ 20 } height={ 20 } src={ urlImage } alt='any image'/>
             </div>
         </OverlayTrigger>

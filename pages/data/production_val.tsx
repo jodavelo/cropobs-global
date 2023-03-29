@@ -28,7 +28,7 @@ interface sectionState {
     year: number
 }
 
-const DataPage: NextPage = () => {
+const PVPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: -1,
@@ -253,4 +253,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 }
 
-export default DataPage
+export default PVPage
