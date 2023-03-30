@@ -251,6 +251,11 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             console.log('in');
             map.current!.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
             map.current!.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
+            // I think the best option is get the adminIds when user clicks on Search Country Button.
+            console.log(map.current!.querySourceFeatures('geo_countries', {
+                sourceLayer: 'country_layer',
+                filter: ['in', ['get', 'iso3'], ['literal', adminIds]]
+            }));
             if (admin !== 'World' && adminIds) changeLineWidth(map.current!, adminIds)
             else if (adminIds) changeLineWidth(map.current!, adminIds, 'default');
             changeFillColor(map.current!, quintilArray);

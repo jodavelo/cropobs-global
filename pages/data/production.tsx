@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,6 +23,7 @@ import { BackButton } from '../../components/data/back-button';
 import { useTour } from '@reactour/tour';
 import { general_data_steps } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
+import { SearchCountryModal } from '../../components/data/search-country-modal';
 
 
 
@@ -77,7 +78,8 @@ const ProductionPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
-    const { setSteps, setIsOpen } = useTour();    
+    const { setSteps, setIsOpen } = useTour();
+    const [showCountries, setShowCountries] = useState(false);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
 
@@ -311,6 +313,12 @@ const ProductionPage: NextPage = () => {
                                             <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
                                             <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
                                             { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                            <Button
+                                                style={{width: '20%'}}
+                                                onClick={() => setShowCountries(true)}
+                                            >
+                                                Search Countries
+                                            </Button>
                                         </Row>
                                         <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
                                     </Col>
@@ -326,6 +334,7 @@ const ProductionPage: NextPage = () => {
                         </Col>
                     </Row>
                 </Container>
+                <SearchCountryModal show={showCountries} handleClose={setShowCountries} />
             </Layout>
     )
 }
