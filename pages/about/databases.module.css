@@ -1,0 +1,58 @@
+
+
+.databases-section-description {
+    height: 50vh;
+    background-color: aqua;
+}
+
+
+.databases-section-description-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: justify;
+}
+
+.title-description, .description-center {
+    text-align: center;
+}
+
+.map-container {
+    height: 60vh;
+    background-color: transparent;
+}
+
+.grid-layout-cards {
+    height: 60vh;
+    background-color: rgb(38, 126, 208);
+}
+
+@media (min-width: 290px) and (max-width: 576px){
+    .databases-section-description {
+        height: 42vh;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px){
+    .databases-section-description {
+        height: 30vh;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    .databases-section-description {
+        height: 25vh;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+    .databases-section-description {
+        height: 20vh;
+    } 
+}
+
+@media (min-width: 1200px) {
+    .databases-section-description {
+        height: 18vh;
+    } 
+}
