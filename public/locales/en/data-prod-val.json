@@ -21,14 +21,14 @@
     "chart2-opt2": "10-year moving average",
 
     "chart21-title":"Annual value growth of <imports> of <common beans> - <World>",
-    "chart21-dataset1":"Quantity growth (Annual)",
-    "chart21-dataset2":"Price growth (Annual)",
-    "chart21-dataset3":"Value growth (Annual)",
+    "chart21-dataset1":"Beans, dry",
+    "chart21-dataset2":"Value Added (Agriculture, Forestry and Fishing)",
+    "chart21-dataset3":"Gross Domestic Product",
     "chart2-toggle":"Toggle chart 2 english",
 
     "chart22-title":"10-year moving average <common beans> <imports> value - <World>",
-    "chart22-dataset1":"Quantity growth (10-yr moving avg)",
-    "chart22-dataset2":"Value growth (10-yr moving avg)",
-    "chart22-dataset3":"Price growth (10-yr moving avg)" 
+    "chart22-dataset1":"Beans, dry",
+    "chart22-dataset2":"Value Added (Agriculture, Forestry and Fishing)",
+    "chart22-dataset3":"Gross Domestic Product"
 
 }

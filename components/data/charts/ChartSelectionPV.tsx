@@ -37,7 +37,7 @@ export const ChartSelectionPV: FC<Props> = ({ chartConfigList }) => {
             >
                 { chartConfigList.map( (chartConfig: Record<string, any>, index: number) => <option key={index} value={index}>{chartConfig.name}</option>)}
             </select>
-            <LineChartjsPV data={chartConfigList[Number(selected)].dataURL} options={chartConfigList[Number(selected)].options} config={chartConfigList[Number(selected)].config} orderList={chartConfigList[Number(selected)].orderList} chartID={chartConfigList[Number(selected)].chartID} chartConf={chartConfigList[Number(selected)].chartConfig}/>;
+            <LineChartjsPV data={chartConfigList[Number(selected)].dataURL} options={chartConfigList[Number(selected)].options} config={chartConfigList[Number(selected)].config} orderList={chartConfigList[Number(selected)].orderList} chartID={chartConfigList[Number(selected)].chartID} chartConf={chartConfigList[Number(selected)].chartConfig}/>
         </>
     )
 }
