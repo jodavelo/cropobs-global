@@ -165,9 +165,6 @@ const DataPage: NextPage = () => {
                                 <LeftSideMenuContainer/>
                                 
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MapView >
-                                        <TopSideMenuContainer/>
-                                    </MapView>
                                 </Col>
                                {/*  <Col xs={ 12 } xl={ 6 } style={{ height: '80vh', border: '1px black solid' }}>
                                   <Podium data={ data }></Podium>

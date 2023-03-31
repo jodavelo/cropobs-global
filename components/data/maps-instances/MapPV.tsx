@@ -1,22 +1,16 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, FC } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Layout } from '../../components/layouts'
-import { MainBar, MapView, SidebarComponent } from '../../components/ui';
+import { MapView } from '../../../components/ui';
 
-import { v4 as uuidv4 } from 'uuid';
-
-import styles from './data.module.css';
-import { MapContext } from '../../context/map';
-import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
-import { LeftSideMenuContainer } from '../../components/ui/map/filters';
-import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
+import { MapContext } from '../../../context/map';
+import { LeftSideMenuContext } from '../../../context/map/leftsidemenu';
+import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../../helpers/data';
 import useSWR from 'swr';
-import { MapSelect } from '../../components/ui/map/filters';
-import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, SelectOptions, YearsData, YearsState } from '../../interfaces/data';
+import { MapSelect } from '../../../components/ui/map/filters';
+import { ElementsData, MacroRegionsData, RegionsData, SelectOptions, YearsData } from '../../../interfaces/data';
 
 
 interface sectionState {
@@ -28,15 +22,34 @@ interface sectionState {
     admin: string
 }
 
-const mapFilterElements = [1201, 1202];
+interface ElementsState {
+    elementsObj: Record<string, ElementsData>
+    elementsOptions: SelectOptions
+}
+
+interface YearsState {
+    yearsOptions: SelectOptions
+}
+
+interface MacroRegionsState {
+    macroRegionsObj: Record<string, MacroRegionsData>
+    macroRegionsOptions: SelectOptions
+}
+
+interface RegionsState {
+    regionsObj: Record<string, RegionsData>
+    regionsOptions: SelectOptions
+}
+
+const mapFilterElements = [58, 1059, 1060];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+const baseURL = 'https://commonbeanobservatory.org';
 let clickId: string | number | null = null;
 
-const MapTest: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('data');
+export const MapPV: FC = () => {
+
     const [ sectionState, setSectionState ] = useState<sectionState>({
-        elementId: 1201,
+        elementId: 58,
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
@@ -68,7 +81,7 @@ const MapTest: NextPage = () => {
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
+    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/3`, dataFetcher);
 
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
 
@@ -198,45 +211,14 @@ const MapTest: NextPage = () => {
 
 
     return (
-        <Layout title={ dataTranslate('title-header') }>
-            <Container fluid>
-                <Row>
-                    <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
-                        <SidebarComponent/>
-                    </Col>
-                    <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
-                        <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
-                            <Row>
-                                <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Production - ${macroRegionCode == '10' ? 'World' : (regionsObj[regionCode]?.region_name ?? 'Loading...')}`} />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <LeftSideMenuContainer/>
-                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                        <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                        <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                        <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                    </Row>
-                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
-                                </Col>
-                            </Row>                            
-                        </Container>
-                    </Col>
-                </Row>
-            </Container>
-        </Layout>
+        <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `` }>
+            <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
+                <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+            </Row>
+            <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
+        </Col>
     )
 }
-
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-    return {
-        props: {
-            ...( await serverSideTranslations( locale!, ['data'] ) ),
-        }
-    }
-}
-
-export default MapTest;

@@ -1,3 +1,5 @@
+import { hexToRgbA } from "../hexToRgbA";
+
 interface ItemNames {
     id: string,
     name: string
@@ -34,6 +36,61 @@ const chartColors = {
 }
 
 export const datasetGenerator = (entries: any[], labels: Number[], key_attr: string, locale_attr: string, orderList: Record<number, number>=[], chartID: string = '', config: ChartjsConfig = {fill: false, pointRadius: 1, yAxisID: 'y'}, elements: Record<any, any>): any[] => {
+    
+    const dataArr: Record<string, Number[]> = {};
+    const items: ItemNames[] = [];
+    const units: Record<string, string> = {};
+    const datasets: any[] = [];
+
+
+    entries.forEach( (entry: any, i: number) => {
+        const key = entry[key_attr];
+        if (!dataArr[`${key}`]){
+            dataArr[`${key}`] = Array(labels.length).fill(0);
+            const item = {id: key, name: locale_attr === 'id_element' ? elements[key].ELEMENT_EN : entry[locale_attr]};
+            if (orderList[key] !== undefined) items[orderList[key]] = item;
+            else items.push(item)
+            units[`${key}`] = entry.unit;
+        }
+        dataArr[`${key}`][labels.indexOf(entry.year)] = entry.value;
+    });
+
+    items.forEach( (item, index) => {
+        let dataObj;
+        switch (true) {
+            case (chartID === 'prod1' && item.id == '1000'):
+                dataObj = {
+                    label: item.name,
+                    borderColor: Object.values(chartColors)[index],
+                    backgroundColor: Object.values(chartColors)[index],
+                    fill: false,
+                    pointRadius: 3,
+                    data: dataArr[item.id],
+                    unit: units[item.id],
+                    yAxisID: 'y2',
+                    showLine: false
+                };
+                break;
+            default:
+                dataObj = {
+                    label: item.name,
+                    borderColor: Object.values(chartColors)[index],
+                    backgroundColor: hexToRgbA(Object.values(chartColors)[index], 0.6),
+                    fill: config.fill,
+                    pointRadius: config.pointRadius,
+                    data: dataArr[item.id],
+                    yAxisID: config.yAxisID,
+                    unit: units[item.id]
+                };
+                break;
+        }
+        datasets.push(dataObj);
+    });
+    console.log(datasets);
+    return datasets;
+}
+
+export const datasetGeneratorPV = (entries: any[], labels: Number[], key_attr: string, locale_attr: string, orderList: Record<number, number>=[], chartID: string = '', config: ChartjsConfig = {fill: false, pointRadius: 1, yAxisID: 'y'}): any[] => {
     
     const dataArr: Record<string, Number[]> = {};
     const items: ItemNames[] = [];

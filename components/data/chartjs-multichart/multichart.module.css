@@ -18,6 +18,15 @@
     justify-content: center;
 }
 
-.button{
-    margin : 10px
+.button {
+    color: #fff !important;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(176, 176, 176);
+    border-color: rgb(176, 176, 176);
+}
+
+.button:hover {
+    background-color: rgb(82, 82, 82) !important;
+    border-color: rgb(82, 82, 82);
 }
