@@ -7,9 +7,10 @@ interface MapSelectInterface {
     selected: string | number
     setSelected: Function
     atrName: string
+    id?: string
 }
 
-export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName }) => {
+export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined }) => {
     const { values, names } = options;
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelected( (prevState: Record<string, any>) => ({
@@ -22,6 +23,7 @@ export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names:
         value={selected}
         onChange={handleSelect}
         className={ styles['select-filter'] }
+        id={id}
     >
         {
             (values.length != names.length) ? <option>No option</option> :

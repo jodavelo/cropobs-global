@@ -18,6 +18,9 @@
     font-size: 0.8rem;
     text-align: justify;
 }
+.text-align-center {
+    justify-content: center;
+}
 .podium-body {
     height: 70%;
     width: 100%;

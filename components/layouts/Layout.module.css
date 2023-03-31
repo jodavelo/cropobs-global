@@ -10,8 +10,16 @@
     height: 150vh;
 }
 
+.data-sf {
+    height: 170vh;
+}
+
 .about-us {
     height: 180vh;
+}
+
+.databases {
+    height: 300vh;
 }
 
 @media (max-width: 500px) and (min-width: 300px){
@@ -77,10 +85,16 @@
     .about-us {
         height: 70vh;
     }
+    .data-sf {
+        height: 90vh;
+    }
 }
 
 @media (min-width: 1200px) {
     .about-us {
         height: 60vh;
+    }
+    .data-sf {
+        height: 90vh;
     }
 }

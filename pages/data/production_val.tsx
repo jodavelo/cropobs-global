@@ -19,6 +19,7 @@ import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui
 import { useWindowSize } from '../../hooks';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { MapContext } from '../../context/map';
+import React from 'react';
 
 
 interface sectionState {
@@ -27,7 +28,7 @@ interface sectionState {
     year: number
 }
 
-const DataPage: NextPage = () => {
+const PVPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: -1,
@@ -252,4 +253,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 }
 
-export default DataPage
+export default PVPage

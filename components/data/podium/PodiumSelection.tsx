@@ -3,7 +3,8 @@ import { PodiumWithLink } from './PodiumWithLink';
 
 
 interface Props {
-    podiumsList: PodiumInfo[]
+    podiumsList: PodiumInfo[],
+    showSelect?: boolean;
 }
 
 interface PodiumInfo {
@@ -13,7 +14,7 @@ interface PodiumInfo {
     description: string
 }
 
-export const PodiumSelection: FC<Props> = ({ podiumsList }) => {
+export const PodiumSelection: FC<Props> = ({ podiumsList, showSelect = true }) => {
 
     const [selected, setSelected] = useState('0');
 
