@@ -1,18 +1,21 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import dynamic from "next/dynamic"
 
 import { v4 as uuidv4 } from 'uuid';
 import { traceObject } from "./";
 import { useWindowSize } from '../../../hooks';
+import { PlotlyChartButtons } from './PlotlyChartButtons';
 
 interface Props {
     title: string;
     ticks: number[];
     yAxisLabel: string;
     dataTraces: traceObject[];
+    plotlyDivId: string;
+    moreInfoText: string;
 }
 
-export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yAxisLabel }) => {
+export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yAxisLabel, plotlyDivId, moreInfoText }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, })
     const { width } = useWindowSize();
     const [chartHeight, setChartHeight] = useState(0);
@@ -137,16 +140,21 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yA
         height: chartHeight
     };
     return (
-        <Plot
-            // data={[data]}
-            // layout={{
-            //     title: "Real-time Data App",
-            //     xaxis: { range: [-5, count] },
-            //     yaxis: { range: [-5, count] }
-            // }}
-            key={ uuidv4() }
-            data={ dataTraces }
-            layout={ layout }
-        />
+        <>
+          <div id={ plotlyDivId }>
+            <Plot
+              // data={[data]}
+              // layout={{
+              //     title: "Real-time Data App",
+              //     xaxis: { range: [-5, count] },
+              //     yaxis: { range: [-5, count] }
+              // }}
+              key={ uuidv4() }
+              data={ dataTraces }
+              layout={ layout }
+          />
+          </div>
+          <PlotlyChartButtons divID={ plotlyDivId }  moreInfoText={ moreInfoText } />
+        </>
       );
 }

@@ -7,6 +7,10 @@ interface ContextProps {
     setIsData: (settingIsData: boolean) => void;
     isAboutUs: boolean;
     setIsAboutUs: (settingIsAboutUs: boolean) => void;
+    isDataSurfaceContext: boolean;
+    setIsDataSurfaceContext: (settingIsDataSurfaceContext: boolean) => void;
+    isDatabases: boolean;
+    setIsDatabases: (settingIsDatabases: boolean) => void;
 }
 
 export const LayoutContext = createContext({} as ContextProps);

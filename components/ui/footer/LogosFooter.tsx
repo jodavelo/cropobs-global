@@ -1,6 +1,7 @@
 
 import styles from './Footer.module.css';
 import { LinkComponent } from './';
+import { v4 as uuidv4 } from 'uuid';
 
 const links = [
     {
@@ -17,7 +18,7 @@ export const LogosFooter = () => {
             <img src="/logo_alianza.png" alt="Alliance Logo" className={ styles['size-logos'] } />
             {
                 links.map(({ text }) => (
-                    <LinkComponent key={ text } href={ text }/>
+                    <LinkComponent key={ uuidv4() } href={ text }/>
                 ))
             }
         </div>

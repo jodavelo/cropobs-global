@@ -1,7 +1,7 @@
 
 
 export interface PercentInfoProps {
-    percent: number;
+    percent: string;
     label: string;
     secondaryLabel?: string;
 }
