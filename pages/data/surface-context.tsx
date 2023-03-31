@@ -25,6 +25,10 @@ import { removeCommasFromString } from '../../helpers';
 import { PodiumDataStructureFetchApi } from '../../interfaces/data/podium';
 import { PercentContainer } from '../../components/data/percent-info';
 import { PlotlyChartStackedAreaContainer } from '../../components/data';
+import Button from 'react-bootstrap/Button';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
+import { useWindowSize } from '../../hooks';
 
 
 interface sectionState {
@@ -37,7 +41,7 @@ interface sectionState {
     locationName: string
 }
 
-const mapFilterElements = [1000, 5312, 5510];
+const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui 
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 let clickId: string | number | null = null;
@@ -82,7 +86,7 @@ const SurfaceContextPage: NextPage = () => {
     const [showGraphs, setShowGraphs] = useState(false);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
-
+    // alert(`${baseURL}/api/v1/data/elements/1`);
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
 
     const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
@@ -124,7 +128,7 @@ const SurfaceContextPage: NextPage = () => {
             if (map) map.resize();
         }
     });
-    
+
     const [podiumRank, setPodiumRank] = useState(0);
     useEffect(() => {
         if (map){
@@ -143,6 +147,7 @@ const SurfaceContextPage: NextPage = () => {
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
             const elemsObj: Record<string, ElementsData> = {};
+            // console.error(elemsObj);
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
             setElements({
                 elementsObj: elemsObj,
@@ -288,15 +293,92 @@ const SurfaceContextPage: NextPage = () => {
     annual_growth_options.plugins.title.text = 'Annual Growth' + ` - ${locationName}`;
 
     ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
+
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { width } = useWindowSize();
+    const [sideBarColumn, setSideBarColumn] = useState(1);
+    const [contentColumn, setContentColumn] = useState(11);
+    const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
+    const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
+
+    const onCickCollapsed = () => {
+        if ( width! > 992 && width! < 1200 ) {
+            setSideBarColumn(2);
+            setContentColumn(10);
+        };
+        // if( width! > 1200 ){
+        //     setSideBarColumn(2);
+        //     setContentColumn(10);
+        // }
+        setIsCollapsed(!isCollapsed);
+        //console.log(isCollapsed)
+    }
+    useEffect(() => {
+        
+        if ( isCollapsed ) {
+            if( width! <= 1200 ){
+                alert('aaaa')
+                setSideBarColumn(2);
+                setContentColumn(10);
+                setSideBarSubcolumn(9);
+                setCollapsedSideBarButton(3);
+            }
+            if( width! > 1200 ) {
+                setSideBarColumn(2);
+                setContentColumn(10);
+                setSideBarSubcolumn(9);
+                setCollapsedSideBarButton(2);
+            }
+            
+            // console.log('-----------------------------')
+        };
+        if ( !isCollapsed ) {
+            if( width! <= 1200 ){
+                alert(isCollapsed)
+                setSideBarColumn(2);
+                setContentColumn(10);
+                setSideBarSubcolumn(7);
+                setCollapsedSideBarButton(5);
+            }
+            if( width! > 1200 ) {
+                setSideBarColumn(1);
+                setContentColumn(11);
+                setSideBarSubcolumn(9);
+                setCollapsedSideBarButton(2);
+            }
+            
+            // console.log('-----------------------------')
+        };
+        // if( width! > 1200 && !isCollapsed ){
+        //     setSideBarColumn(2);
+        //     setContentColumn(10);
+        //     console.log('-----------------------------x2')
+        // }
+    }, [ isCollapsed ])
+    
+
+    // console.log(sideBarColumn, contentColumn)
+
     // console.log(countryCode)
     return (
         <Layout title={ dataTranslate('title-header') }>
             <Container fluid>
                 <Row>
-                    <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
-                        <SidebarComponent/>
+                    <Col xs={ 12 } lg={ sideBarColumn }className={ styles.sidebar } style={ width! < 991 ? { display: 'none' } : undefined}>
+                        <Row>
+                            <Col xs={ sideBarSubcolumn }>
+                                <SidebarComponent isCollapsedProp={ isCollapsed }/>
+                            </Col>
+                            <Col xs={ collapsedSideBarButton } style={{ margin: '0', padding: 0 }}>
+                                <Button onClick={ onCickCollapsed } style={{ background: 'transparent', color: 'black', borderColor: 'transparent' }} >
+                                    {  
+                                        !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    }
+                                </Button>
+                            </Col>
+                        </Row>
                     </Col>
-                    <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
+                    <Col xs={ 12 } lg={ contentColumn } className={ styles['content-data'] }>
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>

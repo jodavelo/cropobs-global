@@ -13,10 +13,12 @@ interface Props {
 export const Layout: FC<Props> = ({ children, title }) => {
 
     const [layoutClassName, setLayoutClassName] = useState('');
-    const { isHome, isData, isAboutUs } = useContext( LayoutContext );
+    const { isHome, isData, isAboutUs, isDataSurfaceContext } = useContext( LayoutContext );
+    console.log({ isHome, isData, isAboutUs, isDataSurfaceContext })
     useEffect(() => {
         if( isHome ) setLayoutClassName( styles.home );
         else if ( isData ) setLayoutClassName( styles.data );
+        else if ( isDataSurfaceContext ) setLayoutClassName( styles['data-sf'] );
         else if ( isAboutUs ) setLayoutClassName( styles['about-us'] )
     }, [])
     

@@ -38,23 +38,32 @@ interface Props {
 export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
 
     const { asPath, locale } = useRouter();
-    const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
+    const { setIsHome, setIsAboutUs, setIsData, setIsDataSurfaceContext } = useContext( LayoutContext );
 
     const onSetIsHome = () => {
-        if( href === '/' ) {
+        if( asPath === '/' ) {
             setIsHome( true ); 
             setIsAboutUs( false );
             setIsData( false );
+            setIsDataSurfaceContext( false );
         }
-        else if ( href === '/data' ){
+        else if ( asPath === '/data' ){
             setIsHome( false ); 
             setIsAboutUs( false );
             setIsData( true );
+            setIsDataSurfaceContext( false );
         }
-        else if ( href === '/about' ){
+        else if ( asPath === '/data/surface-context' ){
+            setIsHome( false ); 
+            setIsAboutUs( false );
+            setIsData( false );
+            setIsDataSurfaceContext( true );
+        }
+        else if ( asPath === '/about' ){
             setIsHome( false ); 
             setIsAboutUs( true );
             setIsData( false );
+            setIsDataSurfaceContext( false );
         }
     }
     // console.log(href.includes(asPath))
@@ -69,7 +78,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
     if( hasMoreOptions ){
         
         return (
-            <div className={styles.dropdown} >
+            <div className={styles.dropdown} key={ uuidv4() } >
                 {/* <button className={ styles.dropbtn } style={{ padding: 0, border:'none', background: 'none',  }} >About  */}
                 <div className={ styles.dropbtn } style={ href === asPath ? style : undefined } >About 
                     <i className="fa fa-caret-down"></i>
@@ -85,7 +94,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
         )
     }
     return (
-        <div className={styles.dropdown}>
+        <div className={styles.dropdown} key={ uuidv4() }>
             <Link key={ href } href={ href } locale={ locale } passHref legacyBehavior>
                 <Nav.Link onClick={ onSetIsHome } style={ href === asPath ? style : undefined } className={ styles.spacingNavbarOptions }>{ text }</Nav.Link>
             </Link>

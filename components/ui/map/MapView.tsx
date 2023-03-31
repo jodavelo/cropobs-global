@@ -92,7 +92,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
             center: [lng, lat], // starting position [lng, lat]
             zoom: zoom, // starting zoom
-            trackResize: true
+            // trackResize: true
         });
         map.current!.on('load', () => {
             map.current!!.addSource('geo_countries', {

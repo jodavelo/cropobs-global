@@ -5,12 +5,14 @@ export interface LayoutState {
     isHome: boolean;
     isData: boolean;
     isAboutUs: boolean;
+    isDataSurfaceContext: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
     isHome: false,
     isData: false,
-    isAboutUs: false
+    isAboutUs: false,
+    isDataSurfaceContext: false
 }
 
 interface Props {
@@ -29,6 +31,10 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Data', payload: settingIsData });
     }
 
+    const setIsDataSurfaceContext = ( settingIsDataSurfaceContext: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Data - Surface Context', payload: settingIsDataSurfaceContext });
+    }
+
     const setIsAboutUs = ( settingIsAboutUs: boolean ) => {
         dispatch({ type: '[Layout] - Set is About Us', payload: settingIsAboutUs });
     }
@@ -40,7 +46,8 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             // Methods
             setIsHome,
             setIsData,
-            setIsAboutUs
+            setIsAboutUs,
+            setIsDataSurfaceContext
         }}>
             { children }
         </LayoutContext.Provider>

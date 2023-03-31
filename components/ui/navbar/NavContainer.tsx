@@ -16,8 +16,8 @@ const items: menuItems[] = [
         titleCategory: 'Category 1',
         menuOptions: [
             {
-                menuLabel: 'Link 1',
-                href: '/data'
+                menuLabel: 'Surface Context',
+                href: '/data/surface-context'
             },
             {
                 menuLabel: 'Link 2',

@@ -6,6 +6,7 @@ import styles from './Navbar.module.css';
 import { style } from './NavLink';
 import { v4 as uuidv4  } from 'uuid';
 import { useWindowSize } from '../../../hooks';
+import Link from 'next/link';
 
 export interface menuOption {
     menuLabel: string;
@@ -28,7 +29,7 @@ export const BigMenu = ({ title, options }: Props) => {
     const [columnWidth, setColumnWidth] = useState(0);
     let href = '/data';
     const { asPath, locale } = useRouter();
-    const { setIsHome, setIsAboutUs, setIsData } = useContext( LayoutContext );
+    const { setIsHome, setIsAboutUs, setIsData, setIsDataSurfaceContext } = useContext( LayoutContext );
     const { width = 100 } = useWindowSize();
 
     useEffect(() => {
@@ -40,27 +41,40 @@ export const BigMenu = ({ title, options }: Props) => {
     }, [ width ])
     
 
-    const onSetIsHome = () => {
-        if( href === '/' ) {
+    const onSetIsHome = ( urlHref?: string) => {
+        if( urlHref === '/' ) {
             setIsHome( true ); 
             setIsAboutUs( false );
             setIsData( false );
+            setIsDataSurfaceContext( false );
         }
-        else if ( href === '/data' ){
+        else if ( urlHref === '/data' ){
             setIsHome( false ); 
             setIsAboutUs( false );
             setIsData( true );
+            setIsDataSurfaceContext( false );
         }
-        else if ( href === '/about' ){
+        else if ( urlHref === '/data/surface-context' ){
+            setIsHome( false ); 
+            setIsAboutUs( false );
+            setIsData( false );
+            setIsDataSurfaceContext( true );
+        }
+        else if ( urlHref === '/about' ){
             setIsHome( false ); 
             setIsAboutUs( true );
             setIsData( false );
+            setIsDataSurfaceContext( false );
         }
+    }
+    // console.log({asPath}) onClick={ onSetIsHome } 
+    const onNavigateBigMenu = (url: string) => {
+        onSetIsHome( url );
     }
 
     return (
-        <div className={ styles.dropdown2 }>
-            <button className={ styles.dropbtn2 } onClick={ onSetIsHome } style={ href.includes(asPath) && href !== '/'  ? style : undefined }>{ title } 
+        <div className={ styles.dropdown2 } key={ uuidv4() }>
+            <button className={ styles.dropbtn2 } style={ href.includes(asPath) && href !== '/'  ? style : undefined }>{ title } 
                 <i className="fa fa-caret-down"></i>
             </button>
             <div className={ styles['dropdown2-content'] }>
@@ -68,67 +82,21 @@ export const BigMenu = ({ title, options }: Props) => {
                 <h2>Mega Menu</h2>
             </div>    */}
                 <div className={ styles.row } style={width <= 1000 ? { display: 'flex', flexDirection: 'column' }: undefined}>
-                    {/* <div className={ styles.column } style={{ width: `${ columnWidth }%` }}>
-                        <h3>Category 1</h3>
-                            <a href="#">Link 1</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
-                    </div>
-                    <div className={ styles.column } style={{ width: `${ columnWidth }%` }}>
-                        <h3>Category 2</h3>
-                            <a href="#">Link 1</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
-                    </div>
-                    <div className={ styles.column } style={{ width: `${ columnWidth }%` }}>
-                        <h3>Category 3</h3>
-                            <a href="#">Link 1</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
-                    </div>
-                    <div className={ styles.column } style={{ width: `${ columnWidth }%` }}>
-                        <h3>Category 4</h3>
-                            <a href="#">Link 1</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
-                    </div> */}
-
                     {
                         options.map(items => (
                             <div key={ uuidv4() } className={ styles.column } style={{ width: `${ columnWidth }%` }}>
                                 <h3>{ items.titleCategory }</h3>
                                 {
                                     items.menuOptions.map(option => (
-                                        <a key={ uuidv4() } href={ option.href }>{ option.menuLabel }</a>
+                                        <Link key={ uuidv4() } href={ option.href } legacyBehavior passHref >
+                                            <a key={ uuidv4() }  onClick={ () => onNavigateBigMenu(option.href) }>{ option.menuLabel }</a>
+                                        </Link>
                                     ))
                                 }
                             </div>
                         ))
                     }
-                    {/* <div className={ styles.column }>
-                        <h3>Category 1</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                    <div className={ styles.column }>
-                        <h3>Category 2</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                    <div className={ styles.column }>
-                        <h3>Category 3</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                    <div className={ styles.column }>
-                        <h3>Category 4</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div> */}
+                    
                 </div>
             </div>
         </div> 
