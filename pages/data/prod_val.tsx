@@ -261,9 +261,7 @@ const PVPage: NextPage = () => {
                             </Row>
                             <Row>
                                 <LeftSideMenuContainer/>
-                                    {/* 
                                     <MapPV/>
-                                    */}
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid', overflowY: 'scroll' } : { display: 'none' } }>
                                     
                                     <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description} />
