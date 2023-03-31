@@ -1,5 +1,11 @@
 import { Box } from "@mui/material";
-import { DataGrid, GridCellParams, GridColDef, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef, GridEventListener, GridRowsProp, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { FC } from "react";
+
+interface Props {
+    rows: GridRowsProp
+    handleRowClick: GridEventListener<'rowClick'>
+}
 
 function QuickSearchToolbar() {
     return (
@@ -14,17 +20,14 @@ function QuickSearchToolbar() {
     );
 }
 
-const columns: GridColDef[] = [{ field: 'country', headerName: 'Country', width: 150 }];
+const columns: GridColDef[] = [{ field: 'country', headerName: 'Country', width: 200 }];
 
-const rows = [{id:1, country: 'Colombia'}, {id:2, country: 'Ecuador'}, {id:3, country: 'Venezuela'}];
-
-export const DataTableSearch = () => {
-    
-
+export const DataTableSearch: FC<Props> = ({ rows, handleRowClick }) => {
     return (
         <Box sx={{ height: '50vh', width: '100%' }}>
             <DataGrid
                 rows={rows}
+                onRowClick={handleRowClick}
                 columns={columns}
                 localeText={{
                 toolbarQuickFilterPlaceholder: 'Buscar...'
