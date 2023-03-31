@@ -70,7 +70,7 @@ const ProductionPage: NextPage = () => {
     const [showGraphs, setShowGraphs] = useState(false);
     const { setSteps, setIsOpen } = useTour();
     const [showCountries, setShowCountries] = useState(false);
-    const [clickId, setClickId] = useState<string | number | null>(null)
+    const [clickId, setClickId] = useState<string | number | null>(null);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
 
@@ -298,18 +298,22 @@ const ProductionPage: NextPage = () => {
                                 <Row>
                                     <LeftSideMenuContainer/>
                                     <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                            <Button
-                                                className={`${styles['search-country-button']}`}
-                                                style={{width: '145px'}}
-                                                onClick={() => setShowCountries(true)}
-                                            >
-                                                Search Country
-                                            </Button>
+                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                            <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                                <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                            </Row>
+                                            <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                                <Button
+                                                    className={`${styles['search-country-button']}`}
+                                                    style={{width: '145px'}}
+                                                    onClick={() => setShowCountries(true)}
+                                                >
+                                                    Search Country
+                                                </Button>
+                                            </Row>
                                         </Row>
                                         <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
                                     </Col>

@@ -29,6 +29,7 @@ import Button from 'react-bootstrap/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import { useWindowSize } from '../../hooks';
+import { SearchCountryModal } from '../../components/data/search-country-modal';
 
 
 interface sectionState {
@@ -44,7 +45,6 @@ interface sectionState {
 const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui 
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
-let clickId: string | number | null = null;
 
 
 const SurfaceContextPage: NextPage = () => {
@@ -84,6 +84,8 @@ const SurfaceContextPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+    const [showCountries, setShowCountries] = useState(false);
+    const [clickId, setClickId] = useState<string | number | null>(null);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
     // alert(`${baseURL}/api/v1/data/elements/1`);
@@ -139,7 +141,7 @@ const SurfaceContextPage: NextPage = () => {
                     locationName: e.features![0].properties!.country_name
                 }));
                 // console.log(e.features![0].properties!.country_name);
-                clickId = e.features![0].id ?? null;
+                setClickId(e.features![0].id ?? null);
             });
         }
     }, [map]);
@@ -199,7 +201,7 @@ const SurfaceContextPage: NextPage = () => {
                         { clicked: false }
                     );
                 }
-                clickId = null;
+                setClickId(null);
             }
         }
     }, [isLoadingRegions, macroRegionCode]);
@@ -218,7 +220,7 @@ const SurfaceContextPage: NextPage = () => {
                     { clicked: false }
                 );
             }
-            clickId = null;
+            setClickId(null);
         }
     }, [regionCode])
 
@@ -388,11 +390,22 @@ const SurfaceContextPage: NextPage = () => {
                             <Row>
                                 <LeftSideMenuContainer/>
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                        <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                        <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                        <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                            <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                            <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                            <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                        </Row>
+                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                            <Button
+                                                className={`${styles['search-country-button']}`}
+                                                style={{width: '145px', height: 'inherit'}}
+                                                onClick={() => setShowCountries(true)}
+                                            >
+                                                Search Country
+                                            </Button>
+                                        </Row>
                                     </Row>
                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
                                 
@@ -416,6 +429,7 @@ const SurfaceContextPage: NextPage = () => {
                     </Col>
                 </Row>
             </Container>
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
         </Layout>
     )
 }
