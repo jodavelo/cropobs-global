@@ -19,6 +19,7 @@ import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui
 import { useWindowSize } from '../../hooks';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { MapContext } from '../../context/map';
+import React from 'react';
 
 
 interface sectionState {

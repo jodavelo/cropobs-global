@@ -59,26 +59,26 @@ const data: DataPodium[] = [
     }
 ]
 
-const items: PercentInfoProps[] = [
-  {
-      percent: 1.25,
-      label: 'lorem ipsum',
-      secondaryLabel: 'something for to whow'
-  },
+// const items: PercentInfoProps[] = [
 //   {
 //       percent: 1.25,
 //       label: 'lorem ipsum',
 //       secondaryLabel: 'something for to whow'
 //   },
-  // {
-  //   percent: 1.25,
-  //   label: 'lorem ipsum'
-  // },
-  // {
-  //   percent: 1.25,
-  //   label: 'lorem ipsum'
-  // },
-]
+// //   {
+// //       percent: 1.25,
+// //       label: 'lorem ipsum',
+// //       secondaryLabel: 'something for to whow'
+// //   },
+//   // {
+//   //   percent: 1.25,
+//   //   label: 'lorem ipsum'
+//   // },
+//   // {
+//   //   percent: 1.25,
+//   //   label: 'lorem ipsum'
+//   // },
+// ]
 const DataPage: NextPage = () => {
 
 
@@ -159,7 +159,7 @@ const DataPage: NextPage = () => {
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh',  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 </Col>
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid' } : { display: 'none' } }>
-                                    <PlotlyChartStackedAreaContainer fetchDataUrl='api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]' cropNameToFind='Beans, dry' secondCropName='Pulses excl. Beans' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} />
+                                    {/* <PlotlyChartStackedAreaContainer fetchDataUrl='api/v1/chart/default/beans_surface_context/WLRD?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]' cropNameToFind='Beans, dry' secondCropName='Pulses excl. Beans' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                     {/* <LineChartjs dataURL={'http://192.168.0.181:3000/api/dummy'} options={annual_growth_options}/> */}
                                     {/* <ChartSelection dataURLArr={['https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1001,1002,1003]&cropIds=[176]', 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production/WLRD?elementIds=[1007,1008,1009]&cropIds=[176]']} optionsArr={[annual_growth_options, ten_year_moving_average_options]} configArr={[{key: 'id_element', name:'id_element'}, {key: 'id_element', name:'id_element'}]} namesArr={['Annual Growth', '10-day moving average']}/> */}
                                     {/* <LineChartjs options={annual_growth_options} data={datax}/> */}

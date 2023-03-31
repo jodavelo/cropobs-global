@@ -77,6 +77,7 @@ const MapTest: NextPage = () => {
     const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
 
     useEffect(() => {
+        console.log(`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`)
         if( buttonBoth ) {
             setMapCol(6)
             setGraphsCol(6)
