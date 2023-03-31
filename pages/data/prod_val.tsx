@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
@@ -10,7 +10,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { PodiumProductVal as Podium, PorcentagesBox, MultichartPV, ChartFrame, ChartSelectionPV, MapPV } from '../../components/data';
+import { PorcentagesBox, MultichartPV, ChartFrame, ChartSelectionPV, MapPV, PodiumWithLinkCon } from '../../components/data';
 import { datasetGeneratorPV, GetChartData2 } from '../../helpers/data';
 
 import { annual_growth_optionsPV, ten_year_moving_average_optionsPV } from '../../helpers/data/chartjs-options';
@@ -28,7 +28,7 @@ interface sectionState {
 }
 
 const PVPage: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('data');
+    const { t: dataTranslate } = useTranslation('data-prod-val');
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: -1,
         regionCode: 'WLRD',
@@ -89,15 +89,9 @@ const PVPage: NextPage = () => {
     const data3 = data3Json.map((datum: any) => datum.value);
     const data4 = data4Json.map((datum: any) => datum.value);
 
-    let [dataPorcentage1, setPorc1] = useState({
-        value: 0,
-        text: "Of the production value",
-    })
+    let [valuePorc1, setValuePorc1] = useState(0)
 
-    let [dataPorcentage2, setPorc2] = useState({
-        value: 0,
-        text: "Of the pulses production value",
-    });
+    let [valuePorc2, setValuePorc2] = useState(0)
 
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
@@ -105,12 +99,12 @@ const PVPage: NextPage = () => {
     useEffect( () => {
         axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${regionCode}/1153/176/${year}`})
         .then(response => {
-            setPorc1({value: response.data, text: dataPorcentage1.text})
+            setValuePorc1(response.data)
         })
 
         axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${regionCode}/1154/176/${year}`})
         .then(response => {
-            setPorc2({value: response.data, text: dataPorcentage2.text})
+            setValuePorc2(response.data)
         })
 
         axios({url: `https://commonbeanobservatory.org/api/v1/chart/default/beans_production_value/${regionCode}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
@@ -188,18 +182,65 @@ const PVPage: NextPage = () => {
         },
     ]
 
+    const percentConfig1 = {
+        value: valuePorc1,
+        text : dataTranslate('porc1-label'),
+    }
+
+    const percentConfig2 = {
+        value: valuePorc2,
+        text : dataTranslate('porc2-label'),
+    }
+
+
+    const podiumConfig = {
+
+        url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${regionCode}/252/176/${year}`,
+        text:  [dataTranslate('podium-title1'),dataTranslate('podium-title2')+year],
+        description: '',
+    }
+
+    const chartTxts = {
+        title: dataTranslate('chart1-title'),
+        axis_x : "",
+        axis_y : dataTranslate('chart1-axis-y'),
+        datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4')]
+    }
+
+    const datasetsTranslated = (datasets: any[], index: number) => {
+        const result = Array(0)
+        datasets.map((ds,idx) => {
+            const ds_trans = {} as any
+            for (let key in ds) {
+                ds_trans[key] = ds[key]
+                if(key == "label") ds_trans[key] = dataTranslate('chart2'+index+'-dataset'+(idx+1))
+            }
+            result.push(ds_trans)
+        })
+        return result
+    }
+
+    const optionsTranslated = (options: any,index:number) => {
+        const result = {} as any
+        for (let key in options) {
+            result[key] = options[key]
+            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart2'+index+'-title')
+        }
+        return result
+    }
+
     const chartConfig = [
         {
-            dataURL: anualdata,
-            options: annual_growth_optionsPV,
-            config: {key: 'crop_name', name:'id_element'},
-            name: 'Annual growth'
+            dataURL: {labels:anualdata.labels,datasets:datasetsTranslated(anualdata.datasets,1)},
+            options: optionsTranslated(annual_growth_optionsPV,1),
+            config: {key: 'id_crop', name: 'crop_name'},
+            name: dataTranslate('chart2-opt1')
         },
         {
-            dataURL: tenyearsdata,
-            options: ten_year_moving_average_optionsPV,
-            config: {key: 'crop_name', name:'id_element'},
-            name: '10-year moving average'
+            dataURL: {labels:tenyearsdata.labels,datasets:datasetsTranslated(tenyearsdata.datasets,2)},
+            options: optionsTranslated(ten_year_moving_average_optionsPV,1),
+            config: {key: 'id_crop', name: 'crop_name'},
+            name: dataTranslate('chart2-opt2')
         }
     ]
 
@@ -219,21 +260,20 @@ const PVPage: NextPage = () => {
                             </Row>
                             <Row>
                                 <LeftSideMenuContainer/>
-                                    {/*<MapView>
-                                        <TopSideMenuContainer/>
-                                    </MapView>*/}
+                                    {/* 
                                     <MapPV/>
+                                    */}
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs ? { display: 'block', height: '80vh', border: '1px black solid', overflowY: 'scroll' } : { display: 'none' } }>
                                     
-                                    <Podium dataURL={`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${regionCode}/252/176/${year}`} year={year} />
-                                    <PorcentagesBox data_1={dataPorcentage1} data_2={dataPorcentage2} />
-                                    <ChartFrame data={dataFrame1} toggleText={'Toggle test'} excludedClasses={[]}>
-                                        <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} />
+                                    <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description} />
+                                    <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
+                                    <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                        <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
                                     </ChartFrame>
-                                    <ChartFrame data={dataFrame2} toggleText={'Toggle test'} excludedClasses={['chart-select']}>
+                                    <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
                                         <ChartSelectionPV chartConfigList={chartConfig} />
                                     </ChartFrame>
-                                    
+                                    <div> Source: <i>Data source</i> </div>
                                 </Col>
                             </Row>                            
                         </Container>
@@ -247,7 +287,7 @@ const PVPage: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...( await serverSideTranslations( locale!, ['data'] ) ),
+            ...( await serverSideTranslations( locale!, ['data-prod-val'] ) ),
         }
     }
 }

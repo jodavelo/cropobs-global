@@ -1,0 +1,34 @@
+{
+    "title-header": "Data-ProductionValue",
+    "title-page": "Production Value page",
+    "label-cropland-area": "",
+
+    "podium-title1":"Beans were the ",
+    "podium-title2":" most important crop in relation to the value of production in ",
+
+    "porc1-label":"of the crop production value",
+    "porc2-label":"of the pulses production value",
+
+    "chart1-title":"Gross production value - <World>",
+    "chart1-dataset1":"Beans-dry",
+    "chart1-dataset2":"Pulses",
+    "chart1-dataset3":"Crops",
+    "chart1-dataset4":"Agriculture",
+    "chart1-axis-y":"Thousands of dollars (USD)",
+    "chart1-toggle":"char 1 toggle english",
+
+    "chart2-opt1": "Annual growth",
+    "chart2-opt2": "10-year moving average",
+
+    "chart21-title":"Annual value growth of <imports> of <common beans> - <World>",
+    "chart21-dataset1":"Quantity growth (Annual)",
+    "chart21-dataset2":"Price growth (Annual)",
+    "chart21-dataset3":"Value growth (Annual)",
+    "chart2-toggle":"Toggle chart 2 english",
+
+    "chart22-title":"10-year moving average <common beans> <imports> value - <World>",
+    "chart22-dataset1":"Quantity growth (10-yr moving avg)",
+    "chart22-dataset2":"Value growth (10-yr moving avg)",
+    "chart22-dataset3":"Price growth (10-yr moving avg)" 
+
+}
