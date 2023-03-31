@@ -3,21 +3,29 @@ import { Chart as ChartComponent } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
+interface ChartTexts {
+  title: string,
+  axis_x : string,
+  axis_y : string,
+  datasets: string[]
+}
+
 interface Props {
     xLabels: number[],
     data1: number[],
     data2: number[],
     data3: number[],
     data4: number[],
+    chartTexts: ChartTexts
 };
 
-export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4}) => {
+export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts}) => {
     const data = {
         labels: xLabels,
         datasets: [
           {
             type: 'line' as const,
-            label: 'Beans',
+            label: chartTexts.datasets[0],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -41,7 +49,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
           },
           {
             type: 'line' as const,
-            label: 'Pulses',
+            label: chartTexts.datasets[1],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -65,7 +73,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
           },
           {
             type: 'line' as const,
-            label: 'Agriculture',
+            label: chartTexts.datasets[2],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -89,7 +97,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
           },
           {
             type: 'line' as const,
-            label: 'Crops',
+            label: chartTexts.datasets[3],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -126,7 +134,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
         plugins: {
           title: {
             display: true,
-            text: 'Gross Production Value',
+            text: chartTexts.title,
           },
           legend : {
             position : 'bottom'
@@ -141,7 +149,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
             },
             title: {
               display: true,
-              text: 'Thousand of dollar (USD)'
+              text: chartTexts.axis_y
             },
             type: 'linear' as const,
             display: true,

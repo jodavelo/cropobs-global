@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
@@ -18,8 +18,9 @@ import { LeftSideMenuContainer, TopSideMenuContainer } from '../../components/ui
 import { useWindowSize } from '../../hooks';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { MapContext } from '../../context/map';
-import { PodiumSelection } from '../../components/data/podium/PodiumSelection';
+import { PodiumSelectionCon } from '../../components/data/podium/PodiumSelectionCon';
 import { APorcentagesBox } from '../../components/data/porcentages-box/APorcentagesBox';
+import { useRouter } from 'next/router';
 
 interface sectionState {
     elementId: number,
@@ -28,7 +29,8 @@ interface sectionState {
 }
 
 const DataPage: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('data');
+    const { t: dataTranslate } = useTranslation('data-consuption');
+    const { locale } = useRouter();
     const [sectionState, setSectionState] = useState<sectionState>({
         elementId: -1,
         regionCode: 'WLRD',
@@ -76,21 +78,21 @@ const DataPage: NextPage = () => {
     const podiumConfig = [
         {
             url: `https://commonbeanobservatory.org/api/v1/data/podium/${regionCode}/4/2546/${year - 1}`,
-            text: `Beans was the 17 most important food in terms of its caloric contribution to the diet in ${year}`,
-            name: 'Caloric Contribution',
-            description: ''
+            text:  [dataTranslate('podium1-title1'),dataTranslate('podium1-title2')+year],
+            name: dataTranslate('podium-option1'),
+            description: '',
         },
         {
             url: `https://commonbeanobservatory.org/api/v1/data/podium/${regionCode}/20/2546/${year - 1}`,
-            text: `Beans was the 8most important food in terms of its proteic contribution to the diet in  ${year}`,
-            name: 'Proteic Contribution',
-            description: ''
+            text: [dataTranslate('podium2-title1'),dataTranslate('podium2-title2')+year],
+            name: dataTranslate('podium-option2'),
+            description: '',
         },
         {
             url: `https://commonbeanobservatory.org/api/v1/data/podium/${regionCode}/5/2546/${year - 1}`,
-            text: `Beans was the 22 ranked crop in number of calories produced per hectare in  ${year}`,
-            name: 'Calories per Hectare',
-            description: ''
+            text: [dataTranslate('podium3-title1'),dataTranslate('podium3-title2')+year],
+            name: dataTranslate('podium-option3'),
+            description: '',
         },
     ]
 
@@ -183,6 +185,7 @@ const DataPage: NextPage = () => {
     let [databar12, setdatabar12] = useState(Array(0))
     let [databar13, setdatabar13] = useState(Array(0))
     let [databar14, setdatabar14] = useState(Array(0))
+    let [databar15, setdatabar15] = useState(Array(0))
 
     let [xlabels2, setxlabels2] = useState(Array(0))
     let [datapoints2, setdatapoints2] = useState(Array(0))
@@ -216,6 +219,22 @@ const DataPage: NextPage = () => {
 
     }, [])
 
+    const chartTxts1 = {
+        title: dataTranslate('chart1-title'),
+        axis_x : "",
+        axis_y : dataTranslate('chart1-axis-y'),
+        axis_y2 : dataTranslate('chart1-axis-y2'),
+        datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4'),dataTranslate('chart1-dataset5'),dataTranslate('chart1-dataset6')]
+    }
+
+    const chartTxts2 = {
+        title: dataTranslate('chart2-title'),
+        axis_x : "",
+        axis_y : dataTranslate('chart2-axis-y'),
+        axis_y2 : dataTranslate('chart2-axis-y2'),
+        datasets: [dataTranslate('chart2-dataset1'),dataTranslate('chart2-dataset2'),dataTranslate('chart2-dataset3'),dataTranslate('chart2-dataset4')]
+    }
+
     return (
         <Layout title={dataTranslate('title-header')}>
             <Container fluid>
@@ -234,23 +253,24 @@ const DataPage: NextPage = () => {
                                 <LeftSideMenuContainer />
                                 <MapCON/>
                                 <Col xs={12} lg={graphsCol} style={showGraphs ? { display: 'block', height: '81vh', border: '1px black solid', overflowY: 'scroll' } : { display: 'none' }}>
-                                    <PodiumSelection podiumsList={podiumConfig} />
+                                    <PodiumSelectionCon podiumsList={podiumConfig} />
                                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }}>
-                                        <span>Per capita consuption in the year {year - 1}:</span>
-                                        <span>{Math.round(perCapConsup * 100) / 100} kg per person</span>
-                                        <span style={{ marginTop: '25px', marginBottom: '10px' }}>Accounting for:</span>
+                                        <span>{dataTranslate('per-capita-title')} {year - 1}:</span>
+                                        <span>{Math.round(perCapConsup * 100) / 100} kg {dataTranslate('per-capita-label')}</span>
+                                        <span style={{ marginTop: '25px', marginBottom: '10px' }}>{dataTranslate('porc-title')}:</span>
                                     </div>
-                                    <PorcentagesBox data_1={{ value: dataPorcentage1.value, text: `Of a total daily caloric intake of ${Math.round(dataComplmnt1 * 100) / 100} calories` }}
-                                        data_2={{ value: dataPorcentage2.value, text: `Of a total daily caloric intake from plant-based foods of ${Math.round(dataComplmnt2 * 100) / 100} calories` }} />
-                                    <PorcentagesBox data_1={{ value: dataPorcentage3.value, text: `Of a total daily proteic intake of ${Math.round(dataComplmnt3 * 100) / 100} grams of protein` }}
-                                        data_2={{ value: dataPorcentage4.value, text: `Of a total daily caloric intake from plant-based foods of ${Math.round(dataComplmnt4 * 100) / 100} calories` }} />
-                                    <ChartFrame data={[]} toggleText='texto muestra del toggle' excludedClasses={[]}>
-                                        { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} />)} 
+                                    <PorcentagesBox data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label1')+(Math.round(dataComplmnt1* 100) / 100).toString()+dataTranslate('porc1-label2')}}
+                                        data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label1')+(Math.round(dataComplmnt2 * 100) / 100).toString()+dataTranslate('porc2-label2') }} />
+                                    <PorcentagesBox data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label1')+(Math.round(dataComplmnt3 * 100) / 100).toString()+dataTranslate('porc3-label2') }}
+                                        data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label1')+(Math.round(dataComplmnt4 * 100) / 100).toString()+dataTranslate('porc4-label2') }} />
+                                    <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                        { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} chartTexts={chartTxts1} />)} 
                                     </ChartFrame>
                                     <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
-                                    <ChartFrame data={[]} toggleText='texto muestra del toggle' excludedClasses={[]}>
-                                        { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} />)} 
+                                    <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                        { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                     </ChartFrame>
+                                    <div> Source: <i>Data source</i> </div>
                                 </Col>
                             </Row>
                         </Container>
@@ -264,7 +284,7 @@ const DataPage: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...(await serverSideTranslations(locale!, ['data'])),
+            ...(await serverSideTranslations(locale!, ['data-consuption'])),
         }
     }
 }

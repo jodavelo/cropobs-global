@@ -4,34 +4,30 @@ import { Chart, registerables } from 'chart.js';
 import { useRouter } from "next/router";
 Chart.register(...registerables);
 
+interface ChartTexts {
+  title: string,
+  axis_x : string,
+  axis_y : string,
+  datasets: string[]
+}
+
 interface Props {
     xLabels: any[],
     data1: number[],
     data2: number[],
     data3: number[],
     data4: number[],
+    chartTexts: ChartTexts
 };
 
-export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4}) => {
+export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts}) => {
   const { locale } = useRouter();
-  let title = "";
-  switch (locale) {
-      case 'en':
-          title = "Value of imports by type of beans - WORLD";
-          break;
-      case 'es':
-          title = "Valor de las importaciones por tipo de frijol - MUNDO";
-          break;
-      case 'pt':
-          title = "Valor do importaciones por feijol - MUNDO";
-          break;
-  }  
   const data = {
         labels: xLabels,
         datasets: [
           {
             type: 'line' as const,
-            label: 'Data1',
+            label: chartTexts.datasets[0],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -55,7 +51,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
           },
           {
             type: 'line' as const,
-            label: 'data2',
+            label: chartTexts.datasets[1],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -79,7 +75,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
           },
           {
             type: 'line' as const,
-            label: 'data3',
+            label: chartTexts.datasets[2],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -103,7 +99,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
           },
           {
             type: 'line' as const,
-            label: 'data4',
+            label: chartTexts.datasets[3],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -139,7 +135,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
         plugins: {
           title: {
             display: true,
-            text: title,
+            text: chartTexts.title,
           },
           legend : {
             position : 'bottom'
@@ -148,6 +144,20 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4}) =
         scales: {
           y: {
             stacked: true,
+            ticks: {
+              callback: function(value: any, index : any, ticks : any) {
+                if(value < 1000000){
+                  return Math.round(value/100)/10 + 'k';
+                }
+                else {
+                  return Math.round(value/100000)/10 + 'M';
+                } 
+              }
+            },
+            title: {
+              display: true,
+              text: chartTexts.axis_y
+            },
           },/*
           y: {
             ticks: {

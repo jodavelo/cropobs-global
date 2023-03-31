@@ -9,13 +9,40 @@
     "label-chart5": "in ",
 
     "label-chart6": "Total ",
-    "label-chart7": "import ",
+    "label-chart7": "<import> ",
     "label-chart8": "value ",
 
-    "label-perc1": "of total food and beverage imports value",
-    "label-perc2": "of total food and beverage imports (primary) value",
-    "label-perc3": "of total pulses imports value",
+    "label-perc1": "of total food and beverage <imports> value",
+    "label-perc2": "of total food and beverage <imports> (primary) value",
+    "label-perc3": "of total pulses <imports> value",
 
-    "chart2-opt1": "Annual growth",
-    "chart2-opt2": "10-year moving average"
+    "tree-toggle" : "Toggle tree English",
+
+    "chart1-title": "<Imports> of <common beans> - <Word>",
+    "chart1-axis-y":"Value (USD) and Quality (kg)",
+    "chart1-dataset1":"Value (US$)",
+    "chart1-dataset2":"Quantity (kg)",
+    "chart1-toggle" : "Toggle chart 1 English",
+
+    "chart2-title": "Value of <imports> by type of <beans> - <Word>",
+    "chart2-axis-y":"Value(US$)",
+    "chart2-dataset1":"",
+    "chart2-dataset2":"",
+    "chart2-dataset4":"",
+    "chart2-dataset3":"",
+    "chart2-toggle":"Toggle chart 2 english",
+
+    "chart3-opt1": "Annual growth",
+    "chart3-opt2": "10-year moving average",
+
+    "chart31-title":"Annual value growth of <imports> of <common beans> - <World>",
+    "chart31-dataset1":"Quantity growth (Annual)",
+    "chart31-dataset2":"Price growth (Annual)",
+    "chart31-dataset3":"Value growth (Annual)",
+    "chart3-toggle":"Toggle chart 3 english",
+
+    "chart32-title":"10-year moving average <common beans> <imports> value - <World>",
+    "chart32-dataset1":"Quantity growth (10-yr moving avg)",
+    "chart32-dataset2":"Value growth (10-yr moving avg)",
+    "chart32-dataset3":"Price growth (10-yr moving avg)" 
 }

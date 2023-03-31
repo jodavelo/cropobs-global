@@ -16,6 +16,33 @@
     "label-perc2": "del valor total de las importaciones de alimentos y bebidas (primario)",
     "label-perc3": "del valor total de las importaciones de legumbre",
 
-    "chart2-opt1": "Crecimiento Anual",
-    "chart2-opt2": "Media Movil de 10 años"
+    "tree-toggle" : "Toggle tree Espanol",
+
+    "chart1-title": "<Importaciones> de <common beans> - <Mundo>",
+    "chart1-axis-y":"Valor (USD) y Cantidad (kg)",
+    "chart1-dataset1":"Valor (US$)",
+    "chart1-dataset2":"Cantidad (kg)",
+    "chart1-toggle" : "Toggle chart 1 español",
+
+    "chart2-title": "Valor de las <importaciones> por tipo de <fríjol> - <Mundo>",
+    "chart2-axis-y":"Valor (US$)",
+    "chart2-dataset1":"",
+    "chart2-dataset2":"",
+    "chart2-dataset4":"",
+    "chart2-dataset3":"",
+    "chart2-toggle" : "Toggle chart 2 espanol",
+
+    "chart3-opt1": "Crecimiento anual",
+    "chart3-opt2": "Media movil de 10 años",
+
+    "chart31-title":"Crecimiento anual de las <importaciones> de <common beans> - <Mundo>",
+    "chart31-dataset1":"Crecimiento de la cantidad (anual)",
+    "chart31-dataset2":"Crecimiento del precio (anual)",
+    "chart31-dataset3":"Crecimiento del valor (anual)",
+    "chart3-toggle":"Toggle chart 3 espanol",
+
+    "chart32-title":"Media móvil de 10 años de las <importaciones> de <common beans> - <Mundo>",
+    "chart32-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
+    "chart32-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
+    "chart32-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)"
 }
