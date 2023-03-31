@@ -4,6 +4,7 @@ import { Topbar, NavbarComponent, Footer } from '../ui';
 
 import styles from './Layout.module.css';
 import { LayoutContext } from '../../context/layout';
+import { useRouter } from 'next/router';
 
 interface Props {
     children: React.ReactNode,
@@ -13,14 +14,40 @@ interface Props {
 export const Layout: FC<Props> = ({ children, title }) => {
 
     const [layoutClassName, setLayoutClassName] = useState('');
-    const { isHome, isData, isAboutUs, isDataSurfaceContext } = useContext( LayoutContext );
-    console.log({ isHome, isData, isAboutUs, isDataSurfaceContext })
+    const { asPath } = useRouter();
+    const { isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases, setIsHome, setIsDataSurfaceContext, setIsAboutUs, setIsDatabases } = useContext( LayoutContext );
+    console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
     useEffect(() => {
         if( isHome ) setLayoutClassName( styles.home );
         else if ( isData ) setLayoutClassName( styles.data );
         else if ( isDataSurfaceContext ) setLayoutClassName( styles['data-sf'] );
-        else if ( isAboutUs ) setLayoutClassName( styles['about-us'] )
+        else if ( isAboutUs ) setLayoutClassName( styles['about-us'] );
+        else if ( isDatabases ) setLayoutClassName( styles.databases );
     }, [])
+    
+    useEffect(() => {
+        if( asPath == '/' ) {
+            setLayoutClassName( styles.home );
+            setIsHome( true );
+        }
+        else if ( asPath == '/data/surface-context' ) { 
+            setLayoutClassName( styles.data );
+            setIsDataSurfaceContext( true );
+        }
+        else if ( asPath == '/data/surface-context' ) {
+            setLayoutClassName( styles['data-sf'] );
+            setIsDataSurfaceContext( true );
+        }
+        else if ( asPath == '/about' ) {
+            setLayoutClassName( styles['about-us'] ); 
+            setIsAboutUs( true );
+        }
+        else if ( asPath == '/about/databases' )  {
+            setLayoutClassName( styles.databases );
+            setIsDatabases( true );
+        }
+    }, [ asPath ])
+    
     
     
     return (

@@ -6,13 +6,15 @@ export interface LayoutState {
     isData: boolean;
     isAboutUs: boolean;
     isDataSurfaceContext: boolean;
+    isDatabases: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
     isHome: false,
     isData: false,
     isAboutUs: false,
-    isDataSurfaceContext: false
+    isDataSurfaceContext: false,
+    isDatabases: false
 }
 
 interface Props {
@@ -39,6 +41,10 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is About Us', payload: settingIsAboutUs });
     }
 
+    const setIsDatabases = ( settingIsDatabases: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Databases', payload: settingIsDatabases });
+    }
+
     return (
         <LayoutContext.Provider value={{
             ...state,
@@ -47,7 +53,8 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             setIsHome,
             setIsData,
             setIsAboutUs,
-            setIsDataSurfaceContext
+            setIsDataSurfaceContext,
+            setIsDatabases
         }}>
             { children }
         </LayoutContext.Provider>
