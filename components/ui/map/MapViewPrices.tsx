@@ -3,28 +3,43 @@ import mapboxgl, { Map, Marker, GeoJSONSource } from 'mapbox-gl';
 import { MapContext } from '../../../context/map';
 import { LeftSideMenuContainer } from './filters';
 import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
+import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
 
-
-interface marker {    
-    priceDataGeopoint: object}
-
+export interface Feature {
+    type: FeatureType;
+    properties: Properties;
+    geometry: Geometry;
+}
+export interface Properties {
+    id_geo_point: number;
+    id_country: number;
+    id_geo_admin2: number;
+    label: string;
+}
+export enum FeatureType {
+    Feature = "Feature",
+}
+export interface marker {
+    priceDataGeopoint: Feature
+}
 interface Props {
     children?: JSX.Element | JSX.Element[]
     markers?: marker
-    setIdCountry?: () => void 
-    setIdGeoPoint?: () => void
+    features?: Feature
+    setIdCountry?: (data: number) => void;
+    setIdGeoPoint?: (data: number) => void;
 }
 
 
-export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint }: Props) => {
+export const MapViewPrices = ({ children, markers, setIdCountry, setIdGeoPoint }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
     const [lat, setLat] = useState(42.35);
     const [zoom, setZoom] = useState(1);
     let hoveredStateId: number | string | null = null;
-    const { setMap } = useContext( MapContext );
-  
+    const { setMap } = useContext(MapContext);
+
     useEffect(() => {
         if (map.current) return;
         map.current = new Map({
@@ -32,9 +47,9 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL            
             center: [lng, lat], // starting position [lng, lat]            
             zoom: zoom, // starting zoom            
-            trackResize: true        
+            trackResize: true
         });
-        setMap( map.current );   
+        setMap(map.current);
     });
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize        
@@ -44,30 +59,32 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
             setZoom(Number(map.current!.getZoom().toFixed(2)));
         });
     });
-    useEffect(()=>{
-      if(map.current?.getSource('earthquakes') != undefined){
-        map.current?.removeLayer('unclustered-point')
-        map.current?.removeLayer('cluster-count')
-        map.current?.removeLayer('clusters')
-        map.current?.removeSource('earthquakes')
-        map.current?.removeImage('custom-marker')
-      }
-        if(map.current && markers?.priceDataGeopoint &&  markers?.priceDataGeopoint.hasOwnProperty('features')){
+
+
+    useEffect(() => {
+
+        if (map.current?.getSource('earthquakes') != undefined) {
+            map.current?.removeLayer('unclustered-point')
+            map.current?.removeLayer('cluster-count')
+            map.current?.removeLayer('clusters')
+            map.current?.removeSource('earthquakes')
+            map.current?.removeImage('custom-marker')
+        }
+        if (map.current && markers?.priceDataGeopoint && markers?.priceDataGeopoint.hasOwnProperty('features')) {
             map.current.loadImage(
                 'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
                 (error, image) => {
-                if (error) throw error;
-                map.current?.addImage('custom-marker', image);
-            })
-            //console.log(map.current.getSource('earthquakes'))
-            let datans = markers?.priceDataGeopoint            
+                    if (error) throw error;
+                    map.current?.addImage('custom-marker', image!);
+                })
+            let datans = markers?.priceDataGeopoint
             map.current.addSource('earthquakes', {
                 type: 'geojson',
                 data: datans,
                 generateId: true,
                 cluster: true,
                 clusterMaxZoom: 14,
-                clusterRadius: 40            
+                clusterRadius: 40
             });
             map.current.addLayer({
                 id: 'clusters',
@@ -94,14 +111,14 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
                 layout: {
                     'text-field': ['get', 'point_count_abbreviated'],
                     'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                    'text-size': 12                
+                    'text-size': 12
                 }
             });
-            map.current.addLayer({ 
-                id: 'unclustered-point', 
-                type: 'symbol', 
-                source: 'earthquakes', 
-                filter: ['!', ['has', 'point_count']], 
+            map.current.addLayer({
+                id: 'unclustered-point',
+                type: 'symbol',
+                source: 'earthquakes',
+                filter: ['!', ['has', 'point_count']],
                 layout: {
                     "icon-image": "custom-marker", //but monument-15 works
                     "text-field": "{title}",
@@ -117,7 +134,7 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
             map.current.on('mouseleave', 'clusters', () => {
                 if (hoveredStateId !== null) {
                     map.current!.setFeatureState(
-                        { source: 'earthquakes', id: hoveredStateId},
+                        { source: 'earthquakes', id: hoveredStateId },
                         { hover: false }
                     );
                 }
@@ -125,19 +142,19 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
                 hoveredStateId = null;
             });
             map.current.on('click', 'clusters', (e) => {
-                const clusterId = e.features![0].properties.cluster_id;
-                const clusterSource:  any = map.current?.getSource('earthquakes');
-                
+                const clusterId = e.features![0].properties!.cluster_id;
+                const clusterSource: any = map.current?.getSource('earthquakes');
+
                 clusterSource.getClusterExpansionZoom(clusterId, (err: any, zoom: any) => {
                     if (err) {
                         return;
                     }
-                    
+
                     map.current?.easeTo({
                         center: e.lngLat,
                         zoom: zoom,
                     });
-                    
+
                     map.current!.getCanvas().style.cursor = '';
                 });
             });
@@ -147,33 +164,33 @@ export const MapViewPrices = ({ children,  markers, setIdCountry, setIdGeoPoint 
             map.current.on('mouseleave', 'unclustered-point', () => {
                 if (hoveredStateId !== null) {
                     map.current!.setFeatureState(
-                        { source: 'earthquakes', id: hoveredStateId},
+                        { source: 'earthquakes', id: hoveredStateId },
                         { hover: false }
                     );
                 }
                 map.current!.getCanvas().style.cursor = '';
                 hoveredStateId = null;
             });
-            
-            map.current.on('click', 'unclustered-point', (e) => { 
-                let id_country = e.features![0].properties?.id_country 
-                let id_geo_point = e.features![0].properties?.id_geo_point 
-                setIdCountry(id_country) 
-                setIdGeoPoint(id_geo_point)
-            }); 
+
+            map.current.on('click', 'unclustered-point', (e) => {
+                let id_country = e.features![0].properties?.id_country
+                let id_geo_point = e.features![0].properties?.id_geo_point
+                setIdCountry?.(id_country)
+                setIdGeoPoint?.(id_geo_point)
+            });
         }
-        
-    },[markers])
-    
+
+    }, [markers])
+
     return (
-        <div            
-            ref={ mapDiv }
-            style={{ 
+        <div
+            ref={mapDiv}
+            style={{
                 height: '100%',
                 width: '100%',
             }}
-        >           
-            { children }
-        </div>    
+        >
+            {children}
+        </div>
     )
 }

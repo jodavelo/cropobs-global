@@ -8,7 +8,6 @@ import { Layout } from '../../components/layouts'
 import { MainBar, MapViewPrices, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './data.module.css';
-import { DataPodium, ModalForm, MultichartContainer, PlotlyChartStackedAreaContainer, ToggleDescription } from '../../components/data';
 import {PlotlyChartBox } from '../../components/data';
 import { PlotlyChartLine } from '../../components/data';
 import axios from 'axios';
@@ -18,6 +17,7 @@ import useSWR from 'swr';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { ElementsData,SelectOptions } from '../../interfaces/data';
+import { GeoJsonProperties, Geometry } from 'geojson';
 
 
 interface sectionState {
@@ -31,11 +31,28 @@ interface ElementsState {
 
 const mapFilterElements = [300050, 300051, 300052];
 const baseURL = 'https://cassavalighthouse.org';
-let clickId: string | number | null = null;
+
+interface Feature {
+    type: FeatureType;
+    properties: Properties;
+    geometry: Geometry;
+}
+interface Properties {
+    id_geo_point: number;
+    id_country: number;
+    id_geo_admin2: number;
+    label: string;
+}
+enum FeatureType {
+    Feature = "Feature",
+}
+interface marker {
+    priceDataGeopoint: Feature
+}
 
 const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
-    const[priceData, setPriceData] = useState([]);
+    const[priceData, setPriceData] = useState<Feature>();
     const { map } = useContext( MapContext );
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 300050, 
@@ -127,7 +144,7 @@ const DataPage: NextPage = () => {
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
                                             <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
                                     </Row>
-                                        <MapViewPrices setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={{priceDataGeopoint: priceData}} ></MapViewPrices>
+                                        <MapViewPrices setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                                 </Col>
                                 <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                  
