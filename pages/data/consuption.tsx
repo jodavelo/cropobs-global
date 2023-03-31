@@ -77,17 +77,20 @@ const DataPage: NextPage = () => {
         {
             url: `https://commonbeanobservatory.org/api/v1/data/podium/${regionCode}/4/2546/${year - 1}`,
             text: `Beans was the 17 most important food in terms of its caloric contribution to the diet in ${year}`,
-            name: 'Caloric Contribution'
+            name: 'Caloric Contribution',
+            description: ''
         },
         {
             url: `https://commonbeanobservatory.org/api/v1/data/podium/${regionCode}/20/2546/${year - 1}`,
             text: `Beans was the 8most important food in terms of its proteic contribution to the diet in  ${year}`,
-            name: 'Proteic Contribution'
+            name: 'Proteic Contribution',
+            description: ''
         },
         {
             url: `https://commonbeanobservatory.org/api/v1/data/podium/${regionCode}/5/2546/${year - 1}`,
             text: `Beans was the 22 ranked crop in number of calories produced per hectare in  ${year}`,
-            name: 'Calories per Hectare'
+            name: 'Calories per Hectare',
+            description: ''
         },
     ]
 
