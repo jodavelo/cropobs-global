@@ -34,8 +34,8 @@ export const GenericMapView = ({ divContainer, geoJsonUrl }: Props) => {
                     'type': 'fill',
                     'source': 'countries',
                     'paint': {
-                    'fill-color': 'rgba(200, 100, 240, 0.4)',
-                    'fill-outline-color': 'rgba(200, 100, 240, 1)'
+                    'fill-color': 'rgba(167, 167, 167, 0.4)',
+                    'fill-outline-color': 'rgba(167, 167, 167, 1)'
                 }
             });
             

@@ -2,7 +2,12 @@
 
 .databases-section-description {
     height: 50vh;
-    background-color: aqua;
+    background-color: transparent;
+}
+
+.map-and-cards-container {
+    height: 80vh;
+    background-color: transparent;
 }
 
 
@@ -18,13 +23,14 @@
 }
 
 .map-container {
-    height: 60vh;
+    height: 100%;
     background-color: transparent;
 }
 
 .grid-layout-cards {
-    height: 60vh;
-    background-color: rgb(38, 126, 208);
+    height: 100%;
+    background-color: transparent;
+    overflow-y: scroll;
 }
 
 @media (min-width: 290px) and (max-width: 576px){
@@ -37,11 +43,18 @@
     .databases-section-description {
         height: 30vh;
     }
+    .map-and-cards-container {
+        height: 60vh;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
     .databases-section-description {
         height: 25vh;
+    }
+
+    .map-and-cards-container {
+        height: 860vh;
     }
 }
 
@@ -49,6 +62,9 @@
     .databases-section-description {
         height: 20vh;
     } 
+    .map-and-cards-container {
+        height: 90vh;
+    }
 }
 
 @media (min-width: 1200px) {

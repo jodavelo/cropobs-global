@@ -7,7 +7,7 @@ const nextConfig = {
   swcMinify: true,
   i18n,
   images: {
-    domains: ['commonbeanobservatorytst.ciat.cgiar.org']
+    domains: ['commonbeanobservatorytst.ciat.cgiar.org', 'www.fao.org']
   } 
 }
 
