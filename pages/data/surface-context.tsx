@@ -170,9 +170,13 @@ const SurfaceContextPage: NextPage = () => {
             const elemsObj: Record<string, ElementsData> = {};
             // console.error(elemsObj);
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
+            let variableByLocale = ''
+            if( locale == 'en' ) variableByLocale = 'ELEMENT_EN';
+            if( locale == 'es' ) variableByLocale = 'ELEMENT_ES';
+            if( locale == 'pt' ) variableByLocale = 'ELEMENT_PT';
             setElements({
                 elementsObj: elemsObj,
-                elementsOptions: generateElementsOptions(elementsData, 'ELEMENT_EN', mapFilterElements)
+                elementsOptions: generateElementsOptions(elementsData, variableByLocale, mapFilterElements)
             });
         }
     }, [isLoadingElements]);
@@ -185,19 +189,27 @@ const SurfaceContextPage: NextPage = () => {
 
     useEffect(() => {
         if (macroRegionsData && !isLoadingMacroRegions) {
+            let variableByLocale = ''
+            if( locale == 'en' ) variableByLocale = 'region_name';
+            if( locale == 'es' ) variableByLocale = 'region_name_es';
+            if( locale == 'pt' ) variableByLocale = 'region_name_pt';
             setMacroRegions({
                 macroRegionsObj: macroRegionsData,
-                macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', 'region_name', true)
+                macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', variableByLocale, true)
             });
         }
     }, [isLoadingMacroRegions]);
 
     useEffect(() => {
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
+            let variableByLocale = ''
+            if( locale == 'en' ) variableByLocale = 'region_name';
+            if( locale == 'es' ) variableByLocale = 'region_name_es';
+            if( locale == 'pt' ) variableByLocale = 'region_name_pt';
             // console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
             setRegions({
                 regionsObj: regionsData,
-                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, 'region_name', macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
+                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, variableByLocale, macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
             });
             let codeRegion = 'WLRD';
             let idx = -1;
@@ -435,6 +447,7 @@ const SurfaceContextPage: NextPage = () => {
     const [plotly2YLabelByShare, setPlotly2YLabelByShare] = useState('');
     const [byValueText, setByValueText] = useState('');
     const [byShareText, setByShareText] = useState('');
+    const [searchCountryTextButton, setSearchCountryTextButton] = useState('')
     useEffect(() => {
         setTitlePage(dataTranslate('title-header')!);
         setTitleSection(dataTranslate('title_section')!);
@@ -457,6 +470,7 @@ const SurfaceContextPage: NextPage = () => {
         setPlotly2YLabelByValue(dataTranslate('plotly2_ylabel_by_value_beans')!);
         setPlotly1YLabelByShare(dataTranslate('plotly1_ylabel_by_share_beans')!);
         setPlotly2YLabelByShare(dataTranslate('plotly2_ylabel_by_share_beans')!);
+        setSearchCountryTextButton(dataTranslate('search_country')!);
     }, )
     
 
@@ -506,7 +520,7 @@ const SurfaceContextPage: NextPage = () => {
                                                 style={{width: '145px', height: 'inherit'}}
                                                 onClick={() => setShowCountries(true)}
                                             >
-                                                Search Country
+                                                { searchCountryTextButton }
                                             </Button>
                                         </Row>
                                     </Row>
