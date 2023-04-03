@@ -7,10 +7,13 @@ import { useWindowSize } from '../../../hooks';
 import useSWR from 'swr';
 import { boxDataGenerator, dataFetcher, treeMapDataGenerator } from '../../../helpers/data';
 import { use } from 'i18next';
+import { DataButtons } from '../data-buttons';
+import { ModalForm } from "../modal-form";
 
 interface Props {
     dataURL: string;
     title: string;
+    description: string
 };
 
 interface typePrice {
@@ -30,10 +33,11 @@ const data = [
     }
 ]
 
-export const PlotlyChartBox: FC<Props> = ({ dataURL, title }) => {
+export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
     const [priceType, setPriceType] = useState('nominal');
-
+    const [showModal, setShowModal] = useState(false);
+    const id = uuidv4();
 
     const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
 
@@ -68,6 +72,7 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title }) => {
             data={ data }
             layout={ layout }
         />
+        <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
     </div>
     );
 }

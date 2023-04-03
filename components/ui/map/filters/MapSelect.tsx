@@ -8,15 +8,17 @@ interface MapSelectInterface {
     setSelected: Function
     atrName: string
     id?: string
+    setShowGraphs: (data: boolean) => void;
 }
 
-export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined }) => {
+export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined , setShowGraphs}) => {
     const { values, names } = options;
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelected( (prevState: Record<string, any>) => ({
             ...prevState,
             [atrName]: e.target.value
         }));
+        setShowGraphs(true);
     };
     return (
     <select
