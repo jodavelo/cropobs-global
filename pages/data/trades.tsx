@@ -80,6 +80,8 @@ const DataPage: NextPage = () => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
 
     let [treeLabels, setTreeLabels] = useState(Array<string>(0))
+    let [treeLabelsES,setTreeLabelsES] = useState(Array<string>(0))
+    let [treeLabelsPT,setTreeLabelsPT] = useState(Array<string>(0))
     let [treeValues, setTreeValues] = useState(Array<number>(0))
     let [treeLoading, setTreeLoading] = useState(true)
     let [treeFailed, setTreeFailed] = useState(false)
@@ -91,6 +93,7 @@ const DataPage: NextPage = () => {
     let [chartFailed1, setChartFailed1] = useState(false)
     
     let [chartLabels2, setChartLabels2] = useState(Array<string>(0))
+    let [chartDataNms2, setChartDataNms2] = useState(Array<string>(0))
     let [chartValues21, setChartValues21] = useState(Array<number>(0))
     let [chartValues22, setChartValues22] = useState(Array<number>(0))
     let [chartValues23, setChartValues23] = useState(Array<number>(0))
@@ -104,32 +107,27 @@ const DataPage: NextPage = () => {
 
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
+    let [annualOptions, setAnualOptions] = useState({})
 
     useEffect(() => {
         axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/WLRD/3002/713999/2021` })
             .then(response => {
                 const valuesAux = Array<number>(0)
                 const labelsAux = Array<string>(0)
-                let key = "es_name";
-                switch (locale) {
-                    case 'en':
-                        key = "country_name";
-                        break;
-                    case 'es':
-                        key = "esp_name";
-                        break;
-                    case 'pt':
-                        key = "pt_name";
-                        break;
-                }
+                const labelsAuxES = Array<string>(0)
+                const labelsAuxPT = Array<string>(0)
 
-                response.data.data.observations.map((elem: any, idx: number) => {
-                    if (idx > 79) {
+                response.data.data.observations.map((elem : any, idx : number)=>{
+                    if (idx > 79){
                         valuesAux.push(elem.value)
-                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter][key])
+                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
+                        labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
+                        labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
                     }
                 })
                 setTreeLabels(labelsAux)
+                setTreeLabelsES(labelsAuxES)
+                setTreeLabelsPT(labelsAuxPT)
                 setTreeValues(valuesAux)
                 setTreeLoading(false)
             })
@@ -164,8 +162,10 @@ const DataPage: NextPage = () => {
                 const valuesAux2 = Array<number>(0)
                 const valuesAux3 = Array<number>(0)
                 const valuesAux4 = Array<number>(0)
+                const namesAux = Array<string>(0)
                 response.data.data.observations.map((elem:any) =>{
-                    if(elem.id_crop == 71331) valuesAux1.push(elem.value)
+                    if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
+                    if(elem.id_crop == 71331) {valuesAux1.push(elem.value) }
                     else if(elem.id_crop == 71332) valuesAux2.push(elem.value)
                     else if(elem.id_crop == 71333) valuesAux3.push(elem.value)
                     else if(elem.id_crop == 71339) valuesAux4.push(elem.value)
@@ -175,6 +175,7 @@ const DataPage: NextPage = () => {
                 setChartValues23(valuesAux4)
                 setChartValues24(valuesAux2)
                 setChartLabels2(response.data.data.labels)
+                setChartDataNms2(namesAux)
                 setChartLoading2(false)
             })
             .catch(error => {
@@ -208,14 +209,14 @@ const DataPage: NextPage = () => {
             axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`})
             .then(response => {
                 const data = response.data.data;
-                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.name, chartConfig[0].config.key);
+                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
                 const chartjsData = {labels: data.labels, datasets};
                 setanualdata(chartjsData)
             })
             axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`})
             .then(response => {
                 const data = response.data.data;
-                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.name, chartConfig[1].config.key);
+                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
                 const chartjsData = {labels: data.labels, datasets};
                 settenyearsdata(chartjsData)
             })
@@ -224,7 +225,7 @@ const DataPage: NextPage = () => {
     const data = [
         {
             type: "treemap",
-            labels: treeLabels,
+            labels: locale == "en" ? treeLabels : locale == "es" ? treeLabelsES : treeLabelsPT,
             parents: treeLabels.map(() => ""),
             values: treeValues,
             texttemplate: "%{label}<br>%{percentParent:.2%}",
@@ -240,21 +241,57 @@ const DataPage: NextPage = () => {
     const config = {
         responsive: true,
     }
+    
+    const datasetsTranslated = (datasets: any[], index: number) => {
+        const result = Array(0)
+        datasets.map((ds,idx) => {
+            const ds_trans = {} as any
+            for (let key in ds) {
+                ds_trans[key] = ds[key]
+                if(key == "label") ds_trans[key] = dataTranslate('chart3'+index+'-dataset'+(idx+1))
+            }
+            result.push(ds_trans)
+        })
+        return result
+    }
+
+    const optionsTranslated = (options: any,index:number) => {
+        const result = {} as any
+        for (let key in options) {
+            result[key] = options[key]
+            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart3'+index+'-title')
+        }
+        return result
+    }
 
     const chartConfig = [
         {
-            dataURL: anualdata,
-            options: annual_growth_optionsPV,
-            config: {key: 'crop_name', name:'id_element'},
-            name: dataTranslate('chart2-opt1')
+            dataURL: {labels:anualdata.labels,datasets:datasetsTranslated(anualdata.datasets,1)},
+            options: optionsTranslated(annual_growth_optionsPV,1),
+            config: {key: 'id_element', name: 'crop_name'},
+            name: dataTranslate('chart3-opt1')
         },
         {
-            dataURL: tenyearsdata,
-            options: ten_year_moving_average_optionsPV,
-            config: {key: 'crop_name', name:'id_element'},
-            name: dataTranslate('chart2-opt2')
+            dataURL: {labels:tenyearsdata.labels,datasets:datasetsTranslated(tenyearsdata.datasets,2)},
+            options: optionsTranslated(ten_year_moving_average_optionsPV,1),
+            config: {key: 'id_element', name: 'crop_name'},
+            name: dataTranslate('chart3-opt2')
         }
     ]
+
+    const chartTxts1 = {
+        title: dataTranslate('chart1-title'),
+        axis_x : "",
+        axis_y : dataTranslate('chart1-axis-y'),
+        datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2')]
+    }
+    
+    const chartTxts2 = {
+        title: dataTranslate('chart2-title'),
+        axis_x : "",
+        axis_y : dataTranslate('chart2-axis-y'),
+        datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
+    }
 
     return (
         <Layout title={dataTranslate('title-header')}>
@@ -277,24 +314,25 @@ const DataPage: NextPage = () => {
                                 </Col>
                                 <Col xs={12} lg={graphsCol} style={showGraphs ? { display: 'block', height: '80vh', border: '1px black solid', overflowY: 'scroll' } : { display: 'none' }}>
                                     <div style={{display: 'flex', flexDirection: 'row'}}>
-                                        <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} {dataTranslate('label-chart2')} {dataTranslate('label-chart3')} {dataTranslate('label-chart4')} {dataTranslate('label-chart5')} {sectionState.year}?</div>
-                                        <div style={{width: "40%", padding: "10px"}}>{dataTranslate('label-chart6')}{dataTranslate('label-chart7')}{dataTranslate('label-chart8')}: <br/> 1.5M USD </div>
+                                        <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} [<i>{`<`}]<b>{dataTranslate('label-chart2')}</b> {dataTranslate('label-chart3')} {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                        <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{dataTranslate('label-chart7')}{dataTranslate('label-chart8')}: <br/> <i><b>1.5M</b></i> USD </div>
                                     </div>
-                                    <ChartFrame data={[]} toggleText='texto muestra del toggle' excludedClasses={[]}>
+                                    <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
                                         {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
                                     </ChartFrame>
-                                    <ChartFrame data={[]} toggleText='texto muestra del toggle' excludedClasses={[]}>
-                                        {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} />) )} 
+                                    <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                        {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
                                     </ChartFrame>
-                                    <ChartFrame data={[]} toggleText='texto muestra del toggle' excludedClasses={[]}>
-                                        {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} />) )} 
+                                    <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                        {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
                                     </ChartFrame>
                                     <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') }}
                                         data_2={{ value: percent2, text: dataTranslate('label-perc2') }} />
                                     <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')}}/>
-                                    <ChartFrame data={[]} toggleText={'Toggle test'} excludedClasses={['chart-select']}>
+                                    <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
                                         <ChartSelectionPV chartConfigList={chartConfig} />
                                     </ChartFrame>
+                                    <div> Source: <i>Data source</i> </div>
                                 </Col>
                             </Row>
                         </Container>

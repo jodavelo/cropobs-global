@@ -3,6 +3,14 @@ import { Chart as ChartComponent } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
+interface ChartTexts {
+  title: string,
+  axis_x : string,
+  axis_y : string,
+  axis_y2 : string,
+  datasets: string[]
+}
+
 interface Props {
     xLabels: number[],
     databar1: number[],
@@ -10,14 +18,15 @@ interface Props {
     databar3: number[],
     databar4: number[],
     datapoints: number[],
+    chartTexts: ChartTexts,
 };
 
-export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, databar3, databar4}) => {
+export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, databar3, databar4, chartTexts}) => {
     const data = {
         labels: xLabels,
         datasets: [
           {
-            label: 'Self-sufficiency ratio',
+            label: chartTexts.datasets[0],
             type: 'line' as const,
             fill: false, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
@@ -41,25 +50,25 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
             yAxisID: 'y1',
           },
           {
-          label: 'Dataset 1',
+          label: chartTexts.datasets[1],
           data: databar1,
           backgroundColor: 'rgba(100,209,209,1)',
           yAxisID: 'y',
         },
         {
-          label: 'Dataset 2',
+          label: chartTexts.datasets[2],
           data: databar2,
           backgroundColor: 'rgba(178,178,178,1)',
           yAxisID: 'y',
         },
         {
-          label: 'Dataset 3',
+          label: chartTexts.datasets[3],
           data: databar3,
           backgroundColor: 'rgba(178,0,178,1)',
           yAxisID: 'y',
         },
         {
-          label: 'Dataset 4',
+          label: chartTexts.datasets[4],
           data: databar4,
           backgroundColor: 'rgba(178,178,0,1)',
           yAxisID: 'y',
@@ -78,7 +87,7 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
         plugins: {
           title: {
             display: true,
-            text: 'Allocation of domestic beans supply - WORLD',
+            text: chartTexts.title,
           },
           legend : {
             position : 'bottom'
@@ -96,7 +105,7 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
             },
             title: {
               display: true,
-              text: ''
+              text: chartTexts.axis_y
             },
             type: 'linear' as const,
             display: true,
@@ -108,7 +117,7 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
           y1: {
             title: {
               display: true,
-              text: ''
+              text: chartTexts.axis_y2
             },
             type: 'linear' as const,
             display: true,
