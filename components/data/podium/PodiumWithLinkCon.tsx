@@ -40,9 +40,11 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
 
     const data = podiumDataProcessTrans(predata,locale as string);
 
-    const getCropRank= (data: any[], cropName : string): number => {
+    const getCropRank= (data: any[], cropNames : string[]): number => {
         for (const elem of data){
-            if(elem.keyName==cropName) return elem.rank as number
+            for(const name of cropNames){
+                if(elem.keyName==name) return elem.rank as number
+            }
         }
         return -1
     }
@@ -53,7 +55,7 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
                 <div className={ styles['podium-description'] }>
-                    <span className={ styles['podium-text-description'] }>{ text[0]+ getCropRank(data,"Beans, dry")+text[1] }</span>
+                    <span className={ styles['podium-text-description'] }>{ text[0]+ getCropRank(data,["Beans, dry","Beans"])+text[1] }</span>
                 </div>
                 <div className={ styles['podium-body'] }>
                     <PodiumBarContainer data={ data } />

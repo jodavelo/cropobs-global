@@ -250,7 +250,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             (map.current!.getSource('geo_countries') as GeoJSONSource).setData(geojson as FeatureCollection<Geometry, GeoJsonProperties>);
             console.log('in');
             map.current!.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
-            map.current!.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);
+            map.current!.setFilter('country_layer_alter', ['!', ['in', ['get', 'iso3'], ['literal', adminIds]]]);           
             if (admin !== 'World' && adminIds) changeLineWidth(map.current!, adminIds)
             else if (adminIds) changeLineWidth(map.current!, adminIds, 'default');
             changeFillColor(map.current!, quintilArray);

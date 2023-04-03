@@ -45,8 +45,6 @@ export const LineChartjs: FC<{dataURL: string, elementsURL: string, options: Rec
   if (isLoading) return <div>Loading...</div>
   if (elem_isLoading) return <div>Loading...</div>
 
-  console.log(preElements);
-
   const elements = Object.assign({}, ...preElements.map((element: Record<string, any>) => ({[element.ID_ELEMENT]: element})));
 
   // This section of the code could be merged into a single hook with the useSWR

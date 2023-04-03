@@ -21,14 +21,14 @@
     "chart2-opt2": "Média móvel de 10 anos",
 
     "chart21-title":"Crescimento Anual do <Importação> de <common beans - <Mundo>",
-    "chart21-dataset1":"Crescimento quantitativo (Anual)",
-    "chart21-dataset2":"Crescimento do preço (Anual)",
-    "chart21-dataset3":"Crescimento do valor (Anual)",
+    "chart21-dataset1":"Feijão, seco",
+    "chart21-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
+    "chart21-dataset3":"Produto Interno Bruto",
     "chart2-toggle":"Toggle chart 2 Portugues",
 
     "chart22-title":"Média móvel de 10 anos do <Importação> de <common beans> - <Mundo>",
-    "chart22-dataset1":"Crescimento quantitativo (média móvel de 10 anos)",
-    "chart22-dataset2":"Crescimento do valor (média móvel de 10 anos)",
-    "chart22-dataset3":"Crescimento do preço (média móvel de 10 anos)"
+    "chart22-dataset1":"Feijão, seco",
+    "chart22-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
+    "chart22-dataset3":"Produto Interno Bruto"
 
 }

@@ -30,6 +30,11 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import { useWindowSize } from '../../hooks';
 import { useRouter } from 'next/router';
+import { SearchCountryModal } from '../../components/data/search-country-modal';
+import { useTour } from '@reactour/tour';
+import { getCookie, setCookie } from 'cookies-next';
+import { general_data_steps } from '../../helpers/data/tour';
+import { BackButton } from '../../components/data/back-button';
 
 export const textBold: CSSProperties = {
     color: '#3e3e3e', 
@@ -50,7 +55,6 @@ interface sectionState {
 const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui 
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
-let clickId: string | number | null = null;
 
 
 const SurfaceContextPage: NextPage = () => {
@@ -91,6 +95,9 @@ const SurfaceContextPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+    const { setSteps, setIsOpen } = useTour();
+    const [showCountries, setShowCountries] = useState(false);
+    const [clickId, setClickId] = useState<string | number | null>(null);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
     // alert(`${baseURL}/api/v1/data/elements/1`);
@@ -141,16 +148,19 @@ const SurfaceContextPage: NextPage = () => {
     });
 
     const [podiumRank, setPodiumRank] = useState(0);
+    
     useEffect(() => {
         if (map){
-            map.on('click', 'country_layer', (e) => {
-                setSectionState( (prevState) => ({
-                    ...prevState,
-                    countryCode: e.features![0].properties!.iso3,
-                    locationName: e.features![0].properties!.country_name
-                }));
-                // console.log(e.features![0].properties!.country_name);
-                clickId = e.features![0].id ?? null;
+            map.on('load', () => {
+                map.on('click', 'country_layer', (e) => {
+                    setSectionState( (prevState) => ({
+                        ...prevState,
+                        countryCode: e.features![0].properties!.iso3,
+                        locationName: e.features![0].properties!.country_name
+                    }));
+                    console.log(e.features![0].properties!.country_name);
+                    setClickId(e.features![0].id ?? null);
+                });
             });
         }
     }, [map]);
@@ -210,7 +220,7 @@ const SurfaceContextPage: NextPage = () => {
                         { clicked: false }
                     );
                 }
-                clickId = null;
+                setClickId(null);
             }
         }
     }, [isLoadingRegions, macroRegionCode]);
@@ -229,7 +239,7 @@ const SurfaceContextPage: NextPage = () => {
                     { clicked: false }
                 );
             }
-            clickId = null;
+            setClickId(null);
         }
     }, [regionCode])
 
@@ -300,6 +310,37 @@ const SurfaceContextPage: NextPage = () => {
     //         description: 'gráfico 3 de producción'
     //     }
     // ];
+
+
+    // This useEffect is used when the back button is clicked
+    useEffect(() => {
+        if ([...Object.keys(regionsObj), 'WLRD'].includes(countryCode)){
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+            }));
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
+            }
+        }
+    }, [countryCode]);
+
+    // Executes the tour for production. This useEffect runs only once
+    useEffect(() => {
+        if ( !getCookie('production_tour') ) {
+            if (setSteps) {
+                setSteps(general_data_steps);
+                setCookie('production_tour', true);
+                setIsOpen(true);
+            }
+        }
+    }, []);
 
     harvested_production_yield.plugins.title.text = 'Harvested area, production and yield' + ` - ${locationName}`;
 
@@ -421,7 +462,7 @@ const SurfaceContextPage: NextPage = () => {
 
     // console.log(sideBarColumn, contentColumn)  
 
-    // console.log(countryCode)
+    console.log(elementsOptions)
     return (
         <Layout title={ titlePage }>
             <Container fluid>
@@ -444,17 +485,30 @@ const SurfaceContextPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName}`} />
+                                    <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName}`} >
+                                            <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                    </MainBar>
                                 </Col>
                             </Row>
                             <Row>
                                 <LeftSideMenuContainer/>
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                        <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                        <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                        <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                        </Row>
+                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                            <Button
+                                                className={`${styles['search-country-button']}`}
+                                                style={{width: '145px', height: 'inherit'}}
+                                                onClick={() => setShowCountries(true)}
+                                            >
+                                                Search Country
+                                            </Button>
+                                        </Row>
                                     </Row>
                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
                                     {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
@@ -490,6 +544,7 @@ const SurfaceContextPage: NextPage = () => {
                     </Col>
                 </Row>
             </Container>
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
         </Layout>
     )
 }

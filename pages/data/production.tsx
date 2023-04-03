@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,23 +23,14 @@ import { BackButton } from '../../components/data/back-button';
 import { useTour } from '@reactour/tour';
 import { general_data_steps } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
+import { SearchCountryModal } from '../../components/data/search-country-modal';
+import { sectionState } from '../../interfaces/data/section-states';
 
-
-
-interface sectionState {
-    elementId: number
-    regionCode: string
-    macroRegionCode: string
-    countryCode: string
-    year: number
-    admin: string
-    locationName: string
-}
 
 const mapFilterElements = [1000, 5312, 5510];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
-let clickId: string | number | null = null;
+//let clickId: string | number | null = null;
 
 
 const ProductionPage: NextPage = () => {
@@ -77,7 +68,9 @@ const ProductionPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
-    const { setSteps, setIsOpen } = useTour();    
+    const { setSteps, setIsOpen } = useTour();
+    const [showCountries, setShowCountries] = useState(false);
+    const [clickId, setClickId] = useState<string | number | null>(null);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
 
@@ -127,7 +120,7 @@ const ProductionPage: NextPage = () => {
                         locationName: e.features![0].properties!.country_name
                     }));
                     console.log(e.features![0].properties!.country_name);
-                    clickId = e.features![0].id ?? null;
+                    setClickId(e.features![0].id ?? null);
                 });
             });
         }
@@ -181,14 +174,13 @@ const ProductionPage: NextPage = () => {
                 countryCode: codeRegion
             }));
             if(map){
-                console.log(clickId);
                 if (clickId !== null){
                     map.setFeatureState(
                         { source: 'geo_countries', id: clickId },
                         { clicked: false }
                     );
                 }
-                clickId = null;
+                setClickId(null);
             }
         }
     }, [isLoadingRegions, macroRegionCode]);
@@ -207,7 +199,7 @@ const ProductionPage: NextPage = () => {
                     { clicked: false }
                 );
             }
-            clickId = null;
+            setClickId(null);
         }
     }, [regionCode]);
 
@@ -225,7 +217,7 @@ const ProductionPage: NextPage = () => {
                         { clicked: false }
                     );
                 }
-                clickId = null;
+                setClickId(null);
             }
         }
     }, [countryCode]);
@@ -288,7 +280,7 @@ const ProductionPage: NextPage = () => {
     ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
     return (
-            <Layout title={ dataTranslate('title-header') }>
+            <Layout title={ dataTranslate('Production') }>
                 <Container fluid>
                     <Row>
                         <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
@@ -306,11 +298,22 @@ const ProductionPage: NextPage = () => {
                                 <Row>
                                     <LeftSideMenuContainer/>
                                     <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }}>
-                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                            <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                                <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                            </Row>
+                                            <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                                <Button
+                                                    className={`${styles['search-country-button']}`}
+                                                    style={{width: '145px'}}
+                                                    onClick={() => setShowCountries(true)}
+                                                >
+                                                    Search Country
+                                                </Button>
+                                            </Row>
                                         </Row>
                                         <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
                                     </Col>
@@ -326,6 +329,7 @@ const ProductionPage: NextPage = () => {
                         </Col>
                     </Row>
                 </Container>
+                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
             </Layout>
     )
 }
