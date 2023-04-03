@@ -19,7 +19,7 @@
 }
 
 .databases {
-    height: 300vh;
+    height: 170vh;
 }
 
 @media (max-width: 500px) and (min-width: 300px){
@@ -73,11 +73,17 @@
     .about-us {
         height: 100vh;
     }
+    .databases {
+        height: 160vh;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
     .about-us {
         height: 60vh;
+    }
+    .databases {
+        height: 140vh;
     }
 }
 
@@ -88,6 +94,9 @@
     .data-sf {
         height: 90vh;
     }
+    .databases {
+        height: 120vh;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -96,5 +105,8 @@
     }
     .data-sf {
         height: 90vh;
+    }
+    .databases {
+        height: 100vh;
     }
 }

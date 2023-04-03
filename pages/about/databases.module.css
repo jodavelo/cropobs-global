@@ -1,0 +1,74 @@
+
+
+.databases-section-description {
+    height: 50vh;
+    background-color: transparent;
+}
+
+.map-and-cards-container {
+    height: 80vh;
+    background-color: transparent;
+}
+
+
+.databases-section-description-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: justify;
+}
+
+.title-description, .description-center {
+    text-align: center;
+}
+
+.map-container {
+    height: 100%;
+    background-color: transparent;
+}
+
+.grid-layout-cards {
+    height: 100%;
+    background-color: transparent;
+    overflow-y: scroll;
+}
+
+@media (min-width: 290px) and (max-width: 576px){
+    .databases-section-description {
+        height: 42vh;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px){
+    .databases-section-description {
+        height: 30vh;
+    }
+    .map-and-cards-container {
+        height: 60vh;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    .databases-section-description {
+        height: 25vh;
+    }
+
+    .map-and-cards-container {
+        height: 860vh;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+    .databases-section-description {
+        height: 20vh;
+    } 
+    .map-and-cards-container {
+        height: 90vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .databases-section-description {
+        height: 18vh;
+    } 
+}

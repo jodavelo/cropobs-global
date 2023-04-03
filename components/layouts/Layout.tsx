@@ -16,7 +16,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
     const [layoutClassName, setLayoutClassName] = useState('');
     const { asPath } = useRouter();
     const { isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases, setIsHome, setIsDataSurfaceContext, setIsAboutUs, setIsDatabases } = useContext( LayoutContext );
-    console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
+    //console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
     useEffect(() => {
         if( isHome ) setLayoutClassName( styles.home );
         else if ( isData ) setLayoutClassName( styles.data );
