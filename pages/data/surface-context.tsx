@@ -30,6 +30,10 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import { useWindowSize } from '../../hooks';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
+import { useTour } from '@reactour/tour';
+import { getCookie, setCookie } from 'cookies-next';
+import { general_data_steps } from '../../helpers/data/tour';
+import { BackButton } from '../../components/data/back-button';
 
 
 interface sectionState {
@@ -84,6 +88,7 @@ const SurfaceContextPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+    const { setSteps, setIsOpen } = useTour();
     const [showCountries, setShowCountries] = useState(false);
     const [clickId, setClickId] = useState<string | number | null>(null);
 
@@ -132,16 +137,19 @@ const SurfaceContextPage: NextPage = () => {
     });
 
     const [podiumRank, setPodiumRank] = useState(0);
+    
     useEffect(() => {
         if (map){
-            map.on('click', 'country_layer', (e) => {
-                setSectionState( (prevState) => ({
-                    ...prevState,
-                    countryCode: e.features![0].properties!.iso3,
-                    locationName: e.features![0].properties!.country_name
-                }));
-                // console.log(e.features![0].properties!.country_name);
-                setClickId(e.features![0].id ?? null);
+            map.on('load', () => {
+                map.on('click', 'country_layer', (e) => {
+                    setSectionState( (prevState) => ({
+                        ...prevState,
+                        countryCode: e.features![0].properties!.iso3,
+                        locationName: e.features![0].properties!.country_name
+                    }));
+                    console.log(e.features![0].properties!.country_name);
+                    setClickId(e.features![0].id ?? null);
+                });
             });
         }
     }, [map]);
@@ -290,6 +298,37 @@ const SurfaceContextPage: NextPage = () => {
     //     }
     // ];
 
+
+    // This useEffect is used when the back button is clicked
+    useEffect(() => {
+        if ([...Object.keys(regionsObj), 'WLRD'].includes(countryCode)){
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+            }));
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
+            }
+        }
+    }, [countryCode]);
+
+    // Executes the tour for production. This useEffect runs only once
+    useEffect(() => {
+        if ( !getCookie('production_tour') ) {
+            if (setSteps) {
+                setSteps(general_data_steps);
+                setCookie('production_tour', true);
+                setIsOpen(true);
+            }
+        }
+    }, []);
+
     harvested_production_yield.plugins.title.text = 'Harvested area, production and yield' + ` - ${locationName}`;
 
     annual_growth_options.plugins.title.text = 'Annual Growth' + ` - ${locationName}`;
@@ -384,7 +423,9 @@ const SurfaceContextPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Suface Context - ${locationName}`} />
+                                    <MainBar key={ uuidv4() } section={`Suface Context - ${locationName}`} >
+                                            <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                    </MainBar>
                                 </Col>
                             </Row>
                             <Row>
@@ -392,9 +433,9 @@ const SurfaceContextPage: NextPage = () => {
                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
                                         <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
-                                            <MapSelect options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                            <MapSelect options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                            <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
                                             { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                         </Row>
                                         <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
