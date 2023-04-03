@@ -280,7 +280,7 @@ const ProductionPage: NextPage = () => {
     ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
     return (
-            <Layout title={ dataTranslate('title-header') }>
+            <Layout title={ dataTranslate('Production') }>
                 <Container fluid>
                     <Row>
                         <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
