@@ -12,12 +12,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 interface Props {
-    dataURL: string
-    text: string
+    dataURL: string;
+    text1: string;
+    text2: string;
+    text3: string;
+    text4: string;
     description: string
 }
 
-export const PodiumWithLink: FC<Props> = ({ dataURL, text, description='' }) => {
+export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4, description='' }) => {
 
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
@@ -45,7 +48,7 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text, description='' }) => 
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
                 <div className={ styles['podium-description'] }>
-                    <span className={ styles['podium-text-description'] }>{ text }</span>
+                    <span className={ styles['podium-text-description'] }>{ text1 } <span className={ styles['text-bold'] }>{ text2 }</span> { text3 } <span className={ styles['text-bold'] }> { text4 } </span> </span>
                 </div>
                 <div className={ styles['podium-body'] }>
                     <PodiumBarContainer data={ data } />

@@ -14,6 +14,8 @@ interface Props {
     stackedAreaNormalizedID: string;
     moreInfoTextStackedArea: string;
     moreInfoTextStackedAreaNormalized: string;
+    yLabelStackedArea?: string;
+    yLabelShare?: string;
 }
 
 export const PlotlyChartStackedAreaContainer: FC<Props> = ({ 
@@ -26,7 +28,9 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     stackedAreaID, 
     stackedAreaNormalizedID, 
     moreInfoTextStackedArea,
-    moreInfoTextStackedAreaNormalized 
+    moreInfoTextStackedAreaNormalized,
+    yLabelStackedArea,
+    yLabelShare
 }) => {
 
     const [traces, setTraces] = useState([]);
@@ -92,8 +96,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
             </select>
             {
                 selected == '0' 
-                    ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel='Area (ha)'/>
-                    : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } />
+                    ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! }/>
+                    : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare}  />
             }
             
             
