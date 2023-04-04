@@ -1,0 +1,34 @@
+{
+    "title-header": "Datos-Valor de Producción",
+    "title-page": "Pagina de Valor de Producción",
+    "label-cropland-area": "",
+
+    "podium-title1":"Los fríjoles fueron el ",
+    "podium-title2":" cultivo más importante en relación con el valor de la producción en ",
+
+    "porc1-label":"del valor de la producción de cultivos",
+    "porc2-label":"del valor de la producción de legumbres",
+
+    "chart1-title":"Valor bruto de la producción - <Mundo>",
+    "chart1-dataset1":"Frijoles, secos",
+    "chart1-dataset2":"Legumbres",
+    "chart1-dataset3":"Cultivos",
+    "chart1-dataset4":"Agricultura",
+    "chart1-axis-y":"Miles de dólares (USD)",
+    "chart1-toggle":"chart 1 toggle espanol",
+
+    "chart2-opt1": "Crecimiento anual",
+    "chart2-opt2": "Media movil de 10 años",
+
+    "chart21-title":"Crecimiento anual de las <importaciones> de <common beans> - <Mundo>",
+    "chart21-dataset1":"Frijoles, secos",
+    "chart21-dataset2":"Valor agregado (Agricultura, Silvicultura y Pesca)",
+    "chart21-dataset3":"Producto Interno Bruto",
+    "chart2-toggle":"Toggle chart 2 espanol",
+
+    "chart22-title":"Media móvil de 10 años de las <importaciones> de <common beans> - <Mundo>",
+    "chart22-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
+    "chart22-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
+    "chart22-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)"
+
+}

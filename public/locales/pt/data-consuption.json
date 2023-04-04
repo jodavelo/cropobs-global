@@ -1,0 +1,53 @@
+{
+    "title-header": "Dados-Consumo",
+    "title-page": "Página do consumo",
+    "label-cropland-area": "",
+
+    "podium1-title1":"O feijao foi o ",
+    "podium1-title2":" alimento mais importante em termos de sua contribuição calorica para a dieta em ",
+    "podium2-title1":"O feijao foi o ",
+    "podium2-title2":" alimento mais importante em termos de sua contribuição proteica para a dieta em ",
+    "podium3-title1":"O feijao foi o ",
+    "podium3-title2":" cultura x classificada em número de calorias produzidas por hectare em ",
+    
+    "podium-option1":"Contribuição calórica",
+    "podium-option2":"Contribuição proteica",
+    "podium-option3":"Calorias por hectare",
+    "podium-toggle":"",
+
+    "per-capita-title":"Consumo por cápita no ano ",
+    "per-capita-label":" por pessoa",
+
+    "porc-title":"Contabilidade para ",
+    "porc1-label1":"de uma ingestão calórica diária total de ",
+    "porc1-label2":" calorias",
+    "porc2-label1":"de uma ingestão calórica diária total de alimentos à base de plantas de ",
+    "porc2-label2":" calorias",
+    "porc3-label1":"de uma ingestão proteica diária total de ",
+    "porc3-label2":" gramas de proteína",
+    "porc4-label1":"de uma ingestão diária proteica total de alimentos à base de plantas de ",
+    "porc4-label2":" gramas de proteína",
+
+    "chart1-title":"Alocação do fornecimento doméstico de feijão - <Mundo>",
+    "chart1-dataset1":"Consumo per cápita regional (kg/perssoa/ano)",
+    "chart1-dataset2":"Alimentos",
+    "chart1-dataset3":"Processamento",
+    "chart1-dataset4":"Sementes",
+    "chart1-dataset5":"Ração animal",
+    "chart1-dataset6":"Pérdas",
+    "chart1-axis-y":"Quantidade (Milhares de toneladas)",
+    "chart1-axis-y2":"Consumo per cápita (kg/habitante/ano)",
+    "chart1-toggle":"Toggle 1 pt",
+
+    "porc5-label":"Relação de auto-suficiência",
+    
+    "chart2-title":"Comercio y suficiencia del frijol - <Mundo>",
+    "chart2-dataset1":"Relação de auto-suficiência",
+    "chart2-dataset2":"Produção para uso domestico",
+    "chart2-dataset3":"Exportaciones",
+    "chart2-dataset4":"Importaciones",
+    "chart2-axis-y":"Quantidade (Milhares de toneladas)",
+    "chart2-axis-y2":"Relação de auto-suficiência (%)",
+    "chart2-toggle":"Toggle 2 pt"
+
+}

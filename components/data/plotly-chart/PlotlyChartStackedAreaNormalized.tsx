@@ -25,12 +25,13 @@ interface Props {
     moreInfoText: string;
     title: string;
     ticks: number[];
+    yLabel?: string;
     dataTraces: traceObject[];
 }
 
 
 
-export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataTraces, ticks, title, moreInfoText }) => {
+export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataTraces, ticks, title, moreInfoText, yLabel = '' }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, })
     const { width = 0 } = useWindowSize();
     const [chartHeight, setChartHeight] = useState(0);
@@ -122,7 +123,7 @@ export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataT
             showticksuffix: 'all',
             ticksuffix: ' % ',
             title: {
-                text: 'Share of total area %',
+                text: yLabel,
                 font: {
                     size: 14,
                 },

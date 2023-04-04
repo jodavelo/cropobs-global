@@ -27,9 +27,15 @@ export interface Props {
 export const BigMenu = ({ title, options }: Props) => {
     
     const [columnWidth, setColumnWidth] = useState(0);
+    const [isActive, setIsActive] = useState(false);
     let href = '/data';
     const { asPath, locale } = useRouter();
-    const { setIsHome, setIsAboutUs, setIsData, setIsDataSurfaceContext } = useContext( LayoutContext );
+    const { 
+        setIsHome, 
+        setIsAboutUs, 
+        setIsData, 
+        setIsDataSurfaceContext,
+    } = useContext( LayoutContext );
     const { width = 100 } = useWindowSize();
 
     useEffect(() => {
@@ -68,13 +74,24 @@ export const BigMenu = ({ title, options }: Props) => {
         }
     }
     // console.log({asPath}) onClick={ onSetIsHome } 
+    
+    useEffect(() => {
+        options.map( items => {
+            items.menuOptions.map( category => {
+                //console.log(category.href)
+                if( category.href === asPath ) setIsActive( true );
+            })
+        })
+    }, [])
+    
+
     const onNavigateBigMenu = (url: string) => {
         onSetIsHome( url );
     }
 
     return (
         <div className={ styles.dropdown2 } key={ uuidv4() }>
-            <button className={ styles.dropbtn2 } style={ href.includes(asPath) && href !== '/'  ? style : undefined }>{ title } 
+            <button className={ styles.dropbtn2 } style={ isActive ? style : undefined }>{ title } 
                 <i className="fa fa-caret-down"></i>
             </button>
             <div className={ styles['dropdown2-content'] }>

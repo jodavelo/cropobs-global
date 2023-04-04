@@ -4,33 +4,29 @@ import { Chart, registerables } from 'chart.js';
 import { useRouter } from "next/router";
 Chart.register(...registerables);
 
+interface ChartTexts {
+  title: string,
+  axis_x : string,
+  axis_y : string,
+  datasets: string[]
+}
+
 interface Props {
     xLabels: any[],
     data1: number[],
     data2: number[],
+    chartTexts: ChartTexts
 };
 
-export const MultichartTr2: FC<Props> = ({xLabels, data1, data2}) => {
+export const MultichartTr2: FC<Props> = ({xLabels, data1, data2, chartTexts}) => {
   const { locale } = useRouter();
-  
-  let title = "";
-  switch (locale) {
-      case 'en':
-          title = "Imports of common beans - WORLD";
-          break;
-      case 'es':
-          title = "Importaciones de common beans - MUNDO";
-          break;
-      case 'pt':
-          title = "Importacao do common beans - MUNDO";
-          break;
-  }
+
   const data = {
         labels: xLabels,
         datasets: [
           {
             type: 'line' as const,
-            label: 'Data1',
+            label: chartTexts.datasets[0],
             fill: false, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: true, //mostrar linea
@@ -54,7 +50,7 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2}) => {
           },
           {
             type: 'line' as const,
-            label: 'data2',
+            label: chartTexts.datasets[1],
             fill: false, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: true, //mostrar linea
@@ -90,7 +86,7 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2}) => {
         plugins: {
           title: {
             display: true,
-            text: title,
+            text: chartTexts.title,
           },
           legend : {
             position : 'bottom'
@@ -105,7 +101,7 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2}) => {
             },
             title: {
               display: true,
-              text: 'Value (USD) and Quantity (kg)'
+              text: chartTexts.axis_y
             },
             type: 'linear' as const,
             display: true,

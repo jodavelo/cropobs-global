@@ -218,7 +218,7 @@ export const MapPV: FC = () => {
                 <MapSelect options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
                 { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
             </Row>
-            <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
+            <MapView elementUnit='' admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} />
         </Col>
     )
 }
