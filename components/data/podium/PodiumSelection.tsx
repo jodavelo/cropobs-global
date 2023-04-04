@@ -28,7 +28,7 @@ export const PodiumSelection: FC<Props> = ({ podiumsList, showSelect = true }) =
             >
                 { podiumsList.map( (podiumInfo, index) => <option key={index} value={index}>{podiumInfo.name}</option>)}
             </select>
-            <PodiumWithLink dataURL={podiumsList[Number(selected)].url} text={podiumsList[Number(selected)].text} description={podiumsList[Number(selected)].description}/>
+            <PodiumWithLink dataURL={podiumsList[Number(selected)].url} text1={podiumsList[Number(selected)].text} description={podiumsList[Number(selected)].description}/>
         </>
     )
 }

@@ -25,12 +25,21 @@ import { general_data_steps } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { sectionState } from '../../interfaces/data/section-states';
+import { SourcesComponent } from '../../components/ui/sources-component';
 
 
 const mapFilterElements = [1000, 5312, 5510];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 //let clickId: string | number | null = null;
+
+const chartInfo1 = "This graph presents the historical evolution of beans harvested area in hectares, production level in tons, and yield in tons per hectare for the selected region. This is a two-axis graph, where the one on the left shows the values for the production and area variables, while the one on the right shows the values for the yield variable.\nYou can select in the legend those variables that you wish to exclude from the visualization."
+
+const chartInfo2 = "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.\nYou may select in the legend those variables that you wish to exclude from the display.";
+
+const chartInfo3 = "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.\nYou may select in the legend those variables that you wish to exclude from the display.";
+
+const podiumInfo = "This podium ranks crops according to year-on-year growth in production, harvested area and yield for the selected period. The filter allows you to switch between the three variables. The podium will show the three crops that grew the most in relation to the selected variable, as well as the position of the beans in the selected region.";
 
 
 const ProductionPage: NextPage = () => {
@@ -238,19 +247,19 @@ const ProductionPage: NextPage = () => {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1103/176/${year}`,
             text: `In ${year}, crop was the fastest-growing crop in production in relation to ${year - 1}`,
             name: 'Production',
-            description: 'podium de producción'
+            description: podiumInfo
         },
         {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1101/176/${year}`,
             text: `In ${year}, crop was the fastest-growing crop in area in relation to ${year - 1}`,
             name: 'Area',
-            description: 'podium de área'
+            description: podiumInfo
         },
         {
             url: `${baseURL}/api/v1/data/podium/${countryCode}/1102/176/${year}`,
             text: `In ${year}, crop was the fastest-growing crop in yield in relation to ${year - 1}`,
             name: 'Yield',
-            description: 'podium de yield'
+            description: podiumInfo
         },
     ]
 
@@ -261,7 +270,7 @@ const ProductionPage: NextPage = () => {
             config: {key: 'id_element', name:'id_element'},
             name: 'Annual growth',
             elementsURL: `${baseURL}/api/v1/data/elements/2`,
-            description: 'gráfico 2 de producción'
+            description: chartInfo2
         },
         {
             dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1007,1008,1009]&cropIds=[176]`,
@@ -269,7 +278,7 @@ const ProductionPage: NextPage = () => {
             config: {key: 'id_element', name:'id_element'},
             name: '10-year moving average',
             elementsURL: `${baseURL}/api/v1/data/elements/2`,
-            description: 'gráfico 3 de producción'
+            description: chartInfo3
         }
     ];
 
@@ -318,11 +327,12 @@ const ProductionPage: NextPage = () => {
                                         <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
                                     </Col>
                                     <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                        <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={chartInfo1} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
                                         <br/>
                                         <PodiumSelection podiumsList={podiumConfig} />
                                         <br/>
                                         <ChartSelection chartConfigList={chartConfig} />
+                                        <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                     </Col>
                                 </Row>                            
                             </Container>

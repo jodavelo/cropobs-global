@@ -1,0 +1,8 @@
+.sources-container {
+	display: flex;
+	flex-direction: column;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    justify-content: center;
+    margin-right: 20px;
+}

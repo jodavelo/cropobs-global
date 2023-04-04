@@ -14,9 +14,9 @@ import { v4 as uuidv4 } from 'uuid';
 interface Props {
     dataURL: string;
     text1: string;
-    text2: string;
-    text3: string;
-    text4: string;
+    text2?: string;
+    text3?: string;
+    text4?: string;
     description: string
 }
 
