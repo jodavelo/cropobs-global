@@ -3,7 +3,7 @@
 .left-side-menu-container {
     background-color: transparent;
     width: 70px;
-    height: 750px;
+    height: 550px;
     position: absolute;
     z-index: 999;
     display: flex;

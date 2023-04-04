@@ -2,8 +2,12 @@
 /* extra components: ( videos, sign up o caoursel ) */
 
 .home {
-    height: 400vh; /* TODO: Para el alto del contenido main */ /* 400 vh without extra components  */
+    height: auto; /* TODO: Para el alto del contenido main */ /* 400 vh without extra components  */
     /* border: 1px black solid; */
+}
+
+.padding-main-content {
+    padding: 10px;
 }
 
 .data {
@@ -11,11 +15,14 @@
 }
 
 .data-sf {
-    height: 170vh;
+    padding: 10px 0 0 0;
+    height: 180vh;
 }
 
+
 .about-us {
-    height: 180vh;
+    /*height: 180vh;*/
+    height: auto;
 }
 
 .databases {
@@ -24,7 +31,7 @@
 
 @media (max-width: 500px) and (min-width: 300px){
     .home {
-        height: 380vh;   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
+        height: 530vh;   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
     }
     .data {
         height: 300vh;
@@ -33,7 +40,7 @@
 
 @media (max-width: 800px) and (min-width: 500px){
     .home {
-        height: 410vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
+        height: 555vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
     }
     .data {
         height: 300vh;
@@ -43,7 +50,7 @@
 
 @media (max-width: 1000px) and (min-width: 800px){
     .home {
-        height: 310vh; /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
+        height: 375vh; /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
     }
     .data {
         height: 300vh;
@@ -53,7 +60,7 @@
 
 @media (min-width: 1000px){ 
     .home {
-        height: 290vh; /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
+        height: 410vh /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
     }
     .data {
         height: 200vh;
@@ -69,9 +76,10 @@
     }
 } */
 
+
 @media (min-width: 576px) and (max-width: 767px){
     .about-us {
-        height: 100vh;
+        /*height: 165vh;*/        
     }
     .databases {
         height: 160vh;
@@ -80,7 +88,7 @@
 
 @media (min-width: 768px) and (max-width: 991px){
     .about-us {
-        height: 60vh;
+        /*height: 210vh;*/        
     }
     .databases {
         height: 140vh;
@@ -89,7 +97,7 @@
 
 @media (min-width: 992px) and (max-width: 1199px){
     .about-us {
-        height: 70vh;
+        /*height: 145vh;*/
     }
     .data-sf {
         height: 90vh;
@@ -101,10 +109,11 @@
 
 @media (min-width: 1200px) {
     .about-us {
-        height: 60vh;
+        /*height: 115vh;*/
+        
     }
     .data-sf {
-        height: 90vh;
+        height: 100vh;
     }
     .databases {
         height: 100vh;

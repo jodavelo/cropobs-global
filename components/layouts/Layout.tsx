@@ -30,10 +30,10 @@ export const Layout: FC<Props> = ({ children, title }) => {
             setLayoutClassName( styles.home );
             setIsHome( true );
         }
-        else if ( asPath == '/data/surface-context' ) { 
-            setLayoutClassName( styles.data );
-            setIsDataSurfaceContext( true );
-        }
+        // else if ( asPath == '/data/surface-context' ) { 
+        //     setLayoutClassName( styles.data );
+        //     setIsDataSurfaceContext( true );
+        // }
         else if ( asPath == '/data/surface-context' ) {
             setLayoutClassName( styles['data-sf'] );
             setIsDataSurfaceContext( true );
