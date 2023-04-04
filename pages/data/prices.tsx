@@ -22,6 +22,7 @@ import { GeoJsonProperties, Geometry } from 'geojson';
 
 interface sectionState {
     elementId: number
+    locationName: string
 }
 
 interface ElementsState {
@@ -49,15 +50,17 @@ enum FeatureType {
 interface marker {
     priceDataGeopoint: Feature
 }
+let clickId: string | number | null = null;
 
 const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data');
     const[priceData, setPriceData] = useState<Feature>();
     const { map } = useContext( MapContext );
     const [ sectionState, setSectionState ] = useState<sectionState>({
-        elementId: 300050, 
+        elementId: 300050,
+        locationName: 'World'
     });
-    const { elementId } = sectionState;
+    const { elementId, locationName } = sectionState;
     const [elementsState, setElements] = useState<ElementsState>({
         elementsObj: {},
         elementsOptions: { values: [], names: []}
@@ -66,13 +69,45 @@ const DataPage: NextPage = () => {
     const [chartTitle, setChartTitle] = useState<string>('');
     const [idCountry, setIdCountry] = useState(0); 
     const [idGeoPoint, setIdGeoPoint] = useState(0);
+   
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
     const [onlyMap, setOnlyMap]= useState(true);
+    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
     
+    useEffect(() => {
+        if( buttonBoth ) {
+            setMapCol(6)
+            setGraphsCol(6)
+            setShowMap(true)
+            setShowGraphs(true)
+        }
+        if( buttonGraphs ) {
+            setMapCol(0)
+            setGraphsCol(12)
+            setShowMap(false)
+            setShowGraphs(true)
+        }
+        if( buttonMap ) {
+            setMapCol(12)
+            setGraphsCol(0)
+            setShowMap(true)
+            setShowGraphs(false)
+        }
+    }, [buttonBoth, buttonGraphs, buttonMap]);
+
+    useEffect( () => {
+        if( buttonBoth ) {
+            if (map) map.resize();
+        }
+        if( buttonMap ) {
+            if (map) map.resize();
+        }
+    });
+
     useEffect(() => {
         if( onlyMap ) {
             setMapCol(12)
@@ -90,6 +125,21 @@ const DataPage: NextPage = () => {
             if (map) map.resize();
         }
     });
+
+    useEffect(() => {
+        if (map){
+            map.on('load', () => {
+                map.on('click', 'unclustered-point', (e) => {
+                    setSectionState( (prevState) => ({
+                        ...prevState,
+                        locationName: e.features![0].properties?.label
+                    }));
+                    console.log(e.features![0].properties?.label);
+                    clickId = e.features![0].id ?? null;
+                });
+            });
+        }
+    }, [map]);
 
     const  handleClick = () => {
         if( onlyMap ) {
@@ -136,11 +186,13 @@ const DataPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 }  className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
+                                    <MainBar key={ uuidv4() } section={`Prices - ${locationName}`} ></MainBar>
                                 </Col>
+                            <Row/>
+                                <LeftSideMenuContainer/>
                                 <Col xs={ 12 } lg={ mapCol }  onClick={handleClick} style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }} >
-                                            <MapSelect setShowGraphs={setShowGraphs} options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                        <MapSelect setMapCol={setMapCol} setGraphsCol={setGraphsCol} setShowMap={setShowMap} setShowGraphs={setShowGraphs} options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>                                    
                                     </Row>
                                         <MapViewPrices  setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                                 </Col>

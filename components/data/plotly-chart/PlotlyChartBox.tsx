@@ -73,6 +73,10 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description }) => {
             layout={ layout }
         />
         <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
+        {showModal ? (
+        <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+      ) : null
+      }
     </div>
     );
 }
