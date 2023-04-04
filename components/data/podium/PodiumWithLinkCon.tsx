@@ -32,13 +32,14 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
         const exclusionClasses = ['podium-footer'];
         return !exclusionClasses.some((classname) => node.classList?.contains(classname));
     }
-
+    console.log(dataURL);
     const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
 
     if (error) return <div>Failed to load</div>
     if (isLoading) return <div>Loading...</div>
 
     const data = podiumDataProcessTrans(predata,locale as string);
+    console.log(data);
 
     const getCropRank= (data: any[], cropNames : string[]): number => {
         for (const elem of data){
