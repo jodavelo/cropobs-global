@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
 ;
 
-export const style: CSSProperties = {
+const style: CSSProperties = {
     color: '#0070f3',
     fontWeight: 'bolder'
     // textDecoration: 'underline',

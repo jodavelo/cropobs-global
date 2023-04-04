@@ -13,7 +13,7 @@ export const SourcesComponent: FC<Props> = ({ shortName, year, completeName, url
         <div className={styles['sources-container']}>
           Data Sources:
           <ul>
-              <li><b>{ shortName }. ({year}).</b> {completeName}. <a href={url} target="_blank">{url}</a></li>
+              <li><b>{ shortName }. ({year}).</b> {completeName}. <a href={url} target="_blank" rel="noreferrer">{url}</a></li>
           </ul>
         </div>
     )

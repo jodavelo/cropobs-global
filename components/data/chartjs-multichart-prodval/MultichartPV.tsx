@@ -16,7 +16,7 @@ interface Props {
     data2: number[],
     data3: number[],
     data4: number[],
-    chartTexts: ChartTexts
+    chartTexts?: ChartTexts
 };
 
 export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts}) => {
@@ -25,7 +25,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
         datasets: [
           {
             type: 'line' as const,
-            label: chartTexts.datasets[0],
+            label: chartTexts?.datasets[0],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -49,7 +49,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
           },
           {
             type: 'line' as const,
-            label: chartTexts.datasets[1],
+            label: chartTexts?.datasets[1],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -73,7 +73,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
           },
           {
             type: 'line' as const,
-            label: chartTexts.datasets[2],
+            label: chartTexts?.datasets[2],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -97,7 +97,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
           },
           {
             type: 'line' as const,
-            label: chartTexts.datasets[3],
+            label: chartTexts?.datasets[3],
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
@@ -134,7 +134,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
         plugins: {
           title: {
             display: true,
-            text: chartTexts.title,
+            text: chartTexts?.title,
           },
           legend : {
             position : 'bottom'
@@ -149,7 +149,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             },
             title: {
               display: true,
-              text: chartTexts.axis_y
+              text: chartTexts?.axis_y
             },
             type: 'linear' as const,
             display: true,
