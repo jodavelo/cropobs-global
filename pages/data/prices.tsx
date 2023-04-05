@@ -11,7 +11,7 @@ import styles from './data.module.css';
 import {PlotlyChartBox } from '../../components/data';
 import { PlotlyChartLine } from '../../components/data';
 import axios from 'axios';
-import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
+import { LeftSideMenuContainer, MapSelectPrices } from '../../components/ui/map/filters';
 import { dataFetcher, generateElementsOptions } from '../../helpers/data';
 import useSWR from 'swr';
 import { MapContext } from '../../context/map';
@@ -201,7 +201,7 @@ const DataPage: NextPage = () => {
                                 <LeftSideMenuContainer/>
                                 <Col xs={ 12 } lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }} >
-                                        <MapSelect setMapCol={setMapCol} setGraphsCol={setGraphsCol} setShowMap={setShowMap} setShowGraphs={setShowGraphs} options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>                                    
+                                        <MapSelectPrices setMapCol={setMapCol} setGraphsCol={setGraphsCol} setShowMap={setShowMap} setShowGraphs={setShowGraphs} options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>                                    
                                     </Row>
                                         <MapViewPrices  setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                                 </Col>
