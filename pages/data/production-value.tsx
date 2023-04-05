@@ -96,6 +96,13 @@ const PVPage: NextPage = () => {
     const { setSteps, setIsOpen } = useTour();
     const [showCountries, setShowCountries] = useState(false);
     const [clickId, setClickId] = useState<string | number | null>(null);
+    // Chart Data states
+    const [data1, setData1] = useState(undefined);
+    const [data2, setData2] = useState(undefined);
+    const [data3, setData3] = useState(undefined);
+    const [data4, setData4] = useState(undefined);
+    const [x_labels, setXLabels] = useState(undefined);
+    const [dataFrame1, setDataFrame1] = useState(undefined);
     // Data translation states
     const [percentConfig1, setPercentConfig1] = useState<PercentConfig | undefined>(undefined);
     const [percentConfig2, setPercentConfig2] = useState<PercentConfig | undefined>(undefined);
@@ -275,21 +282,35 @@ const PVPage: NextPage = () => {
         }
     }, []);
 
-    let [data1Json, setdata1Js] = useState([]);
-    let [data2Json, setdata2Js] = useState([]);
-    let [data3Json, setdata3Js] = useState([]);
-    let [data4Json, setdata4Js] = useState([]);
-    let [xlabels, setXlabels] = useState([]);
 
     useEffect(() => {
-        GetChartData2(setXlabels,setdata1Js,setdata2Js,setdata3Js,setdata4Js)
-    }, []);
+        GetChartData2(setXLabels,setData1,setData2,setData3,setData4,countryCode, clickId ? '58' : '152');
+    }, [countryCode]);
 
-    const x_labels = xlabels;
-    const data1 = data1Json.map((datum: any) => datum.value);
-    const data2 = data2Json.map((datum: any) => datum.value);
-    const data3 = data3Json.map((datum: any) => datum.value);
-    const data4 = data4Json.map((datum: any) => datum.value);
+    useEffect(() => {
+        setDataFrame1([
+            {
+                label:"Years", 
+                values : x_labels
+            },
+            {
+                label:"Beans", 
+                values : data1
+            },
+            {
+                label:"Pulses", 
+                values : data2
+            },
+            {
+                label:"Agriculture", 
+                values : data3
+            },
+            {
+                label:"Crops", 
+                values : data4
+            },
+        ]);
+    }, [x_labels, data1, data2, data3, data4]);
 
     let [valuePorc1, setValuePorc1] = useState(0)
 
@@ -299,12 +320,12 @@ const PVPage: NextPage = () => {
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
 
     useEffect( () => {
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/1153/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/${clickId ? '1059' : '1153'}/176/${year}`})
         .then(response => {
             setValuePorc1(response.data)
         })
 
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/1154/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/${clickId ? '1060' : '1154'}/176/${year}`})
         .then(response => {
             setValuePorc2(response.data)
         })
@@ -327,29 +348,6 @@ const PVPage: NextPage = () => {
                 settenyearsdata(chartjsData)
             })
     }, [countryCode]);
-
-    const dataFrame1 = [
-        {
-            label:"Years", 
-            values : x_labels
-        },
-        {
-            label:"Beans", 
-            values : data1
-        },
-        {
-            label:"Pulses", 
-            values : data2
-        },
-        {
-            label:"Agriculture", 
-            values : data3
-        },
-        {
-            label:"Crops", 
-            values : data4
-        },
-    ]
 
     const dataFrame2 = [
         {
@@ -399,7 +397,7 @@ const PVPage: NextPage = () => {
         })
     
         setPodiumConfig({
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/252/176/${year}`,
+            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '158' : '252'}/176/${year}`,
             text:  [dataTranslate('podium-title1'),dataTranslate('podium-title2')+year],
             description: '',
         })
