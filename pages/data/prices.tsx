@@ -74,10 +74,15 @@ const DataPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
-    const [onlyMap, setOnlyMap]= useState(true);
-    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    // const [onlyMap, setOnlyMap]= useState(true);
+    const { buttonBoth, buttonGraphs, buttonMap, activeBothButtons, activeMapButton } = useContext( LeftSideMenuContext );
+    // const [ mapButtons, setMapButtons] = useState([buttonBoth, buttonGraphs, buttonMap]);
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
     
+    useEffect(() => {
+        activeMapButton();
+    }, []);
+
     useEffect(() => {
         if( buttonBoth ) {
             setMapCol(6)
@@ -108,7 +113,7 @@ const DataPage: NextPage = () => {
         }
     });
 
-    useEffect(() => {
+    /* useEffect(() => {
         if( onlyMap ) {
             setMapCol(12)
             setGraphsCol(0)
@@ -117,29 +122,14 @@ const DataPage: NextPage = () => {
         }
        
        
-    }, [onlyMap]);
+    }, [onlyMap]); */
 
-    useEffect( () => {
+    /* useEffect( () => {
        
         if( onlyMap ) {
             if (map) map.resize();
         }
     });
-
-    useEffect(() => {
-        if (map){
-            map.on('load', () => {
-                map.on('click', 'unclustered-point', (e) => {
-                    setSectionState( (prevState) => ({
-                        ...prevState,
-                        locationName: e.features![0].properties?.label
-                    }));
-                    console.log(e.features![0].properties?.label);
-                    clickId = e.features![0].id ?? null;
-                });
-            });
-        }
-    }, [map]);
 
     const  handleClick = () => {
         if( onlyMap ) {
@@ -147,8 +137,27 @@ const DataPage: NextPage = () => {
             setGraphsCol(6)
             setShowMap(true)
             setShowGraphs(true)
+            setOnlyMap(false)
         }
-    };
+    }; */
+
+    useEffect(() => {
+        if (map){
+            map.on('load', () => {
+                map.on('click', 'unclustered-point', (e) => {
+                    const tempLocationName = e.features![0].properties?.label;
+                    setSectionState( (prevState) => ({
+                        ...prevState,
+                        locationName: tempLocationName
+                    }));
+                    console.log(e.features![0].properties?.label);
+                    clickId = e.features![0].id ?? null;
+                    activeBothButtons();
+                });
+            });
+        }
+    }, [map]);
+
     const getPriceData = (elementId: SetStateAction<number>) => {
         axios.get(`https://cassavalighthouse.org/api/v1/geojson/admin2/prices/Nals/${elementId}`)
             .then(res=>{setPriceData( res.data.data.geo_points)})
@@ -190,7 +199,7 @@ const DataPage: NextPage = () => {
                                 </Col>
                             <Row/>
                                 <LeftSideMenuContainer/>
-                                <Col xs={ 12 } lg={ mapCol }  onClick={handleClick} style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <Col xs={ 12 } lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                     <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }} >
                                         <MapSelect setMapCol={setMapCol} setGraphsCol={setGraphsCol} setShowMap={setShowMap} setShowGraphs={setShowGraphs} options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>                                    
                                     </Row>

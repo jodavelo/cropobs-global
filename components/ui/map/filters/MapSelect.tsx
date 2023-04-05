@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
+import { LeftSideMenuContext } from '../../../../context/map/leftsidemenu';
 import { SelectOptions } from '../../../../interfaces/data';
 import styles from './mapSelect.module.css';
 
@@ -14,17 +15,15 @@ interface MapSelectInterface {
     setGraphsCol: (data: number) => void;
 }
 
-export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined , setShowGraphs, setShowMap, setMapCol, setGraphsCol}) => {
+export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined , setShowGraphs, setShowMap, setMapCol, setGraphsCol }) => {
+    const { activeMapButton } = useContext( LeftSideMenuContext );
     const { values, names } = options;
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        activeMapButton();
         setSelected( (prevState: Record<string, any>) => ({
             ...prevState,
             [atrName]: e.target.value
         }));
-        setShowGraphs(false);
-        setShowMap(true)
-        setMapCol(12)
-        setGraphsCol(0)
     };
     return (
     <select
