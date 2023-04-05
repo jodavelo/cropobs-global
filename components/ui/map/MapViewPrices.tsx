@@ -92,7 +92,7 @@ export const MapViewPrices = ({ children, markers, setIdCountry, setIdGeoPoint }
                 source: 'earthquakes',
                 filter: ['has', 'point_count'],
                 paint: {
-                    'circle-color': '#51bbd6',
+                    'circle-color': '#A82F31',
                     'circle-radius': [
                         'step',
                         ['get', 'point_count'],

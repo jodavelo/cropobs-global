@@ -114,33 +114,6 @@ const DataPage: NextPage = () => {
         }
     });
 
-    /* useEffect(() => {
-        if( onlyMap ) {
-            setMapCol(12)
-            setGraphsCol(0)
-            setShowMap(true)
-            setShowGraphs(false)
-        }
-       
-       
-    }, [onlyMap]); */
-
-    /* useEffect( () => {
-       
-        if( onlyMap ) {
-            if (map) map.resize();
-        }
-    });
-
-    const  handleClick = () => {
-        if( onlyMap ) {
-            setMapCol(6)
-            setGraphsCol(6)
-            setShowMap(true)
-            setShowGraphs(true)
-            setOnlyMap(false)
-        }
-    }; */
 
     useEffect(() => {
         if (map){
