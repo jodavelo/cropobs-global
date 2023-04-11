@@ -49,7 +49,6 @@ const changeFillColor = (map: mapboxgl.Map, steps: Number[]) => {
 }
 
 
-
 export const MapViewPricesInt = ({ children }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
@@ -84,7 +83,7 @@ export const MapViewPricesInt = ({ children }: Props) => {
         map.current!.on('load', () => {
             map.current!.addSource('geo_countries', {
                 type: 'geojson',
-                data: geojson,
+                data: '/api/international-prices',
                 generateId: true
         });
             map.current!.addLayer({
