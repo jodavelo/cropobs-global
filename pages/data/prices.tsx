@@ -159,7 +159,7 @@ const DataPage: NextPage = () => {
         getPriceData(elementId);
     },[elementId])
     return (
-        <Layout title={ dataTranslate('title-header') }>
+        <Layout title={ dataTranslate('Prices') }>
             <Container fluid>
                 <Row>
                     <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>

@@ -80,3 +80,50 @@ export const pricesLineDataGenerator = (inputData: Record<string, any>, currency
     });
     return data;
 }
+
+export const pricesInternationalLineDataGenerator =(inputData: Record<string, any>): pricesLine[] => {
+
+    //console.log(inputData);
+    const data: pricesLine[] = [];
+    inputData.forEach((type: Record<string, any>, index: number) => {
+        const x: Date[] = [];
+        const y: number[] = [];
+        type.data.forEach((report: Record<string, any>) => {
+            x.push(new Date(report.year, (report.month - 1), 1));
+            y.push(report.average);
+        });
+        data.push({
+            x,
+            y,
+            type: 'scatter',
+            name: type.group,
+            connectgaps: false,
+            showlegend: true,
+            colorway:  Object.values(chartColors)[index]
+
+        });
+        //console.log(data);    
+        const trace1 = {
+            x: [1, 2, 3, 4],
+            y: [10, 15, 13, 17],
+            type: 'scatter',
+            line: {
+                color: data[0].colorway
+            }
+          };
+          
+        const trace2 = {
+            x: [1, 2, 3, 4],
+            y: [16, 5, 11, 9],
+            type: 'scatter',
+            line: {
+                color: data[1] ? data[1].colorway : deepOrange
+            }
+          };
+
+          const inputData = data;
+          //console.log(inputData)
+    
+    });
+    return data;
+}
