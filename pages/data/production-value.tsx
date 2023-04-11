@@ -41,7 +41,7 @@ interface PercentConfig {
 
 interface PodiumConfig {
     url: string
-    text: string[]
+    text: string
     description: string
 }
 
@@ -128,7 +128,7 @@ const PVPage: NextPage = () => {
         const result = {} as any
         for (let key in options) {
             result[key] = options[key]
-            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart2'+index+'-title').replace('${}', locationName)
+            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart2'+index+'-title').replace('#{}', locationName)
         }
         return result
     }
@@ -404,12 +404,12 @@ const PVPage: NextPage = () => {
     
         setPodiumConfig({
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '158' : '252'}/176/${year}`,
-            text:  [dataTranslate('podium-title1'),dataTranslate('podium-title2')+year],
+            text: dataTranslate('podium-title').replace('#{2}', year.toString()),
             description: '',
         })
     
         setChartTxts({
-            title: dataTranslate('chart1-title').replace('${}', locationName),
+            title: dataTranslate('chart1-title').replace('#{}', locationName),
             axis_x : "",
             axis_y : dataTranslate('chart1-axis-y'),
             datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4')]

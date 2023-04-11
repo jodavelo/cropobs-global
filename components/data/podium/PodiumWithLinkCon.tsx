@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { dataFetcher } from "../../../helpers/data";
 import download from 'downloadjs';
 import { toPng } from "html-to-image";
-import styles from './podium.module.css';
+import style from './podium.module.css';
 import { PodiumBarContainer } from './';
 import { podiumDataProcessTrans } from '../../../helpers/data/podium/podiumDataProcess';
 import { DataButtons } from '../data-buttons';
@@ -14,9 +14,11 @@ import { useRouter } from 'next/router';
 
 interface Props {
     dataURL: string
-    text: string[]
+    text: string
     description: string
 }
+
+var styles = style;
 
 export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) => {
     const { locale } = useRouter();
@@ -55,8 +57,7 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     return (
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
-                <div className={ styles['podium-description'] }>
-                    <span className={ styles['podium-text-description'] }>{ text[0]+ getCropRank(data,["Beans, dry","Beans"])+text[1] }</span>
+                <div dangerouslySetInnerHTML={{__html: eval((text.replace('#{1}', getCropRank(data,["Beans, dry", "Beans"]).toString())))}} className={ styles['podium-description'] }>
                 </div>
                 <div className={ styles['podium-body'] }>
                     <PodiumBarContainer data={ data } />

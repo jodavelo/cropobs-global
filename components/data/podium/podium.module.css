@@ -94,6 +94,12 @@
     border-color: rgb(82, 82, 82);
 }
 
+.year-text-bold {
+    color: #3e3e3e;
+    font-weight: 800;
+    font-size: 20px;
+}
+
 .text-bold {
     color: #3e3e3e;
     font-weight: 800;

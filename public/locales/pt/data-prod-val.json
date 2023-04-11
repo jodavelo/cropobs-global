@@ -3,13 +3,14 @@
     "title-page": "Pagina do Valor da produção",
     "label-cropland-area": "",
 
+    "podium-title": "`<span class=${styles['podium-text-description']}><span class='${styles['year-text-bold']}'>Feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> cultivo mais importante em relação ao valor da produção no <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium-title1":"Feijão foi o ",
     "podium-title2":" cultivo mais importante em relação ao valor da produção im ",
 
     "porc1-label":"do valor da produção agrícola",
     "porc2-label":"do valor da produção de legumbres",
 
-    "chart1-title":"Valor bruto da produção",
+    "chart1-title":"Valor bruto do valor da produção - #{}",
     "chart1-dataset1":"Feijão",
     "chart1-dataset2":"Leguminosas",
     "chart1-dataset3":"Culturas",
@@ -20,13 +21,13 @@
     "chart2-opt1": "Crescimento anual",
     "chart2-opt2": "Média móvel de 10 anos",
 
-    "chart21-title":"Crescimento Anual do <Importação> de <common beans - <Mundo>",
+    "chart21-title":"Crescimento Anual do valor da produção - #{}",
     "chart21-dataset1":"Feijão, seco",
     "chart21-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
     "chart21-dataset3":"Produto Interno Bruto",
     "chart2-toggle":"Toggle chart 2 Portugues",
 
-    "chart22-title":"Média móvel de 10 anos do <Importação> de <common beans> - <Mundo>",
+    "chart22-title":"Média móvel de 10 anos - #{}",
     "chart22-dataset1":"Feijão, seco",
     "chart22-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
     "chart22-dataset3":"Produto Interno Bruto"
