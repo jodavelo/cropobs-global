@@ -102,7 +102,7 @@ export const datasetGeneratorPV = (entries: any[], labels: Number[], key_attr: s
         const key = entry[key_attr];
         if (!dataArr[`${key}`]){
             dataArr[`${key}`] = Array(labels.length).fill(0);
-            const item = {id: key, name: entry[locale_attr]};
+            const item = {id: key, name: locale_attr === 'id_element' ? elements[key].ELEMENT_EN : entry[locale_attr]};
             if (orderList[key] !== undefined) items[orderList[key]] = item;
             else items.push(item)
             units[`${key}`] = entry.unit;

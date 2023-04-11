@@ -15,7 +15,3 @@ export interface Observation {
     id_element: number;
     unit: string;
 }
-
-// export interface Observations {
-//     observations: Observation[];
-// }

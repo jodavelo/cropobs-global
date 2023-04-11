@@ -312,23 +312,21 @@ const PVPage: NextPage = () => {
     },[countryCode, year]);
 
     useEffect(() => {
-        if(chartConfig){
-            axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
-                .then(response => {
-                    const data = response.data.data;
-                    const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key, chartConfig[0].config.name);
-                    const chartjsData = {labels: data.labels, datasets};
-                    setanualdata(chartjsData)
-                })
-            axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[2058,8184]&cropIds=[176,22008,22016]`})
-                .then(response => {
-                    const data = response.data.data;
-                    const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key, chartConfig[1].config.name);
-                    const chartjsData = {labels: data.labels, datasets};
-                    settenyearsdata(chartjsData)
-                })
-        }
-    }, [countryCode, chartConfig]);
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
+            .then(response => {
+                const data = response.data.data;
+                const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
+                const chartjsData = {labels: data.labels, datasets};
+                setanualdata(chartjsData)
+            })
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[2058,8184]&cropIds=[176,22008,22016]`})
+            .then(response => {
+                const data = response.data.data;
+                const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
+                const chartjsData = {labels: data.labels, datasets};
+                settenyearsdata(chartjsData)
+            })
+    }, [countryCode]);
 
     const dataFrame1 = [
         {
@@ -442,7 +440,7 @@ const PVPage: NextPage = () => {
                 name: dataTranslate('chart2-opt2')
             }
         ])
-    }, [countryCode]);
+    }, [countryCode, anualdata, tenyearsdata]);
 
     return (
         <Layout title={ dataTranslate('title-header') }>
