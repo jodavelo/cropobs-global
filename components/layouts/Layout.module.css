@@ -11,10 +11,16 @@
 }
 
 .data {
+    padding: 10px 0;
     height: 150vh;
 }
 
 .data-sf {
+    padding: 10px 0;
+    height: 180vh;
+}
+
+.data-prod {
     padding: 10px 0;
     height: 180vh;
 }
@@ -97,11 +103,12 @@
 
 @media (min-width: 992px) and (max-width: 1199px){
     .about-us {
-        /*height: 145vh;*/
+        /*height: 145vh;*/ 
     }
-    .data-sf {
+    .data-sf, .data-prod {
         height: 90vh;
     }
+    
     .databases {
         height: 120vh;
     }
@@ -112,7 +119,7 @@
         /*height: 115vh;*/
         
     }
-    .data-sf {
+    .data-sf, .data-prod {
         height: 100vh;
     }
     .databases {

@@ -26,6 +26,9 @@ import { getCookie, setCookie } from 'cookies-next';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { sectionState } from '../../interfaces/data/section-states';
 import { SourcesComponent } from '../../components/ui/sources-component';
+import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useWindowSize } from '../../hooks';
 
 
 const mapFilterElements = [1000, 5312, 5510];
@@ -288,56 +291,132 @@ const ProductionPage: NextPage = () => {
 
     ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { width } = useWindowSize();
+    const [sideBarColumn, setSideBarColumn] = useState('');
+    const [contentColumn, setContentColumn] = useState('');
+    const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
+    const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
+
+    const onCickCollapsed = () => {
+        // if ( width! > 992 && width! < 1200 ) {
+        //     setSideBarColumn(2);
+        //     setContentColumn(10);
+        // };
+        // if( width! > 1200 ){
+        //     setSideBarColumn(2);
+        //     setContentColumn(10);
+        // }
+        setSideBarColumn( '12%' );
+        setContentColumn( '88%' );
+        setIsCollapsed(!isCollapsed);
+        //console.log(isCollapsed)
+    }
+
+    useEffect(() => {
+        
+        if ( !isCollapsed ) {
+            setSideBarColumn( '12%' );
+            setContentColumn( '88%' );
+            // if( width! <= 1200 ){
+            //     alert('aaaa')
+            //     setSideBarColumn(2);
+            //     setContentColumn(10);
+            //     setSideBarSubcolumn(9);
+            //     setCollapsedSideBarButton(3);
+            // }
+            // if( width! > 1200 ) {
+            //     setSideBarColumn(2);
+            //     setContentColumn(10);
+            //     setSideBarSubcolumn(9);
+            //     setCollapsedSideBarButton(2);
+            // }
+            
+        };
+        if ( isCollapsed ) {
+            setSideBarColumn( '20%' );
+            setContentColumn( '80%' );
+            // if( width! <= 1200 ){
+            //     alert(isCollapsed)
+            //     setSideBarColumn(2);
+            //     setContentColumn(10);
+            //     setSideBarSubcolumn(7);
+            //     setCollapsedSideBarButton(5);
+            // }
+            // if( width! > 1200 ) {
+            //     setSideBarColumn(1);
+            //     setContentColumn(11);
+            //     setSideBarSubcolumn(9);
+            //     setCollapsedSideBarButton(2);
+            // }
+            
+        };
+
+    }, [ isCollapsed ])
+
+    useEffect(() => {
+        if( width! < 991 ) setContentColumn('100%');
+    })
+
     return (
             <Layout title={ dataTranslate('Production') }>
-                <Container fluid>
-                    <Row>
-                        <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
-                            <SidebarComponent/>
-                        </Col>
-                        <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
-                            <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
-                                <Row>
-                                    <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                        <MainBar key={ uuidv4() } section={`Production - ${locationName}`} >
-                                            <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
-                                        </MainBar>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <LeftSideMenuContainer/>
-                                    <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
-                                            <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
-                                                <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                                <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                                <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                                { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                            </Row>
-                                            <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                                <Button
-                                                    className={`${styles['search-country-button']}`}
-                                                    style={{width: '145px'}}
-                                                    onClick={() => setShowCountries(true)}
-                                                >
-                                                    Search Country
-                                                </Button>
-                                            </Row>
+                <Container fluid className={ styles['custom-container-fluid'] }>
+                    <div className={ styles['custom-subcontainer-fluid'] }>
+                        <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
+                            <div className={ styles['sidebar-component-container'] }>
+                                    <SidebarComponent isCollapsedProp={ isCollapsed }/>
+                            </div>
+                            <div className={ styles['sidebar-arrow-container'] }>
+                                <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                                    {  
+                                        !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    }
+                                </Button>
+                            </div>
+                        </div>
+                        <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
+                            <Row className={ styles['padding-left-subcontainers'] }>
+                                <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <MainBar key={ uuidv4() } section={`Production - ${locationName}`} >
+                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                    </MainBar>
+                                </Col>
+                            </Row>
+                            <Row className={ styles['padding-left-subcontainers'] }>
+                                <LeftSideMenuContainer/>
+                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                         </Row>
-                                        <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
-                                    </Col>
-                                    <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={chartInfo1} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
-                                        <br/>
-                                        <PodiumSelection podiumsList={podiumConfig} />
-                                        <br/>
-                                        <ChartSelection chartConfigList={chartConfig} />
-                                        <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
-                                    </Col>
-                                </Row>                            
-                            </Container>
-                        </Col>
-                    </Row>
+                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                            <Button
+                                                className={`${styles['search-country-button']}`}
+                                                style={{width: '145px'}}
+                                                onClick={() => setShowCountries(true)}
+                                            >
+                                                Search Country
+                                            </Button>
+                                        </Row>
+                                    </Row>
+                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
+                                </Col>
+                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                    <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={chartInfo1} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                    <br/>
+                                    <PodiumSelection podiumsList={podiumConfig} />
+                                    <br/>
+                                    <ChartSelection chartConfigList={chartConfig} />
+                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                </Col>
+                            </Row>
+                        </div>
+                    </div>
+                        {/* -------------- */}
+                    
                 </Container>
                 <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
             </Layout>

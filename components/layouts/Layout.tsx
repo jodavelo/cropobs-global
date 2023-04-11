@@ -15,12 +15,25 @@ export const Layout: FC<Props> = ({ children, title }) => {
 
     const [layoutClassName, setLayoutClassName] = useState('');
     const { asPath } = useRouter();
-    const { isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases, setIsHome, setIsDataSurfaceContext, setIsAboutUs, setIsDatabases } = useContext( LayoutContext );
+    const { 
+        isHome, 
+        isData, 
+        isAboutUs, 
+        isDataSurfaceContext,
+        isDataProduction,
+        isDatabases, 
+        setIsHome, 
+        setIsDataSurfaceContext,
+        setIsDataProduction, 
+        setIsAboutUs, 
+        setIsDatabases
+    } = useContext( LayoutContext );
     //console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
     useEffect(() => {
         if( isHome ) setLayoutClassName( styles.home );
         else if ( isData ) setLayoutClassName( styles.data );
         else if ( isDataSurfaceContext ) setLayoutClassName( styles['data-sf'] );
+        else if ( isDataProduction ) setLayoutClassName( styles['data-prod'] );
         else if ( isAboutUs ) setLayoutClassName( styles['about-us'] );
         else if ( isDatabases ) setLayoutClassName( styles.databases );
     }, [])
@@ -37,6 +50,10 @@ export const Layout: FC<Props> = ({ children, title }) => {
         else if ( asPath == '/data/surface-context' ) {
             setLayoutClassName( styles['data-sf'] );
             setIsDataSurfaceContext( true );
+        }
+        else if ( asPath == '/data/production' ) {
+            setLayoutClassName( styles['data-prod'] );
+            setIsDataProduction( true );
         }
         else if ( asPath == '/about' ) {
             setLayoutClassName( styles['about-us'] ); 
