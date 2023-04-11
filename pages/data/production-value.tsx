@@ -28,6 +28,7 @@ import { getCookie, setCookie } from 'cookies-next';
 import { general_data_steps } from '../../helpers/data/tour';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { BackButton } from '../../components/data/back-button';
+import { SourcesComponent } from '../../components/ui/sources-component';
 
 const mapFilterElements = [58, 1059, 1060];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
@@ -40,7 +41,7 @@ interface PercentConfig {
 
 interface PodiumConfig {
     url: string
-    text: string[]
+    text: string
     description: string
 }
 
@@ -56,6 +57,11 @@ interface ChartConfig {
     options: Record<string, any>
     config: Record<string, string>
     name: string
+}
+
+interface DataDocument {
+    label : string,
+    values: number[]
 }
 
 const PVPage: NextPage = () => {
@@ -96,6 +102,13 @@ const PVPage: NextPage = () => {
     const { setSteps, setIsOpen } = useTour();
     const [showCountries, setShowCountries] = useState(false);
     const [clickId, setClickId] = useState<string | number | null>(null);
+    // Chart Data states
+    const [data1, setData1] = useState<number[] | undefined>(undefined);
+    const [data2, setData2] = useState<number[] | undefined>(undefined);
+    const [data3, setData3] = useState<number[] | undefined>(undefined);
+    const [data4, setData4] = useState<number[] | undefined>(undefined);
+    const [x_labels, setXLabels] = useState<number[] | undefined>(undefined);
+    const [dataFrame1, setDataFrame1] = useState<DataDocument[] | undefined>(undefined);
     // Data translation states
     const [percentConfig1, setPercentConfig1] = useState<PercentConfig | undefined>(undefined);
     const [percentConfig2, setPercentConfig2] = useState<PercentConfig | undefined>(undefined);
@@ -115,7 +128,7 @@ const PVPage: NextPage = () => {
         const result = {} as any
         for (let key in options) {
             result[key] = options[key]
-            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart2'+index+'-title')
+            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart2'+index+'-title').replace('#{}', locationName)
         }
         return result
     }
@@ -275,21 +288,35 @@ const PVPage: NextPage = () => {
         }
     }, []);
 
-    let [data1Json, setdata1Js] = useState([]);
-    let [data2Json, setdata2Js] = useState([]);
-    let [data3Json, setdata3Js] = useState([]);
-    let [data4Json, setdata4Js] = useState([]);
-    let [xlabels, setXlabels] = useState([]);
 
     useEffect(() => {
-        GetChartData2(setXlabels,setdata1Js,setdata2Js,setdata3Js,setdata4Js)
-    }, []);
+        GetChartData2(setXLabels,setData1,setData2,setData3,setData4,countryCode, clickId ? '58' : '152');
+    }, [clickId, regionCode]);
 
-    const x_labels = xlabels;
-    const data1 = data1Json.map((datum: any) => datum.value);
-    const data2 = data2Json.map((datum: any) => datum.value);
-    const data3 = data3Json.map((datum: any) => datum.value);
-    const data4 = data4Json.map((datum: any) => datum.value);
+    useEffect(() => {
+        setDataFrame1([
+            {
+                label:"Years", 
+                values : x_labels ?? []
+            },
+            {
+                label:"Beans", 
+                values : data1 ?? []
+            },
+            {
+                label:"Pulses", 
+                values : data2 ?? []
+            },
+            {
+                label:"Agriculture", 
+                values : data3 ?? []
+            },
+            {
+                label:"Crops", 
+                values : data4 ?? []
+            },
+        ]);
+    }, [x_labels, data1, data2, data3, data4]);
 
     let [valuePorc1, setValuePorc1] = useState(0)
 
@@ -299,17 +326,17 @@ const PVPage: NextPage = () => {
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
 
     useEffect( () => {
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/1153/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/${clickId ? '1059' : '1153'}/176/${year}`})
         .then(response => {
             setValuePorc1(response.data)
         })
 
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/1154/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/${clickId ? '1060' : '1154'}/176/${year}`})
         .then(response => {
             setValuePorc2(response.data)
         })
 
-    },[countryCode, year]);
+    },[clickId, year, regionCode]);
 
     useEffect(() => {
         axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
@@ -326,30 +353,7 @@ const PVPage: NextPage = () => {
                 const chartjsData = {labels: data.labels, datasets};
                 settenyearsdata(chartjsData)
             })
-    }, [countryCode]);
-
-    const dataFrame1 = [
-        {
-            label:"Years", 
-            values : x_labels
-        },
-        {
-            label:"Beans", 
-            values : data1
-        },
-        {
-            label:"Pulses", 
-            values : data2
-        },
-        {
-            label:"Agriculture", 
-            values : data3
-        },
-        {
-            label:"Crops", 
-            values : data4
-        },
-    ]
+    }, [clickId, regionCode]);
 
     const dataFrame2 = [
         {
@@ -399,18 +403,18 @@ const PVPage: NextPage = () => {
         })
     
         setPodiumConfig({
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/252/176/${year}`,
-            text:  [dataTranslate('podium-title1'),dataTranslate('podium-title2')+year],
+            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '158' : '252'}/176/${year}`,
+            text: dataTranslate('podium-title').replace('#{2}', year.toString()),
             description: '',
         })
     
         setChartTxts({
-            title: dataTranslate('chart1-title'),
+            title: dataTranslate('chart1-title').replace('#{}', locationName),
             axis_x : "",
             axis_y : dataTranslate('chart1-axis-y'),
             datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4')]
         })
-    }, [valuePorc1, valuePorc2, countryCode, year]);
+    }, [valuePorc1, valuePorc2, clickId, year, regionCode]);
 
     useEffect(() => {
         const datasetsTranslated = (datasets: any[], index: number) => {
@@ -440,7 +444,7 @@ const PVPage: NextPage = () => {
                 name: dataTranslate('chart2-opt2')
             }
         ])
-    }, [countryCode, anualdata, tenyearsdata]);
+    }, [anualdata, tenyearsdata]);
 
     return (
         <Layout title={ dataTranslate('title-header') }>
@@ -453,7 +457,7 @@ const PVPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel'>
+                                    <MainBar key={ uuidv4() } section={`Production Value - ${locationName}`}>
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
@@ -484,10 +488,13 @@ const PVPage: NextPage = () => {
                                     { percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig ?
                                         <>
                                             <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description}/>
+                                            <br></br>
                                             <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
-                                            <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
+                                            <br></br>
+                                            <ChartFrame data={dataFrame1 ?? []} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                <MultichartPV xLabels={x_labels ?? []} data1={data1 ?? []} data2={data2 ?? []} data3={data3 ?? []} data4={data4 ?? []} chartTexts={chartTxts} />
                                             </ChartFrame>
+                                            <br></br>
                                             <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
                                                 <ChartSelectionPV chartConfigList={chartConfig} />
                                             </ChartFrame>
@@ -495,7 +502,7 @@ const PVPage: NextPage = () => {
                                         :
                                         'Loading...'
                                     }
-                                    <div> Source: <i>Data source</i> </div>
+                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                 </Col>
                             </Row>                            
                         </Container>

@@ -114,3 +114,14 @@
 .search-country-button:hover {
     background-color: rgb(111, 31, 33) !important;
 }
+
+.percent-text {
+    color: #494949;
+    font-weight: 800; 
+}
+
+.percent-year-text {
+    color: #494949;
+    font-weight: 800;
+    font-size: 20px;
+}

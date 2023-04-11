@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Chart as ChartComponent } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import { commarize } from "../../../helpers/data";
 Chart.register(...registerables);
 
 interface ChartTexts {
@@ -93,7 +94,7 @@ export const MultiBar2: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
           y: {
             ticks: {
               callback: function(value: any, index : any, ticks : any) {
-                return Math.round(value/100)/10 + 'k';
+                  return commarize(value);
               }
             },
             title: {
@@ -103,8 +104,6 @@ export const MultiBar2: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
             type: 'linear' as const,
             display: true,
             position: 'left' as const,
-            min: -5000,
-            max: 30000,
             stacked: true
           },
           y1: {
@@ -118,8 +117,6 @@ export const MultiBar2: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
             grid: {
               drawOnChartArea: false,
             },
-            min: 0.98,
-            max: 1.07,
             stacked: true
           },
         },

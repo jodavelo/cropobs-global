@@ -9,7 +9,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 
-import styles from './data.module.css';
+import style from './data.module.css';
 import { PodiumProductVal as Podium, PorcentagesBox, MultichartPV, ChartFrame, MultiBar1, MultiBar2, MapCON } from '../../components/data';
 import { dataFetcher, datasetGeneratorPV, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 
@@ -26,7 +26,10 @@ import { getCookie, setCookie } from 'cookies-next';
 import { general_data_steps } from '../../helpers/data/tour';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { BackButton } from '../../components/data/back-button';
+import { SourcesComponent } from '../../components/ui/sources-component';
+import DOMPurify from 'isomorphic-dompurify';
 
+var styles = style;
 const mapFilterElements = [6, 7, 645];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
@@ -270,19 +273,19 @@ const DataPage: NextPage = () => {
     const podiumConfig = [
         {
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '1' : '4'}/2546/${year}`,
-            text:  [dataTranslate('podium1-title1'),dataTranslate('podium1-title2')+year],
+            text:  dataTranslate('podium1-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option1'),
             description: '',
         },
         {
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '16' : '20'}/2546/${year}`,
-            text: [dataTranslate('podium2-title1'),dataTranslate('podium2-title2')+year],
+            text:  dataTranslate('podium2-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option2'),
             description: '',
         },
         {
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '2' : '5'}/2546/${year}`,
-            text: [dataTranslate('podium3-title1'),dataTranslate('podium3-title2')+year],
+            text:  dataTranslate('podium3-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option3'),
             description: '',
         },
@@ -369,7 +372,7 @@ const DataPage: NextPage = () => {
                 setPorc4({ value: response.data, text: `` })
             })
 
-    }, [countryCode, year])
+    }, [clickId, year])
 
     let [xlabels1, setxlabels1] = useState(Array(0))
     let [datapoints1, setdatapoints1] = useState(Array(0))
@@ -412,7 +415,7 @@ const DataPage: NextPage = () => {
     }, [clickId])
 
     const chartTxts1 = {
-        title: dataTranslate('chart1-title'),
+        title: dataTranslate('chart1-title').replace('#{}', locationName),
         axis_x : "",
         axis_y : dataTranslate('chart1-axis-y'),
         axis_y2 : dataTranslate('chart1-axis-y2'),
@@ -420,7 +423,7 @@ const DataPage: NextPage = () => {
     }
 
     const chartTxts2 = {
-        title: dataTranslate('chart2-title'),
+        title: dataTranslate('chart2-title').replace('#{}', locationName),
         axis_x : "",
         axis_y : dataTranslate('chart2-axis-y'),
         axis_y2 : dataTranslate('chart2-axis-y2'),
@@ -438,7 +441,7 @@ const DataPage: NextPage = () => {
                         <Container fluid className={`${styles['content-data']} ${styles['no-padding']}`} >
                             <Row>
                                 <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
-                                    <MainBar key={uuidv4()} section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel'>
+                                    <MainBar key={uuidv4()} section={`Consumption - ${locationName}`}>
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
@@ -465,26 +468,26 @@ const DataPage: NextPage = () => {
                                     </Row>
                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
                                 </Col>
-                                <Col xs={12} lg={graphsCol} style={showGraphs ? { display: 'block', height: '81vh', border: '1px black solid', overflowY: 'scroll' } : { display: 'none' }}>
+                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                     {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
                                     <PodiumSelectionCon podiumsList={podiumConfig} />
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }}>
-                                        <span>{dataTranslate('per-capita-title')} {year}:</span>
-                                        <span>{Math.round(perCapConsup * 100) / 100} kg {dataTranslate('per-capita-label')}</span>
-                                        <span style={{ marginTop: '25px', marginBottom: '10px' }}>{dataTranslate('porc-title')}:</span>
-                                    </div>
-                                    <PorcentagesBox data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label1')+(Math.round(dataComplmnt1* 100) / 100).toString()+dataTranslate('porc1-label2')}}
-                                        data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label1')+(Math.round(dataComplmnt2 * 100) / 100).toString()+dataTranslate('porc2-label2') }} />
-                                    <PorcentagesBox data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label1')+(Math.round(dataComplmnt3 * 100) / 100).toString()+dataTranslate('porc3-label2') }}
-                                        data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label1')+(Math.round(dataComplmnt4 * 100) / 100).toString()+dataTranslate('porc4-label2') }} />
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
+                                    <br></br>
+                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
+                                        data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
+                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
+                                        data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
+                                    <br></br>
                                     <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                         { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} chartTexts={chartTxts1} />)} 
                                     </ChartFrame>
+                                    <br></br>
                                     <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
+                                    <br></br>
                                     <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                         { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                     </ChartFrame>
-                                    <div> Source: <i>Data source</i> </div>
+                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                 </Col>
                             </Row>
                         </Container>

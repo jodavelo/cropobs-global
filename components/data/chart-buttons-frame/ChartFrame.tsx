@@ -9,6 +9,7 @@ import download from 'downloadjs';
 import { toPng } from "html-to-image";
 
 import styles from './frame.module.css';
+import stylesMultiChart from '../chartjs-multichart/multichart.module.css';
 import {ModalForm, ToggleDescription} from '../'
 import { GenerateDataJsonGeneric } from "../../../helpers/data";
 
@@ -44,10 +45,11 @@ export const ChartFrame: FC<Props> = ({ children, data , toggleText, excludedCla
             <div ref={ htmlRef } className={styles["frame-chart"]} >
                 {children}
             </div>
-            <div className={styles["frame-buttons"]}>
-                <Button className={ styles.button } onClick={ () => setOpenToggle(!openToggle) } ><InfoIcon/></Button>
-                <Button className={ styles.button } onClick={ chartDownload } ><ImageIcon/></Button>
-                <Button className={ styles.button } onClick={ () => setOpenModal(true) } ><DownloadIcon/> </Button>
+            <br></br>
+            <div className={stylesMultiChart["multichart-footer"]}>
+                <Button className={ stylesMultiChart.button } onClick={ () => setOpenToggle(!openToggle) } ><InfoIcon/></Button>
+                <Button className={ stylesMultiChart.button } onClick={ chartDownload } ><ImageIcon/></Button>
+                <Button className={ stylesMultiChart.button } onClick={ () => setOpenModal(true) } ><DownloadIcon/> </Button>
             </div>
             <ToggleDescription isOpen = {openToggle} text = {toggleText} />
             {

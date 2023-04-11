@@ -1,5 +1,3 @@
-
-
 export const beanColors = {
     dark_red: '#4F0614',
 	bean_orange2: '#F89A21',

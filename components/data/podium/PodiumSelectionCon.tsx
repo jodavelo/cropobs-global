@@ -8,7 +8,7 @@ interface Props {
 
 interface PodiumInfo {
     url: string
-    text: string[]
+    text: string
     name: string
     description: string
 }
