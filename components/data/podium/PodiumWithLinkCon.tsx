@@ -10,6 +10,7 @@ import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
+import DOMPurify from 'dompurify';
 
 
 interface Props {
@@ -53,11 +54,12 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     }
 
     const id = uuidv4();
+    console.log(text);
 
     return (
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
-                <div dangerouslySetInnerHTML={{__html: eval((text.replace('#{1}', getCropRank(data,["Beans, dry", "Beans"]).toString())))}} className={ styles['podium-description'] }>
+                <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval((text.replace('#{1}', getCropRank(data,["Beans, dry", "Beans"]).toString()))))}} className={ styles['podium-description'] }>
                 </div>
                 <div className={ styles['podium-body'] }>
                     <PodiumBarContainer data={ data } />

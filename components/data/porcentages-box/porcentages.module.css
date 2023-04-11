@@ -21,3 +21,21 @@
     margin-right: 10px;
     text-align: center;
 }
+
+.percent-data {
+    font-size: 45px;
+    color: #494949;
+    font-weight: 800;
+    text-align: center;
+}
+
+.percent-text {
+    color: #494949;
+    font-weight: 800; 
+}
+
+.percent-year-text {
+    color: #494949;
+    font-weight: 800;
+    font-size: 20px;
+}

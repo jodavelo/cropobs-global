@@ -3,10 +3,13 @@
     "title-page": "Consuption page",
     "label-cropland-area": "",
 
+    "podium1-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important food in terms of its caloric contribution to the diet in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"Beans were the ",
     "podium1-title2":" most important food in terms of its caloric contribution to the diet in ",
+    "podium2-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important food in terms of its proteic contribution to the diet in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Beans were the ",
     "podium2-title2":" most important food in terms of its proteic contribution to the diet in ",
+    "podium3-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> ranked crop in number of calories produced per hectare in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Beans were the ",
     "podium3-title2":" ranked crop in number of calories produced per hectare in ",
     
@@ -15,20 +18,25 @@
     "podium-option3":"Calories per hectare",
     "podium-toggle":"",
 
+    "per-capita-text": "`<span>Per cápita consumption in the year <span class=${styles['percent-year-text']}>#{1}</span>:</span><span><span class=${styles['percent-text']}>#{2}</span> kg per person</span><br><br><span>Accounting for:</span>`",
     "per-capita-title":"Per cápita consumption in the year ",
     "per-capita-label":" per person",
 
     "porc-title":"Accounting for ",
+    "porc1-label": "`<span>of a total daily caloric intake of <span class=${styles['percent-text']}>#{} calories</span></span>`",
     "porc1-label1":"of a total daily caloric intake of ",
     "porc1-label2":" calories",
+    "porc2-label": "`<span>of a total caloric daily intake from plant-based foods of <span class=${styles['percent-text']}>#{} calories</span></span>`",
     "porc2-label1":"of a total caloric daily intake from plant-based foods of ",
     "porc2-label2":" calories",
+    "porc3-label": "`<span>of a total daily proteic intake of <span class=${styles['percent-text']}>#{} grams of protein</span></span>`",
     "porc3-label1":"of a total daily proteic intake of ",
     "porc3-label2":" grams of protein",
+    "porc4-label": "`<span>of a total proteic daily intake from plant-based foods of <span class=${styles['percent-text']}>#{} grams of protein</span></span>`",
     "porc4-label1":"of a total proteic daily intake from plant-based foods of ",
     "porc4-label2":" grams of protein",
 
-    "chart1-title":"Allocation of domestic beans supply - <world>",
+    "chart1-title":"Allocation of domestic beans supply - #{}",
     "chart1-dataset1":"Regional per capita consuption (kg/capita/yr)",
     "chart1-dataset2":"Food",
     "chart1-dataset3":"Processing quantity",
@@ -41,7 +49,7 @@
 
     "porc5-label":"Self-sufficiency ratio",
     
-    "chart2-title":"Beans trade and supply - <World>",
+    "chart2-title":"Beans trade and supply - #{}",
     "chart2-dataset1":"Self-sufficiency ratio",
     "chart2-dataset2":"Production for domestic use",
     "chart2-dataset3":"Exports",

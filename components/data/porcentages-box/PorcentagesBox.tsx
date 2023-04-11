@@ -1,30 +1,33 @@
 import { FC} from "react"
 
-import styles from './porcentages.module.css';
+import style from './porcentages.module.css';
+import DOMPurify from "dompurify";
 
 interface Props {
     data_1 : any,
     data_2 : any
 };
 
+var styles = style;
+
 export const PorcentagesBox: FC<Props> = ({data_1, data_2}) => {
       return (
         <div className={styles["porcentages-container"]}>
             <div className={styles["porcentage-box"]}>
                 <h2 className={styles["porcentage-value"]}>
-                    {Math.round(Number(data_1.value)*10000)/100 + "%"}
+                    <span className={styles["percent-data"]}>
+                        {Math.round(Number(data_1.value)*10000)/100 + "%"}
+                    </span>
                 </h2>
-                <div className={styles["porcentage-text"]}>
-                    {data_1.text}
-                </div>
+                <div className={styles["porcentage-text"]} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(data_1.text))}} />
             </div>
             <div className={styles["porcentage-box"]} >
                 <h2 className={styles["porcentage-value"]}>
-                {Math.round(Number(data_2.value)*10000)/100 + "%"}
+                    <span className={styles["percent-data"]}>
+                        {Math.round(Number(data_2.value)*10000)/100 + "%"}
+                    </span>
                 </h2>
-                <div className={styles["porcentage-text"]}>
-                    {data_2.text}
-                </div>
+                <div className={styles["porcentage-text"]} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(data_2.text))}} />
             </div>
         </div>
         )
