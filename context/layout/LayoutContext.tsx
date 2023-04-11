@@ -13,6 +13,8 @@ interface ContextProps {
     setIsDataProduction: (settingIsDataProduction: boolean) => void;
     isDataProductionValue: boolean;
     setIsDataProductionValue: (settingIsDataProductionValue: boolean) => void;
+    isDataConsumption: boolean;
+    setIsDataConsumption: (settingIsDataConsumption: boolean) => void;
     isDatabases: boolean;
     setIsDatabases: (settingIsDatabases: boolean) => void;
 }

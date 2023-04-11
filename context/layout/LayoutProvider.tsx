@@ -8,6 +8,7 @@ export interface LayoutState {
     isDataSurfaceContext: boolean;
     isDataProduction: boolean;
     isDataProductionValue: boolean;
+    isDataConsumption: boolean;
     isDatabases: boolean;
 }
 
@@ -18,6 +19,7 @@ const LAYOUT_INITIAL_STATE: LayoutState = {
     isDataSurfaceContext: false,
     isDataProduction: false,
     isDataProductionValue: false,
+    isDataConsumption: false,
     isDatabases: false
 }
 
@@ -49,6 +51,10 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Data - Production Value', payload: settingIsDataProductionValue });
     }
 
+    const setIsDataConsumption = ( settingIsDataConsumption: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Data - Consumption', payload: settingIsDataConsumption });
+    }
+
     const setIsAboutUs = ( settingIsAboutUs: boolean ) => {
         dispatch({ type: '[Layout] - Set is About Us', payload: settingIsAboutUs });
     }
@@ -68,6 +74,7 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             setIsDataSurfaceContext,
             setIsDataProduction,
             setIsDataProductionValue,
+            setIsDataConsumption,
             setIsDatabases
         }}>
             { children }

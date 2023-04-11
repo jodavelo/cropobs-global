@@ -28,6 +28,9 @@ import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { BackButton } from '../../components/data/back-button';
 import { SourcesComponent } from '../../components/ui/sources-component';
 import DOMPurify from 'isomorphic-dompurify';
+import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useWindowSize } from '../../hooks';
 
 var styles = style;
 const mapFilterElements = [6, 7, 645];
@@ -430,69 +433,142 @@ const DataPage: NextPage = () => {
         datasets: [dataTranslate('chart2-dataset1'),dataTranslate('chart2-dataset2'),dataTranslate('chart2-dataset3'),dataTranslate('chart2-dataset4')]
     }
 
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { width } = useWindowSize();
+    const [sideBarColumn, setSideBarColumn] = useState('');
+    const [contentColumn, setContentColumn] = useState('');
+    const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
+    const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
+
+    const onCickCollapsed = () => {
+        // if ( width! > 992 && width! < 1200 ) {
+        //     setSideBarColumn(2);
+        //     setContentColumn(10);
+        // };
+        // if( width! > 1200 ){
+        //     setSideBarColumn(2);
+        //     setContentColumn(10);
+        // }
+        setSideBarColumn( '12%' );
+        setContentColumn( '88%' );
+        setIsCollapsed(!isCollapsed);
+        //console.log(isCollapsed)
+    }
+    useEffect(() => {
+        
+        if ( !isCollapsed ) {
+            setSideBarColumn( '12%' );
+            setContentColumn( '88%' );
+            // if( width! <= 1200 ){
+            //     alert('aaaa')
+            //     setSideBarColumn(2);
+            //     setContentColumn(10);
+            //     setSideBarSubcolumn(9);
+            //     setCollapsedSideBarButton(3);
+            // }
+            // if( width! > 1200 ) {
+            //     setSideBarColumn(2);
+            //     setContentColumn(10);
+            //     setSideBarSubcolumn(9);
+            //     setCollapsedSideBarButton(2);
+            // }
+            
+        };
+        if ( isCollapsed ) {
+            setSideBarColumn( '20%' );
+            setContentColumn( '80%' );
+            // if( width! <= 1200 ){
+            //     alert(isCollapsed)
+            //     setSideBarColumn(2);
+            //     setContentColumn(10);
+            //     setSideBarSubcolumn(7);
+            //     setCollapsedSideBarButton(5);
+            // }
+            // if( width! > 1200 ) {
+            //     setSideBarColumn(1);
+            //     setContentColumn(11);
+            //     setSideBarSubcolumn(9);
+            //     setCollapsedSideBarButton(2);
+            // }
+            
+        };
+
+    }, [ isCollapsed ])
+
+    useEffect(() => {
+        if( width! < 991 ) setContentColumn('100%');
+    })
+
     return (
         <Layout title={dataTranslate('title-header')}>
-            <Container fluid>
-                <Row>
-                    <Col xs={12} lg={3} xl={2} className={styles.sidebar}>
-                        <SidebarComponent />
-                    </Col>
-                    <Col xs={12} lg={9} xl={10} className={styles['content-data']}>
-                        <Container fluid className={`${styles['content-data']} ${styles['no-padding']}`} >
-                            <Row>
-                                <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
-                                    <MainBar key={uuidv4()} section={`Consumption - ${locationName}`}>
-                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
-                                    </MainBar>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <LeftSideMenuContainer />
-                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
-                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
-                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                        </Row>
-                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                            <Button
-                                                className={`${styles['search-country-button']}`}
-                                                style={{width: '145px'}}
-                                                onClick={() => setShowCountries(true)}
-                                            >
-                                                Search Country
-                                            </Button>
-                                        </Row>
+            <Container fluid className={ styles['custom-container-fluid'] }>
+                <div className={ styles['custom-subcontainer-fluid'] }>
+                    <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
+                        <div className={ styles['sidebar-component-container'] }>
+                            <SidebarComponent isCollapsedProp={ isCollapsed }/>
+                        </div>
+                        <div className={ styles['sidebar-arrow-container'] }>
+                            <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                                {  
+                                    !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                }
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
+                        <Row className={ styles['padding-left-subcontainers'] }>
+                            <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
+                                <MainBar key={uuidv4()} section={`Consumption - ${locationName}`}>
+                                    <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                </MainBar>
+                            </Col>
+                        </Row>
+                        <Row className={ styles['padding-left-subcontainers'] }>
+                            <LeftSideMenuContainer />
+                            <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                        <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                        <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                        <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                     </Row>
-                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
-                                </Col>
-                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                    {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
-                                    <PodiumSelectionCon podiumsList={podiumConfig} />
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
-                                    <br></br>
-                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
-                                        data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
-                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
-                                        data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
-                                    <br></br>
-                                    <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                        { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} chartTexts={chartTxts1} />)} 
-                                    </ChartFrame>
-                                    <br></br>
-                                    <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
-                                    <br></br>
-                                    <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                        { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
-                                    </ChartFrame>
-                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Col>
-                </Row>
+                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                        <Button
+                                            className={`${styles['search-country-button']}`}
+                                            style={{width: '145px'}}
+                                            onClick={() => setShowCountries(true)}
+                                        >
+                                            Search Country
+                                        </Button>
+                                    </Row>
+                                </Row>
+                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
+                            </Col>
+                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
+                                <PodiumSelectionCon podiumsList={podiumConfig} />
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
+                                <br></br>
+                                <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
+                                    data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
+                                <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
+                                    data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
+                                <br></br>
+                                <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                    { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} chartTexts={chartTxts1} />)} 
+                                </ChartFrame>
+                                <br></br>
+                                <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
+                                <br></br>
+                                <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                    { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
+                                </ChartFrame>
+                                <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
             </Container>
             <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
         </Layout>
