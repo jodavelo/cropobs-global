@@ -10,7 +10,7 @@ import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 
 interface Props {

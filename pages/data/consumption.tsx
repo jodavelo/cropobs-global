@@ -27,7 +27,7 @@ import { general_data_steps } from '../../helpers/data/tour';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { BackButton } from '../../components/data/back-button';
 import { SourcesComponent } from '../../components/ui/sources-component';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 var styles = style;
 const mapFilterElements = [6, 7, 645];
@@ -473,9 +473,9 @@ const DataPage: NextPage = () => {
                                     <PodiumSelectionCon podiumsList={podiumConfig} />
                                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
                                     <br></br>
-                                    <PorcentagesBox data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
+                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
                                         data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
-                                    <PorcentagesBox data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
+                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
                                         data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
                                     <br></br>
                                     <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
