@@ -11,6 +11,8 @@ interface ContextProps {
     setIsDataSurfaceContext: (settingIsDataSurfaceContext: boolean) => void;
     isDataProduction: boolean;
     setIsDataProduction: (settingIsDataProduction: boolean) => void;
+    isDataProductionValue: boolean;
+    setIsDataProductionValue: (settingIsDataProductionValue: boolean) => void;
     isDatabases: boolean;
     setIsDatabases: (settingIsDatabases: boolean) => void;
 }

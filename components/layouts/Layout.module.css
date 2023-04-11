@@ -25,6 +25,11 @@
     height: 180vh;
 }
 
+.data-prod-value {
+    padding: 10px 0;
+    height: 180vh;
+}
+
 
 .about-us {
     /*height: 180vh;*/
@@ -105,7 +110,7 @@
     .about-us {
         /*height: 145vh;*/ 
     }
-    .data-sf, .data-prod {
+    .data-sf, .data-prod, .data-prod-value {
         height: 90vh;
     }
     
@@ -119,7 +124,7 @@
         /*height: 115vh;*/
         
     }
-    .data-sf, .data-prod {
+    .data-sf, .data-prod, .data-prod-value {
         height: 100vh;
     }
     .databases {

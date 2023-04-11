@@ -6,6 +6,7 @@ type LayoutActionType =
     | { type: '[Layout] - Set is Data', payload: boolean}
     | { type: '[Layout] - Set is Data - Surface Context', payload: boolean}
     | { type: '[Layout] - Set is Data - Production', payload: boolean}
+    | { type: '[Layout] - Set is Data - Production Value', payload: boolean}
     | { type: '[Layout] - Set is About Us', payload: boolean}
     | { type: '[Layout] - Set is Databases', payload: boolean}
     // | { type: '[Layout] - Unenable is Home',  }
@@ -33,6 +34,11 @@ export const layoutReducer = (state: LayoutState, action: LayoutActionType): Lay
                 return {
                     ...state,
                     isDataProduction: action.payload
+                }
+            case '[Layout] - Set is Data - Production Value':
+                return {
+                    ...state,
+                    isDataProductionValue: action.payload
                 }
             case '[Layout] - Set is About Us':
                 return {
