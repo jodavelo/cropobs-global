@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout } from '../../components/layouts'
-import { MainBar, MapViewPrices, SidebarComponent } from '../../components/ui';
+import { MainBar, MapViewPrices } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './data.module.css';
 import {PlotlyChartBox } from '../../components/data';
@@ -18,6 +18,7 @@ import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { ElementsData,SelectOptions } from '../../interfaces/data';
 import { GeoJsonProperties, Geometry } from 'geojson';
+import { SidebarComponent } from '../../components/ui/sidebar';
 
 
 interface sectionState {
@@ -113,33 +114,6 @@ const DataPage: NextPage = () => {
         }
     });
 
-    /* useEffect(() => {
-        if( onlyMap ) {
-            setMapCol(12)
-            setGraphsCol(0)
-            setShowMap(true)
-            setShowGraphs(false)
-        }
-       
-       
-    }, [onlyMap]); */
-
-    /* useEffect( () => {
-       
-        if( onlyMap ) {
-            if (map) map.resize();
-        }
-    });
-
-    const  handleClick = () => {
-        if( onlyMap ) {
-            setMapCol(6)
-            setGraphsCol(6)
-            setShowMap(true)
-            setShowGraphs(true)
-            setOnlyMap(false)
-        }
-    }; */
 
     useEffect(() => {
         if (map){
@@ -177,7 +151,7 @@ const DataPage: NextPage = () => {
     useEffect(() => {
         if (elementsObj[elementId]) {
             const elementName = elementsObj[elementId].ELEMENT_EN;
-            setChartTitle(` ${elementName}`);
+            setChartTitle(`Year ${elementName}`);
         }
     }, [elementId, elementsObj]);
     

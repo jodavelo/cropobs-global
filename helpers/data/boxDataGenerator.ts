@@ -5,14 +5,39 @@ interface Trace {
     x: number[],
     name: string,
     showlegend: boolean,
-    type: string
+    type: string,
+    colorway: string,
 }
+
+const chartColors = {
+    dark_red: '#4F0614',
+    bean_orange2: '#F89A21',
+    dark_pink: '#bd7071',
+    //bean_orange: '#F57914',
+    fair_green: '#6BAA75',
+    purple: '#4D5382',
+    dark_blue: '#1F7A8C',
+    bean_red: '#A82F31',
+    water_green: '#94E8B4',
+    dark_green: '#679436',
+    light_pink: '#E5D0E3',
+    bright_brown: '#BD4F28',
+    golden_brown: '#A86F0C',
+    dark_salmon: '#F77E45',
+    green_gray: '#8C9977',
+    color_brown: '#85350B',
+    rustic_green: '#73682C',
+    marine_blue: '#79bcff',
+    white: '#FFFFFF',
+    gray: '#e3e3e3',
+    light_yellow_bean: '#ffc985',
+};
 
 export const boxDataGenerator = (inputData: Record<string, any>, currencyType: string): Trace[] => {
     const data: Trace[] = [];
     const y0: number[] = [];
     const y1: number[] = [];
-    inputData.forEach( (group: Record<string, any>) => {
+    inputData.forEach( (group: Record<string, any>, index: number) => {
         const years: number[] = [];
         const xdata: number[] = [];
         group.minAndMax.forEach((minMax: { [x: string]: number; year: number; }, i: string | number)=>{
@@ -31,6 +56,7 @@ export const boxDataGenerator = (inputData: Record<string, any>, currencyType: s
             type: 'box',
             name: group.group,
             showlegend: true,
+            colorway:  Object.values(chartColors)[index]
         }
         )
 /*         const trace: Trace = {
