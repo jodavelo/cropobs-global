@@ -31,6 +31,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
         if (width){
             if( width < 991 ) setSidebarWidth('90vw');
             else if ( width > 992 && width < 1200 ) setSidebarWidth('100%')
+            else if( width > 1200 ) setSidebarWidth('95%');
         }
         else setSidebarWidth('12vw')
         //collapseSidebar();
@@ -75,7 +76,9 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
             //   backgroundColor: 'red',
             //   width: '70%'
             },
-          }} >
+          }}
+            defaultCollapsed
+          >
             <Menu>
                 <SubMenu icon={ <AgricultureIcon/> } label={productionText}>
                     <MenuItem onClick={ () => push('/data/surface-context') } > {surfaceContextText} </MenuItem>

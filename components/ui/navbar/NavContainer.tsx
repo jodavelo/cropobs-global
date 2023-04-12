@@ -56,7 +56,7 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 },
                 {
                     menuLabel: productionValueText,
-                    href: '/data/prod_Val'
+                    href: '/data/production-value'
                 },
             ]
         },
@@ -65,7 +65,7 @@ export const NavContainer: FC<Props> = ({ expand }) => {
             menuOptions: [
                 {
                     menuLabel: consumptionText,
-                    href: '/data/consuption'
+                    href: '/data/consumption'
                 },
                 
             ]

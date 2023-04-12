@@ -368,62 +368,73 @@ const SurfaceContextPage: NextPage = () => {
     const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
 
     const onCickCollapsed = () => {
-        // if ( width! > 992 && width! < 1200 ) {
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // };
-        // if( width! > 1200 ){
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // }
-        setSideBarColumn( '12%' );
-        setContentColumn( '88%' );
+        
         setIsCollapsed(!isCollapsed);
         //console.log(isCollapsed)
     }
     useEffect(() => {
-        
-        if ( !isCollapsed ) {
-            setSideBarColumn( '12%' );
-            setContentColumn( '88%' );
-            // if( width! <= 1200 ){
-            //     alert('aaaa')
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(3);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
             
-        };
-        if ( isCollapsed ) {
-            setSideBarColumn( '20%' );
-            setContentColumn( '80%' );
-            // if( width! <= 1200 ){
-            //     alert(isCollapsed)
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(7);
-            //     setCollapsedSideBarButton(5);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(1);
-            //     setContentColumn(11);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
             
-        };
+        }
 
     }, [ isCollapsed ])
 
     useEffect(() => {
-        if( width! < 991 ) setContentColumn('100%');
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+        // if( width! < 991 ) setContentColumn('100%');
     })
     
     
@@ -494,7 +505,7 @@ const SurfaceContextPage: NextPage = () => {
                         <div className={ styles['sidebar-arrow-container'] }>
                             <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
-                                    !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
                             </Button>
                         </div>
