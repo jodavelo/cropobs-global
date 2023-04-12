@@ -36,6 +36,62 @@
     margin: 0 !important;
 }
 
+.padding-left-subcontainers {
+    padding-left: 15px;
+}
+
+.custom-container-fluid {
+    height: 100%;
+    padding: 0;
+}
+
+.custom-subcontainer-fluid {
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.sidebar-container {
+    background-color: transparent;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-component-container {
+    height: 100%;
+    width: 85%;
+    background-color: transparent;
+}
+
+.sidebar-arrow-container {
+    height: 100%;
+    width: 15%;
+    background-color: transparent;
+}
+
+.button-collapsed {
+    background: transparent;
+    color: black;
+    border-color: transparent;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.button-collapsed:hover{
+    background: transparent;
+    border-color: transparent;
+    color: black;
+}
+
+.main-content-container {
+    background-color: transparent;
+    height: 100%;
+    padding-left: 10px;
+}
+
 @media (min-width: 992px) {
     .sidebar {
         height: 87vh;
@@ -57,4 +113,15 @@
 
 .search-country-button:hover {
     background-color: rgb(111, 31, 33) !important;
+}
+
+.percent-text {
+    color: #494949;
+    font-weight: 800; 
+}
+
+.percent-year-text {
+    color: #494949;
+    font-weight: 800;
+    font-size: 20px;
 }

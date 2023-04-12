@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Chart as ChartComponent } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import { commarize } from "../../../helpers/data";
 Chart.register(...registerables);
 
 interface ChartTexts {
@@ -29,7 +30,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(75,192,192,0.4)', //Color area bajo la curva
+            backgroundColor: '#A82F31', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -53,7 +54,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(128, 128, 128,0.4)', //Color area bajo la curva
+            backgroundColor: '#F89A21', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -77,7 +78,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(11, 186, 220,0.5)', //Color area bajo la curva
+            backgroundColor: '#4D5382', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -101,7 +102,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(75,192,192,0.9)', //Color area bajo la curva
+            backgroundColor: '#1F7A8C', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -144,7 +145,7 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
           y: {
             ticks: {
               callback: function(value: any, index : any, ticks : any) {
-                  return Math.round(value/100000000)/10 + 'B';
+                  return commarize(value);
               }
             },
             title: {
@@ -154,8 +155,6 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             type: 'linear' as const,
             display: true,
             position: 'left' as const,
-            min: 0,
-            max: 7000000000,
           },
         },
       };

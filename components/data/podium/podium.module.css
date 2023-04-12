@@ -1,7 +1,6 @@
 .podium-container {
     height: 60%;
     width: 100%;
-    margin-bottom: 18px;
     background-color: transparent;
     display: flex;
     flex-direction: column;
@@ -93,6 +92,12 @@
 .button:hover {
     background-color: rgb(82, 82, 82) !important;
     border-color: rgb(82, 82, 82);
+}
+
+.year-text-bold {
+    color: #3e3e3e;
+    font-weight: 800;
+    font-size: 20px;
 }
 
 .text-bold {

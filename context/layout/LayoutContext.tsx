@@ -9,6 +9,12 @@ interface ContextProps {
     setIsAboutUs: (settingIsAboutUs: boolean) => void;
     isDataSurfaceContext: boolean;
     setIsDataSurfaceContext: (settingIsDataSurfaceContext: boolean) => void;
+    isDataProduction: boolean;
+    setIsDataProduction: (settingIsDataProduction: boolean) => void;
+    isDataProductionValue: boolean;
+    setIsDataProductionValue: (settingIsDataProductionValue: boolean) => void;
+    isDataConsumption: boolean;
+    setIsDataConsumption: (settingIsDataConsumption: boolean) => void;
     isDatabases: boolean;
     setIsDatabases: (settingIsDatabases: boolean) => void;
 }

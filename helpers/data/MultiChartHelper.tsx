@@ -22,34 +22,39 @@ const config_yield = {
   }
 }
 
-const config_data1 = {
-  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
-  params: {
-    "elementIds": JSON.stringify([152]),
-    "cropIds": JSON.stringify([176]),//beans
-  }
+const setConfigData = (countryCode: string, elementId: string) => {
+  return [
+    {
+      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      params: {
+        "elementIds": JSON.stringify([elementId]),
+        "cropIds": JSON.stringify([176]),//beans
+      }
+    },
+    {
+      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      params: {
+        "elementIds": JSON.stringify([elementId]),
+        "cropIds": JSON.stringify([96001]),//pulses
+      }
+    },
+    {
+      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      params: {
+        "elementIds": JSON.stringify([elementId]),
+        "cropIds": JSON.stringify([998]),//crops
+      }
+    },
+    {
+      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      params: {
+        "elementIds": JSON.stringify([elementId]),
+        "cropIds": JSON.stringify([2051]),//agric
+      }
+    }
+  ]
 }
-const config_data2 = {
-  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
-  params: {
-    "elementIds": JSON.stringify([152]),
-    "cropIds": JSON.stringify([96001]),//pulses
-  }
-}
-const config_data3 = {
-  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
-  params: {
-    "elementIds": JSON.stringify([152]),
-    "cropIds": JSON.stringify([998]),//crops
-  }
-}
-const config_data4 = {
-  url: 'https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/WLRD',
-  params: {
-    "elementIds": JSON.stringify([152]),
-    "cropIds": JSON.stringify([2051]),//agric
-  }
-}
+
 
 export const GetChartData = (setterLabels: Function,setterProd: Function,setterHarv: Function,setterYield: Function) => { 
     axios(config_prod)
@@ -73,29 +78,30 @@ export const GetChartData = (setterLabels: Function,setterProd: Function,setterH
       })
 }
 
-export const GetChartData2 = (setterLabels: Function,setterdata1: Function,setterdata2: Function,setterdata3: Function, setterdata4: Function) => { 
-  axios(config_data1)
+export const GetChartData2 = (setterLabels: Function,setterdata1: Function,setterdata2: Function,setterdata3: Function, setterdata4: Function, countryCode: string, elementId: string) => {
+  const configData = setConfigData(countryCode, elementId);
+  axios(configData[0])
     .then(response => {
       setterLabels(response.data.data.labels)
-      setterdata1(response.data.data.observations)
+      setterdata1(response.data.data.observations.map((datum: any) => datum.value))
     })
-    axios(config_data2)
+    axios(configData[1])
     .then(response => {
-      setterdata2(response.data.data.observations)
+      setterdata2(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
       console.log(error)
     })
-  axios(config_data3)
+  axios(configData[2])
     .then(response => {
-      setterdata3(response.data.data.observations)
+      setterdata3(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
       console.log(error)
     })
-  axios(config_data4)
+  axios(configData[3])
     .then(response => {
-      setterdata4(response.data.data.observations)
+      setterdata4(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
       console.log(error)
