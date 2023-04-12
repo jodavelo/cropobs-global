@@ -96,16 +96,16 @@ export const boxInternationalDataGenerator = (inputData: Record<string, any>, cu
     const data: Trace[] = [];
     const y0: number[] = [];
     const y1: number[] = [];
-    inputData.forEach( (group: Record<string, any>, index: number) => {
+    console.log(data)
+    inputData.forEach( (rice_type: Record<string, any>, index: number) => {
         const years: number[] = [];
         const xdata: number[] = [];
-        group.minAndMax.forEach((minMax: { [x: string]: number; year: number; }, i: string | number)=>{
-            console.log(group.medians[i],'asas');
-            xdata.push(minMax[`min_${currencyType}`])
-            xdata.push(group.medians[i][`${currencyType}`])
-            xdata.push(minMax[`max_${currencyType}`])
+        rice_type.minsAndMaxs.forEach((minMax: { [x: string]: number; year: number; }, i: string | number)=>{
+            // console.log(rice_type.medians[i],'asas');
+            xdata.push(minMax[`min`])
+            xdata.push(rice_type.medians[i].median)
+            xdata.push(minMax[`max`])
             //
-            console.log(xdata);
             years.push(minMax.year)
             years.push(minMax.year)
             years.push(minMax.year)
@@ -114,23 +114,12 @@ export const boxInternationalDataGenerator = (inputData: Record<string, any>, cu
             y: xdata,
             x:years,
             type: 'box',
-            name: group.rice_type,
+            name: rice_type.rice_type,
             showlegend: true,
             colorway:  Object.values(chartColors)[index]
         }
         )
-/*         const trace: Trace = {
-            y: [],
-            x: [],
-            name: group.group,
-            showlegend: true,
-            type: "box"
-        }
-        group.minAndMax.forEach( (entry: Record<string, number>, index: number) => {
-            trace.y = [...trace.y, entry[`min_${currencyType}` as keyof typeof entry], group.medians[index][currencyType], entry[`max_${currencyType}` as keyof typeof entry]];
-            trace.x = [...trace.x, ...Array(group.minAndMax.length).fill(entry.year)];
-        });
-        data.push(trace); */
+        
        for (var i = 0; i < 50; i ++) {
                 y0[i] = Math.random();
                 y1[i] = Math.random() + 1;

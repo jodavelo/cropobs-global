@@ -70,10 +70,6 @@ export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, descri
 
     return (
         <div>
-        <select value={priceType} onChange={(e) => setPriceType(e.target.value)}>
-          <option value="month">Montlhy</option>
-          <option value="year">Yearly</option>
-        </select>
             <Plot
                 key={ uuidv4() }
                 data={ data }

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { traceObject } from ".";
 import { useWindowSize } from '../../../hooks';
 import useSWR from 'swr';
-import { boxInternationalDataGenerator, dataFetcher, treeMapDataGenerator } from '../../../helpers/data';
+import { boxInternationalDataGenerator, dataFetcher, treeMapDataGenerator, boxDataGenerator } from '../../../helpers/data';
 import { use } from 'i18next';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from "../modal-form";
@@ -85,10 +85,6 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
     console.log(data);
     return (
     <div>
-      <select value={priceType} onChange={(e) => setPriceType(e.target.value)}>
-        <option value="nominal">Current prices - SLC</option>
-        <option value="ipc">Constant prices - SLC</option>
-      </select>
         <Plot
             key={ uuidv4() }
             data={ data }
