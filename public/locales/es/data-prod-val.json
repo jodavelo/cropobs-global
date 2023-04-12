@@ -21,13 +21,13 @@
     "chart2-opt1": "Crecimiento anual",
     "chart2-opt2": "Media movil de 10 años",
 
-    "chart21-title":"Crecimiento anual de las <importaciones> de <common beans> - #{}",
+    "chart21-title":"Crecimiento anual del valor de la producción - #{}",
     "chart21-dataset1":"Frijoles, secos",
     "chart21-dataset2":"Valor agregado (Agricultura, Silvicultura y Pesca)",
     "chart21-dataset3":"Producto Interno Bruto",
     "chart2-toggle":"Toggle chart 2 espanol",
 
-    "chart22-title":"Media móvil de 10 años de las <importaciones> de <common beans> - #{}",
+    "chart22-title":"Media móvil de 10 años - #{}",
     "chart22-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
     "chart22-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
     "chart22-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)"

@@ -3,10 +3,13 @@
     "title-page": "Pagina de consumo",
     "label-cropland-area": "",
 
+    "podium1-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución calórica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"Los frijoles fueron el ",
     "podium1-title2":" alimento más importante en cuanto a su contribución calórica a la dieta en ",
+    "podium2-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución proteica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Los frijoles fueron el ",
     "podium2-title2":" alimento más importante en cuanto a su contribución proteica a la dieta en ",
+    "podium3-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en número de calorías producidas por hectárea en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Los frijoles fueron el ",
     "podium3-title2":" cultivo más importante en número de calorías producidas por hectárea en ",
     
@@ -15,20 +18,25 @@
     "podium-option3":"Calorías por hectarea",
     "podium-toggle":"",
 
+    "per-capita-text": "`<span>Consumo per cápita en el año <span class=${styles['percent-year-text']}>#{1}</span>:</span><span><span class=${styles['percent-text']}>#{2}</span> kg por persona</span><br><br><span>Representando:</span>`",
     "per-capita-title":"Consumo per cápita en el año ",
     "per-capita-label":" por persona",
 
     "porc-title":"Representando ",
+    "porc1-label": "`<span>de una ingesta calórica diaria de <span class=${styles['percent-text']}>#{} calorías</span></span>`",
     "porc1-label1":"de una ingesta calórica diaria total de ",
     "porc1-label2":" calorías",
+    "porc2-label": "`<span>de una ingesta calórica diaria total de alimentos de origen vegetal de <span class=${styles['percent-text']}>#{} calorías</span></span>`",
     "porc2-label1":"de una ingesta calórica diaria total de alimentos de origen vegetal de ",
     "porc2-label2":" calorías",
+    "porc3-label": "`<span>de una ingesta proteica diaria total de <span class=${styles['percent-text']}>#{} gramos de proteína</span></span>`",
     "porc3-label1":"de una ingesta proteica diaria total de ",
     "porc3-label2":" gramos de proteína",
+    "porc4-label": "`<span>de una ingesta calórica diaria total procedente de alimentos de origen vegetal de <span class=${styles['percent-text']}>#{} gramos de proteína</span></span>`",
     "porc4-label1":"de una ingesta diaria proteica total procedente de alimentos de origen vegetal de",
     "porc4-label2":" gramos de proteína",
     
-    "chart1-title":"Asignación del suministro nacional de frijoles - <Mundo>",
+    "chart1-title":"Asignación del suministro nacional de frijoles - #{}",
     "chart1-dataset1":"Consumo per cápita regional (kg/persona/año)",
     "chart1-dataset2":"Alimentación",
     "chart1-dataset3":"Procesamiento",
@@ -41,7 +49,7 @@
 
     "porc5-label":"Coeficiente de auto-suficiencia",
     
-    "chart2-title":"Comercio y suficiencia del frijol - <Mundo>",
+    "chart2-title":"Comercio y suficiencia del frijol - #{}",
     "chart2-dataset1":"Coeficiente de auto-suficiencia",
     "chart2-dataset2":"Produccion para uso domestico",
     "chart2-dataset3":"Exportaciones",

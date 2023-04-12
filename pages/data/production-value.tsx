@@ -414,7 +414,7 @@ const PVPage: NextPage = () => {
             axis_y : dataTranslate('chart1-axis-y'),
             datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4')]
         })
-    }, [valuePorc1, valuePorc2, clickId, year, regionCode]);
+    }, [valuePorc1, valuePorc2, clickId, year, regionCode, dataTranslate]);
 
     useEffect(() => {
         const datasetsTranslated = (datasets: any[], index: number) => {
@@ -444,7 +444,7 @@ const PVPage: NextPage = () => {
                 name: dataTranslate('chart2-opt2')
             }
         ])
-    }, [anualdata, tenyearsdata]);
+    }, [anualdata, tenyearsdata, dataTranslate]);
 
     return (
         <Layout title={ dataTranslate('title-header') }>
