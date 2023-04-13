@@ -536,7 +536,7 @@ const PVPage: NextPage = () => {
                         <div className={ styles['sidebar-arrow-container'] }>
                             <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
-                                    !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
                             </Button>
                         </div>
