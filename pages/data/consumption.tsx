@@ -431,7 +431,7 @@ const DataPage: NextPage = () => {
     }
 
     return (
-        <Layout title={dataTranslate('title-header')}>
+        <Layout title={dataTranslate('section-name')}>
             <Container fluid>
                 <Row>
                     <Col xs={12} lg={3} xl={2} className={styles.sidebar}>
@@ -441,7 +441,7 @@ const DataPage: NextPage = () => {
                         <Container fluid className={`${styles['content-data']} ${styles['no-padding']}`} >
                             <Row>
                                 <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
-                                    <MainBar key={uuidv4()} section={`Consumption - ${locationName}`}>
+                                    <MainBar key={uuidv4()} section={dataTranslate('section-text').replace('#{}',locationName)}>
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
@@ -470,6 +470,7 @@ const DataPage: NextPage = () => {
                                 </Col>
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                     {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
+                                    <br></br>
                                     <PodiumSelectionCon podiumsList={podiumConfig} />
                                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
                                     <br></br>
@@ -487,7 +488,7 @@ const DataPage: NextPage = () => {
                                     <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                         { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                     </ChartFrame>
-                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                    <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                 </Col>
                             </Row>
                         </Container>

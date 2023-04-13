@@ -24,14 +24,22 @@ import { useTour } from '@reactour/tour';
 import { general_data_steps } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
-import { sectionState } from '../../interfaces/data/section-states';
+import { sectionState, PodiumConfig, ChartConfig, ConfigChart } from '../../interfaces/data/section-states';
 import { SourcesComponent } from '../../components/ui/sources-component';
+import { positionPodiumReplacer } from '../../helpers/data/podium/positionPodiumReplacer';
 
 
 const mapFilterElements = [1000, 5312, 5510];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 //let clickId: string | number | null = null;
+
+interface OtherTexts {
+    section_name: string
+    section_text: string
+    chart1_info: string
+    sources_text: string
+}
 
 
 const ProductionPage: NextPage = () => {
@@ -73,10 +81,10 @@ const ProductionPage: NextPage = () => {
     const [showCountries, setShowCountries] = useState(false);
     const [clickId, setClickId] = useState<string | number | null>(null);
 
-    const [podiumConfig, setPodiumConfig] = useState(undefined);
-    const [chartConfig, setChartConfig] = useState(undefined);
-    const [lineChartConfig, setLineChartConfig] = useState(undefined);
-    const [otherTexts, setOtherTexts] = useState (undefined);
+    const [podiumConfig, setPodiumConfig] = useState<PodiumConfig[] | undefined>(undefined);
+    const [chartConfig, setChartConfig] = useState<ChartConfig[] | undefined>(undefined);
+    const [lineChartConfig, setLineChartConfig] = useState<ConfigChart | undefined>(undefined);
+    const [otherTexts, setOtherTexts] = useState<OtherTexts | undefined>(undefined);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
 
@@ -243,21 +251,24 @@ const ProductionPage: NextPage = () => {
         setPodiumConfig([
             {
                 url: `${baseURL}/api/v1/data/podium/${countryCode}/1103/176/${year}`,
-                text: dataTranslate('podium1-description').replace('#{1}',year.toString()).replace('#{2}',(year-1).toString()),
+                text: dataTranslate('podium1-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
                 name: dataTranslate('podium1-selector-text'),
-                description: dataTranslate('podiums-info')
+                description: dataTranslate('podiums-info'),
+                textFormatter: positionPodiumReplacer
             },
             {
                 url: `${baseURL}/api/v1/data/podium/${countryCode}/1101/176/${year}`,
-                text: dataTranslate('podium2-description').replace('#{1}',year.toString()).replace('#{2}',(year-1).toString()),
+                text: dataTranslate('podium2-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
                 name: dataTranslate('podium2-selector-text'),
-                description: dataTranslate('podiums-info')
+                description: dataTranslate('podiums-info'),
+                textFormatter: positionPodiumReplacer
             },
             {
                 url: `${baseURL}/api/v1/data/podium/${countryCode}/1102/176/${year}`,
-                text: dataTranslate('podium3-description').replace('#{1}',year.toString()).replace('#{2}',(year-1).toString()),
+                text: dataTranslate('podium3-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
                 name: dataTranslate('podium3-selector-text'),
-                description: dataTranslate('podiums-info')
+                description: dataTranslate('podiums-info'),
+                textFormatter: positionPodiumReplacer
             },
         ]);
     
@@ -278,12 +289,10 @@ const ProductionPage: NextPage = () => {
                 elementsURL: `${baseURL}/api/v1/data/elements/2`,
                 description: dataTranslate('chart2_2-info')
             }
-
-            //Update here the section_text
         ]);
 
         
-    }, [clickId, year, dataTranslate]);
+    }, [clickId, year, locationName, dataTranslate]);
     
     useEffect(() => {
         harvested_production_yield.plugins.title.text = dataTranslate('chart1-title').replace('#{}', locationName);
@@ -296,9 +305,9 @@ const ProductionPage: NextPage = () => {
         ten_year_moving_average_options.plugins.title.text = dataTranslate('chart2_2-title').replace('#{}', locationName);
         ten_year_moving_average_options.scales.y.title.text = dataTranslate('chart2_2-y-axis-label');
         setLineChartConfig({key:'id_element', name: dataTranslate('LOCALE_NAME')});
-        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text'), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text')});
+        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text')});
         
-    }, [dataTranslate]);
+    }, [dataTranslate, locationName]);
 
 
 

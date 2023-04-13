@@ -9,17 +9,19 @@ import { podiumDataProcess } from '../../../helpers/data/podium/podiumDataProces
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
+import { RankingData } from '../../../interfaces/data/podium';
 
 
 interface Props {
     dataURL: string;
     text: string
     description: string
+    textFormatter?: Function
 }
 
 var styles = style;
 
-export const PodiumWithLinkTranslations: FC<Props> = ({ dataURL, text, description='' }) => {
+export const PodiumWithLinkTranslations: FC<Props> = ({ dataURL, text, description='', textFormatter}) => {
 
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
@@ -40,10 +42,10 @@ export const PodiumWithLinkTranslations: FC<Props> = ({ dataURL, text, descripti
     if (isLoading) return <div>Loading...</div>
 
     const data = podiumDataProcess(predata);
-
     const id = uuidv4();
-
-    const finalText = eval(text);
+    let finalText: string = '';
+    
+    if (textFormatter) finalText = eval(textFormatter(predata, text));
 
     return (
         <>

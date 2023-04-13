@@ -12,9 +12,9 @@
     "podium2-selector-text": "Area",
     "podium3-selector-text": "Yield",
 
-    "podium1-description": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{1}</span>, <span class=${styles['year-text-bold']}>beans</span> were the fastest-growing crop in production in relation to <span class=${styles['year-text-bold']}>#{2}</span></span>`",
-    "podium2-description": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{1}</span>, <span class=${styles['year-text-bold']}>beans</span> were the fastest-growing crop in area in relation to <span class=${styles['year-text-bold']}>#{2}</span></span>`",
-    "podium3-description": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{1}</span>, <span class=${styles['year-text-bold']}>beans</span> were the fastest-growing crop in yield in relation to <span class=${styles['year-text-bold']}>#{2}</span></span>`",
+    "podium1-description": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{1}</span>, <span class=${styles['year-text-bold']}>beans</span> were the <span class=${styles['text-bold']}>#{2}</span> fastest-growing crop in production in relation to <span class=${styles['year-text-bold']}>#{3}</span></span>`",
+    "podium2-description": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{1}</span>, <span class=${styles['year-text-bold']}>beans</span> were the <span class=${styles['text-bold']}>#{2}</span> fastest-growing crop in area in relation to <span class=${styles['year-text-bold']}>#{3}</span></span>`",
+    "podium3-description": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{1}</span>, <span class=${styles['year-text-bold']}>beans</span> were the <span class=${styles['text-bold']}>#{2}</span> fastest-growing crop in yield in relation to <span class=${styles['year-text-bold']}>#{3}</span></span>`",
     
     "podiums-info": "This podium ranks crops according to year-on-year growth in production, harvested area and yield for the selected period. The filter allows you to switch between the three variables. The podium will show the three crops that grew the most in relation to the selected variable, as well as the position of the beans in the selected region.",
 

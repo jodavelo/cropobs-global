@@ -447,7 +447,7 @@ const PVPage: NextPage = () => {
     }, [anualdata, tenyearsdata, dataTranslate]);
 
     return (
-        <Layout title={ dataTranslate('title-header') }>
+        <Layout title={ dataTranslate('section-name') }>
             <Container fluid>
                 <Row>
                     <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
@@ -457,7 +457,7 @@ const PVPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Production Value - ${locationName}`}>
+                                    <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}>
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
@@ -502,7 +502,7 @@ const PVPage: NextPage = () => {
                                         :
                                         'Loading...'
                                     }
-                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                    <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                 </Col>
                             </Row>                            
                         </Container>
