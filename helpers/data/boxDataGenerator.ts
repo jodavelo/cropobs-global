@@ -91,3 +91,52 @@ export const boxDataGenerator = (inputData: Record<string, any>, currencyType: s
         });
     return data;
 }
+
+export const boxInternationalDataGenerator = (inputData: Record<string, any>, currencyType: string): Trace[] => {
+    const data: Trace[] = [];
+    const y0: number[] = [];
+    const y1: number[] = [];
+    console.log(data)
+    inputData.forEach( (rice_type: Record<string, any>, index: number) => {
+        const years: number[] = [];
+        const xdata: number[] = [];
+        rice_type.minsAndMaxs.forEach((minMax: { [x: string]: number; year: number; }, i: string | number)=>{
+            // console.log(rice_type.medians[i],'asas');
+            xdata.push(minMax[`min`])
+            xdata.push(rice_type.medians[i].median)
+            xdata.push(minMax[`max`])
+            //
+            years.push(minMax.year)
+            years.push(minMax.year)
+            years.push(minMax.year)
+        })
+        data.push({
+            y: xdata,
+            x:years,
+            type: 'box',
+            name: rice_type.rice_type,
+            showlegend: true,
+            colorway:  Object.values(chartColors)[index]
+        }
+        )
+        
+       for (var i = 0; i < 50; i ++) {
+                y0[i] = Math.random();
+                y1[i] = Math.random() + 1;
+            }
+
+            const trace1 = {
+                y: y0,
+                type: 'box'
+            };
+        
+            const trace2 = {
+                y: y1,
+                type: 'box'
+            };
+            //console.log(trace1);
+            const inputData = data;
+
+        });
+    return data;
+}

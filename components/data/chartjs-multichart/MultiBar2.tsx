@@ -72,7 +72,8 @@ export const MultiBar2: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
     
       const options = {
         responsive: true,
-        aspectRatio: 1.9,
+        devicePixelRatio: 2,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index' as const,
           intersect: false,

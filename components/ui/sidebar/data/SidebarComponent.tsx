@@ -31,6 +31,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
         if (width){
             if( width < 991 ) setSidebarWidth('90vw');
             else if ( width > 992 && width < 1200 ) setSidebarWidth('100%')
+            else if( width > 1200 ) setSidebarWidth('95%');
         }
         else setSidebarWidth('12vw')
         //collapseSidebar();
@@ -46,6 +47,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
     const [productionText, setProductionText] = useState('');
     const [productionValueText, setProductionValueText] = useState('');
     const [consumptionText, setConsumptionText] = useState('');
+    const [pricesText, setPricesText] = useState('');
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -53,18 +55,21 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setProductionText('Production');
                 setProductionValueText('Production Value');
                 setConsumptionText('Consumption');
+                setPricesText('Prices');
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
                 setProductionText('Producción');
                 setProductionValueText('Valor de la producción');
                 setConsumptionText('Consumo');
+                setPricesText('Precios');
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
                 setProductionText('Produção');
                 setProductionValueText('Valor da produção');
                 setConsumptionText('Consumo');
+                setPricesText('Preços');
                 break;
         }
     }, )
@@ -75,7 +80,9 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
             //   backgroundColor: 'red',
             //   width: '70%'
             },
-          }} >
+          }}
+            defaultCollapsed
+          >
             <Menu>
                 <SubMenu icon={ <AgricultureIcon/> } label={productionText}>
                     <MenuItem onClick={ () => push('/data/surface-context') } > {surfaceContextText} </MenuItem>
@@ -89,6 +96,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                     <MenuItem icon={ <ThreeDRotation/> }> Line charts </MenuItem>
                 </SubMenu> */}
                 <MenuItem icon={<TrendingUpIcon/>} > {consumptionText} </MenuItem>
+                <MenuItem icon={<AgricultureIcon/>} onClick={ () => push('/data/prices') }> {pricesText} </MenuItem>
             </Menu>
         </Sidebar>
     )

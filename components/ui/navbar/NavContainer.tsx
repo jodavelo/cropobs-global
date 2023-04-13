@@ -20,6 +20,7 @@ export const NavContainer: FC<Props> = ({ expand }) => {
     const [productionText, setProductionText] = useState('');
     const [productionValueText, setProductionValueText] = useState('');
     const [consumptionText, setConsumptionText] = useState('');
+    const [pricesText, setPricesText] = useState('');
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -27,18 +28,21 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setProductionText('Production');
                 setProductionValueText('Production Value');
                 setConsumptionText('Consumption');
+                setPricesText('Prices');
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
                 setProductionText('Producción');
                 setProductionValueText('Valor de la producción');
                 setConsumptionText('Consumo');
+                setPricesText('Precios');
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
                 setProductionText('Produção');
                 setProductionValueText('Valor da produção');
                 setConsumptionText('Consumo');
+                setPricesText('Preços');
                 break;
         }
     }, )
@@ -56,7 +60,7 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 },
                 {
                     menuLabel: productionValueText,
-                    href: '/data/prod_Val'
+                    href: '/data/production-value'
                 },
             ]
         },
@@ -65,7 +69,17 @@ export const NavContainer: FC<Props> = ({ expand }) => {
             menuOptions: [
                 {
                     menuLabel: consumptionText,
-                    href: '/data/consuption'
+                    href: '/data/consumption'
+                },
+                
+            ]
+        },
+        {
+            titleCategory: pricesText,
+            menuOptions: [
+                {
+                    menuLabel: pricesText,
+                    href: '/data/prices'
                 },
                 
             ]

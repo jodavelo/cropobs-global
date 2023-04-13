@@ -15,12 +15,30 @@ export const Layout: FC<Props> = ({ children, title }) => {
 
     const [layoutClassName, setLayoutClassName] = useState('');
     const { asPath } = useRouter();
-    const { isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases, setIsHome, setIsDataSurfaceContext, setIsAboutUs, setIsDatabases } = useContext( LayoutContext );
+    const { 
+        isHome, 
+        isData, 
+        isAboutUs, 
+        isDataSurfaceContext,
+        isDataProduction,
+        isDataProductionValue,
+        isDataConsumption,
+        isDatabases, 
+        setIsHome, 
+        setIsDataSurfaceContext,
+        setIsDataProduction, 
+        setIsDataProductionValue,
+        setIsAboutUs, 
+        setIsDatabases
+    } = useContext( LayoutContext );
     //console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
     useEffect(() => {
         if( isHome ) setLayoutClassName( styles.home );
         else if ( isData ) setLayoutClassName( styles.data );
         else if ( isDataSurfaceContext ) setLayoutClassName( styles['data-sf'] );
+        else if ( isDataProduction ) setLayoutClassName( styles['data-prod'] );
+        else if ( isDataProductionValue ) setLayoutClassName( styles['data-prod-value'] );
+        else if ( isDataConsumption ) setLayoutClassName( styles['data-consumption'] );
         else if ( isAboutUs ) setLayoutClassName( styles['about-us'] );
         else if ( isDatabases ) setLayoutClassName( styles.databases );
     }, [])
@@ -30,13 +48,25 @@ export const Layout: FC<Props> = ({ children, title }) => {
             setLayoutClassName( styles.home );
             setIsHome( true );
         }
-        else if ( asPath == '/data/surface-context' ) { 
-            setLayoutClassName( styles.data );
-            setIsDataSurfaceContext( true );
-        }
+        // else if ( asPath == '/data/surface-context' ) { 
+        //     setLayoutClassName( styles.data );
+        //     setIsDataSurfaceContext( true );
+        // }
         else if ( asPath == '/data/surface-context' ) {
             setLayoutClassName( styles['data-sf'] );
             setIsDataSurfaceContext( true );
+        }
+        else if ( asPath == '/data/production' ) {
+            setLayoutClassName( styles['data-prod'] );
+            setIsDataProduction( true );
+        }
+        else if ( asPath == '/data/production-value' ) {
+            setLayoutClassName( styles['data-prod-value'] );
+            setIsDataProductionValue( true );
+        }
+        else if ( asPath == '/data/consumption' ) {
+            setLayoutClassName( styles['data-consumption'] );
+            setIsDataProductionValue( true );
         }
         else if ( asPath == '/about' ) {
             setLayoutClassName( styles['about-us'] ); 
