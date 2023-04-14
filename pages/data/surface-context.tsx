@@ -35,6 +35,7 @@ import { useTour } from '@reactour/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { general_data_steps, general_data_steps_es, general_data_steps_pt } from '../../helpers/data/tour';
 import { BackButton } from '../../components/data/back-button';
+import { SourcesComponent } from '../../components/ui/sources-component';
 
 export const textBold: CSSProperties = {
     color: '#3e3e3e', 
@@ -473,6 +474,10 @@ const SurfaceContextPage: NextPage = () => {
     const [searchCountryTextButton, setSearchCountryTextButton] = useState('');
     const [mapGraphsText, setMapGraphsText] = useState('');
     const [metadataText, setMetadataText] = useState('');
+    const [podiumMoreInfoText, setPodiumMoreInfoText] = useState('');
+    const [moreInfoChart1, setMoreInfoChart1] = useState('');
+    const [moreInfoChart2_1, setMoreInfoChart2_1] = useState('');
+    const [moreInfoChart2_2, setMoreInfoChart2_2] = useState('');
     useEffect(() => {
         setTitlePage(dataTranslate('title-header')!);
         setTitleSection(dataTranslate('title_section')!);
@@ -498,6 +503,10 @@ const SurfaceContextPage: NextPage = () => {
         setSearchCountryTextButton(dataTranslate('search_country')!);
         setMapGraphsText(dataTranslate('graphs_maps')!);
         setMetadataText(dataTranslate('metadata')!);
+        setPodiumMoreInfoText(dataTranslate('more_info_podium_beans')!);
+        setMoreInfoChart1(dataTranslate('harvested_area_in_relation_to_other_crops_beans')!);
+        setMoreInfoChart2_1(dataTranslate('harvested_area_in_relation_to_other_keywork_beans_1')!);
+        setMoreInfoChart2_2(dataTranslate('harvested_area_in_relation_to_other_keywork_beans_2')!);
     }, )
     
 
@@ -568,7 +577,7 @@ const SurfaceContextPage: NextPage = () => {
                                                 text2={ `${ podiumRank }°` }
                                                 text3={ text2Podium }
                                                 text4={ `${year}` }
-                                                description='Integer posuere, sem nec ultrices fermentum, nisl arcu accumsan sapien, in varius lacus magna eu turpis. Donec finibus justo arcu, a semper augue lobortis sed. Curabitur sed neque vitae ligula consequat facilisis vel dignissim felis. Integer porta rhoncus neque, sed bibendum felis consectetur nec. Aenean ac vulputate neque. ' />
+                                                description={ podiumMoreInfoText } />
                                             <p style={{ textAlign: 'center', padding: '20px 0px' }}> { indicatorText1 } <span style={ textBold } >{ onAverageIndicator }°</span> { indicatorText2 } <span style={ textBold }>{ indicatorText3 }</span> </p>
                                             <p style={{ textAlign: 'center' }}>{ harvestedAreaText1 } <span style={ textBold }>{year}</span>{ harvestedAreaText2 }</p>
                                             {/* <PodiumWithLink dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/27/${ year }` } text={`Rice was the ${ podiumRank }° most important crop in relation to harvested area (ranking) in year ${year}`} description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis sed libero eu aliquet. Aenean mi tellus, tincidunt sit amet elit nec, mollis tristique arcu. Maecenas ornare vulputate nisl eu hendrerit. Ut vehicula elit quam, at porttitor mauris porta a. Duis condimentum euismod magna et elementum.' /> */}
@@ -576,8 +585,8 @@ const SurfaceContextPage: NextPage = () => {
                                             {/* <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p> */} 
                                             <PercentContainer data={ indicators } percentAlone={ false } />
                                             <br /> 
-                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
-                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1 } stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea={ moreInfoChart2_1 } moreInfoTextStackedArea2={ moreInfoChart2_2 } stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized={ moreInfoChart2_1 } moreInfoTextStackedAreaNormalized2={ moreInfoChart2_2 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                             {/* <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
@@ -585,6 +594,7 @@ const SurfaceContextPage: NextPage = () => {
                                             <PodiumSelection podiumsList={podiumConfig} /> beans_su
                                             <br/>
                                             <ChartSelection chartConfigList={chartConfig} /> */}
+                                            <SourcesComponent sourcesText={ locale == 'en' ? 'Data Sources:' : ( locale == 'es' ? 'Fuentes:' : 'Fontes:' ) } shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                         </Col>
                                     </Row>
                                     

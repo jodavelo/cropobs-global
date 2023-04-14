@@ -410,7 +410,7 @@ const ProductionPage: NextPage = () => {
                                     <SidebarComponent isCollapsedProp={ isCollapsed }/>
                             </div>
                             <div className={ styles['sidebar-arrow-container'] }>
-                                <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                                <Button id='btn-collapse-sidebar' onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                     {  
                                         isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                     }
