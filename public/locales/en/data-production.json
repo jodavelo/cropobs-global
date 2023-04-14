@@ -29,5 +29,7 @@
     "chart2_2-y-axis-label": "Growth rate (%)",
     "chart2_2-info": "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.<br>You may select in the legend those variables that you wish to exclude from the display.",
 
-    "sources-text": "Data Sources:"
+    "sources-text": "Data Sources:",
+    "graphs_maps": "Maps and Graphs",
+    "metadata": "Metadata"
 }
