@@ -258,7 +258,7 @@ const ProductionPage: NextPage = () => {
                                         <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
                                         <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales`} title={'International benchmark prices by type of rice'} description='Grafico de precios' /> 
                                         <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas`} title={'International benchmark prices by type of rice'} description='Grafico de precios'/>
-                                        <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                        <SourcesComponent sourcesText='' shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                     </Col>
                                 </Row>                            
                             </Container>
