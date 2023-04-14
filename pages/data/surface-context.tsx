@@ -33,7 +33,7 @@ import { useRouter } from 'next/router';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { useTour } from '@reactour/tour';
 import { getCookie, setCookie } from 'cookies-next';
-import { general_data_steps } from '../../helpers/data/tour';
+import { general_data_steps, general_data_steps_es, general_data_steps_pt } from '../../helpers/data/tour';
 import { BackButton } from '../../components/data/back-button';
 
 export const textBold: CSSProperties = {
@@ -59,6 +59,7 @@ const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 
 const SurfaceContextPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-surface-context');
+    const { width } = useWindowSize();
     const { locale } = useRouter();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 1201,
@@ -347,7 +348,9 @@ const SurfaceContextPage: NextPage = () => {
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
             if (setSteps) {
-                setSteps(general_data_steps);
+                if( locale == 'en' ) setSteps(general_data_steps);
+                else if ( locale == 'es' ) setSteps(general_data_steps_es);
+                else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
                 setCookie('production_tour', true);
                 setIsOpen(true);
             }
@@ -361,7 +364,7 @@ const SurfaceContextPage: NextPage = () => {
     ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const { width } = useWindowSize();
+    
     const [sideBarColumn, setSideBarColumn] = useState('');
     const [contentColumn, setContentColumn] = useState('');
     const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
@@ -511,7 +514,7 @@ const SurfaceContextPage: NextPage = () => {
                             <SidebarComponent isCollapsedProp={ isCollapsed }/>
                         </div>
                         <div className={ styles['sidebar-arrow-container'] }>
-                            <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                            <Button id='btn-collapse-sidebar' onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
                                     isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
