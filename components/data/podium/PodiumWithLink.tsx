@@ -41,9 +41,10 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
     if (isLoading) return <div>Loading...</div>
 
     const data = podiumDataProcess(predata);
-
     const id = uuidv4();
-
+    data.map(e => {
+        console.log(e)
+    })
     return (
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
