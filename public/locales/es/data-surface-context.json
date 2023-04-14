@@ -22,5 +22,9 @@
     "plotly2_ylabel_by_share_beans": "% del total (%)",
     "by_value": "Por valor",
     "by_share": "Por % del total",
-    "search_country": "Buscar país"
+    "search_country": "Buscar país",
+    "more_info_podium_beans": "El podio clasifica los cultivos con respecto a su área cosechada anual.",
+    "harvested_area_in_relation_to_other_crops_beans": "Este gráfico presenta la proporción del área cosechada de frijol en relación con el área cosechada de otras leguminosas y otros grupos de cultivos. Entre mayor sea el área de color rojo con relación a los otras colores, mayor será la participación del cultivo del frijol con relación a la superficie cosechada con otros grupos de cultivos. El filtro en la esquina superior derecha permite cambiar el tipo de gráfica para que la información se observe en valores absolutos (número de hectáreas cosechadas), o en proporciones (% del área total). Las categorías representan a los diferentes tipos de cultivos que se siembran en la región seleccionada y su agregado equivale al total del área cultivada. Podrás seleccionar en la leyenda aquellos cultivos que deseas excluir de la visualización. ",
+    "harvested_area_in_relation_to_other_keywork_beans_1": "Este gráfico presenta la proporción del área cosechada de frijol en relación con el área cosechada de otras leguminosas. Entre mayor sea el área de color rojo con relación a los otras colores, mayor será la participación del cultivo del frijol con relación a la superficie cosechada con otras leguminosas. El filtro en la esquina superior derecha permite cambiar el tipo de gráfica para que la información se observe en valores absolutos (número de hectáreas cosechadas), o en proporciones (% del área total).",
+    "harvested_area_in_relation_to_other_keywork_beans_2": "Las categorías representan a los diferentes tipos de leguminosas que se siembran en la región seleccionada y su agregado equivale al total del área cultivada con leguminosas. Podrás seleccionar en la leyenda aquellos cultivos que deseas excluir de la visualización."
 }

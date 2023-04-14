@@ -13,11 +13,12 @@ import { ToggleDescription } from '../toggle-description/ToggleDescription';
 interface Props {
     divID: string;
     moreInfoText: string;
+    moreInfoText2?: string;
     traces?: any[];
     setShowModal?: Function;
 };
 // 
-export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal }: Props ) => {
+export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal, moreInfoText2 }: Props ) => {
     const [isOpen, setIsOpen] = useState(false);
     const htmlRef = useRef<HTMLDivElement>(null);
     const chartDownload = useCallback(async() => {
@@ -41,7 +42,7 @@ export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal 
                     <Button className={ styles.button } onClick={ () => setShowModal!(true) } ><DescriptionIcon/></Button>
                 </div>
             </div>
-            <ToggleDescription text={ moreInfoText } isOpen={ isOpen }/>
+            <ToggleDescription text={ moreInfoText } text2={ moreInfoText2 } isOpen={ isOpen }/>
         </>
         
     )
