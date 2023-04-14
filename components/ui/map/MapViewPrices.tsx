@@ -28,10 +28,11 @@ interface Props {
     features?: Feature
     setIdCountry?: (data: number) => void;
     setIdGeoPoint?: (data: number) => void;
+    id?: string
 }
 
 
-export const MapViewPrices = ({ children, markers, setIdCountry, setIdGeoPoint }: Props) => {
+export const MapViewPrices = ({ children, markers, setIdCountry, setIdGeoPoint, id=undefined }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
