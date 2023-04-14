@@ -23,6 +23,8 @@ export const Layout: FC<Props> = ({ children, title }) => {
         isDataProduction,
         isDataProductionValue,
         isDataConsumption,
+        isDataPrices,
+        isDataPricesInt,
         isDatabases, 
         setIsHome, 
         setIsDataSurfaceContext,
@@ -39,6 +41,8 @@ export const Layout: FC<Props> = ({ children, title }) => {
         else if ( isDataProduction ) setLayoutClassName( styles['data-prod'] );
         else if ( isDataProductionValue ) setLayoutClassName( styles['data-prod-value'] );
         else if ( isDataConsumption ) setLayoutClassName( styles['data-consumption'] );
+        else if ( isDataPrices ) setLayoutClassName( styles['data-prices'] );
+        else if ( isDataPricesInt ) setLayoutClassName( styles['data-prices-int'] );
         else if ( isAboutUs ) setLayoutClassName( styles['about-us'] );
         else if ( isDatabases ) setLayoutClassName( styles.databases );
     }, [])
@@ -66,6 +70,14 @@ export const Layout: FC<Props> = ({ children, title }) => {
         }
         else if ( asPath == '/data/consumption' ) {
             setLayoutClassName( styles['data-consumption'] );
+            setIsDataProductionValue( true );
+        }
+        else if ( asPath == '/data/prices' ) {
+            setLayoutClassName( styles['data-prices'] );
+            setIsDataProductionValue( true );
+        }
+        else if ( asPath == '/data/prices-international' ) {
+            setLayoutClassName( styles['data-prices-int'] );
             setIsDataProductionValue( true );
         }
         else if ( asPath == '/about' ) {

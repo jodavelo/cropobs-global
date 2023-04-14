@@ -22,6 +22,9 @@ import { SourcesComponent } from '../../components/ui/sources-component';
 import { PlotlyChartLineInternational } from '../../components/data/plotly-chart/PlotlyChartLineInternational';
 import { PlotlyChartBoxInternational } from '../../components/data/plotly-chart/PlotlyChartBoxInternational';
 import { MapViewPricesInt } from '../../components/ui/map/MapViewPricesInt';
+import { useWindowSize } from '../../hooks';
+import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const mapFilterElements = [1000, 5312, 5510];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
@@ -34,7 +37,7 @@ interface sectionState {
 }
 
 const ProductionPage: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('data');
+    const { t: dataTranslate } = useTranslation('data-prices-int');
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 300050,
         locationName: 'WORLD'
@@ -64,10 +67,7 @@ const ProductionPage: NextPage = () => {
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
     const { setSteps, setIsOpen } = useTour();
-    const [showCountries, setShowCountries] = useState(false);
-    const [clickId, setClickId] = useState<string | number | null>(null);
     const [id_country, setIdCountry] = useState(0)
-
     
     
     useEffect(() => {
@@ -115,6 +115,82 @@ const ProductionPage: NextPage = () => {
             });
         }
     }, [map]);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { width } = useWindowSize();
+    const [sideBarColumn, setSideBarColumn] = useState('');
+    const [contentColumn, setContentColumn] = useState('');
+    const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
+    const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
+
+    const onCickCollapsed = () => {
+        
+        setIsCollapsed(!isCollapsed);
+        //console.log(isCollapsed)
+    }
+    useEffect(() => {
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+
+    }, [ isCollapsed ])
+
+    useEffect(() => {
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+        // if( width! < 991 ) setContentColumn('100%');
+    })
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
@@ -128,47 +204,53 @@ const ProductionPage: NextPage = () => {
     }, []);
 
     return (
-            <Layout title={ dataTranslate('Prices International') }>
-                <Container fluid>
-                    <Row>
-                        <Col xs={ 12 } lg={ 3 } xl={ 2 } className={ styles.sidebar }>
-                            <SidebarComponent/>
-                        </Col>
-                        <Col xs={ 12 } lg={ 9 } xl={ 10 } className={ styles['content-data'] }>
-                            <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
-                                <Row>
-                                    <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                        <MainBar key={ uuidv4() } section={`${locationName}`} >
-                                            <BackButton regionCode={'asd'} countryCode={'asdsd'} setSectionState={setSectionState}/>
-                                        </MainBar>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <LeftSideMenuContainer/>
-                                    <Col xs={ 12 }  lg={ 5 } style={ { display: 'block', height: '80vh', position: 'relative' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                        <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
-                                        </Row>
-                                        <MapViewPricesInt setIdCountry={setIdCountry}/>
-                                    </Col>
-                                    <Col xs={ 12 } lg={ 7 } style={  { display: 'block', height: '80vh', overflow: 'auto' } }>
-                                        <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
+        <Layout title={ dataTranslate('Prices') }>
+            <Container fluid className={ styles['custom-container-fluid'] }>
+                <div className={ styles['custom-subcontainer-fluid'] }>
+                    <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
+                        <div className={ styles['sidebar-component-container'] }>
+                                <SidebarComponent isCollapsedProp={ isCollapsed }/>
+                        </div>
+                        <div className={ styles['sidebar-arrow-container'] }>
+                            <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                                {  
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                }
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
+                        <Row className={ styles['padding-left-subcontainers'] }>
+                            <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <MainBar key={ uuidv4() } section={`International Price - ${locationName}`}  >
+                                    <BackButton regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
+                                </MainBar>
+                            </Col>
+                        </Row>
+                        <Row className={ styles['padding-left-subcontainers'] }>
+                            <LeftSideMenuContainer/>
+                            <Col xs={ 12 } lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                
+                                <MapViewPricesInt setIdCountry={setIdCountry}/>
+                            </Col>
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>
+                                    <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
                                         <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={'International benchmark prices by type of rice'} description='Grafico de precios' /> 
                                         <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={'International benchmark prices by type of rice'} description='Grafico de precios'/>
-                                        <SourcesComponent sourcesText={'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
-                                    </Col>
-                                </Row>                            
-                            </Container>
-                        </Col>
-                    </Row>
-                </Container>
-            </Layout>
+                                    <SourcesComponent sourcesText={''} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                            </Col>
+                        </Row>
+                    </div>
+                </div>                
+            </Container>
+        </Layout>
     )
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...( await serverSideTranslations( locale!, ['data'] ) ),
+            ...( await serverSideTranslations( locale!, ['data-prices-int'] ) ),
         }
     }
 }
