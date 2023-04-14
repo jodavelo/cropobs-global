@@ -152,9 +152,9 @@ const ProductionPage: NextPage = () => {
                                     </Col>
                                     <Col xs={ 12 } lg={ 7 } style={  { display: 'block', height: '80vh', overflow: 'auto' } }>
                                         <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
-                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={'International benchmark prices by type of rice'} description='Grafico de precios' /> 
-                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={'International benchmark prices by type of rice'} description='Grafico de precios'/>
-                                        <SourcesComponent sourcesText={'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales`} title={'International benchmark prices by type of rice'} description='Grafico de precios' /> 
+                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas`} title={'International benchmark prices by type of rice'} description='Grafico de precios'/>
+                                        <SourcesComponent sourcesText='' shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                     </Col>
                                 </Row>                            
                             </Container>
