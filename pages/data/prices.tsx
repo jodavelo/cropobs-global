@@ -36,7 +36,7 @@ interface ElementsState {
 }
 
 const mapFilterElements = [300050, 300051, 300052];
-const baseURL = 'https://cassavalighthouse.org';
+const baseURL = 'https://cassavalighthousetest.ciat.cgiar.org';
 
 interface Feature {
     type: FeatureType;

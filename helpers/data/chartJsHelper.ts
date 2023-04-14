@@ -47,7 +47,7 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
         const key = entry[key_attr];
         if (!dataArr[`${key}`]){
             dataArr[`${key}`] = Array(labels.length).fill(0);
-            const item = {id: key, name: locale_attr === 'id_element' ? elements[key].ELEMENT_EN : entry[locale_attr]};
+            const item = {id: key, name: key_attr === 'id_element' ? elements[key][locale_attr]: entry[locale_attr]};
             if (orderList[key] !== undefined) items[orderList[key]] = item;
             else items.push(item)
             units[`${key}`] = entry.unit;
@@ -90,7 +90,7 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
     return datasets;
 }
 
-export const datasetGeneratorPV = (entries: any[], labels: Number[], key_attr: string, locale_attr: string, orderList: Record<number, number>=[], chartID: string = '', config: ChartjsConfig = {fill: false, pointRadius: 1, yAxisID: 'y'}): any[] => {
+export const datasetGeneratorPV = (entries: any[], labels: Number[], key_attr: string, locale_attr: string, orderList: Record<number, number>=[], chartID: string = '', config: ChartjsConfig = {fill: false, pointRadius: 1, yAxisID: 'y'}, elements: Record<any, any> = {}): any[] => {
     
     const dataArr: Record<string, Number[]> = {};
     const items: ItemNames[] = [];

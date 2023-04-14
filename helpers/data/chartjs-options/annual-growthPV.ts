@@ -2,6 +2,8 @@ import { Tick } from 'chart.js/dist/core/core.scale';
 
 export const annual_growth_optionsPV = {
     responsive: true,
+    devicePixelRatio: 2,
+    maintainAspectRatio: false,
     scales: {
         x: {
             display: true,

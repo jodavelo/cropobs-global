@@ -5,3 +5,5 @@ export * from './Podium';
 export * from './PodiumBarContainer';
 export * from './PodiumBar';
 export * from './PodiumProductVal';
+export * from './PodiumSelectionTranslations';
+export * from './PodiumWithLinkTranslations';

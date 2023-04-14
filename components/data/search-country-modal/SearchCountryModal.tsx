@@ -50,27 +50,29 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
     };
     useEffect(() => {
         if (map) {
-            let tempDict: Record<string, boolean> = {};
-            let tempRows: CountryRow[] = [];
-            map.querySourceFeatures('geo_countries', {
-                sourceLayer: 'country_layer',
-                filter: ['in', ['get', 'iso3'], ['literal', adminIds]]
-            })
-                .forEach( (layer, index) => {
-                    if (layer.id){
-                        // Tuve que hacer esta comprobación porque hay ids repetidos y eso genera errores en el renderizado de la DataGrid
-                        if (!tempDict[layer.id]) {
-                            tempDict[layer.id] = true
-                            tempRows.push({
-                                id: layer.id,
-                                country: layer.properties?.country_name,
-                                iso3: layer.properties?.iso3
-                            });
+            map.on("load", () => {
+                let tempDict: Record<string, boolean> = {};
+                let tempRows: CountryRow[] = [];
+                map.querySourceFeatures('geo_countries', {
+                    sourceLayer: 'country_layer',
+                    filter: ['in', ['get', 'iso3'], ['literal', adminIds]]
+                })
+                    .forEach( (layer, index) => {
+                        if (layer.id){
+                            // Tuve que hacer esta comprobación porque hay ids repetidos y eso genera errores en el renderizado de la DataGrid
+                            if (!tempDict[layer.id]) {
+                                tempDict[layer.id] = true
+                                tempRows.push({
+                                    id: layer.id,
+                                    country: layer.properties?.country_name,
+                                    iso3: layer.properties?.iso3
+                                });
+                            }
                         }
-                    }
-                });
-            setRows(tempRows);
-            console.log(tempRows);
+                    });
+                setRows(tempRows);
+                console.log(tempRows);
+            });
         }
     }, [show]);
     return (

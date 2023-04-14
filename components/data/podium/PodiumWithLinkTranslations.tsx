@@ -3,24 +3,25 @@ import useSWR from 'swr';
 import { dataFetcher } from "../../../helpers/data";
 import download from 'downloadjs';
 import { toPng } from "html-to-image";
-import styles from './podium.module.css';
+import style from './podium.module.css';
 import { PodiumBarContainer } from './';
 import { podiumDataProcess } from '../../../helpers/data/podium/podiumDataProcess';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
+import { RankingData } from '../../../interfaces/data/podium';
 
 
 interface Props {
     dataURL: string;
-    text1: string;
-    text2?: string;
-    text3?: string;
-    text4?: string;
+    text: string
     description: string
+    textFormatter?: Function
 }
 
-export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4, description='' }) => {
+var styles = style;
+
+export const PodiumWithLinkTranslations: FC<Props> = ({ dataURL, text, description='', textFormatter}) => {
 
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
@@ -42,15 +43,14 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
 
     const data = podiumDataProcess(predata);
     const id = uuidv4();
-    data.map(e => {
-        console.log(e)
-    })
+    let finalText: string = '';
+    
+    if (textFormatter) finalText = eval(textFormatter(predata, text));
+
     return (
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
-                <div className={ styles['podium-description'] }>
-                    <span className={ styles['podium-text-description'] }>{ text1 } <span className={ styles['text-bold'] }>{ text2 }</span> { text3 } <span className={ styles['text-bold'] }> { text4 } </span> </span>
-                </div>
+                <div className={ styles['podium-description'] } dangerouslySetInnerHTML={{__html: finalText}}/>
                 <div className={ styles['podium-body'] }>
                     <PodiumBarContainer data={ data } />
                 </div>
