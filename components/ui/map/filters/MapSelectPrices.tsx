@@ -9,13 +9,9 @@ interface MapSelectInterface {
     setSelected: Function
     atrName: string
     id?: string
-    setShowGraphs: (data: boolean) => void;
-    setShowMap: (data: boolean) => void;
-    setMapCol: (data: number) => void;
-    setGraphsCol: (data: number) => void;
 }
 
-export const MapSelectPrices: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined , setShowGraphs, setShowMap, setMapCol, setGraphsCol }) => {
+export const MapSelectPrices: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined }) => {
     const { activeMapButton } = useContext( LeftSideMenuContext );
     const { values, names } = options;
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {

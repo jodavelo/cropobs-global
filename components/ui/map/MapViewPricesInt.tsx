@@ -49,7 +49,7 @@ const changeFillColor = (map: mapboxgl.Map, steps: Number[]) => {
 }
 
 
-export const MapViewPricesInt = ({ children }: Props) => {
+export const MapViewPricesInt = ({ children, setIdCountry }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
@@ -138,26 +138,9 @@ export const MapViewPricesInt = ({ children }: Props) => {
                 hoveredStateId = null;
             });
             map.current!.on('click', 'country_layer', (e) => {
-                if (e.features?.length! > 0) {
-                    console.log("on click");
-                    if (clickedStateId == null) {
-                        map.current!.setFeatureState(
-                            { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
-                            { clicked: true }
-                        );
-                    }
-                    else {
-                        map.current!.setFeatureState(
-                            { source: 'geo_countries', id: clickedStateId},
-                            { clicked: false }
-                        );
-                    }
-                    clickedStateId = e.features![0].id ?? null;
-                    map.current!.setFeatureState(
-                        { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
-                        { clicked: true }
-                    );
-                }
+
+                setIdCountry?.(e.features![0].properties?.id_country)
+                
             });
         });
     });
