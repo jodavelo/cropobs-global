@@ -61,6 +61,8 @@
     "chart2-axis-y2":"Relação de auto-suficiência (%)",
     "chart2-toggle":"Toggle 2 pt",
 
-    "sources-text": "Fontes:"
+    "sources-text": "Fontes:",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados"
 
 }

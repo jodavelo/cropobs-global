@@ -35,5 +35,7 @@
     "chart22-dataset2":"Value Added (Agriculture, Forestry and Fishing)",
     "chart22-dataset3":"Gross Domestic Product",
 
-    "sources-text": "Data Sources:"
+    "sources-text": "Data Sources:",
+    "graphs_maps": "Maps and Graphs",
+    "metadata": "Metadata"
 }

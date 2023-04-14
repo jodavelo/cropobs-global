@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, CSSProperties } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -373,6 +373,10 @@ const SurfaceContextPage: NextPage = () => {
         //console.log(isCollapsed)
     }
     useEffect(() => {
+        if( width! < 992 ) {
+            setSideBarColumn( '0%' );
+            setContentColumn( '100%' );
+        }
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
@@ -463,7 +467,9 @@ const SurfaceContextPage: NextPage = () => {
     const [plotly2YLabelByShare, setPlotly2YLabelByShare] = useState('');
     const [byValueText, setByValueText] = useState('');
     const [byShareText, setByShareText] = useState('');
-    const [searchCountryTextButton, setSearchCountryTextButton] = useState('')
+    const [searchCountryTextButton, setSearchCountryTextButton] = useState('');
+    const [mapGraphsText, setMapGraphsText] = useState('');
+    const [metadataText, setMetadataText] = useState('');
     useEffect(() => {
         setTitlePage(dataTranslate('title-header')!);
         setTitleSection(dataTranslate('title_section')!);
@@ -487,6 +493,8 @@ const SurfaceContextPage: NextPage = () => {
         setPlotly1YLabelByShare(dataTranslate('plotly1_ylabel_by_share_beans')!);
         setPlotly2YLabelByShare(dataTranslate('plotly2_ylabel_by_share_beans')!);
         setSearchCountryTextButton(dataTranslate('search_country')!);
+        setMapGraphsText(dataTranslate('graphs_maps')!);
+        setMetadataText(dataTranslate('metadata')!);
     }, )
     
 
@@ -520,54 +528,71 @@ const SurfaceContextPage: NextPage = () => {
                             </Col>
                         </Row>
                         <Row className={ styles['padding-left-subcontainers'] }>
-                            <LeftSideMenuContainer/>
-                            <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
-                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
-                                        <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                        <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                        <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                            <Col xs={ 12 } style={{ height: '50px', padding: '0' }}>
+                            <Tabs
+                                defaultActiveKey="home"
+                                id="uncontrolled-tab-example"
+                                >
+                                <Tab eventKey="home" title={ mapGraphsText } tabClassName={styles.coloredTab}>
+                                    <Row style={{ paddingLeft: '12px' }}>
+                                        <LeftSideMenuContainer/>
+                                        <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                            <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                                <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                                    <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                    <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                    <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                    { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                </Row>
+                                                <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                                    <Button
+                                                        className={`${styles['search-country-button']}`}
+                                                        style={{width: '145px', height: 'inherit'}}
+                                                        onClick={() => setShowCountries(true)}
+                                                    >
+                                                        { searchCountryTextButton }
+                                                    </Button>
+                                                </Row>
+                                            </Row>
+                                            <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
+                                            {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
+                                        
+                                        </Col>
+                                        <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                            <PodiumWithLink 
+                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/176/${ year }` } 
+                                                text1={ text1Podium } 
+                                                text2={ `${ podiumRank }°` }
+                                                text3={ text2Podium }
+                                                text4={ `${year}` }
+                                                description='Integer posuere, sem nec ultrices fermentum, nisl arcu accumsan sapien, in varius lacus magna eu turpis. Donec finibus justo arcu, a semper augue lobortis sed. Curabitur sed neque vitae ligula consequat facilisis vel dignissim felis. Integer porta rhoncus neque, sed bibendum felis consectetur nec. Aenean ac vulputate neque. ' />
+                                            <p style={{ textAlign: 'center', padding: '20px 0px' }}> { indicatorText1 } <span style={ textBold } >{ onAverageIndicator }°</span> { indicatorText2 } <span style={ textBold }>{ indicatorText3 }</span> </p>
+                                            <p style={{ textAlign: 'center' }}>{ harvestedAreaText1 } <span style={ textBold }>{year}</span>{ harvestedAreaText2 }</p>
+                                            {/* <PodiumWithLink dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/27/${ year }` } text={`Rice was the ${ podiumRank }° most important crop in relation to harvested area (ranking) in year ${year}`} description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis sed libero eu aliquet. Aenean mi tellus, tincidunt sit amet elit nec, mollis tristique arcu. Maecenas ornare vulputate nisl eu hendrerit. Ut vehicula elit quam, at porttitor mauris porta a. Duis condimentum euismod magna et elementum.' /> */}
+                                            {/* <p style={{ textAlign: 'center', padding: '20px 0px' }}>	On average, rice was the { onAverageIndicator }° crop to growth the most in the last decade</p> */}
+                                            {/* <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p> */} 
+                                            <PercentContainer data={ indicators } percentAlone={ false } />
+                                            <br /> 
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
+                                            {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
+                                            {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
+                                            {/* <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                            <br/>
+                                            <PodiumSelection podiumsList={podiumConfig} /> beans_su
+                                            <br/>
+                                            <ChartSelection chartConfigList={chartConfig} /> */}
+                                        </Col>
                                     </Row>
-                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                        <Button
-                                            className={`${styles['search-country-button']}`}
-                                            style={{width: '145px', height: 'inherit'}}
-                                            onClick={() => setShowCountries(true)}
-                                        >
-                                            { searchCountryTextButton }
-                                        </Button>
-                                    </Row>
-                                </Row>
-                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
-                                {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
+                                    
+                                </Tab>
+                                <Tab eventKey="profile" title={metadataText} tabClassName={styles.coloredTab}>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum architecto nemo maiores provident earum dicta tempora porro obcaecati. Cum voluptas ducimus quod, assumenda nesciunt tempora molestiae expedita repellendus nulla vel?
+                                </Tab>
+                            </Tabs>
+                            </Col>
+
                             
-                            </Col>
-                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                <PodiumWithLink 
-                                    dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/176/${ year }` } 
-                                    text1={ text1Podium } 
-                                    text2={ `${ podiumRank }°` }
-                                    text3={ text2Podium }
-                                    text4={ `${year}` }
-                                    description='Integer posuere, sem nec ultrices fermentum, nisl arcu accumsan sapien, in varius lacus magna eu turpis. Donec finibus justo arcu, a semper augue lobortis sed. Curabitur sed neque vitae ligula consequat facilisis vel dignissim felis. Integer porta rhoncus neque, sed bibendum felis consectetur nec. Aenean ac vulputate neque. ' />
-                                <p style={{ textAlign: 'center', padding: '20px 0px' }}> { indicatorText1 } <span style={ textBold } >{ onAverageIndicator }°</span> { indicatorText2 } <span style={ textBold }>{ indicatorText3 }</span> </p>
-                                <p style={{ textAlign: 'center' }}>{ harvestedAreaText1 } <span style={ textBold }>{year}</span>{ harvestedAreaText2 }</p>
-                                {/* <PodiumWithLink dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/27/${ year }` } text={`Rice was the ${ podiumRank }° most important crop in relation to harvested area (ranking) in year ${year}`} description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis sed libero eu aliquet. Aenean mi tellus, tincidunt sit amet elit nec, mollis tristique arcu. Maecenas ornare vulputate nisl eu hendrerit. Ut vehicula elit quam, at porttitor mauris porta a. Duis condimentum euismod magna et elementum.' /> */}
-                                {/* <p style={{ textAlign: 'center', padding: '20px 0px' }}>	On average, rice was the { onAverageIndicator }° crop to growth the most in the last decade</p> */}
-                                {/* <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p> */} 
-                                <PercentContainer data={ indicators } percentAlone={ false } />
-                                <br /> 
-                                <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
-                                <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
-                                {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
-                                {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
-                                {/* <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
-                                <br/>
-                                <PodiumSelection podiumsList={podiumConfig} /> beans_su
-                                <br/>
-                                <ChartSelection chartConfigList={chartConfig} /> */}
-                            </Col>
                         </Row>
                     </div>
                 </div> 
