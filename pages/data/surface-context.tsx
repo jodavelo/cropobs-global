@@ -368,62 +368,73 @@ const SurfaceContextPage: NextPage = () => {
     const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
 
     const onCickCollapsed = () => {
-        // if ( width! > 992 && width! < 1200 ) {
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // };
-        // if( width! > 1200 ){
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // }
-        setSideBarColumn( '12%' );
-        setContentColumn( '88%' );
+        
         setIsCollapsed(!isCollapsed);
         //console.log(isCollapsed)
     }
     useEffect(() => {
-        
-        if ( !isCollapsed ) {
-            setSideBarColumn( '12%' );
-            setContentColumn( '88%' );
-            // if( width! <= 1200 ){
-            //     alert('aaaa')
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(3);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
             
-        };
-        if ( isCollapsed ) {
-            setSideBarColumn( '20%' );
-            setContentColumn( '80%' );
-            // if( width! <= 1200 ){
-            //     alert(isCollapsed)
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(7);
-            //     setCollapsedSideBarButton(5);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(1);
-            //     setContentColumn(11);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
             
-        };
+        }
 
     }, [ isCollapsed ])
 
     useEffect(() => {
-        if( width! < 991 ) setContentColumn('100%');
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+        // if( width! < 991 ) setContentColumn('100%');
     })
     
     
@@ -494,7 +505,7 @@ const SurfaceContextPage: NextPage = () => {
                         <div className={ styles['sidebar-arrow-container'] }>
                             <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
-                                    !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
                             </Button>
                         </div>
@@ -539,7 +550,7 @@ const SurfaceContextPage: NextPage = () => {
                                     text2={ `${ podiumRank }°` }
                                     text3={ text2Podium }
                                     text4={ `${year}` }
-                                    description='' />
+                                    description='Integer posuere, sem nec ultrices fermentum, nisl arcu accumsan sapien, in varius lacus magna eu turpis. Donec finibus justo arcu, a semper augue lobortis sed. Curabitur sed neque vitae ligula consequat facilisis vel dignissim felis. Integer porta rhoncus neque, sed bibendum felis consectetur nec. Aenean ac vulputate neque. ' />
                                 <p style={{ textAlign: 'center', padding: '20px 0px' }}> { indicatorText1 } <span style={ textBold } >{ onAverageIndicator }°</span> { indicatorText2 } <span style={ textBold }>{ indicatorText3 }</span> </p>
                                 <p style={{ textAlign: 'center' }}>{ harvestedAreaText1 } <span style={ textBold }>{year}</span>{ harvestedAreaText2 }</p>
                                 {/* <PodiumWithLink dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/27/${ year }` } text={`Rice was the ${ podiumRank }° most important crop in relation to harvested area (ranking) in year ${year}`} description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis sed libero eu aliquet. Aenean mi tellus, tincidunt sit amet elit nec, mollis tristique arcu. Maecenas ornare vulputate nisl eu hendrerit. Ut vehicula elit quam, at porttitor mauris porta a. Duis condimentum euismod magna et elementum.' /> */}

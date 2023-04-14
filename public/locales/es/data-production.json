@@ -1,3 +1,33 @@
 {
-    "section_text": "Production - "
+    "section-name": "Producción",
+    "section-text": "Producción - #{}",
+    "LOCALE_NAME": "ELEMENT_ES",
+    
+    "chart1-title": "Superficie cosechada, producción y rendimiento - #{}",
+    "chart1-y-axis-label": "Producción (ton) y superficie (ha)",
+    "chart1-y1-axis-label": "Rendimiento (ton/ha)",
+    "chart1-info": "Este gráfico presenta la evolución histórica del área cosechada de frijol en hectáreas, del nivel de producción en toneladas, y del rendimiento en toneladas por hectárea para la región seleccionada. Este es un gráfico de dos ejes, donde el de la izquierda muestra los valores para las variables de producción y área, mientras el de la derecha para la variable de rendimiento.<br>Podrás seleccionar en la leyenda aquellas variables que deseas excluir de la visualización.",
+
+    "podium1-selector-text": "Producción",
+    "podium2-selector-text": "Área",
+    "podium3-selector-text": "Rendimiento",
+
+    "podium1-description": "`<span class=${styles['podium-text-description']}>En <span class=${styles['year-text-bold']}>#{1}</span>, los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{2}</span> cultivo con un crecimiento más rápido en producción en relación con el <span class=${styles['year-text-bold']}>#{3}</span></span>`",
+    "podium2-description": "`<span class=${styles['podium-text-description']}>En <span class=${styles['year-text-bold']}>#{1}</span>, los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{2}</span> cultivo con un crecimiento más rápido en área en relación con el <span class=${styles['year-text-bold']}>#{3}</span></span>`",
+    "podium3-description": "`<span class=${styles['podium-text-description']}>En <span class=${styles['year-text-bold']}>#{1}</span>, los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{2}</span> cultivo con un crecimiento más rápido en rendimiento en relación con el <span class=${styles['year-text-bold']}>#{3}</span></span>`",
+    
+    "podiums-info": "Este podio ordena los cultivos en función del crecimiento interanual de la producción, del área cosechada y del rendimiento para el periodo seleccionado. El filtro le permite cambiar entre las tres variables. El podio mostrará los tres cultivos que crecieron más con relación a la variable seleccionada, además del puesto que ocupa el cultivo de yuca en la región seleccionada.",
+
+    "chart2_1-selector-text": "Crecimiento anual",
+    "chart2_2-selector-text": "Media móvil de 10 años",
+
+    "chart2_1-title": "Crecimiento anual - #{}",
+    "chart2_1-y-axis-label": "Tasa de crecimiento (%)",
+    "chart2_1-info": "Este gráfico presenta la evolución histórica de las tasas de crecimiento de la producción, área cosechada, y rendimiento del cultivo de yuca para la región seleccionada. El filtro de la esquina superior derecha le permite cambiar la visualización entre la tasa de crecimiento interanual, y la media móvil de 10 años de dicha tasa. La tasa de crecimiento anual refleja el porcentaje de variación de la variable de interés con relación al año anterior, mientras que la media móvil expresa el promedio de esa variación para los últimos diez años.<br>Podrás seleccionar en la leyenda aquellos variables que deseas excluir de la visualización.",
+
+    "chart2_2-title": "Media móvil de 10 años - #{}",
+    "chart2_2-y-axis-label": "Tasa de crecimiento (%)",
+    "chart2_2-info": "Este gráfico presenta la evolución histórica de las tasas de crecimiento de la producción, área cosechada, y rendimiento del cultivo de yuca para la región seleccionada. El filtro de la esquina superior derecha le permite cambiar la visualización entre la tasa de crecimiento interanual, y la media móvil de 10 años de dicha tasa. La tasa de crecimiento anual refleja el porcentaje de variación de la variable de interés con relación al año anterior, mientras que la media móvil expresa el promedio de esa variación para los últimos diez años.<br>Podrás seleccionar en la leyenda aquellos variables que deseas excluir de la visualización.",
+
+    "sources-text": "Fuentes:"
 }

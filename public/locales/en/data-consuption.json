@@ -1,4 +1,7 @@
 {
+    "section-name": "Consumption",
+    "section-text": "Consumption - #{}",
+
     "title-header": "Data-Consuption",
     "title-page": "Consuption page",
     "label-cropland-area": "",
@@ -56,6 +59,8 @@
     "chart2-dataset4":"Imports",
     "chart2-axis-y":"Quantity (thousands of tons)",
     "chart2-axis-y2":"Self-sufficiency ratio (%)",
-    "chart2-toggle":"Toggle 2 english"
+    "chart2-toggle":"Toggle 2 english",
+
+    "sources-text": "Data sources:"
 
 }

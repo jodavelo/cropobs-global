@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './data.module.css';
 import { LineChartjs } from '../../components/data/chartjs-charts';
 import { annual_growth_options, ten_year_moving_average_options } from '../../helpers/data/chartjs-options';
-import { PodiumSelection } from '../../components/data/podium';
+import { PodiumSelectionTranslations } from '../../components/data/podium';
 import { ChartSelection } from '../../components/data/charts';
 import { harvested_production_yield } from '../../helpers/data/chartjs-options/harvested-production-yield';
 import { MapContext } from '../../context/map';
@@ -24,11 +24,12 @@ import { useTour } from '@reactour/tour';
 import { general_data_steps } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
-import { sectionState } from '../../interfaces/data/section-states';
+import { sectionState, PodiumConfig, ChartConfig, ConfigChart } from '../../interfaces/data/section-states';
 import { SourcesComponent } from '../../components/ui/sources-component';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useWindowSize } from '../../hooks';
+import { positionPodiumReplacer } from '../../helpers/data/podium/positionPodiumReplacer';
 
 
 const mapFilterElements = [1000, 5312, 5510];
@@ -36,17 +37,16 @@ const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 55
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 //let clickId: string | number | null = null;
 
-const chartInfo1 = "This graph presents the historical evolution of beans harvested area in hectares, production level in tons, and yield in tons per hectare for the selected region. This is a two-axis graph, where the one on the left shows the values for the production and area variables, while the one on the right shows the values for the yield variable.\nYou can select in the legend those variables that you wish to exclude from the visualization."
-
-const chartInfo2 = "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.\nYou may select in the legend those variables that you wish to exclude from the display.";
-
-const chartInfo3 = "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.\nYou may select in the legend those variables that you wish to exclude from the display.";
-
-const podiumInfo = "This podium ranks crops according to year-on-year growth in production, harvested area and yield for the selected period. The filter allows you to switch between the three variables. The podium will show the three crops that grew the most in relation to the selected variable, as well as the position of the beans in the selected region.";
+interface OtherTexts {
+    section_name: string
+    section_text: string
+    chart1_info: string
+    sources_text: string
+}
 
 
 const ProductionPage: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('data');
+    const { t: dataTranslate } = useTranslation('data-production');
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 1000,
         regionCode: 'WLRD',
@@ -83,6 +83,11 @@ const ProductionPage: NextPage = () => {
     const { setSteps, setIsOpen } = useTour();
     const [showCountries, setShowCountries] = useState(false);
     const [clickId, setClickId] = useState<string | number | null>(null);
+
+    const [podiumConfig, setPodiumConfig] = useState<PodiumConfig[] | undefined>(undefined);
+    const [chartConfig, setChartConfig] = useState<ChartConfig[] | undefined>(undefined);
+    const [lineChartConfig, setLineChartConfig] = useState<ConfigChart | undefined>(undefined);
+    const [otherTexts, setOtherTexts] = useState<OtherTexts | undefined>(undefined);
 
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
 
@@ -245,51 +250,69 @@ const ProductionPage: NextPage = () => {
         }
     }, []);
 
-    const podiumConfig = [
-        {
-            url: `${baseURL}/api/v1/data/podium/${countryCode}/1103/176/${year}`,
-            text: `In ${year}, crop was the fastest-growing crop in production in relation to ${year - 1}`,
-            name: 'Production',
-            description: podiumInfo
-        },
-        {
-            url: `${baseURL}/api/v1/data/podium/${countryCode}/1101/176/${year}`,
-            text: `In ${year}, crop was the fastest-growing crop in area in relation to ${year - 1}`,
-            name: 'Area',
-            description: podiumInfo
-        },
-        {
-            url: `${baseURL}/api/v1/data/podium/${countryCode}/1102/176/${year}`,
-            text: `In ${year}, crop was the fastest-growing crop in yield in relation to ${year - 1}`,
-            name: 'Yield',
-            description: podiumInfo
-        },
-    ]
+    useEffect(() => {
+        setPodiumConfig([
+            {
+                url: `${baseURL}/api/v1/data/podium/${countryCode}/1103/176/${year}`,
+                text: dataTranslate('podium1-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
+                name: dataTranslate('podium1-selector-text'),
+                description: dataTranslate('podiums-info'),
+                textFormatter: positionPodiumReplacer
+            },
+            {
+                url: `${baseURL}/api/v1/data/podium/${countryCode}/1101/176/${year}`,
+                text: dataTranslate('podium2-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
+                name: dataTranslate('podium2-selector-text'),
+                description: dataTranslate('podiums-info'),
+                textFormatter: positionPodiumReplacer
+            },
+            {
+                url: `${baseURL}/api/v1/data/podium/${countryCode}/1102/176/${year}`,
+                text: dataTranslate('podium3-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
+                name: dataTranslate('podium3-selector-text'),
+                description: dataTranslate('podiums-info'),
+                textFormatter: positionPodiumReplacer
+            },
+        ]);
+    
+        setChartConfig([
+            {
+                dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1001,1002,1003]&cropIds=[176]`,
+                options: annual_growth_options,
+                config: {key: 'id_element', name: dataTranslate('LOCALE_NAME')},
+                name: dataTranslate('chart2_1-selector-text'),
+                elementsURL: `${baseURL}/api/v1/data/elements/2`,
+                description: dataTranslate('chart2_1-info')
+            },
+            {
+                dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1007,1008,1009]&cropIds=[176]`,
+                options: ten_year_moving_average_options,
+                config: {key: 'id_element', name: dataTranslate('LOCALE_NAME')},
+                name: dataTranslate('chart2_2-selector-text'),
+                elementsURL: `${baseURL}/api/v1/data/elements/2`,
+                description: dataTranslate('chart2_2-info')
+            }
+        ]);
 
-    const chartConfig = [
-        {
-            dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1001,1002,1003]&cropIds=[176]`,
-            options: annual_growth_options,
-            config: {key: 'id_element', name:'id_element'},
-            name: 'Annual growth',
-            elementsURL: `${baseURL}/api/v1/data/elements/2`,
-            description: chartInfo2
-        },
-        {
-            dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1007,1008,1009]&cropIds=[176]`,
-            options: ten_year_moving_average_options,
-            config: {key: 'id_element', name:'id_element'},
-            name: '10-year moving average',
-            elementsURL: `${baseURL}/api/v1/data/elements/2`,
-            description: chartInfo3
-        }
-    ];
+        
+    }, [clickId, year, locationName, dataTranslate]);
+    
+    useEffect(() => {
+        harvested_production_yield.plugins.title.text = dataTranslate('chart1-title').replace('#{}', locationName);
+        harvested_production_yield.scales.y.title.text = dataTranslate('chart1-y-axis-label');
+        harvested_production_yield.scales.y2.title.text = dataTranslate('chart1-y1-axis-label');
+        
+        annual_growth_options.plugins.title.text = dataTranslate('chart2_1-title').replace('#{}', locationName);
+        annual_growth_options.scales.y.title.text = dataTranslate('chart2_1-y-axis-label');
+        
+        ten_year_moving_average_options.plugins.title.text = dataTranslate('chart2_2-title').replace('#{}', locationName);
+        ten_year_moving_average_options.scales.y.title.text = dataTranslate('chart2_2-y-axis-label');
+        setLineChartConfig({key:'id_element', name: dataTranslate('LOCALE_NAME')});
+        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text')});
+        
+    }, [dataTranslate, locationName]);
 
-    harvested_production_yield.plugins.title.text = 'Harvested area, production and yield' + ` - ${locationName}`;
 
-    annual_growth_options.plugins.title.text = 'Annual Growth' + ` - ${locationName}`;
-
-    ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
@@ -299,67 +322,77 @@ const ProductionPage: NextPage = () => {
     const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
 
     const onCickCollapsed = () => {
-        // if ( width! > 992 && width! < 1200 ) {
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // };
-        // if( width! > 1200 ){
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // }
-        setSideBarColumn( '12%' );
-        setContentColumn( '88%' );
+        
         setIsCollapsed(!isCollapsed);
         //console.log(isCollapsed)
     }
-
     useEffect(() => {
-        
-        if ( !isCollapsed ) {
-            setSideBarColumn( '12%' );
-            setContentColumn( '88%' );
-            // if( width! <= 1200 ){
-            //     alert('aaaa')
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(3);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
             
-        };
-        if ( isCollapsed ) {
-            setSideBarColumn( '20%' );
-            setContentColumn( '80%' );
-            // if( width! <= 1200 ){
-            //     alert(isCollapsed)
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(7);
-            //     setCollapsedSideBarButton(5);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(1);
-            //     setContentColumn(11);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
             
-        };
+        }
 
     }, [ isCollapsed ])
 
     useEffect(() => {
-        if( width! < 991 ) setContentColumn('100%');
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+        // if( width! < 991 ) setContentColumn('100%');
     })
 
     return (
-            <Layout title={ dataTranslate('Production') }>
+            <Layout title={ otherTexts ? otherTexts.section_name : 'Loading...' }>
                 <Container fluid className={ styles['custom-container-fluid'] }>
                     <div className={ styles['custom-subcontainer-fluid'] }>
                         <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -369,7 +402,7 @@ const ProductionPage: NextPage = () => {
                             <div className={ styles['sidebar-arrow-container'] }>
                                 <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                     {  
-                                        !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                        isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                     }
                                 </Button>
                             </div>
@@ -377,7 +410,7 @@ const ProductionPage: NextPage = () => {
                         <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                             <Row className={ styles['padding-left-subcontainers'] }>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Production - ${locationName}`} >
+                                    <MainBar key={ uuidv4() } section={otherTexts ? otherTexts.section_text : 'Loading...'} >
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
@@ -405,12 +438,24 @@ const ProductionPage: NextPage = () => {
                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
                                 </Col>
                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                    <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={chartInfo1} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                    {
+                                            lineChartConfig ? 
+                                            <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                            : 'Loading...'
+                                        }
                                     <br/>
-                                    <PodiumSelection podiumsList={podiumConfig} />
+                                        {
+                                            podiumConfig ? 
+                                        <PodiumSelectionTranslations podiumsList={podiumConfig} />
+                                            : 'Loading...'
+                                        }
                                     <br/>
-                                    <ChartSelection chartConfigList={chartConfig} />
-                                    <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                        {
+                                            chartConfig ?
+                                        <ChartSelection chartConfigList={chartConfig} />
+                                            : 'Loading...'
+                                        }
+                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                 </Col>
                             </Row>
                         </div>
@@ -426,7 +471,7 @@ const ProductionPage: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...( await serverSideTranslations( locale!, ['data'] ) ),
+            ...( await serverSideTranslations( locale!, ['data-production'] ) ),
         }
     }
 }

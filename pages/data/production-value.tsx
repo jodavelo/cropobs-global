@@ -416,7 +416,7 @@ const PVPage: NextPage = () => {
             axis_y : dataTranslate('chart1-axis-y'),
             datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4')]
         })
-    }, [valuePorc1, valuePorc2, clickId, year, regionCode]);
+    }, [valuePorc1, valuePorc2, clickId, year, regionCode, dataTranslate]);
 
     useEffect(() => {
         const datasetsTranslated = (datasets: any[], index: number) => {
@@ -446,7 +446,7 @@ const PVPage: NextPage = () => {
                 name: dataTranslate('chart2-opt2')
             }
         ])
-    }, [anualdata, tenyearsdata]);
+    }, [anualdata, tenyearsdata, dataTranslate]);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
@@ -456,66 +456,77 @@ const PVPage: NextPage = () => {
     const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
 
     const onCickCollapsed = () => {
-        // if ( width! > 992 && width! < 1200 ) {
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // };
-        // if( width! > 1200 ){
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // }
-        setSideBarColumn( '12%' );
-        setContentColumn( '88%' );
+        
         setIsCollapsed(!isCollapsed);
         //console.log(isCollapsed)
     }
     useEffect(() => {
-        
-        if ( !isCollapsed ) {
-            setSideBarColumn( '12%' );
-            setContentColumn( '88%' );
-            // if( width! <= 1200 ){
-            //     alert('aaaa')
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(3);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
             
-        };
-        if ( isCollapsed ) {
-            setSideBarColumn( '20%' );
-            setContentColumn( '80%' );
-            // if( width! <= 1200 ){
-            //     alert(isCollapsed)
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(7);
-            //     setCollapsedSideBarButton(5);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(1);
-            //     setContentColumn(11);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
             
-        };
+        }
 
     }, [ isCollapsed ])
 
     useEffect(() => {
-        if( width! < 991 ) setContentColumn('100%');
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+        // if( width! < 991 ) setContentColumn('100%');
     })
 
     return (
-        <Layout title={ dataTranslate('title-header') }>
+        <Layout title={ dataTranslate('section-name') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -525,7 +536,7 @@ const PVPage: NextPage = () => {
                         <div className={ styles['sidebar-arrow-container'] }>
                             <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
-                                    !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
                             </Button>
                         </div>
@@ -533,7 +544,7 @@ const PVPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }}>
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={`Production Value - ${locationName}`}>
+                                <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}>
                                     <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
@@ -561,14 +572,14 @@ const PVPage: NextPage = () => {
                                 <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
                             </Col>
                             <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                { percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig ?
+                                { percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig && dataFrame1 && x_labels && data1 && data2 && data3 && data4 ?
                                     <>
                                         <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description}/>
                                         <br></br>
                                         <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
                                         <br></br>
-                                        <ChartFrame data={dataFrame1 ?? []} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                            <MultichartPV xLabels={x_labels ?? []} data1={data1 ?? []} data2={data2 ?? []} data3={data3 ?? []} data4={data4 ?? []} chartTexts={chartTxts} />
+                                        <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                            <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
                                         </ChartFrame>
                                         <br></br>
                                         <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
@@ -578,7 +589,7 @@ const PVPage: NextPage = () => {
                                     :
                                     'Loading...'
                                 }
-                                <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>

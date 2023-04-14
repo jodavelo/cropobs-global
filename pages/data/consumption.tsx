@@ -441,66 +441,77 @@ const DataPage: NextPage = () => {
     const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
 
     const onCickCollapsed = () => {
-        // if ( width! > 992 && width! < 1200 ) {
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // };
-        // if( width! > 1200 ){
-        //     setSideBarColumn(2);
-        //     setContentColumn(10);
-        // }
-        setSideBarColumn( '12%' );
-        setContentColumn( '88%' );
+        
         setIsCollapsed(!isCollapsed);
         //console.log(isCollapsed)
     }
     useEffect(() => {
-        
-        if ( !isCollapsed ) {
-            setSideBarColumn( '12%' );
-            setContentColumn( '88%' );
-            // if( width! <= 1200 ){
-            //     alert('aaaa')
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(3);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
             
-        };
-        if ( isCollapsed ) {
-            setSideBarColumn( '20%' );
-            setContentColumn( '80%' );
-            // if( width! <= 1200 ){
-            //     alert(isCollapsed)
-            //     setSideBarColumn(2);
-            //     setContentColumn(10);
-            //     setSideBarSubcolumn(7);
-            //     setCollapsedSideBarButton(5);
-            // }
-            // if( width! > 1200 ) {
-            //     setSideBarColumn(1);
-            //     setContentColumn(11);
-            //     setSideBarSubcolumn(9);
-            //     setCollapsedSideBarButton(2);
-            // }
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
             
-        };
+        }
 
     }, [ isCollapsed ])
 
     useEffect(() => {
-        if( width! < 991 ) setContentColumn('100%');
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+        // if( width! < 991 ) setContentColumn('100%');
     })
 
     return (
-        <Layout title={dataTranslate('title-header')}>
+        <Layout title={dataTranslate('section-name')}>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -510,7 +521,7 @@ const DataPage: NextPage = () => {
                         <div className={ styles['sidebar-arrow-container'] }>
                             <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
-                                    !isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
                             </Button>
                         </div>
@@ -518,7 +529,7 @@ const DataPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
-                                <MainBar key={uuidv4()} section={`Consumption - ${locationName}`}>
+                                <MainBar key={uuidv4()} section={dataTranslate('section-text').replace('#{}',locationName)}>
                                     <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
@@ -547,6 +558,7 @@ const DataPage: NextPage = () => {
                             </Col>
                             <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                 {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
+                                    <br></br>
                                 <PodiumSelectionCon podiumsList={podiumConfig} />
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
                                 <br></br>
@@ -564,7 +576,7 @@ const DataPage: NextPage = () => {
                                 <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                     { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                 </ChartFrame>
-                                <SourcesComponent shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>

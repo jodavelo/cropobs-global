@@ -126,7 +126,8 @@ export const MultichartPV: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
     
       const options = {
         responsive: true,
-        aspectRatio: 1.9,
+        devicePixelRatio: 2,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index' as const,
           intersect: false,
