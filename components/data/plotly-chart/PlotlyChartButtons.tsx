@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 // import { Multichart } from './'
 import styles from './plotlychart.module.css';
 import DownloadIcon from '@mui/icons-material/Download';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import InfoIcon from '@mui/icons-material/Info';
 import DescriptionIcon from '@mui/icons-material/Description';
 import download from 'downloadjs';
@@ -38,7 +39,7 @@ export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal,
             <div ref={ htmlRef } className={ styles['multichart-container'] }>
                 <div className={ styles['multichart-footer'] }>
                     <Button className={ styles.button } onClick={ () => setIsOpen(!isOpen) } ><InfoIcon/></Button>
-                    <Button className={ styles.button } onClick={ chartDownload } ><DownloadIcon/></Button>
+                    <Button className={ styles.button } onClick={ chartDownload } ><InsertPhotoIcon/></Button>
                     <Button className={ styles.button } onClick={ () => setShowModal!(true) } ><DescriptionIcon/></Button>
                 </div>
             </div>
