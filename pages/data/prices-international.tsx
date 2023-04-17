@@ -62,6 +62,7 @@ const ProductionPage: NextPage = () => {
     const { regionsOptions, regionsObj } = regionsState;
     const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
     const { map } = useContext( MapContext );
+    const [chartTitle, setChartTitle] = useState<string>('');
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
@@ -192,6 +193,11 @@ const ProductionPage: NextPage = () => {
         // if( width! < 991 ) setContentColumn('100%');
     })
 
+    useEffect(() => {
+        const charttitle = dataTranslate('chart1-title')
+        setChartTitle(`${charttitle} `);
+    }, [dataTranslate, chartTitle]);
+
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
@@ -204,7 +210,7 @@ const ProductionPage: NextPage = () => {
     }, []);
 
     return (
-        <Layout title={ dataTranslate('Prices') }>
+        <Layout title={ dataTranslate('International Prices') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -235,8 +241,8 @@ const ProductionPage: NextPage = () => {
                             </Col>
                             <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>
                                     <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
-                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={'International benchmark prices by type of rice'} description='Grafico de precios' /> 
-                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={'International benchmark prices by type of rice'} description='Grafico de precios'/>
+                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios' /> 
+                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios'/>
                                     <SourcesComponent sourcesText={''} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>

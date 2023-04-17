@@ -1,0 +1,10 @@
+{
+    "section-name": "Precios Nacionales",
+    "section-text": "Precios Nacionales- #{}",
+
+
+    "chart1-title": "Precios internacionales de referencia anuales por productos de yuca",
+    "chart1-info": "Este gráfico presenta la evolución histórica del área cosechada de frijol en hectáreas, del nivel de producción en toneladas, y del rendimiento en toneladas por hectárea para la región seleccionada. Este es un gráfico de dos ejes, donde el de la izquierda muestra los valores para las variables de producción y área, mientras el de la derecha para la variable de rendimiento.<br>Podrás seleccionar en la leyenda aquellas variables que deseas excluir de la visualización.",
+
+    "sources-text": "Fuentes:"
+}

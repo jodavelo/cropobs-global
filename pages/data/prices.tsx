@@ -233,12 +233,10 @@ const DataPage: NextPage = () => {
 
     //console.log(elementsData);
     useEffect(() => {
-        if (elementsObj[elementId]) {
-            const elementName = elementsObj[elementId].ELEMENT_EN;
-            setChartTitle(`Year ${elementName}`);
-        }
-    }, [elementId, elementsObj]);
-    
+            const chartTitle = dataTranslate('chart1-title')
+            setChartTitle(`${chartTitle} `);
+    }, [dataTranslate, chartTitle]);
+
     useEffect(()=>{
         getPriceData(elementId);
     },[elementId])
@@ -272,7 +270,7 @@ const DataPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={`National Price - ${locationName}`}  >
+                                <MainBar key={ uuidv4() } section={`Domestic Price - ${locationName}`}  >
                                     <BackButton regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
@@ -294,7 +292,7 @@ const DataPage: NextPage = () => {
                             </Col>
                         </Row>
                     </div>
-                </div>                
+                </div>               
             </Container>
         </Layout>
     )

@@ -81,7 +81,7 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description}) => {
 
     return (
     <>
-        <div style={{ position: 'relative', height: '390px', margin: 'auto', maxWidth: '800px'}}>
+        <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
             <select value={priceType} onChange={(e) => setPriceType(e.target.value)} style={{marginTop: '10px'}}>
                 <option value="nominal">Current prices - SLC</option>
                 <option value="ipc">Constant prices - SLC</option>
@@ -94,12 +94,11 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description}) => {
                     layout={ layout }
                 />
         </div>
-                <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
-                {showModal ? (
-                <ModalForm dataJson={[]} setShowModal={setShowModal}/>
-            ) : null
-            }
-       
+        <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
+        {showModal ? (
+            <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+        ) : null
+        }
     </>
     );
 }

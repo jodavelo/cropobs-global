@@ -1,0 +1,9 @@
+{
+    "section-name": "Preços domésticos",
+    "section-text": "Preços domésticos- #{}",
+
+    "chart1-title": "Preços de referência internacionais anuais por produtos de mandioca",
+    "chart1-info": "Este gráfico apresenta a evolução histórica da área colhida de mandioca em hectares, o nível de produção em toneladas e o rendimento em toneladas por hectare para a região selecionada. Este é um gráfico de dois eixos, onde o eixo esquerdo mostra os valores para as variáveis de produção e área, enquanto o eixo direito mostra os valores para a variável de rendimento.<br>Você pode selecionar na legenda as variáveis que deseja excluir da visualização.",
+
+    "sources-text": "Fontes:"
+}

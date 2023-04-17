@@ -1,0 +1,9 @@
+{
+    "section-name": "Domestic Prices",
+    "section-text": "Domestic Prices-",
+
+    "chart1-title": "Yearly International Benchmark Prices by cassava products",
+    "chart1-info": "This graph presents the historical evolution of beans harvested area in hectares, production level in tons, and yield in tons per hectare for the selected region. This is a two-axis graph, where the one on the left shows the values for the production and area variables, while the one on the right shows the values for the yield variable.<br>You can select in the legend those variables that you wish to exclude from the visualization.",
+
+    "sources-text": "Data Sources:"
+}
