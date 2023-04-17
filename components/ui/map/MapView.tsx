@@ -1,5 +1,5 @@
 import { useEffect, useRef, useContext, useState } from 'react';
-import mapboxgl, { GeoJSONSource, Map } from 'mapbox-gl';
+import mapboxgl, { GeoJSONSource, LngLatBoundsLike, Map } from 'mapbox-gl';
 import { MapContext } from '../../../context/map';
 import useSWR from 'swr';
 import { dataFetcher } from '../../../helpers/data';
@@ -86,6 +86,11 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
     if (errorGeo) console.log('error')
 
     useEffect(() => {
+        // for to restrict map panning to an area
+        const bounds: LngLatBoundsLike = [
+                [-180, -90], // Southwest coordinates
+                [180, 90] // Northeast coordinates
+            ];
         if (map.current!) return;
         console.log('creating new map canvas');
         map.current! = new Map({
@@ -93,8 +98,15 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
             center: [lng, lat], // starting position [lng, lat]
             zoom: zoom, // starting zoom
+            maxBounds: bounds
             // trackResize: true
         });
+        // disable map rotation using right click + drag
+        map.current!.dragRotate.disable();
+        
+        // disable map rotation using touch rotation gesture
+        map.current!.touchZoomRotate.disableRotation();
+        
         map.current!.on('load', () => {
             map.current!!.addSource('geo_countries', {
                 type: 'geojson',
