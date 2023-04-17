@@ -10,6 +10,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import download from 'downloadjs';
 import { toPng } from "html-to-image";
 import { ToggleDescription } from '../toggle-description/ToggleDescription';
+import { ModalForm } from "../modal-form";
 
 interface Props {
     divID: string;
@@ -17,11 +18,13 @@ interface Props {
     moreInfoText2?: string;
     traces?: any[];
     setShowModal?: Function;
+    plotlyDataJson?: Object[];
 };
 // 
-export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal, moreInfoText2 }: Props ) => {
+export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal, moreInfoText2, plotlyDataJson }: Props ) => {
     const [isOpen, setIsOpen] = useState(false);
     const htmlRef = useRef<HTMLDivElement>(null);
+    const [showModalPlotlyCharts, setShowModalPlotlyCharts] = useState(false);
     const chartDownload = useCallback(async() => {
         let ele = document.getElementById( divID )!.getElementsByClassName('modebar');
         for (var i = 0; i < ele.length; i++) {
@@ -40,10 +43,15 @@ export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal,
                 <div className={ styles['multichart-footer'] }>
                     <Button className={ styles.button } onClick={ () => setIsOpen(!isOpen) } ><InfoIcon/></Button>
                     <Button className={ styles.button } onClick={ chartDownload } ><InsertPhotoIcon/></Button>
-                    <Button className={ styles.button } onClick={ () => setShowModal!(true) } ><DescriptionIcon/></Button>
+                    <Button className={ styles.button } onClick={ () => setShowModalPlotlyCharts( !showModalPlotlyCharts ) } ><DescriptionIcon/></Button>
                 </div>
             </div>
             <ToggleDescription text={ moreInfoText } text2={ moreInfoText2 } isOpen={ isOpen }/>
+            
+            {
+                showModalPlotlyCharts ? <ModalForm dataJson={ plotlyDataJson! } setShowModal={ setShowModalPlotlyCharts! } />
+                : undefined
+            }
         </>
         
     )

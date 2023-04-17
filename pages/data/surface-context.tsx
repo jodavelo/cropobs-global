@@ -577,7 +577,9 @@ const SurfaceContextPage: NextPage = () => {
                                                 text2={ `${ podiumRank }°` }
                                                 text3={ text2Podium }
                                                 text4={ `${year}` }
-                                                description={ podiumMoreInfoText } />
+                                                description={ podiumMoreInfoText }
+                                                currentYearSelected={ year }
+                                                />
                                             <p style={{ textAlign: 'center', padding: '20px 0px' }}> { indicatorText1 } <span style={ textBold } >{ onAverageIndicator }°</span> { indicatorText2 } <span style={ textBold }>{ indicatorText3 }</span> </p>
                                             <p style={{ textAlign: 'center' }}>{ harvestedAreaText1 } <span style={ textBold }>{year}</span>{ harvestedAreaText2 }</p>
                                             {/* <PodiumWithLink dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/27/${ year }` } text={`Rice was the ${ podiumRank }° most important crop in relation to harvested area (ranking) in year ${year}`} description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis sed libero eu aliquet. Aenean mi tellus, tincidunt sit amet elit nec, mollis tristique arcu. Maecenas ornare vulputate nisl eu hendrerit. Ut vehicula elit quam, at porttitor mauris porta a. Duis condimentum euismod magna et elementum.' /> */}

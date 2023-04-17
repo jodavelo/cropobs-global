@@ -3,7 +3,8 @@ interface RankingData {
     crop_name: string,
     crop_name_es: string,
     crop_name_pt: string,
-    logo_id: number
+    logo_id: number,
+    year?: number;
 }
 
 const rankArr = [
@@ -73,5 +74,20 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
         }
         
     });
+    return data;
+}
+
+export const podiumDataProcessDownload = (predata: RankingData[], year: number) => {
+    let data: Object[] = [];
+    predata.map( e => {
+        let rank = {
+            year,
+            crop_name: e.crop_name,
+            crop_name_es: e.crop_name_es,
+            crop_name_pt: e.crop_name_pt,
+            rank: e.ranking
+        }
+        data.push( rank )
+    })
     return data;
 }
