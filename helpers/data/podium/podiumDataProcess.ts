@@ -77,6 +77,31 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
     return data;
 }
 
+export const getColorByDataProcessed = ( data: any[] ) => {
+    let dataProcessed: any[] = [];
+    data.map( ( object, idx ) => {
+        switch (idx) {
+            case 0:
+                object.color = '#F89A21';
+                dataProcessed.push( object )
+                break;
+            case 1:
+                object.color = '#a82f31';
+                dataProcessed.push( object )
+                break;
+            case 2:
+                object.color = '#A86F0C';
+                dataProcessed.push( object )
+                break;
+            default:
+                object.color = '#BD4F28';
+                dataProcessed.push( object )
+                break;
+        }
+    })
+    return dataProcessed;
+}
+
 export const podiumDataProcessDownload = (predata: RankingData[], year: number) => {
     let data: Object[] = [];
     predata.map( e => {
