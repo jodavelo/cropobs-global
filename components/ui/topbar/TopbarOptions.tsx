@@ -2,6 +2,14 @@
 import { useRouter } from 'next/router';
 import styles from './Topbar.module.css';
 import Link from 'next/link';
+import { CSSProperties } from 'react';
+
+const styleSelected: CSSProperties = {
+    color: '#4e4e4e'
+}
+
+const style: CSSProperties = {
+}
 
 export const TopbarOptions = () => {
 
@@ -33,7 +41,7 @@ export const TopbarOptions = () => {
         >
             {
                 languages!.map( optionLocale => (
-                    <div key={ optionLocale.locale } className={ styles['options-language'] }><Link href={ asPath } locale={ optionLocale.locale } legacyBehavior >{ optionLocale.label }</Link></div>        
+                    <div key={ optionLocale.locale } className={ styles['options-language'] }><Link href={ asPath } locale={ optionLocale.locale } legacyBehavior ><a className={styles['link-options']} style ={ locale == optionLocale.locale ? styleSelected : style }>{ optionLocale.label }</a></Link></div>        
                 ))
             }
         

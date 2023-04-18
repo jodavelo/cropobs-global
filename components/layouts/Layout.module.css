@@ -47,7 +47,7 @@
 
 @media (max-width: 500px) and (min-width: 300px){
     .home {
-        height: 530vh;   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
+        /*height: 530vh;*/   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
     }
     .data {
         height: 300vh;
@@ -56,7 +56,7 @@
 
 @media (max-width: 800px) and (min-width: 500px){
     .home {
-        height: 555vh; /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
+        /*height: 555vh;*/ /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
     }
     .data {
         height: 300vh;
@@ -66,7 +66,7 @@
 
 @media (max-width: 1000px) and (min-width: 800px){
     .home {
-        height: 375vh; /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
+        /*height: 375vh;*/ /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
     }
     .data {
         height: 300vh;
@@ -76,7 +76,7 @@
 
 @media (min-width: 1000px){ 
     .home {
-        height: 410vh /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
+        /*height: 435vh*/ /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
     }
     .data {
         height: 200vh;

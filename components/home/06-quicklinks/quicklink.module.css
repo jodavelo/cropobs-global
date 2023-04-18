@@ -2,14 +2,16 @@
 
 .quicklink-container {
     padding: 20px 0;
-    height: 170vh;
-    
+    height: auto;
+    color: #a82f31
 }
 
 .quicklink-content {
     display: flex;
     flex-direction: column;
-    height: 160vh;
+    /*height: 160vh;*/
+    margin-top: 40px;
+    height: auto;
     
 }
 
@@ -22,19 +24,21 @@
     width: 100%;
     background-color: transparent;
     margin-top: 3vh;
+    overflow-y :scroll;
 }
 
 @media (max-width: 500px) and (min-width: 300px){
     .quicklink-container {
-        height: 150vh;
+        /*height: 150vh;*/
     }
     .quicklink-content {
-        height: 140vh; 
+        /*height: 140vh;*/ 
     }
 
     .quicklink-images {
         height: 63vh;
         width: 100%;
+        height: auto;
     }
     .twitter-container {
         height: 74vh;
@@ -44,15 +48,16 @@
 
 @media (max-width: 800px) and (min-width: 500px){
     .quicklink-container {
-        height: 170vh;
+        /*height: 170vh;*/
     }
     .quicklink-content {
-        height: 166vh; 
+        /*height: 166vh;*/ 
         
     }
     .quicklink-images {
         height: 83vh;
         width: 100%;
+        height: auto;
     }
     .twitter-container {
         height: 77vh;
@@ -62,45 +67,51 @@
 
 @media (max-width: 1000px) and (min-width: 800px){
     .quicklink-container {
-        height: 117vh;
+        /*height: 117vh;*/
         padding: 0px 20px;
     }
     .quicklink-content {
-        height: 110vh; 
+        /*height: 110vh;*/ 
         flex-direction: row;
     }
     .quicklink-images {
         height: 104vh;
         width: 60%;
+        height: auto;
         
     }
     .twitter-container {
         height: 103vh;
         width: 40%;
         margin: 0;
+        margin-left: 50px;
+        overflow-y: scroll;
+
     }
 }
 
 @media (min-width: 1000px) {
     .quicklink-container {
-        height: 100vh;
+        /*height: 90vh;*/
         padding: 20px calc(100vw - 90vw);
         
     }
     .quicklink-content {
-        height: 90vh; 
+        /*height: 90vh;*/ 
         flex-direction: row;
     }
     .quicklink-images {
-        height: 83vh;
-        width: 50%;
+        /*height: 83vh;*/
+        height: auto;
+        width: 60%;
         /* border: 1px rgb(201, 74, 74) solid; */
         
     }
     .twitter-container {
-        height: 83vh; /*90vh*/
-        width: 50%;
+        height: 123vh; /*90vh*/
+        width: 40%;
         margin: 0;
+        margin-left: 50px;
         /* border: 1px black solid; */
     }
 }
