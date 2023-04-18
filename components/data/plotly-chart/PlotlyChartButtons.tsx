@@ -43,7 +43,7 @@ export const PlotlyChartButtons = ( { divID, moreInfoText, traces, setShowModal,
                 <div className={ styles['multichart-footer'] }>
                     <Button className={ styles.button } onClick={ () => setIsOpen(!isOpen) } ><InfoIcon/></Button>
                     <Button className={ styles.button } onClick={ chartDownload } ><InsertPhotoIcon/></Button>
-                    <Button className={ styles.button } onClick={ () => setShowModalPlotlyCharts( !showModalPlotlyCharts ) } ><DescriptionIcon/></Button>
+                    <Button className={ styles.button } onClick={ () => setShowModalPlotlyCharts( !showModalPlotlyCharts ) } ><DownloadIcon/></Button>
                 </div>
             </div>
             <ToggleDescription text={ moreInfoText } text2={ moreInfoText2 } isOpen={ isOpen }/>
