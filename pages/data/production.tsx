@@ -443,13 +443,13 @@ const ProductionPage: NextPage = () => {
                                             <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
                                             : 'Loading...'
                                         }
-                                    <br/>
+                                    <b/>
                                         {
                                             podiumConfig ? 
                                         <PodiumSelectionTranslations podiumsList={podiumConfig} />
                                             : 'Loading...'
                                         }
-                                    <br/>
+                                    <b/>
                                         {
                                             chartConfig ?
                                         <ChartSelection chartConfigList={chartConfig} />

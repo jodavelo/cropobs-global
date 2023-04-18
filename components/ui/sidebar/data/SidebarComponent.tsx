@@ -48,6 +48,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
     const [productionValueText, setProductionValueText] = useState('');
     const [consumptionText, setConsumptionText] = useState('');
     const [pricesText, setPricesText] = useState('');
+    const [domesticPricesText, setDomesticPricesText] = useState('');
+    const [internationalPricesText, setInternationalPricesText] = useState('');
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -56,6 +58,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setProductionValueText('Production Value');
                 setConsumptionText('Consumption');
                 setPricesText('Prices');
+                setDomesticPricesText('Domestic Prices');
+                setInternationalPricesText('International Prices');
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
@@ -63,6 +67,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setProductionValueText('Valor de la producción');
                 setConsumptionText('Consumo');
                 setPricesText('Precios');
+                setDomesticPricesText('Precios Nacionales');
+                setInternationalPricesText('Precios Internacionales');
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
@@ -70,6 +76,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setProductionValueText('Valor da produção');
                 setConsumptionText('Consumo');
                 setPricesText('Preços');
+                setDomesticPricesText('Preços domésticos');
+                setInternationalPricesText('Preços internacionais');
                 break;
         }
     }, )
@@ -96,7 +104,10 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                     <MenuItem icon={ <ThreeDRotation/> }> Line charts </MenuItem>
                 </SubMenu> */}
                 <MenuItem icon={<TrendingUpIcon/>} > {consumptionText} </MenuItem>
-                <MenuItem icon={<AgricultureIcon/>} onClick={ () => push('/data/prices') }> {pricesText} </MenuItem>
+                <SubMenu icon={ <AgricultureIcon/> } label={pricesText}>
+                    <MenuItem onClick={ () => push('/data/prices') }> {domesticPricesText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/prices-international') }> {domesticPricesText} </MenuItem>
+                </SubMenu>
             </Menu>
         </Sidebar>
     )

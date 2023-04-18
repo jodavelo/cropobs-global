@@ -14,6 +14,7 @@ import axios from 'axios';
 import { LeftSideMenuContainer, MapSelectPrices } from '../../components/ui/map/filters';
 import { dataFetcher, generateElementsOptions } from '../../helpers/data';
 import useSWR from 'swr';
+import { useRouter } from 'next/router';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { ElementsData,SelectOptions } from '../../interfaces/data';
@@ -23,7 +24,7 @@ import { useTour } from '@reactour/tour';
 import { general_data_steps, general_data_steps_prices } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SourcesComponent } from '../../components/ui/sources-component';
-import { BackButton } from '../../components/data/back-button';
+import { BackButtonPrices } from '../../components/data/back-button';
 import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -37,9 +38,6 @@ interface ElementsState {
     elementsObj: Record<string, ElementsData>
     elementsOptions: SelectOptions
 }
-
-const mapFilterElements = [300050, 300051, 300052];
-const baseURL = 'https://cassavalighthouse.org';
 
 interface Feature {
     type: FeatureType;
@@ -58,11 +56,14 @@ enum FeatureType {
 interface marker {
     priceDataGeopoint: Feature
 }
+const mapFilterElements = [300050, 300051, 300052];
+const baseURL = 'https://cassavalighthouse.org';
 let clickId: string | number | null = null;
 
-const DataPage: NextPage = () => {
+const PricesPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
     const[priceData, setPriceData] = useState<Feature>();
+    const { locale } = useRouter();
     const { map } = useContext( MapContext );
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 300050,
@@ -83,7 +84,6 @@ const DataPage: NextPage = () => {
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
     const { buttonBoth, buttonGraphs, buttonMap, activeBothButtons, activeMapButton } = useContext( LeftSideMenuContext );
-    // const [ mapButtons, setMapButtons] = useState([buttonBoth, buttonGraphs, buttonMap]);
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
     
     useEffect(() => {
@@ -128,9 +128,10 @@ const DataPage: NextPage = () => {
                     const tempLocationName = e.features![0].properties?.label;
                     setSectionState( (prevState) => ({
                         ...prevState,
-                        locationName: tempLocationName
+                        locationName: tempLocationName,
                     }));
                     console.log(e.features![0].properties?.label);
+                    console.log(e.features![0].properties?.id_country);
                     clickId = e.features![0].id ?? null;
                     activeBothButtons();
                 });
@@ -147,9 +148,13 @@ const DataPage: NextPage = () => {
         if (elementsData && !isLoadingElements) {
             const elemsObj: Record<string, ElementsData> = {};
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
+            let variableByLocale = ''
+            if( locale == 'en' ) variableByLocale = 'ELEMENT_EN';
+            if( locale == 'es' ) variableByLocale = 'ELEMENT_ES';
+            if( locale == 'pt' ) variableByLocale = 'ELEMENT_PT';
             setElements({
                 elementsObj: elemsObj,
-                elementsOptions: generateElementsOptions(elementsData, 'ELEMENT_EN', mapFilterElements)
+                elementsOptions: generateElementsOptions(elementsData, variableByLocale, mapFilterElements)
             });
         }
     }, [isLoadingElements]);
@@ -166,6 +171,7 @@ const DataPage: NextPage = () => {
         setIsCollapsed(!isCollapsed);
         //console.log(isCollapsed)
     }
+
     useEffect(() => {
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
@@ -233,10 +239,12 @@ const DataPage: NextPage = () => {
 
     //console.log(elementsData);
     useEffect(() => {
-            const chartTitle = dataTranslate('chart1-title')
-            setChartTitle(`${chartTitle} `);
-    }, [dataTranslate, chartTitle]);
-
+        if (elementsObj[elementId]) {
+            const elementName = elementsObj[elementId].ELEMENT_EN;
+            setChartTitle(`Yearly ${elementName}`);
+        }
+    }, [elementId, elementsObj]);
+    
     useEffect(()=>{
         getPriceData(elementId);
     },[elementId])
@@ -251,6 +259,7 @@ const DataPage: NextPage = () => {
             }
         }
     }, []);
+    
     return (
         <Layout title={ dataTranslate('Prices') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
@@ -271,7 +280,7 @@ const DataPage: NextPage = () => {
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <MainBar key={ uuidv4() } section={`Domestic Price - ${locationName}`}  >
-                                    <BackButton regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
+                                    <BackButtonPrices  regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
                         </Row>
@@ -285,14 +294,16 @@ const DataPage: NextPage = () => {
                                 </Row>
                                 <MapViewPrices id='map-info' setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>                                
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>                          
                                 <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Boxplot de precios '/>
-                                <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Grafico de precios'/>
-                                <SourcesComponent sourcesText={''} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Grafico de precios'/>  
+                                <SourcesComponent sourcesText={'Data Sources:'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>
-                </div>               
+                </div> 
+                {/* -------------- */}
+                              
             </Container>
         </Layout>
     )
@@ -306,4 +317,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 }
 
-export default DataPage
+export default PricesPage

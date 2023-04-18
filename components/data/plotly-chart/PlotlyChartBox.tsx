@@ -63,7 +63,14 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description}) => {
     if (isLoading) return <div>Loading...</div>
 
     const layout = {
-        title: title,
+        title:  {
+            text: `<b> ${title}`,
+            font: {
+                size: 14,
+                color: '#7a7a7a',
+                family: 'Montserrat, sans-serif'
+            },
+        },
         yaxis: {
             title: 'SLC/kg',
             zeroline: true,
