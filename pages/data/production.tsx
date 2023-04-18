@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -42,6 +42,8 @@ interface OtherTexts {
     section_text: string
     chart1_info: string
     sources_text: string
+    search_country: string
+    element_locale: string
 }
 
 
@@ -54,7 +56,7 @@ const ProductionPage: NextPage = () => {
         countryCode: 'WLRD',
         year: 2021,
         admin: 'World',
-        locationName: 'World'
+        locationName: dataTranslate('world-locale')
     });
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName } = sectionState;
     const [elementsState, setElements] = useState<ElementsState>({
@@ -134,14 +136,13 @@ const ProductionPage: NextPage = () => {
                     setSectionState( (prevState) => ({
                         ...prevState,
                         countryCode: e.features![0].properties!.iso3,
-                        locationName: e.features![0].properties!.country_name
+                        locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
                     }));
-                    console.log(e.features![0].properties!.country_name);
                     setClickId(e.features![0].id ?? null);
                 });
             });
         }
-    }, [map]);
+    }, [map, dataTranslate]);
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
@@ -149,10 +150,10 @@ const ProductionPage: NextPage = () => {
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
             setElements({
                 elementsObj: elemsObj,
-                elementsOptions: generateElementsOptions(elementsData, 'ELEMENT_EN', mapFilterElements)
+                elementsOptions: generateElementsOptions(elementsData, dataTranslate('LOCALE_FILTER_ELEMENT'), mapFilterElements)
             });
         }
-    }, [isLoadingElements]);
+    }, [isLoadingElements, dataTranslate]);
 
     useEffect(() => {
         if (yearsData && !isLoadingYears) {
@@ -164,17 +165,17 @@ const ProductionPage: NextPage = () => {
         if (macroRegionsData && !isLoadingMacroRegions) {
             setMacroRegions({
                 macroRegionsObj: macroRegionsData,
-                macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', 'region_name', true)
+                macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', dataTranslate('LOCALE_FILTER_REGION'), true)
             });
         }
-    }, [isLoadingMacroRegions]);
+    }, [isLoadingMacroRegions, dataTranslate]);
 
     useEffect(() => {
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
             console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
             setRegions({
                 regionsObj: regionsData,
-                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, 'region_name', macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
+                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, dataTranslate('LOCALE_FILTER_REGION'), macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
             });
             let codeRegion = 'WLRD';
             let idx = -1;
@@ -200,14 +201,14 @@ const ProductionPage: NextPage = () => {
                 setClickId(null);
             }
         }
-    }, [isLoadingRegions, macroRegionCode]);
+    }, [isLoadingRegions, macroRegionCode, dataTranslate]);
 
     useEffect(() => {
         setSectionState( (prevState) => ({
             ...prevState,
             regionCode,
             countryCode: regionCode,
-            locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+            locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
         }));
         if(map){
             if (clickId !== null){
@@ -218,14 +219,14 @@ const ProductionPage: NextPage = () => {
             }
             setClickId(null);
         }
-    }, [regionCode]);
+    }, [regionCode, dataTranslate]);
 
     // This useEffect is used when the back button is clicked
     useEffect(() => {
         if ([...Object.keys(regionsObj), 'WLRD'].includes(countryCode)){
             setSectionState( (prevState) => ({
                 ...prevState,
-                locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+                locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
             }));
             if(map){
                 if (clickId !== null){
@@ -237,7 +238,7 @@ const ProductionPage: NextPage = () => {
                 setClickId(null);
             }
         }
-    }, [countryCode]);
+    }, [countryCode, dataTranslate]);
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
@@ -308,7 +309,7 @@ const ProductionPage: NextPage = () => {
         ten_year_moving_average_options.plugins.title.text = dataTranslate('chart2_2-title').replace('#{}', locationName);
         ten_year_moving_average_options.scales.y.title.text = dataTranslate('chart2_2-y-axis-label');
         setLineChartConfig({key:'id_element', name: dataTranslate('LOCALE_NAME')});
-        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text')});
+        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
         
     }, [dataTranslate, locationName]);
 
@@ -391,6 +392,16 @@ const ProductionPage: NextPage = () => {
         // if( width! < 991 ) setContentColumn('100%');
     })
 
+    // --------------------------------------------------------------------------------------------------------------
+    // Local variables for translation
+    // --------------------------------------------------------------------------------------------------------------
+    const [mapGraphsText, setMapGraphsText] = useState('');
+    const [metadataText, setMetadataText] = useState('');
+    useEffect(() => {
+        setMapGraphsText(dataTranslate('graphs_maps')!);
+        setMetadataText(dataTranslate('metadata')!);
+    }, )
+
     return (
             <Layout title={ otherTexts ? otherTexts.section_name : 'Loading...' }>
                 <Container fluid className={ styles['custom-container-fluid'] }>
@@ -400,7 +411,7 @@ const ProductionPage: NextPage = () => {
                                     <SidebarComponent isCollapsedProp={ isCollapsed }/>
                             </div>
                             <div className={ styles['sidebar-arrow-container'] }>
-                                <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                                <Button id='btn-collapse-sidebar' onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                     {  
                                         isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                     }
@@ -416,47 +427,82 @@ const ProductionPage: NextPage = () => {
                                 </Col>
                             </Row>
                             <Row className={ styles['padding-left-subcontainers'] }>
-                                <LeftSideMenuContainer/>
-                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
-                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
-                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                        </Row>
-                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                            <Button
-                                                className={`${styles['search-country-button']}`}
-                                                style={{width: '145px'}}
-                                                onClick={() => setShowCountries(true)}
-                                            >
-                                                Search Country
-                                            </Button>
-                                        </Row>
-                                    </Row>
-                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
+                                <Col xs={ 12 } style={{ height: '50px', padding: '0' }}>
+                                    <Tabs
+                                        defaultActiveKey="home"
+                                        id="uncontrolled-tab-example"
+                                    >
+                                        <Tab eventKey="home" title={ mapGraphsText } tabClassName={styles.coloredTab}>
+                                            <Row style={{ paddingLeft: '12px' }}>
+                                                <LeftSideMenuContainer/>
+                                                <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                                            <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                        </Row>
+                                                        <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                                            <Button
+                                                                className={`${styles['search-country-button']}`}
+                                                                style={{width: '145px'}}
+                                                                onClick={() => setShowCountries(true)}
+                                                            >
+                                                                {otherTexts?.search_country}
+                                                            </Button>
+                                                        </Row>
+                                                    </Row>
+                                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ (otherTexts && elementsObj[elementId] ? elementsObj[elementId][otherTexts?.element_locale as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} />
+                                                </Col>
+                                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                                    {
+                                                        buttonGraphs ?
+                                                        <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
+                                                            <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
+                                                                <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                                <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                                { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                                <Button
+                                                                    className={`${styles['search-country-button']}`}
+                                                                    style={{width: '145px', lineHeight: '12px'}}
+                                                                    onClick={() => setShowCountries(true)}
+                                                                >
+                                                                    {otherTexts?.search_country}
+                                                                </Button>
+                                                            </Row>
+                                                        </Row>
+                                                        :
+                                                            <></>
+                                                        }
+                                                    {
+                                                            lineChartConfig ? 
+                                                            <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                                            : 'Loading...'
+                                                        }
+                                                    <br/>
+                                                        {
+                                                            podiumConfig ? 
+                                                        <PodiumSelectionTranslations podiumsList={podiumConfig} />
+                                                            : 'Loading...'
+                                                        }
+                                                    <br/>
+                                                        {
+                                                            chartConfig ?
+                                                        <ChartSelection chartConfigList={chartConfig} />
+                                                            : 'Loading...'
+                                                        }
+                                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                                </Col>
+                                            </Row>
+                                        </Tab>
+                                        <Tab eventKey="profile" title={metadataText} tabClassName={styles.coloredTab}>
+                                           Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat expedita deserunt, aperiam odio voluptate doloremque velit ex rem? Tempore itaque expedita, nisi ipsum recusandae officiis! Alias beatae inventore ullam dolore!
+                                        </Tab>
+                                        
+                                    </Tabs>
                                 </Col>
-                                <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                    {
-                                            lineChartConfig ? 
-                                            <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
-                                            : 'Loading...'
-                                        }
-                                    <b/>
-                                        {
-                                            podiumConfig ? 
-                                        <PodiumSelectionTranslations podiumsList={podiumConfig} />
-                                            : 'Loading...'
-                                        }
-                                    <b/>
-                                        {
-                                            chartConfig ?
-                                        <ChartSelection chartConfigList={chartConfig} />
-                                            : 'Loading...'
-                                        }
-                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
-                                </Col>
+                                
                             </Row>
                         </div>
                     </div>

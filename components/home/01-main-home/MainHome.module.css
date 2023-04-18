@@ -1,7 +1,7 @@
 
 .main-home {
-    width: 100vw;
-    height: 40vh;
+    width: 98.7vw;
+    height: 36vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,8 +17,8 @@
 .background-home-image1 {
     width: 100%;
     background-color: #000;
-    height: 40vh;
-    opacity: .2;
+    height: 36vh;
+    opacity: .4;
     position: absolute;
     /* top: 'calc(100vh - 40vh)'; */
     left: 0;
@@ -28,16 +28,18 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: fit-content;
     padding: 0;
+    text-align: left;
 }
 
 .main-text-content {
     white-space: pre-wrap;
     color: #fff;
     font-weight: 700;
-    font-size: 1.5rem;
-    text-shadow: 0 0 4px #000;
+    font-size: 2rem;
+    text-shadow: 0 0 5px #000;
+    margin-bottom: 2px;
 }
 
 .submain-text-content {

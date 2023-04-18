@@ -42,6 +42,7 @@
     flex-direction: row;
 }
 .podium-bar-container {
+    max-width: 90px;
     width: 20%;
     height: 100%;
     /* border: 1px beige solid; */

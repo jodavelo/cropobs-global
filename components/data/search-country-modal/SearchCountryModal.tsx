@@ -24,6 +24,7 @@ interface CountryRow {
 
 export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, clickId, setSectionState, setClickId }) => {
     const { map } = useContext( MapContext );
+    console.log(adminIdsUrl);
     const { data: adminIds } = useSWR<String[]>(adminIdsUrl, dataFetcher);
     const [ rows, setRows ] = useState<CountryRow[]>([]);
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
@@ -49,36 +50,34 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
         handleClose(false);
     };
     useEffect(() => {
-        if (map) {
-            map.on("load", () => {
-                let tempDict: Record<string, boolean> = {};
-                let tempRows: CountryRow[] = [];
-                map.querySourceFeatures('geo_countries', {
-                    sourceLayer: 'country_layer',
-                    filter: ['in', ['get', 'iso3'], ['literal', adminIds]]
-                })
-                    .forEach( (layer, index) => {
-                        if (layer.id){
-                            // Tuve que hacer esta comprobación porque hay ids repetidos y eso genera errores en el renderizado de la DataGrid
-                            if (!tempDict[layer.id]) {
-                                tempDict[layer.id] = true
-                                tempRows.push({
-                                    id: layer.id,
-                                    country: layer.properties?.country_name,
-                                    iso3: layer.properties?.iso3
-                                });
-                            }
+        if (map && show) {
+            let tempDict: Record<string, boolean> = {};
+            let tempRows: CountryRow[] = [];
+            map.querySourceFeatures('geo_countries', {
+                sourceLayer: 'country_layer',
+                filter: ['in', ['get', 'iso3'], ['literal', adminIds]]
+            })
+                .forEach( (layer, index) => {
+                    if (layer.id){
+                        // Tuve que hacer esta comprobación porque hay ids repetidos y eso genera errores en el renderizado de la DataGrid
+                        if (!tempDict[layer.id]) {
+                            tempDict[layer.id] = true
+                            tempRows.push({
+                                id: layer.id,
+                                country: layer.properties?.country_name,
+                                iso3: layer.properties?.iso3
+                            });
                         }
-                    });
-                setRows(tempRows);
-                console.log(tempRows);
-            });
+                    }
+                });
+            setRows(tempRows);
+            console.log(tempRows);
         }
     }, [show]);
     return (
         <Modal show={show} onHide={() => handleClose(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Country List</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <DataTableSearch rows={rows} handleRowClick={handleRowClick}/>

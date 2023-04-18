@@ -13,7 +13,9 @@ interface Props {
     stackedAreaID: string;
     stackedAreaNormalizedID: string;
     moreInfoTextStackedArea: string;
+    moreInfoTextStackedArea2?: string;
     moreInfoTextStackedAreaNormalized: string;
+    moreInfoTextStackedAreaNormalized2?: string;
     yLabelStackedArea?: string;
     yLabelShare?: string;
 }
@@ -28,7 +30,9 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     stackedAreaID, 
     stackedAreaNormalizedID, 
     moreInfoTextStackedArea,
+    moreInfoTextStackedArea2,
     moreInfoTextStackedAreaNormalized,
+    moreInfoTextStackedAreaNormalized2,
     yLabelStackedArea,
     yLabelShare
 }) => {
@@ -37,12 +41,13 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     const [stackedAreaTraces, setStackedAreaTraces] = useState([]);
     const [ticks, setTicks] = useState<number[]>([]);
     const [selected, setSelected] = useState('0');
+    const [dataJson, setDataJson] = useState<Object[]>([]);
 
     useEffect(() => {
         const algo = async() => {
         const response = await beansApi.get(fetchDataUrl);
         const { labels, observations } = response.data.data;
-        //console.log({ labels, observations })
+        setDataJson( response.data.data.observations );
         const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName);
         const { ticks } = getYearsPlotlyChart( labels );
         setTicks(ticks);
@@ -96,8 +101,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
             </select>
             {
                 selected == '0' 
-                    ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! }/>
-                    : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare}  />
+                    ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } moreInfoText2={ moreInfoTextStackedArea2 } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! } plotlyDataJson={ dataJson } />
+                    : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare}  />
             }
             
             

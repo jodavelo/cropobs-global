@@ -35,6 +35,8 @@ interface ChartjsConfig {
 export const LineChartjsPV: FC<{data: any, options: Record<string, any>, config: Record<string, any>, orderList?: Record<number, number> , chartID?: string, chartConf?: ChartjsConfig}> = ({ data, options, config, orderList = [], chartID = '', chartConf = {fill: false, pointRadius: 1, yAxisID: 'y'}}) => {
 
   return (
-    <Line options={options} data={data} />
+    <div style={{ position: 'relative', height: '390px', maxWidth: '800px'}}>
+      <Line options={options} data={data} />
+    </div>
   )
 };

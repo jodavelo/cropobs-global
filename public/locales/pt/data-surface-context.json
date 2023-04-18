@@ -1,6 +1,15 @@
-{
+{       
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_PT",
+    "LOCALE_FILTER_REGION": "region_name_pt",
+    "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "country_name_pt",
+    "search-country": "Pesquiçar País",
+    "world-locale": "Mundo",
+
     "title-header": "Dados - Contexto da área",
     "title_section": "Contexto da área",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados",
     "text1_podium_beans": "O feijão foi o ",
     "text2_podium_beans": "cultura mais importante em termos de área colhida no ano de",
     "indicator_text1_beans": "Em média, o feijão foi o",
@@ -20,5 +29,9 @@
     "plotly2_ylabel_by_share_beans": "% do total (%)",
     "by_value": "Por valor",
     "by_share": "Por % do total",
-    "search_country": "Procurar país"
+    "search_country": "Procurar país",
+    "more_info_podium_beans": "o pódio classifica as culturas de acordo com o valor colhido anualmente",
+    "harvested_area_in_relation_to_other_crops_beans": "Este gráfico apresenta a proporção da área colhida de feijão em relação à área colhida de outras leguminosas, e outros grupos de culturas. Quanto maior for a área vermelha em relação às outras cores, maior será a proporção de feijão em relação à área colhida com outros grupos de culturas. O filtro no canto superior direito permite alterar o tipo de gráfico, para que a informação seja apresentada em valores absolutos (número de hectares colhidos), ou em proporções (% da área total).  As categorias representam os diferentes tipos de culturas cultivadas na região seleccionada e o seu agregado é equivalente à área total cultivada. Poderá seleccionar na legenda as culturas que deseja excluir da visualização.",
+    "harvested_area_in_relation_to_other_keywork_beans_1": "Este gráfico apresenta a proporção da área colhida de feijão em relação à área colhida de outras leguminosas. Quanto maior for a área da cor vermelha em relação às outras cores, maior será a proporção de cultivo de feijão em relação à área colhida com outras leguminosas. O filtro no canto superior direito permite alterar o tipo de gráfico para que a informação seja apresentada em valores absolutos (número de hectares colhidos), ou em proporções (% da área total).",
+    "harvested_area_in_relation_to_other_keywork_beans_2": "As categorias representam os diferentes tipos de leguminosas cultivados na região seleccionada e o seu agregado é equivalente à área total cultivada com leguminosas. Pode seleccionar na legenda as culturas que deseja excluir da visualização."
 }

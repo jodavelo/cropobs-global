@@ -16,5 +16,6 @@ export interface RankingData {
     crop_name: string,
     crop_name_es: string,
     crop_name_pt: string,
-    logo_id: number
+    logo_id: number,
+    year?: number;
 }

@@ -1,6 +1,12 @@
 {
     "section-name": "Production Value",
     "section-text": "Production Value - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_EN",
+    "LOCALE_FILTER_REGION": "region_name",
+    "LOCALE_NAME": "ELEMENT_EN",
+    "LOCALE_COUNTRY_NAME": "country_name",
+    "search-country": "Search Country",
+    "world-locale": "World",
 
     "title-header": "Data-ProductionValue",
     "title-page": "Production Value page",
@@ -19,7 +25,7 @@
     "chart1-dataset3":"Crops",
     "chart1-dataset4":"Agriculture",
     "chart1-axis-y":"Thousands of dollars (USD)",
-    "chart1-toggle":"This graph presents the historical evolution of the value of beans production in thousands of dollars, in relation to the aggregate value of pulses production, crops and agriculture in general.<br>You can select in the legend the variables that you want to exclude from the view.",
+    "chart1-toggle":"This graph presents the historical evolution of the value of beans production in thousands of dollars, in relation to the aggregate value of pulses production, crops and agriculture in general.You can select in the legend the variables that you want to exclude from the view.",
 
     "chart2-opt1": "Annual growth",
     "chart2-opt2": "10-year moving average",
@@ -28,12 +34,14 @@
     "chart21-dataset1":"Beans, dry",
     "chart21-dataset2":"Value Added (Agriculture, Forestry and Fishing)",
     "chart21-dataset3":"Gross Domestic Product",
-    "chart2-toggle":"This graph presents the historical evolution of the growth rates of beans production value, GDP and agricultural GDP. The filter in the upper right corner allows switching the display between the annual growth rate and the 10-year moving average of the annual growth rate. The annual growth rate reflects the percentage change of the variable of interest relative to the previous year, while the moving average expresses the average of that change over the last ten years.<br>You may select in the legend those variables that you wish to exclude from the display",
+    "chart2-toggle":"This graph presents the historical evolution of the growth rates of beans production value, GDP and agricultural GDP. The filter in the upper right corner allows switching the display between the annual growth rate and the 10-year moving average of the annual growth rate. The annual growth rate reflects the percentage change of the variable of interest relative to the previous year, while the moving average expresses the average of that change over the last ten years.You may select in the legend those variables that you wish to exclude from the display",
 
     "chart22-title":"10-year moving average - #{}",
     "chart22-dataset1":"Beans, dry",
     "chart22-dataset2":"Value Added (Agriculture, Forestry and Fishing)",
     "chart22-dataset3":"Gross Domestic Product",
 
-    "sources-text": "Data Sources:"
+    "sources-text": "Data Sources:",
+    "graphs_maps": "Maps and Graphs",
+    "metadata": "Metadata"
 }

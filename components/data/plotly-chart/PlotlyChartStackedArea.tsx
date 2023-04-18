@@ -13,9 +13,11 @@ interface Props {
     dataTraces: traceObject[];
     plotlyDivId: string;
     moreInfoText: string;
+    moreInfoText2?: string;
+    plotlyDataJson?: Object[];
 }
 
-export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yAxisLabel, plotlyDivId, moreInfoText }) => {
+export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yAxisLabel, plotlyDivId, moreInfoText, moreInfoText2, plotlyDataJson }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, })
     const { width } = useWindowSize();
     const [chartHeight, setChartHeight] = useState(0);
@@ -154,7 +156,7 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yA
               layout={ layout }
           />
           </div>
-          <PlotlyChartButtons divID={ plotlyDivId }  moreInfoText={ moreInfoText } />
+          <PlotlyChartButtons divID={ plotlyDivId } plotlyDataJson={ plotlyDataJson } moreInfoText={ moreInfoText } moreInfoText2={ moreInfoText2 } />
         </>
       );
 }

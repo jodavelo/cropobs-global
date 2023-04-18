@@ -27,10 +27,10 @@ const Index: NextPage = () => {
                 <SubmainHome/>
                 <Indicators/>
                 <NewsContainer/>
+                <CarouselComponent/>
                 <PublicationsContainer/>
                 <QuickLinksContainer/>
-                {/* <CarouselComponent/>
-                <SignUp/> */}
+                {/* <SignUp/> */}
                 {/* <VideoProvider>
                     <VideoContainer/>
                 </VideoProvider> */}

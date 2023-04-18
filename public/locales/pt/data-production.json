@@ -1,12 +1,17 @@
 {
     "section-name": "Produção",
     "section-text": "Produção - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_PT",
+    "LOCALE_FILTER_REGION": "region_name_pt",
     "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "country_name_pt",
+    "search-country": "Pesquiçar País",
+    "world-locale": "Mundo",
     
     "chart1-title": "Área colhida, produção e rendimento - #{}",
     "chart1-y-axis-label": "Produção (ton) e área (ha)",
     "chart1-y1-axis-label": "Rendimento (ton/ha)",
-    "chart1-info": "Este gráfico apresenta a evolução histórica da área colhida de mandioca em hectares, o nível de produção em toneladas e o rendimento em toneladas por hectare para a região selecionada. Este é um gráfico de dois eixos, onde o eixo esquerdo mostra os valores para as variáveis de produção e área, enquanto o eixo direito mostra os valores para a variável de rendimento.<br>Você pode selecionar na legenda as variáveis que deseja excluir da visualização.",
+    "chart1-info": "Este gráfico apresenta a evolução histórica da área colhida de mandioca em hectares, o nível de produção em toneladas e o rendimento em toneladas por hectare para a região selecionada. Este é um gráfico de dois eixos, onde o eixo esquerdo mostra os valores para as variáveis de produção e área, enquanto o eixo direito mostra os valores para a variável de rendimento.Você pode selecionar na legenda as variáveis que deseja excluir da visualização.",
 
     "podium1-selector-text": "Produção",
     "podium2-selector-text": "Área",
@@ -23,11 +28,13 @@
 
     "chart2_1-title": "Crescimento anual - #{}",
     "chart2_1-y-axis-label": "Taxa de crescimento (%)",
-    "chart2_1-info": "Este gráfico apresenta a evolução histórica das taxas de crescimento da produção, da área colhida e do rendimento da cultura de mandioca para a região selecionada. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual, e a média móvel de 10 anos dessa taxa. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança para os últimos dez anos.<br>Você pode selecionar na legenda as variáveis que você deseja excluir da visualização.",
+    "chart2_1-info": "Este gráfico apresenta a evolução histórica das taxas de crescimento da produção, da área colhida e do rendimento da cultura de mandioca para a região selecionada. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual, e a média móvel de 10 anos dessa taxa. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança para os últimos dez anos.Você pode selecionar na legenda as variáveis que você deseja excluir da visualização.",
 
     "chart2_2-title": "Media móvel de 10 anos - #{}",
     "chart2_2-y-axis-label": "Taxa de crescimento (%)",
-    "chart2_2-info": "Este gráfico apresenta a evolução histórica das taxas de crescimento da produção, da área colhida e do rendimento da cultura de mandioca para a região selecionada. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual, e a média móvel de 10 anos dessa taxa. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança para os últimos dez anos.<br>Você pode selecionar na legenda as variáveis que você deseja excluir da visualização.",
+    "chart2_2-info": "Este gráfico apresenta a evolução histórica das taxas de crescimento da produção, da área colhida e do rendimento da cultura de mandioca para a região selecionada. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual, e a média móvel de 10 anos dessa taxa. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança para os últimos dez anos.Você pode selecionar na legenda as variáveis que você deseja excluir da visualização.",
 
-    "sources-text": "Fontes:"
+    "sources-text": "Fontes:",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados"
 }

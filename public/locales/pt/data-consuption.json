@@ -1,6 +1,12 @@
 {
     "section-name": "Consumo",
     "section-text": "Consumo - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_PT",
+    "LOCALE_FILTER_REGION": "region_name_pt",
+    "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "country_name_pt",
+    "search-country": "Pesquiçar País",
+    "world-locale": "Mundo",
 
     "title-header": "Dados-Consumo",
     "title-page": "Página do consumo",
@@ -61,6 +67,8 @@
     "chart2-axis-y2":"Relação de auto-suficiência (%)",
     "chart2-toggle":"Toggle 2 pt",
 
-    "sources-text": "Fontes:"
+    "sources-text": "Fontes:",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados"
 
 }

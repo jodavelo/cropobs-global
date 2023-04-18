@@ -12,6 +12,7 @@ interface Props {
 };
 
 export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
+    console.log({ dataJson })
     const exportFile = useCallback(() => {
         if (validateForm()){
             const ws = utils.json_to_sheet(dataJson);
