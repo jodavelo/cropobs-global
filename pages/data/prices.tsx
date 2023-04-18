@@ -86,6 +86,7 @@ const PricesPage: NextPage = () => {
     const [showGraphs, setShowGraphs] = useState(false);
     const { buttonBoth, buttonGraphs, buttonMap, activeBothButtons, activeMapButton } = useContext( LeftSideMenuContext );
     const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/6`, dataFetcher);
+
     
     useEffect(() => {
         activeMapButton();
@@ -269,7 +270,7 @@ const PricesPage: NextPage = () => {
     }, []);
     
     return (
-        <Layout title={ dataTranslate('Prices') }>
+        <Layout title={ dataTranslate('section-name') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -287,8 +288,8 @@ const PricesPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={`Domestic Price - ${locationName}`}  >
-                                    <BackButtonPrices  regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
+                                <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}  >
+                                    <BackButtonPrices   locationName={locationName} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
                         </Row>
@@ -302,10 +303,20 @@ const PricesPage: NextPage = () => {
                                 </Row>
                                 <MapViewPrices id='map-info' setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>                          
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }> 
+                                {
+                                    buttonGraphs ?
+                                    <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
+                                        <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
+                                            <MapSelectPrices id='element-filter'  options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> 
+                                        </Row>
+                                    </Row>
+                                    :
+                                        <></>
+                                }                         
                                 <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Boxplot de precios '/>
                                 <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitleLine} description='Grafico de precios'/>  
-                                <SourcesComponent sourcesText={'Data Sources:'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>
