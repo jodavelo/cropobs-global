@@ -4,7 +4,9 @@
     "section-name": "Precios Nacionales",
     "section-text": "Precios Nacionales - #{}",
     "section-int-name": " Precios Internacionales",
+    "section-int-text": "Precios Internacionales- #{}",
 
+    "chart-int-info": "Grafico internacionales",
 
     "chart1-title": "Precios",
     "chart2-title": "Precios internacionales de referencia anuales por tipo de arroz",
