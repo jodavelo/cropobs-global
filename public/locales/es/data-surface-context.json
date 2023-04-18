@@ -1,4 +1,11 @@
-{
+{   
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_ES",
+    "LOCALE_FILTER_REGION": "region_name_es",
+    "LOCALE_NAME": "ELEMENT_ES",
+    "LOCALE_COUNTRY_NAME": "country_name_es",
+    "search-country": "Buscar País",
+    "world-locale": "Mundo",
+    
     "title-header": "Datos - Contexto de la superficie",
     "title_section": "Contexto de la superficie",
     "text1_podium_beans": "Los fríjoles fueron el ",

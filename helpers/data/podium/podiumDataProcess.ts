@@ -52,7 +52,7 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
         if ( typeof data[pos] !== "undefined"){
             data[pos+2]= {
                 rank: entry.ranking+1,
-                cropName: locale=='en' ? entry.crop_name : locale=='es' ? entry.crop_name_es : entry.crop_name_pt,
+                cropName: locale=='en' ? entry.crop_name : locale=='es' ? (entry.crop_name_es ?? 'Sin traducción') : (entry.crop_name_pt ?? 'Sem tradução'),
                 keyName: entry.crop_name,
                 urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
                 heightBar,
@@ -63,7 +63,7 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
         else{
             data[pos]= {
                 rank: entry.ranking,
-                cropName: locale=='en' ? entry.crop_name : locale=='es' ? entry.crop_name_es : entry.crop_name_pt,
+                cropName: locale=='en' ? entry.crop_name : locale=='es' ? (entry.crop_name_es ?? 'Sin traducción') : (entry.crop_name_pt ?? 'Sem tradução'),
                 keyName: entry.crop_name,
                 urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
                 heightBar,

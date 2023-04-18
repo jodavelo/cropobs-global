@@ -1,6 +1,12 @@
 {
     "section-name": "Consumo",
     "section-text": "Consumo - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_PT",
+    "LOCALE_FILTER_REGION": "region_name_pt",
+    "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "country_name_pt",
+    "search-country": "Pesquiçar País",
+    "world-locale": "Mundo",
 
     "title-header": "Dados-Consumo",
     "title-page": "Página do consumo",

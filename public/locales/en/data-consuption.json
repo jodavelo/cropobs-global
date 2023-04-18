@@ -1,6 +1,12 @@
 {
     "section-name": "Consumption",
     "section-text": "Consumption - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_EN",
+    "LOCALE_FILTER_REGION": "region_name",
+    "LOCALE_NAME": "ELEMENT_EN",
+    "LOCALE_COUNTRY_NAME": "country_name",
+    "search-country": "Search Country",
+    "world-locale": "World",
 
     "title-header": "Data-Consuption",
     "title-page": "Consuption page",

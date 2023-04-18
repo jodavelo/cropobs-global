@@ -67,7 +67,7 @@ const SurfaceContextPage: NextPage = () => {
         countryCode: 'WLRD',
         year: 2021,
         admin: 'World',
-        locationName: 'World'
+        locationName: dataTranslate('world-locale')
     });
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName } = sectionState;
     const [onAverageIndicator, setOnAverageIndicator] = useState(0);
@@ -156,14 +156,14 @@ const SurfaceContextPage: NextPage = () => {
                     setSectionState( (prevState) => ({
                         ...prevState,
                         countryCode: e.features![0].properties!.iso3,
-                        locationName: e.features![0].properties!.country_name
+                        locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
                     }));
-                    console.log(e.features![0].properties!.country_name);
                     setClickId(e.features![0].id ?? null);
                 });
             });
         }
-    }, [map]);
+    }, [map, dataTranslate, locale]);
+
 // ------------------------------------------------------------------------------------------------
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
@@ -179,7 +179,7 @@ const SurfaceContextPage: NextPage = () => {
                 elementsOptions: generateElementsOptions(elementsData, variableByLocale, mapFilterElements)
             });
         }
-    }, [isLoadingElements]);
+    }, [isLoadingElements, locale]);
 
     useEffect(() => {
         if (yearsData && !isLoadingYears) {
@@ -198,7 +198,7 @@ const SurfaceContextPage: NextPage = () => {
                 macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', variableByLocale, true)
             });
         }
-    }, [isLoadingMacroRegions]);
+    }, [isLoadingMacroRegions, locale]);
 
     useEffect(() => {
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
@@ -235,14 +235,14 @@ const SurfaceContextPage: NextPage = () => {
                 setClickId(null);
             }
         }
-    }, [isLoadingRegions, macroRegionCode]);
+    }, [isLoadingRegions, macroRegionCode, locale]);
 
     useEffect(() => {
         setSectionState( (prevState) => ({
             ...prevState,
             regionCode,
             countryCode: regionCode,
-            locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+            locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
         }));
         if(map){
             if (clickId !== null){
@@ -253,7 +253,7 @@ const SurfaceContextPage: NextPage = () => {
             }
             setClickId(null);
         }
-    }, [regionCode])
+    }, [regionCode, dataTranslate])
 
     // ------------------------------------------------------------------------------------------------------------------------
     // To change podium data, when is changing years select value or any admin Level (region, macro region or country)
@@ -329,7 +329,7 @@ const SurfaceContextPage: NextPage = () => {
         if ([...Object.keys(regionsObj), 'WLRD'].includes(countryCode)){
             setSectionState( (prevState) => ({
                 ...prevState,
-                locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+                locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
             }));
             if(map){
                 if (clickId !== null){
@@ -341,7 +341,7 @@ const SurfaceContextPage: NextPage = () => {
                 setClickId(null);
             }
         }
-    }, [countryCode]);
+    }, [countryCode, dataTranslate]);
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
@@ -353,12 +353,6 @@ const SurfaceContextPage: NextPage = () => {
             }
         }
     }, []);
-
-    harvested_production_yield.plugins.title.text = 'Harvested area, production and yield' + ` - ${locationName}`;
-
-    annual_growth_options.plugins.title.text = 'Annual Growth' + ` - ${locationName}`;
-
-    ten_year_moving_average_options.plugins.title.text = '10-year moving average' + ` - ${locationName}`;
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
@@ -464,6 +458,9 @@ const SurfaceContextPage: NextPage = () => {
     const [byValueText, setByValueText] = useState('');
     const [byShareText, setByShareText] = useState('');
     const [searchCountryTextButton, setSearchCountryTextButton] = useState('')
+    const [localeFilterElement, setLocaleFilterElement] = useState('');
+    const [locationText, setLocationText] = useState('');
+
     useEffect(() => {
         setTitlePage(dataTranslate('title-header')!);
         setTitleSection(dataTranslate('title_section')!);
@@ -487,7 +484,9 @@ const SurfaceContextPage: NextPage = () => {
         setPlotly1YLabelByShare(dataTranslate('plotly1_ylabel_by_share_beans')!);
         setPlotly2YLabelByShare(dataTranslate('plotly2_ylabel_by_share_beans')!);
         setSearchCountryTextButton(dataTranslate('search_country')!);
-    }, )
+        setLocaleFilterElement(dataTranslate('LOCALE_FILTER_ELEMENT')!);
+        setLocationText(locationName);
+    }, [dataTranslate, locationName])
     
 
     // console.log(sideBarColumn, contentColumn)  
@@ -514,7 +513,7 @@ const SurfaceContextPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName}`} >
+                                <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationText}`} >
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
@@ -539,7 +538,7 @@ const SurfaceContextPage: NextPage = () => {
                                         </Button>
                                     </Row>
                                 </Row>
-                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
+                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( (localeFilterElement !== '') && elementsObj[elementId] ? elementsObj[elementId][localeFilterElement as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} />
                                 {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
                             
                             </Col>

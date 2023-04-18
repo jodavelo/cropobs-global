@@ -1,12 +1,17 @@
 {
     "section-name": "Production",
     "section-text": "Production - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_EN",
+    "LOCALE_FILTER_REGION": "region_name",
     "LOCALE_NAME": "ELEMENT_EN",
+    "LOCALE_COUNTRY_NAME": "country_name",
+    "search-country": "Search Country",
+    "world-locale": "World",
     
     "chart1-title": "Harvested area, production and yield - #{}",
     "chart1-y-axis-label": "Production (ton) and Area (ha)",
     "chart1-y1-axis-label": "Yield (ton/ha)",
-    "chart1-info": "This graph presents the historical evolution of beans harvested area in hectares, production level in tons, and yield in tons per hectare for the selected region. This is a two-axis graph, where the one on the left shows the values for the production and area variables, while the one on the right shows the values for the yield variable.<br>You can select in the legend those variables that you wish to exclude from the visualization.",
+    "chart1-info": "This graph presents the historical evolution of beans harvested area in hectares, production level in tons, and yield in tons per hectare for the selected region. This is a two-axis graph, where the one on the left shows the values for the production and area variables, while the one on the right shows the values for the yield variable.You can select in the legend those variables that you wish to exclude from the visualization.",
 
     "podium1-selector-text": "Production",
     "podium2-selector-text": "Area",
@@ -23,11 +28,11 @@
 
     "chart2_1-title": "Annual Growth - #{}",
     "chart2_1-y-axis-label": "Growth rate (%)",
-    "chart2_1-info": "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.<br>You may select in the legend those variables that you wish to exclude from the display.",
+    "chart2_1-info": "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.You may select in the legend those variables that you wish to exclude from the display.",
 
     "chart2_2-title": "10-year moving average - #{}",
     "chart2_2-y-axis-label": "Growth rate (%)",
-    "chart2_2-info": "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.<br>You may select in the legend those variables that you wish to exclude from the display.",
+    "chart2_2-info": "This graph presents the historical evolution of the growth rates of production, harvested area, and yield of beans for the selected region. The filter in the upper right corner allows you to switch the display between the annual growth rate and the 10-year moving average of that rate. The annual growth rate reflects the percentage change in the variable of interest relative to the previous year, while the moving average expresses the average of that change for the last ten years.You may select in the legend those variables that you wish to exclude from the display.",
 
     "sources-text": "Data Sources:"
 }

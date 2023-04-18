@@ -24,6 +24,7 @@ interface CountryRow {
 
 export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, clickId, setSectionState, setClickId }) => {
     const { map } = useContext( MapContext );
+    console.log(adminIdsUrl);
     const { data: adminIds } = useSWR<String[]>(adminIdsUrl, dataFetcher);
     const [ rows, setRows ] = useState<CountryRow[]>([]);
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
@@ -49,8 +50,10 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
         handleClose(false);
     };
     useEffect(() => {
-        if (map) {
-            map.on("load", () => {
+        if (map && show) {
+            console.log(map);
+            map.on("idle", () => {
+                console.log('TEST');
                 let tempDict: Record<string, boolean> = {};
                 let tempRows: CountryRow[] = [];
                 map.querySourceFeatures('geo_countries', {
@@ -78,7 +81,7 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
     return (
         <Modal show={show} onHide={() => handleClose(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Country List</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <DataTableSearch rows={rows} handleRowClick={handleRowClick}/>

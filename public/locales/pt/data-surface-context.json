@@ -1,4 +1,11 @@
-{
+{       
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_PT",
+    "LOCALE_FILTER_REGION": "region_name_pt",
+    "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "country_name_pt",
+    "search-country": "Pesquiçar País",
+    "world-locale": "Mundo",
+
     "title-header": "Dados - Contexto da área",
     "title_section": "Contexto da área",
     "text1_podium_beans": "O feijão foi o ",

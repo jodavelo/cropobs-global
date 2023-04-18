@@ -53,7 +53,7 @@ const DataPage: NextPage = () => {
         countryCode: 'WLRD',
         year: 2020,
         admin: 'World',
-        locationName: 'World'
+        locationName: dataTranslate('world-locale')
     });
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName } = sectionState;
     const [elementsState, setElements] = useState<ElementsState>({
@@ -131,14 +131,13 @@ const DataPage: NextPage = () => {
                     setSectionState( (prevState) => ({
                         ...prevState,
                         countryCode: e.features![0].properties!.iso3,
-                        locationName: e.features![0].properties!.country_name
+                        locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
                     }));
-                    console.log(e.features![0].properties!.country_name);
                     setClickId(e.features![0].id ?? null);
                 });
             });
         }
-    }, [map]);
+    }, [map, dataTranslate]);
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
@@ -146,10 +145,10 @@ const DataPage: NextPage = () => {
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
             setElements({
                 elementsObj: elemsObj,
-                elementsOptions: generateElementsOptions(elementsData, 'ELEMENT_EN', mapFilterElements)
+                elementsOptions: generateElementsOptions(elementsData, dataTranslate('LOCALE_FILTER_ELEMENT'), mapFilterElements)
             });
         }
-    }, [isLoadingElements]);
+    }, [isLoadingElements, dataTranslate]);
 
     useEffect(() => {
         if (yearsData && !isLoadingYears) {
@@ -161,10 +160,10 @@ const DataPage: NextPage = () => {
         if (macroRegionsData && !isLoadingMacroRegions) {
             setMacroRegions({
                 macroRegionsObj: macroRegionsData,
-                macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', 'region_name', true)
+                macroRegionsOptions: generateOptionsFromObj(macroRegionsData, '', dataTranslate('LOCALE_FILTER_REGION'), true)
             });
         }
-    }, [isLoadingMacroRegions]);
+    }, [isLoadingMacroRegions, dataTranslate]);
 
     useEffect(() => {
         console.log('Aquí no');
@@ -173,7 +172,7 @@ const DataPage: NextPage = () => {
             console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
             setRegions({
                 regionsObj: regionsData,
-                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, 'region_name', macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
+                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, dataTranslate('LOCALE_FILTER_REGION'), macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
             });
             let codeRegion = 'WLRD';
             let idx = -1;
@@ -199,14 +198,14 @@ const DataPage: NextPage = () => {
                 setClickId(null);
             }
         }
-    }, [isLoadingRegions, macroRegionCode]);
+    }, [isLoadingRegions, macroRegionCode, dataTranslate]);
 
     useEffect(() => {
         setSectionState( (prevState) => ({
             ...prevState,
             regionCode,
             countryCode: regionCode,
-            locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+            locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
         }));
         if(map){
             if (clickId !== null){
@@ -217,14 +216,14 @@ const DataPage: NextPage = () => {
             }
             setClickId(null);
         }
-    }, [regionCode]);
+    }, [regionCode, dataTranslate]);
 
     // This useEffect is used when the back button is clicked
     useEffect(() => {
         if ([...Object.keys(regionsObj), 'WLRD'].includes(countryCode)){
             setSectionState( (prevState) => ({
                 ...prevState,
-                locationName: macroRegionCode == '10' ? 'World' : regionsObj[regionCode]?.region_name
+                locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
             }));
             if(map){
                 if (clickId !== null){
@@ -236,7 +235,7 @@ const DataPage: NextPage = () => {
                 setClickId(null);
             }
         }
-    }, [countryCode]);
+    }, [countryCode, dataTranslate]);
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
@@ -550,11 +549,11 @@ const DataPage: NextPage = () => {
                                             style={{width: '145px'}}
                                             onClick={() => setShowCountries(true)}
                                         >
-                                            Search Country
+                                            {dataTranslate('search-country')}
                                         </Button>
                                     </Row>
                                 </Row>
-                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} elementUnit={elementsObj[elementId]?.UNIT} />
+                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} />
                             </Col>
                             <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                 {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
@@ -582,7 +581,7 @@ const DataPage: NextPage = () => {
                     </div>
                 </div>
             </Container>
-            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
         </Layout>
     )
 }
