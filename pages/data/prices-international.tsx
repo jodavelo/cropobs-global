@@ -26,9 +26,7 @@ import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
-const mapFilterElements = [1000, 5312, 5510];
-const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+
 //let clickId: string | number | null = null;
 
 interface sectionState {
@@ -37,7 +35,7 @@ interface sectionState {
 }
 
 const ProductionPage: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('data-prices-int');
+    const { t: dataTranslate } = useTranslation('data-prices');
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 300050,
         locationName: 'WORLD'
@@ -47,19 +45,6 @@ const ProductionPage: NextPage = () => {
         elementsObj: {},
         elementsOptions: { values: [], names: []}
     });
-    const { elementsObj, elementsOptions } = elementsState;
-    const [yearsState, setYears] = useState<YearsState>({ yearsOptions: {values: [], names: []}});
-    const { yearsOptions } = yearsState;
-    const [macroRegionsState, setMacroRegions] = useState<MacroRegionsState>({
-        macroRegionsObj: {},
-        macroRegionsOptions: { values: [], names: []}
-    });
-    const { macroRegionsOptions, macroRegionsObj } = macroRegionsState;
-    const [regionsState, setRegions] = useState<RegionsState>({
-        regionsObj: {},
-        regionsOptions: { values: [], names: []}
-    });
-    const { regionsOptions, regionsObj } = regionsState;
     const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
     const { map } = useContext( MapContext );
     const [chartTitle, setChartTitle] = useState<string>('');
@@ -73,8 +58,8 @@ const ProductionPage: NextPage = () => {
     
     useEffect(() => {
         if( buttonBoth ) {
-            setMapCol(6)
-            setGraphsCol(6)
+            setMapCol(5)
+            setGraphsCol(7)
             setShowMap(true)
             setShowGraphs(true)
         }
@@ -193,10 +178,6 @@ const ProductionPage: NextPage = () => {
         // if( width! < 991 ) setContentColumn('100%');
     })
 
-    useEffect(() => {
-        const charttitle = dataTranslate('chart1-title')
-        setChartTitle(`${charttitle} `);
-    }, [dataTranslate, chartTitle]);
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
@@ -228,7 +209,7 @@ const ProductionPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={`International Price - ${locationName}`}  >
+                                <MainBar key={ uuidv4() } section={` ${locationName}`}  >
                                     <BackButton regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
@@ -239,11 +220,11 @@ const ProductionPage: NextPage = () => {
                                 
                                 <MapViewPricesInt setIdCountry={setIdCountry}/>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>
-                                    <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
-                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios' /> 
-                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios'/>
-                                    <SourcesComponent sourcesText={''} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px', padding: '10px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px', padding: '10px' } : { display: 'none' } }  className={ `${ styles['no-margin'] } ` } >
+                                        <MainBar key={ uuidv4() } section={`International Price - ${locationName}`}  ></MainBar>
+                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={'Yearly International Benchmark Prices by cassava products'} description='Grafico de precios' /> 
+                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={'Monthly International Benchmark Prices by cassava products'} description='Grafico de precios'/>
+                                    <SourcesComponent sourcesText={'Data Sources:'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>
@@ -256,7 +237,7 @@ const ProductionPage: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...( await serverSideTranslations( locale!, ['data-prices-int'] ) ),
+            ...( await serverSideTranslations( locale!, ['data-prices'] ) ),
         }
     }
 }

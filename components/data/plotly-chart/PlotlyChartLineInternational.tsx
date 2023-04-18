@@ -69,17 +69,22 @@ export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, descri
     const data = pricesInternationalLineDataGenerator(predata)
 
     return (
-        <div>
+    <>
+        <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
             <Plot
+             /*  @ts-ignore// */
+                id={ id }
                 key={ uuidv4() }
                 data={ data }
                 layout={ layout }
             />
+         </div>
             <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
             {showModal ? (
         <ModalForm dataJson={[]} setShowModal={setShowModal}/>
         ) : null
         }
-        </div>
+       
+    </>
     );
 }

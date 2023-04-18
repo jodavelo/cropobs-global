@@ -76,6 +76,7 @@ const PricesPage: NextPage = () => {
     });
     const { elementsObj, elementsOptions } = elementsState;
     const [chartTitle, setChartTitle] = useState<string>('');
+    const [chartTitleLine, setChartTitleLine] = useState<string>('');
     const [idCountry, setIdCountry] = useState(0); 
     const [idGeoPoint, setIdGeoPoint] = useState(0);
     const { setSteps, setIsOpen } = useTour();
@@ -241,9 +242,16 @@ const PricesPage: NextPage = () => {
     useEffect(() => {
         if (elementsObj[elementId]) {
             const elementName = elementsObj[elementId].ELEMENT_EN;
-            setChartTitle(`Yearly ${elementName}`);
+            setChartTitle(`Yearly ${elementName} - ${locationName}`);
         }
-    }, [elementId, elementsObj]);
+    }, [elementId, elementsObj, locationName]);
+
+    useEffect(() => {
+        if (elementsObj[elementId]) {
+            const elementName = elementsObj[elementId].ELEMENT_EN;
+            setChartTitleLine(`Monthly ${elementName} - ${locationName}`);
+        }
+    }, [elementId, elementsObj, locationName]);
     
     useEffect(()=>{
         getPriceData(elementId);
@@ -296,7 +304,7 @@ const PricesPage: NextPage = () => {
                             </Col>
                             <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>                          
                                 <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Boxplot de precios '/>
-                                <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Grafico de precios'/>  
+                                <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitleLine} description='Grafico de precios'/>  
                                 <SourcesComponent sourcesText={'Data Sources:'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
