@@ -53,7 +53,14 @@ export const PlotlyChartLine: FC<Props> = ({ dataURL, title, description }) => {
     if(isLoading) return <div>Is loading ...</div>
 
     const layout = {
-        title:  title,
+        title:  {
+            text:`<b> ${title}`,
+            font: {
+                size: 14,
+                color: '#7a7a7a',
+                family: 'Montserrat,  sans-serif'
+            },
+        },
         yaxis: {
             title: 'SLC/kg',
             zeroline: true,
@@ -68,24 +75,26 @@ export const PlotlyChartLine: FC<Props> = ({ dataURL, title, description }) => {
     const data = pricesLineDataGenerator(predata[0], priceType)
 
     return (
-        <div>
-        <select value={priceType} onChange={(e) => setPriceType(e.target.value)}>
-          <option value="nominal">Current prices - SLC</option>
-          <option value="ipc">Constant prices - SLC</option>
-          <option value="usd">Current prices - USD</option>
-        </select>
-            <Plot
-             /*  @ts-ignore// */
-                id={ id }
-                key={ uuidv4() }
-                data={ data }
-                layout={ layout }
-            />
+        <>
+            <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
+                <select value={priceType} onChange={(e) => setPriceType(e.target.value)} style={{marginTop: '10px'}}>
+                <option value="nominal">Current prices - SLC</option>
+                <option value="ipc">Constant prices - SLC</option>
+                <option value="usd">Current prices - USD</option>
+                </select>
+                    <Plot
+                    /*  @ts-ignore// */
+                        id={ id }
+                        key={ uuidv4() }
+                        data={ data }
+                        layout={ layout }
+                    />
+            </div>
             <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
             {showModal ? (
-        <ModalForm dataJson={[]} setShowModal={setShowModal}/>
-        ) : null
-        }
-        </div>
+                <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+            ) : null
+            }
+        </>
     );
 }

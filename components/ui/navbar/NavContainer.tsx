@@ -21,6 +21,8 @@ export const NavContainer: FC<Props> = ({ expand }) => {
     const [productionValueText, setProductionValueText] = useState('');
     const [consumptionText, setConsumptionText] = useState('');
     const [pricesText, setPricesText] = useState('');
+    const [domesticPricesText, setDomesticPricesText] = useState('');
+    const [internationalPricesText, setInternationalPricesText] = useState('');
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -29,6 +31,8 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setProductionValueText('Production Value');
                 setConsumptionText('Consumption');
                 setPricesText('Prices');
+                setDomesticPricesText('Domestic Prices');
+                setInternationalPricesText('International Prices');
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
@@ -36,6 +40,8 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setProductionValueText('Valor de la producción');
                 setConsumptionText('Consumo');
                 setPricesText('Precios');
+                setDomesticPricesText('Precios Nacionales');
+                setInternationalPricesText('Precios Internacionales');
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
@@ -43,6 +49,8 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setProductionValueText('Valor da produção');
                 setConsumptionText('Consumo');
                 setPricesText('Preços');
+                setDomesticPricesText('Preços domésticos');
+                setInternationalPricesText('Preços internacionais');
                 break;
         }
     }, )
@@ -78,10 +86,13 @@ export const NavContainer: FC<Props> = ({ expand }) => {
             titleCategory: pricesText,
             menuOptions: [
                 {
-                    menuLabel: pricesText,
+                    menuLabel: domesticPricesText,
                     href: '/data/prices'
                 },
-                
+                {
+                    menuLabel: internationalPricesText,
+                    href: '/data/prices-international'
+                },
             ]
         },
         
