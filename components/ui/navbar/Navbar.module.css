@@ -2,6 +2,7 @@
 .spacingNavbarOptions {
     /* margin: 0px 4vw; */
     flex-basis: 78vw;
+    padding: 3px !important;
 }
 
 .spaceNavbarContainer {
@@ -86,7 +87,7 @@
     border: none;
     outline: none;
     color: rgb(28, 10, 10);
-    padding: 14px 16px;
+    /*padding: 14px 16px;*/
     background-color: inherit;
     font: inherit;
     margin: 0;

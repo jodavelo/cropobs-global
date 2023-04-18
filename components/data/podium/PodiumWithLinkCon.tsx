@@ -5,7 +5,7 @@ import download from 'downloadjs';
 import { toPng } from "html-to-image";
 import style from './podium.module.css';
 import { PodiumBarContainer } from './';
-import { podiumDataProcessTrans } from '../../../helpers/data/podium/podiumDataProcess';
+import { getColorByDataProcessed, podiumDataProcessTrans } from '../../../helpers/data/podium/podiumDataProcess';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
@@ -42,6 +42,7 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     if (isLoading) return <div>Loading...</div>
 
     const data = podiumDataProcessTrans(predata,locale as string);
+    const dataProcessed = getColorByDataProcessed( data );
     console.log(data);
 
     const getCropRank= (data: any[], cropNames : string[]): number => {
@@ -62,7 +63,7 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
                 <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval((text.replace('#{1}', getCropRank(data,["Beans, dry", "Beans"]).toString()))))}} className={ styles['podium-description'] }>
                 </div>
                 <div className={ styles['podium-body'] }>
-                    <PodiumBarContainer data={ data } />
+                    <PodiumBarContainer data={ dataProcessed } />
                 </div>
             </div>
             <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>

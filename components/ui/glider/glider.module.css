@@ -24,8 +24,9 @@
 }
 
 .slide {
-    height: 300px !important;
+    height: 120px !important;
     border: none;
+    margin: 0px 3px;
     /* border: 1px black solid; */
 }
 
@@ -37,7 +38,7 @@
     }
 
     .slide {
-        height: 20vh !important;
+        height: 30vh !important;
         /* border: 1px black solid; */
         
     }

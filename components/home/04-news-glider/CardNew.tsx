@@ -1,6 +1,3 @@
-
-
-
 import { FC } from 'react';
 import { useWindowSize } from '../../../hooks';
 import { News } from '../../../interfaces/home';
@@ -23,7 +20,7 @@ export const CardNew: FC<Props> = ({ news }) => {
             target="_blank"
             rel="noreferrer"
         >
-            <div>
+            <div className={styles['text-container']}>
                 <div className={ styles['news-date-text'] }>{ news.ago_text }</div>
                 <div className={ styles['news-title-text'] }>{ news.title }</div>
                 <div className={ styles['news-description-text'] }>{ news.description }</div>

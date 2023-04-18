@@ -34,5 +34,7 @@
     "chart2_2-y-axis-label": "Taxa de crescimento (%)",
     "chart2_2-info": "Este gráfico apresenta a evolução histórica das taxas de crescimento da produção, da área colhida e do rendimento da cultura de mandioca para a região selecionada. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual, e a média móvel de 10 anos dessa taxa. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança para os últimos dez anos.Você pode selecionar na legenda as variáveis que você deseja excluir da visualização.",
 
-    "sources-text": "Fontes:"
+    "sources-text": "Fontes:",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados"
 }

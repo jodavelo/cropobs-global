@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'next-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -524,6 +524,16 @@ const PVPage: NextPage = () => {
         // if( width! < 991 ) setContentColumn('100%');
     })
 
+    // --------------------------------------------------------------------------------------------------------------
+    // Local variables for translation
+    // --------------------------------------------------------------------------------------------------------------
+    const [mapGraphsText, setMapGraphsText] = useState('');
+    const [metadataText, setMetadataText] = useState('');
+    useEffect(() => {    
+        setMapGraphsText(dataTranslate('graphs_maps')!);
+        setMetadataText(dataTranslate('metadata')!);
+    }, )
+
     return (
         <Layout title={ dataTranslate('section-name') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
@@ -533,7 +543,7 @@ const PVPage: NextPage = () => {
                             <SidebarComponent isCollapsedProp={ isCollapsed }/>
                         </div>
                         <div className={ styles['sidebar-arrow-container'] }>
-                            <Button onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                            <Button id='btn-collapse-sidebar' onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                 {  
                                     isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
                                 }
@@ -549,47 +559,67 @@ const PVPage: NextPage = () => {
                             </Col>
                         </Row>
                         <Row className={ styles['padding-left-subcontainers'] }>
-                            <LeftSideMenuContainer/>
-                            <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
-                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
-                                        <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
-                                        <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                        <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
-                                    </Row>
-                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                        <Button
-                                            className={`${styles['search-country-button']}`}
-                                            style={{width: '145px'}}
-                                            onClick={() => setShowCountries(true)}
-                                        >
-                                            {dataTranslate('search-country')}
-                                        </Button>
-                                    </Row>
-                                </Row>
-                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} />
+                            <Col xs={ 12 } style={{ height: '50px', padding: '0' }}>
+                                <Tabs
+                                    defaultActiveKey="home"
+                                    id="uncontrolled-tab-example"
+                                >
+                                    <Tab eventKey="home" title={ mapGraphsText } tabClassName={styles.coloredTab}>
+                                        <Row style={{ paddingLeft: '12px' }}>
+                                            <LeftSideMenuContainer/>
+                                            <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                                <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }}>
+                                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
+                                                        <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                        <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                        <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                    </Row>
+                                                    <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
+                                                        <Button
+                                                            className={`${styles['search-country-button']}`}
+                                                            style={{width: '145px'}}
+                                                            onClick={() => setShowCountries(true)}
+                                                        >
+                                                            {dataTranslate('search-country')}
+                                                        </Button>
+                                                    </Row>
+                                                </Row>
+                                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} />
+                                            </Col>
+                                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px', width: '92%' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', width: '48%' } : { display: 'none' } }>
+                                                { percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig && dataFrame1 && x_labels && data1 && data2 && data3 && data4 ?
+                                                    <>
+                                                        <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description}/>
+                                                        <br></br>
+                                                        <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
+                                                        <br></br>
+                                                        <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                                                <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
+                                                            </div>
+                                                        </ChartFrame>
+                                                        <br></br>
+                                                        <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
+                                                            <div style={  showGraphs && !showMap ? {alignSelf: 'center'} : {} }>
+                                                                <ChartSelectionPV chartConfigList={chartConfig} />
+                                                            </div>
+                                                        </ChartFrame>
+                                                    </>
+                                                    :
+                                                    'Loading...'
+                                                }
+                                                <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                            </Col>
+                                        </Row>
+                                    </Tab>
+                                    <Tab eventKey="profile" title={metadataText} tabClassName={styles.coloredTab}>
+                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste porro vitae exercitationem cum corporis assumenda quae ducimus sunt, iusto officia qui error, facilis tempore autem? Cupiditate atque ut inventore voluptatum?
+                                    </Tab>
+                                    
+                                </Tabs>
                             </Col>
-                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                { percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig && dataFrame1 && x_labels && data1 && data2 && data3 && data4 ?
-                                    <>
-                                        <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description}/>
-                                        <br></br>
-                                        <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
-                                        <br></br>
-                                        <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                            <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
-                                        </ChartFrame>
-                                        <br></br>
-                                        <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
-                                            <ChartSelectionPV chartConfigList={chartConfig} />
-                                        </ChartFrame>
-                                    </>
-                                    :
-                                    'Loading...'
-                                }
-                                <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
-                            </Col>
+                            
                         </Row>
                     </div>
                 </div>

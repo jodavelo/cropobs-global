@@ -67,6 +67,7 @@
     "chart2-axis-y2":"Self-sufficiency ratio (%)",
     "chart2-toggle":"Toggle 2 english",
 
-    "sources-text": "Data sources:"
-
+    "sources-text": "Data sources:",
+    "graphs_maps": "Maps and Graphs",
+    "metadata": "Metadata"
 }

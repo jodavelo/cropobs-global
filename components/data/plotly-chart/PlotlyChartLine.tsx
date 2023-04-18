@@ -75,6 +75,8 @@ export const PlotlyChartLine: FC<Props> = ({ dataURL, title, description }) => {
           <option value="usd">Current prices - USD</option>
         </select>
             <Plot
+             /*  @ts-ignore// */
+                id={ id }
                 key={ uuidv4() }
                 data={ data }
                 layout={ layout }

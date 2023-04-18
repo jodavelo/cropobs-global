@@ -19,6 +19,10 @@ import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { ElementsData,SelectOptions } from '../../interfaces/data';
 import { GeoJsonProperties, Geometry } from 'geojson';
 import { SidebarComponent } from '../../components/ui/sidebar';
+import { useTour } from '@reactour/tour';
+import { general_data_steps, general_data_steps_prices } from '../../helpers/data/tour';
+import { getCookie, setCookie } from 'cookies-next';
+import { SourcesComponent } from '../../components/ui/sources-component';
 
 
 interface sectionState {
@@ -32,7 +36,7 @@ interface ElementsState {
 }
 
 const mapFilterElements = [300050, 300051, 300052];
-const baseURL = 'https://cassavalighthousetest.ciat.cgiar.org';
+const baseURL = 'https://cassavalighthouse.org';
 
 interface Feature {
     type: FeatureType;
@@ -70,7 +74,7 @@ const DataPage: NextPage = () => {
     const [chartTitle, setChartTitle] = useState<string>('');
     const [idCountry, setIdCountry] = useState(0); 
     const [idGeoPoint, setIdGeoPoint] = useState(0);
-   
+    const { setSteps, setIsOpen } = useTour();
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
@@ -158,6 +162,16 @@ const DataPage: NextPage = () => {
     useEffect(()=>{
         getPriceData(elementId);
     },[elementId])
+
+    useEffect(() => {
+        if ( !getCookie('prices_tour') ) {
+            if (setSteps) {
+                setSteps(general_data_steps_prices);
+                setCookie('prices_tour', true);
+                setIsOpen(true);
+            }
+        }
+    }, []);
     return (
         <Layout title={ dataTranslate('Prices') }>
             <Container fluid>
@@ -169,20 +183,21 @@ const DataPage: NextPage = () => {
                         <Container fluid className={ `${ styles['content-data'] } ${ styles['no-padding'] }` } >
                             <Row>
                                 <Col xs={ 12 }  className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={`Prices - ${locationName}`} ></MainBar>
+                                    <MainBar key={ uuidv4() } section={`National Price - ${locationName}`} ></MainBar>
                                 </Col>
                             <Row/>
                                 <LeftSideMenuContainer/>
                                 <Col xs={ 12 } lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative'  } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <Row style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '999', width: '100%', justifyContent: 'flex-end', gap: '5px', flexWrap: 'wrap' }} >
-                                        <MapSelectPrices setMapCol={setMapCol} setGraphsCol={setGraphsCol} setShowMap={setShowMap} setShowGraphs={setShowGraphs} options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>                                    
+                                    <Row  style={{ position: 'absolute', top: '10px', right: '20px', zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px' }} >
+                                        <MapSelectPrices id='element-filter'  options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>                                    
                                     </Row>
-                                        <MapViewPrices  setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
+                                        <MapViewPrices id='map-info' setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                                 </Col>
-                                <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>
                                  
                                     <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Boxplot de precios '/>
                                     <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Grafico de precios'/>
+                                    <SourcesComponent sourcesText={'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                 </Col>
                             </Row>                            
                         </Container>

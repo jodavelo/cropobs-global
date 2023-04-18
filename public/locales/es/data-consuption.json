@@ -67,6 +67,8 @@
     "chart2-axis-y2":"Coeficiente de auto-suficiencia (%)",
     "chart2-toggle":"Toggle 2 espanol",
 
-    "sources-text": "Fuentes:"
+    "sources-text": "Fuentes:",
+    "graphs_maps": "Mapas y Gráficos",
+    "metadata": "Metadatos"
 
 }

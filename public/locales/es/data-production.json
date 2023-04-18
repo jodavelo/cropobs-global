@@ -34,5 +34,7 @@
     "chart2_2-y-axis-label": "Tasa de crecimiento (%)",
     "chart2_2-info": "Este gráfico presenta la evolución histórica de las tasas de crecimiento de la producción, área cosechada, y rendimiento del cultivo de yuca para la región seleccionada. El filtro de la esquina superior derecha le permite cambiar la visualización entre la tasa de crecimiento interanual, y la media móvil de 10 años de dicha tasa. La tasa de crecimiento anual refleja el porcentaje de variación de la variable de interés con relación al año anterior, mientras que la media móvil expresa el promedio de esa variación para los últimos diez años.Podrás seleccionar en la leyenda aquellos variables que deseas excluir de la visualización.",
 
-    "sources-text": "Fuentes:"
+    "sources-text": "Fuentes:",
+    "graphs_maps": "Mapas y Gráficos",
+    "metadata": "Metadatos"
 }

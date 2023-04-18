@@ -1,13 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import dynamic from "next/dynamic"
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
-import { traceObject } from ".";
-import { useWindowSize } from '../../../hooks';
 import useSWR from 'swr';
-import { boxDataGenerator, dataFetcher, treeMapDataGenerator } from '../../../helpers/data';
-import { use } from 'i18next';
-import { DataButtons } from '../data-buttons';
+import { boxDataGenerator, dataFetcher } from '../../../helpers/data';
+import { DataButtons } from "../data-buttons/DataButtons";
+import { v4 as uuidv4 } from 'uuid';
 import { ModalForm } from "../modal-form";
 
 interface Props {
@@ -56,11 +52,10 @@ const data = [
     }
 ]
 
-export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description }) => {
-    const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
+export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description}) => {
+    const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false});
     const [priceType, setPriceType] = useState('nominal');
     const [showModal, setShowModal] = useState(false);
-    const id = uuidv4();
 
     const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
 
@@ -77,10 +72,11 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description }) => {
         autosize: true,
         boxmode: 'group',
         legend: {"orientation": "h"},
-        colorway: Object.values(chartColors)
+        colorway: Object.values(chartColors),
     };
 
     const data = boxDataGenerator(predata,  priceType);
+    const id = uuidv4();
 
 
     return (
@@ -90,8 +86,9 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description }) => {
         <option value="ipc">Constant prices - SLC</option>
         <option value="usd">Current prices - USD</option>
       </select>
-        <Plot
-            key={ uuidv4() }
+        <Plot 
+            /*  @ts-ignore// */
+            id={ id }
             data={ data }
             layout={ layout }
         />

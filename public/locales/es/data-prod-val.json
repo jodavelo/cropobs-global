@@ -41,5 +41,7 @@
     "chart22-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
     "chart22-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)",
 
-    "sources-text": "Fuentes:"
+    "sources-text": "Fuentes:",
+    "graphs_maps": "Mapas y Gráficos",
+    "metadata": "Metadatos"
 }

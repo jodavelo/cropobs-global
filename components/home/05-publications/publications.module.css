@@ -1,11 +1,15 @@
 
 .publications-container {
-    padding: 20px 1px;
+    padding: 40px 1px;
     background-color: rgb(218, 218, 218);
+    display: flex;
+    flex-direction: column;
 }
 
 .publications-section-title {
     font-size: 1.7rem;
+    margin-bottom: 5vh;
+    font-weight: bold;
 }
 
 .publication-container {
@@ -13,12 +17,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
-}
+    height: 33vh;
+    padding-top: 10px;
+}   
 
 .publication-img-container {
     width: 100%;
-    height: 80%;
+    /*height: 80%;*/
+    height: 15vh;
 }
 
 .publication-img {
@@ -32,12 +38,16 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    height: 20%;
-    padding: 30px 0px;
+    overflow: hidden;
+    height: auto;
+    /*padding: 30px 0px;*/
 }
 
 .title-card {
     font-size: 0.7rem;
+    height: 7vh;
+    overflow: hidden;
+    color: #54667a
 }
 
 .view-resource {
@@ -47,46 +57,67 @@
 }
 
 @media (max-width: 500px) and (min-width: 300px){
+    .publication-container{
+        justify-content: flex-start;
+    }
     .publication-img {
         object-fit: contain;
     }
     .title-card{
+        margin-top: 10px;
+        font-size: 0.8rem;
         text-align: center;
+    }
+    .card-body {
+        height: auto;
+        width: 60%;
     }
 }
 
 @media (max-width: 800px) and (min-width: 500px){
+    .publication-container{
+        justify-content: flex-start;
+    }
+
     .publication-img {
         object-fit: contain;
     }
 
     .title-card{
-        margin-top: 30px;
+        margin-top: 10px;
         font-size: 0.8rem;
         text-align: center;
+    }
+    .card-body {
+        height: auto;
+        width: 60%;
     }
     
 }
 
 @media (max-width: 1000px) and (min-width: 800px){
     .publications-container{
-        height: 50vh;
+        height: 60vh;
     }
     .publication-container{
-        padding: 10px;
+        justify-content: flex-start;
     }
     .publication-img {
         object-fit: contain;
     }
 
     .title-card{
-        margin-top: 50px;
+        margin-top: 10px;
         font-size: 0.8rem;
         text-align: center;
     }
     .publications-section-title {
         position: relative;
         left: calc(100vw - 89vw);
+    }
+    .card-body {
+        height: auto;
+        width: 60%;
     }
 }
 
@@ -97,23 +128,24 @@
     }
     
     .publications-container{
-        height: 50vh;
+        height: 60vh;
     }
     .publication-img {
         object-fit: contain;
     }
 
     .title-card{
-        margin-top: 50px;
+        margin-top: 10px;
         font-size: 0.8rem;
         text-align: center;
         padding: 0px 10px;
+        height: 10vh;
     }
     .publication-img-container{
-        height: 70%;
+        height: 15vh;
     }
     .card-body {
-        height: 30%;
+        height: auto;
     }
     
 }

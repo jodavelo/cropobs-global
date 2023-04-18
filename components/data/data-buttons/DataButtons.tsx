@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FC, useState } from 'react';
 import { saveAs } from 'file-saver';
 import domtoimage from 'dom-to-image';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 interface Props {
     text: string
@@ -35,7 +36,7 @@ export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {
                 className={ styles.button }
                 onClick={() => saveCanvas(elementID)}
             >
-                <DownloadIcon/>
+                <InsertPhotoIcon/>
             </Button>
             <Button
                 className={ styles.button }

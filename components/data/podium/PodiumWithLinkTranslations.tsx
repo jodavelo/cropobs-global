@@ -5,7 +5,7 @@ import download from 'downloadjs';
 import { toPng } from "html-to-image";
 import style from './podium.module.css';
 import { PodiumBarContainer } from './';
-import { podiumDataProcess } from '../../../helpers/data/podium/podiumDataProcess';
+import { getColorByDataProcessed, podiumDataProcess } from '../../../helpers/data/podium/podiumDataProcess';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
@@ -42,6 +42,7 @@ export const PodiumWithLinkTranslations: FC<Props> = ({ dataURL, text, descripti
     if (isLoading) return <div>Loading...</div>
 
     const data = podiumDataProcess(predata);
+    const dataProcessed = getColorByDataProcessed( data );
     const id = uuidv4();
     let finalText: string = '';
     
@@ -52,7 +53,7 @@ export const PodiumWithLinkTranslations: FC<Props> = ({ dataURL, text, descripti
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
                 <div className={ styles['podium-description'] } dangerouslySetInnerHTML={{__html: finalText}}/>
                 <div className={ styles['podium-body'] }>
-                    <PodiumBarContainer data={ data } />
+                    <PodiumBarContainer data={ dataProcessed } />
                 </div>
             </div>
             <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>

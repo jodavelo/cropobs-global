@@ -49,26 +49,27 @@ export const TabComponent = () =>  {
 
 
   return (
-    <Tabs  defaultActiveKey="MapsGraphs" transition={false}   className={ `${ styles['no-margin'] }  ${ styles['no-padding'] } ` }>
-      <Tab eventKey="MapsGraphs" title="Maps and Grpahs">
-        <Row>
-          <Col xs={ 12 } >
-              <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
-          </Col>
-          <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] }  ` }>
-              <MapView/>
-          </Col>
-          <Col xs={ 12 } xl={ 6 } style={{ height: '80vh' }}>
-            <Podium data={ data }></Podium>
-            <PercentContainer ></PercentContainer>
-          </Col>
-        </Row>
-      </Tab>
-      <Tab eventKey="Metadata" title="Metadata"  onClick={() => setOpen(open)}>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non praesentium, nesciunt sed ad pariatur minus officiis accusamus quos dolorum iusto repellendus possimus soluta earum tempore consequatur voluptatum in, quo perferendis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore commodi magni corporis soluta doloremque dolorem, dolorum dolores omnis blanditiis debitis sit, earum quaerat culpa, corrupti dicta voluptas nemo cumque asperiores.</p>
-      </Tab>
+    <></>
+    // <Tabs  defaultActiveKey="MapsGraphs" transition={false}   className={ `${ styles['no-margin'] }  ${ styles['no-padding'] } ` }>
+    //   <Tab eventKey="MapsGraphs" title="Maps and Grpahs">
+    //     <Row>
+    //       <Col xs={ 12 } >
+    //           <MainBar key={ uuidv4() } section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
+    //       </Col>
+    //       <Col xs={ 12 } xl={ 6 } className={ `${ styles['no-margin'] }  ` }>
+    //           <MapView/>
+    //       </Col>
+    //       <Col xs={ 12 } xl={ 6 } style={{ height: '80vh' }}>
+    //         <Podium data={ data }></Podium>
+    //         <PercentContainer ></PercentContainer>
+    //       </Col>
+    //     </Row>
+    //   </Tab>
+    //   <Tab eventKey="Metadata" title="Metadata"  onClick={() => setOpen(open)}>
+    //     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non praesentium, nesciunt sed ad pariatur minus officiis accusamus quos dolorum iusto repellendus possimus soluta earum tempore consequatur voluptatum in, quo perferendis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore commodi magni corporis soluta doloremque dolorem, dolorum dolores omnis blanditiis debitis sit, earum quaerat culpa, corrupti dicta voluptas nemo cumque asperiores.</p>
+    //   </Tab>
 
-    </Tabs>
+    // </Tabs>
   );
 }
 
