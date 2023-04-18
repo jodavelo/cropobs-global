@@ -570,6 +570,25 @@ const SurfaceContextPage: NextPage = () => {
                                         
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                            {
+                                                buttonGraphs ?
+                                                    <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
+                                                        <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
+                                                            <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                            <Button
+                                                                className={`${styles['search-country-button']}`}
+                                                                style={{width: '145px', lineHeight: '12px'}}
+                                                                onClick={() => setShowCountries(true)}
+                                                            >
+                                                                {searchCountryTextButton}
+                                                            </Button>
+                                                        </Row>
+                                                    </Row>
+                                                :
+                                                    <></>
+                                            }
                                             <PodiumWithLink 
                                                 dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/176/${ year }` } 
                                                 text1={ text1Podium } 

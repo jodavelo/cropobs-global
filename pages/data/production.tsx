@@ -457,6 +457,25 @@ const ProductionPage: NextPage = () => {
                                                 </Col>
                                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                     {
+                                                        buttonGraphs ?
+                                                        <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
+                                                            <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
+                                                                <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                                <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                                { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                                <Button
+                                                                    className={`${styles['search-country-button']}`}
+                                                                    style={{width: '145px', lineHeight: '12px'}}
+                                                                    onClick={() => setShowCountries(true)}
+                                                                >
+                                                                    {otherTexts?.search_country}
+                                                                </Button>
+                                                            </Row>
+                                                        </Row>
+                                                        :
+                                                            <></>
+                                                        }
+                                                    {
                                                             lineChartConfig ? 
                                                             <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
                                                             : 'Loading...'
