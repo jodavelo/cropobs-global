@@ -10,6 +10,8 @@ export interface LayoutState {
     isDataProductionValue: boolean;
     isDataConsumption: boolean;
     isDatabases: boolean;
+    isDataPrices: boolean;
+    isDataPricesInt: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
@@ -20,7 +22,9 @@ const LAYOUT_INITIAL_STATE: LayoutState = {
     isDataProduction: false,
     isDataProductionValue: false,
     isDataConsumption: false,
-    isDatabases: false
+    isDatabases: false,
+    isDataPrices: false,
+    isDataPricesInt: false
 }
 
 interface Props {
@@ -63,6 +67,14 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Databases', payload: settingIsDatabases });
     }
 
+    const setIsDataPrices = ( settingIsDataPrices: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Data Prices', payload: settingIsDataPrices });
+    }
+
+    const setIsDataPricesInt = ( settingIsDataPricesInt: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Data Prices Int', payload: settingIsDataPricesInt });
+    }
+
     return (
         <LayoutContext.Provider value={{
             ...state,
@@ -75,7 +87,9 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             setIsDataProduction,
             setIsDataProductionValue,
             setIsDataConsumption,
-            setIsDatabases
+            setIsDatabases,
+            setIsDataPrices,
+            setIsDataPricesInt
         }}>
             { children }
         </LayoutContext.Provider>

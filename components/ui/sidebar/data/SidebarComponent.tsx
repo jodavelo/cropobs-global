@@ -95,7 +95,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 <SubMenu icon={ <AgricultureIcon/> } label={productionText}>
                     <MenuItem onClick={ () => push('/data/surface-context') } > {surfaceContextText} </MenuItem>
                     <MenuItem onClick={ () => push('/data/production') } > {productionText} </MenuItem>
-                    <MenuItem onClick={ () => push('/data/prod_val') }> {productionValueText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/production-value') }> {productionValueText} </MenuItem>
                 </SubMenu>
                 {/* <SubMenu icon={ <AdjustIcon/> } label="Documentation">
                     <MenuItem icon={ <AccessAlarm/> }> Pie charts </MenuItem>

@@ -5,10 +5,11 @@ import download from 'downloadjs';
 import { toPng } from "html-to-image";
 import styles from './podium.module.css';
 import { PodiumBarContainer } from './';
-import { getColorByDataProcessed, podiumDataProcess, podiumDataProcessDownload } from '../../../helpers/data/podium/podiumDataProcess';
+import { getColorByDataProcessed, podiumDataProcess, podiumDataProcessDownload, podiumDataProcessTrans } from '../../../helpers/data/podium/podiumDataProcess';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/router';
 
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
 
 export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4, description='', currentYearSelected = 0 }) => {
 
+    const { locale } = useRouter();
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -41,7 +43,7 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
     if (error) return <div>Failed to load</div>
     if (isLoading) return <div>Loading...</div>
 
-    const data = podiumDataProcess(predata);
+    const data = podiumDataProcessTrans(predata, locale ?? 'en');
     const dataProcessed = getColorByDataProcessed( data );
     const dataToDownload = podiumDataProcessDownload( predata, currentYearSelected );
     const id = uuidv4();
