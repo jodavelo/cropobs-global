@@ -294,7 +294,7 @@ const PricesPage: NextPage = () => {
                                 </Row>
                                 <MapViewPrices id='map-info' setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>                          
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>                          
                                 <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Boxplot de precios '/>
                                 <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Grafico de precios'/>  
                                 <SourcesComponent sourcesText={'Data Sources:'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />

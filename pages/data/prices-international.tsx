@@ -239,7 +239,7 @@ const ProductionPage: NextPage = () => {
                                 
                                 <MapViewPricesInt setIdCountry={setIdCountry}/>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }>
                                     <MainBar key={ uuidv4() } section={`International Prices`}></MainBar>
                                         <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios' /> 
                                         <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios'/>

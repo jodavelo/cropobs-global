@@ -15,6 +15,7 @@
     "podium-title": "`<span class=${styles['podium-text-description']}><span class='${styles['year-text-bold']}'>Feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> cultivo mais importante em relação ao valor da produção no <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium-title1":"Feijão foi o ",
     "podium-title2":" cultivo mais importante em relação ao valor da produção im ",
+    "podium-info": "o pódio classifica as culturas de acordo com seu valor de produção anual",
 
     "porc1-label":"do valor da produção agrícola",
     "porc2-label":"do valor da produção de legumbres",
@@ -25,7 +26,7 @@
     "chart1-dataset3":"Culturas",
     "chart1-dataset4":"Agricultura",
     "chart1-axis-y":"Milhares de dólares (USD)",
-    "chart1-toggle":"Este gráfico apresenta a evolução histórica do valor da produção do feijão em milhares de dólares, em relação ao valor agregado da produção de leguminosas, culturas e agricultura em geral.Pode seleccionar na legenda as variáveis que pretende excluir da vista.",
+    "chart1-toggle":"Este gráfico apresenta a evolução histórica do valor da produção do feijão em milhares de dólares, em relação ao valor agregado da produção de leguminosas, culturas e agricultura em geral. Pode seleccionar na legenda as variáveis que pretende excluir da vista.",
 
     "chart2-opt1": "Crescimento anual",
     "chart2-opt2": "Média móvel de 10 anos",
@@ -34,7 +35,7 @@
     "chart21-dataset1":"Feijão, seco",
     "chart21-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
     "chart21-dataset3":"Produto Interno Bruto",
-    "chart2-toggle":"Este gráfico apresenta a evolução histórica das taxas de crescimento do valor da produção do feijão, do PIB e do PIB agrícola. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual e a média móvel de 10 anos da taxa de crescimento anual. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança durante os últimos dez anos.Você pode selecionar na legenda as variáveis que deseja excluir do visor",
+    "chart2-toggle":"Este gráfico apresenta a evolução histórica das taxas de crescimento do valor da produção do feijão, do PIB e do PIB agrícola. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual e a média móvel de 10 anos da taxa de crescimento anual. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança durante os últimos dez anos. Você pode selecionar na legenda as variáveis que deseja excluir do visor",
 
     "chart22-title":"Média móvel de 10 anos - #{}",
     "chart22-dataset1":"Feijão, seco",
