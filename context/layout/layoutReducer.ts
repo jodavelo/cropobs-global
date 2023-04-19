@@ -10,6 +10,9 @@ type LayoutActionType =
     | { type: '[Layout] - Set is Data - Consumption', payload: boolean}
     | { type: '[Layout] - Set is About Us', payload: boolean}
     | { type: '[Layout] - Set is Databases', payload: boolean}
+    | { type: '[Layout] - Set is setIsDataPrices', payload: boolean}
+    | { type: '[Layout] - Set is Data Prices', payload: boolean}
+    | { type: '[Layout] - Set is Data Prices Int', payload: boolean}
     // | { type: '[Layout] - Unenable is Home',  }
 
 export const layoutReducer = (state: LayoutState, action: LayoutActionType): LayoutState => {
@@ -55,6 +58,16 @@ export const layoutReducer = (state: LayoutState, action: LayoutActionType): Lay
                 return {
                     ...state,
                     isDatabases: action.payload
+                }
+            case '[Layout] - Set is Data Prices':
+                return {
+                    ...state,
+                    isDataPrices: action.payload
+                }
+            case '[Layout] - Set is Data Prices Int':
+                return {
+                    ...state,
+                    isDataPricesInt: action.payload
                 }
         // case '[Layout] - Unenable is Home':
         //     return {

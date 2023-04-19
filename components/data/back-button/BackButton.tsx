@@ -7,9 +7,10 @@ interface Props {
     countryCode: string
     setSectionState: Function
     worldCode?: string
+    resetPrices?: false
 }
 
-const changeAdmin = (regionCode: string, countryCode: string, setSectionState: Function, worldCode: string) => {
+const changeAdmin = (regionCode: string, countryCode: string, setSectionState: Function, worldCode: string, resetPrices: false) => {
     switch (true) {
         // When in World region and a country is already selected
         case (regionCode === worldCode && countryCode !== worldCode):
@@ -43,10 +44,10 @@ const changeAdmin = (regionCode: string, countryCode: string, setSectionState: F
     }
 }
 
-export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD' }) => {
+export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', resetPrices= false }) => {
     if (regionCode === countryCode && countryCode === worldCode) return <></>
     return (
-    <IconButton style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode)}>
+    <IconButton style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode, resetPrices)}>
         <ReplayIcon/>
     </IconButton>
     )

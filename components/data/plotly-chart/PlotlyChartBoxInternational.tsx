@@ -84,17 +84,21 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
 
     console.log(data);
     return (
-    <div>
-        <Plot
-            key={ uuidv4() }
-            data={ data }
-            layout={ layout }
-        />
-        <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
-        {showModal ? (
-        <ModalForm dataJson={[]} setShowModal={setShowModal}/>
-      ) : null
-      }
-    </div>
+    <>
+        <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
+    
+            <Plot 
+                /*  @ts-ignore// */
+                id={ id }
+                data={ data }
+                layout={ layout }
+            />
+        </div>
+            <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
+            {showModal ? (
+            <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+        ) : null
+        }
+    </>
     );
 }

@@ -106,7 +106,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 <MenuItem icon={<TrendingUpIcon/>} > {consumptionText} </MenuItem>
                 <SubMenu icon={ <AgricultureIcon/> } label={pricesText}>
                     <MenuItem onClick={ () => push('/data/prices') }> {domesticPricesText} </MenuItem>
-                    <MenuItem onClick={ () => push('/data/prices-international') }> {domesticPricesText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/prices-international') }> {internationalPricesText} </MenuItem>
                 </SubMenu>
             </Menu>
         </Sidebar>

@@ -4,61 +4,40 @@ import { LeftSideMenuContext } from '../../../context/map/leftsidemenu';
 import React, { FC, useContext, useEffect } from 'react';
 
 interface Props {
-    regionCode: string
-    countryCode: string
+    locationName: string
     setSectionState: Function
     worldCode?: string
 }
 
 
 
-export const BackButtonPrices: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD' }) => {
+export const BackButtonPrices: FC<Props> = ({ locationName, setSectionState, worldCode='World' }) => {
     const { activeMapButton } = useContext( LeftSideMenuContext );
-    const changeAdmin = (regionCode: string, countryCode: string, setSectionState: Function, worldCode: string) => {
+    const changeAdmin = ( locationName: string, setSectionState: Function, worldCode: string) => {
    
 
         switch (true) {
             // When in World region and a country is already selected
-            case (true):
+            case (locationName != worldCode):
                 setSectionState( (prevState: Record<string, any>) => ({
                     ...prevState,
-                    ["elementId"]: 300050
+                    ["elementId"]: 300050,
+                    locationName: worldCode
                 }));
                 activeMapButton()
-                break;
-            case (regionCode === worldCode && countryCode !== worldCode):
-                setSectionState( (prevState: Record<string, any>) => ({
-                    ...prevState,
-                    countryCode: worldCode
-                }));
-                break;
-            // When in a different region than World region and a country is not selected
-            case (regionCode !== worldCode && countryCode === regionCode):
-                setSectionState( (prevState: Record<string, any>) => ({
-                    ...prevState,
-                    macroRegionCode: 10,
-                    countryCode: worldCode,
-                    regionCode: worldCode
-                }));
-                break;
-            // When in a different region than World region and a country is selected
-            case (regionCode !== worldCode && countryCode !== regionCode):
-                setSectionState( (prevState: Record<string, any>) => ({
-                    ...prevState,
-                    countryCode: regionCode
-                }));
                 break;
             default:
                 setSectionState( (prevState: Record<string, any>) => ({
                     ...prevState,
-                    countryCode: worldCode,
-                    regionCode: worldCode
+                    ["elementId"]: 300050,
+                    ["locarionName"]: 'World'
                 }));
+                activeMapButton()
         }
     }
-    if (regionCode === countryCode && countryCode === worldCode) return <></>
+    if ( locationName === worldCode) return <></>
     return (
-    <IconButton style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode)}>
+    <IconButton style={{color: 'white'}} onClick={() => changeAdmin( locationName, setSectionState, worldCode)}>
         <ReplayIcon/>
     </IconButton>
     )

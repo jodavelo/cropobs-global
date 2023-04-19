@@ -42,7 +42,7 @@ export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {
                 className={ styles.button }
                 onClick={ () => setShowModal(true) }
             >
-                <DescriptionIcon/>
+                <DownloadIcon/>
             </Button>
         </div>
         <Collapse in={ isOpen }>
