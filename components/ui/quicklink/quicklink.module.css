@@ -8,7 +8,7 @@
     height: 40vh;
     margin-bottom: 3vh;
     cursor: pointer;
-    opacity: .8;
+    /*opacity: .8;*/
     align-items: center;
 }
 .quick-link-container:hover img{
