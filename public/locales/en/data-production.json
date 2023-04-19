@@ -36,5 +36,15 @@
 
     "sources-text": "Data Sources:",
     "graphs_maps": "Maps and Graphs",
-    "metadata": "Metadata"
+    "metadata": "Metadata",
+    "metadata_text1_beans": "This section includes information to a national level for 67 countries. In addition, you could find the information for four regions (Tropical, Latin American and The Caribbean, Sub-Saharan Africa, and South, South-East Asia, and Pacific).",
+    "metadata_text2_beans": "These are the available indicators",
+    "harvested_area": "Harvested area",
+    "harvested_area_description": "Common bean harvested area in hectares.",
+    "production": "Production",
+    "production_description": "Common bean harvest in tonnes.",
+    "yield": "Yield",
+    "yield_description": "Expressed yield in tonnes per hectares",
+    "references": "References",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
 }

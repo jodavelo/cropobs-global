@@ -397,9 +397,31 @@ const ProductionPage: NextPage = () => {
     // --------------------------------------------------------------------------------------------------------------
     const [mapGraphsText, setMapGraphsText] = useState('');
     const [metadataText, setMetadataText] = useState('');
+    const [metadataText1, setMetadataText1] = useState('');
+    const [metadataText2, setMetadataText2] = useState('');
+    const [metadataText3, setMetadataText3] = useState('');
+    const [metadataText4, setMetadataText4] = useState('');
+    const [metadataText5, setMetadataText5] = useState('');
+    const [metadataText6, setMetadataText6] = useState('');
+    const [metadataText7, setMetadataText7] = useState('');
+    const [metadataText8, setMetadataText8] = useState('');
+    const [metadataText9, setMetadataText9] = useState('');
+    const [metadataText10, setMetadataText10] = useState('');
+    const [metadataText11, setMetadataText11] = useState('');
+    const [metadataText12, setMetadataText12] = useState('');
     useEffect(() => {
         setMapGraphsText(dataTranslate('graphs_maps')!);
         setMetadataText(dataTranslate('metadata')!);
+        setMetadataText1(dataTranslate('metadata_text1_beans')!);
+        setMetadataText2(dataTranslate('metadata_text2_beans')!);
+        setMetadataText3(dataTranslate('harvested_area')!);
+        setMetadataText4(dataTranslate('harvested_area_description')!);
+        setMetadataText5(dataTranslate('production')!);
+        setMetadataText6(dataTranslate('production_description')!);
+        setMetadataText7(dataTranslate('yield')!);
+        setMetadataText8(dataTranslate('yield_description')!);
+        setMetadataText9(dataTranslate('references')!);
+        setMetadataText10(dataTranslate('faotext')!);
     }, )
 
     return (
@@ -497,7 +519,17 @@ const ProductionPage: NextPage = () => {
                                             </Row>
                                         </Tab>
                                         <Tab eventKey="profile" title={metadataText} tabClassName={styles.coloredTab}>
-                                           Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat expedita deserunt, aperiam odio voluptate doloremque velit ex rem? Tempore itaque expedita, nisi ipsum recusandae officiis! Alias beatae inventore ullam dolore!
+                                           <p>
+                                               { metadataText1 }         
+                                           </p>
+                                           <p>{ metadataText2 }</p>
+                                           <ol type='a'>
+                                                <li><span className={ styles['text-strong'] }>{ metadataText3 }</span>: { metadataText4 }</li>
+                                                <li><span className={ styles['text-strong'] }>{ metadataText5 }</span>: { metadataText6 }</li>
+                                                <li><span className={ styles['text-strong'] }>{ metadataText7 }</span>: { metadataText8 }</li>
+                                           </ol>
+                                           <p className={ styles['text-strong'] }>{ metadataText9 }:</p>
+                                           <ul><li>{ metadataText10 } <span><a href="http://www.fao.org/faostat/en/#data">http://www.fao.org/faostat/en/#data</a></span></li></ul>
                                         </Tab>
                                         
                                     </Tabs>

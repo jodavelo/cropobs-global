@@ -43,5 +43,16 @@
 
     "sources-text": "Fuentes:",
     "graphs_maps": "Mapas y Gráficos",
-    "metadata": "Metadatos"
+    "metadata": "Metadatos",
+    "metadata_text1_beans": "En esta sección se incluyen indicadores económicos que reflejan la importancia del fríjol común en comparación al valor de producción para 68 países. Se pueden encontrar datos en valor nominal en la moneda local y dólares.",
+    "metadata_text2_beans": "Estos son los indicadores disponibles",
+    "metadata_text3_beans": "Valor de producción para fríjol común comparado con el valor de producción para el total de cultivos",
+    "metadata_text4_beans": "Refleja el valor de producción estimado del fríjol común sobre el valor agregado del total de cultivos.",
+    "metadata_text5_beans": "Valor de producción del fríjol común comparado con el valor de producción en la agricultura",
+    "metadata_text6_beans": "Refleja el valor neto de producción estimado para el fríjol común sobre el valor agregado de la agricultura. Incluye valores de producción animal.",
+    "metadata_text7_beans": "Referencias",
+    "metadata_text8_beans": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "metadata_text9_beans": "Variables",
+    "metadata_text10_beans": "Valor de producción-Valor de producción neto (Miles de SLC actuales)",
+    "metadata_text11_beans": "Valor neto de producción (Miles de US$ actuales)"
 }

@@ -474,6 +474,21 @@ const SurfaceContextPage: NextPage = () => {
     const [moreInfoChart2_2, setMoreInfoChart2_2] = useState('');
     const [localeFilterElement, setLocaleFilterElement] = useState('');
     const [locationText, setLocationText] = useState('');
+    const [metadataText1, setMetadataText1] = useState('');
+    const [metadataText2, setMetadataText2] = useState('');
+    const [metadataText3, setMetadataText3] = useState('');
+    const [metadataText4, setMetadataText4] = useState('');
+    const [metadataText5, setMetadataText5] = useState('');
+    const [metadataText6, setMetadataText6] = useState('');
+    const [metadataText7, setMetadataText7] = useState('');
+    const [metadataText8, setMetadataText8] = useState('');
+    const [metadataText9, setMetadataText9] = useState('');
+    const [metadataText10, setMetadataText10] = useState('');
+    const [metadataText11, setMetadataText11] = useState('');
+    const [metadataText12, setMetadataText12] = useState('');
+    const [metadataText13, setMetadataText13] = useState('');
+    const [metadataText14, setMetadataText14] = useState('');
+    const [metadataText15, setMetadataText15] = useState('');
 
     useEffect(() => {
         setTitlePage(dataTranslate('title-header')!);
@@ -504,7 +519,21 @@ const SurfaceContextPage: NextPage = () => {
         setMoreInfoChart1(dataTranslate('harvested_area_in_relation_to_other_crops_beans')!);
         setMoreInfoChart2_1(dataTranslate('harvested_area_in_relation_to_other_keywork_beans_1')!);
         setMoreInfoChart2_2(dataTranslate('harvested_area_in_relation_to_other_keywork_beans_2')!);
-        setLocaleFilterElement(dataTranslate('LOCALE_FILTER_ELEMENT')!);
+        setMetadataText1(dataTranslate('metadata_text1_beans')!);
+        setMetadataText2(dataTranslate('metadata_text2_beans')!);
+        setMetadataText3(dataTranslate('text1_1_list_beans')!);
+        setMetadataText4(dataTranslate('text1_2_list_beans')!);
+        setMetadataText5(dataTranslate('text2_1_list_beans')!);
+        setMetadataText6(dataTranslate('text2_2_list_beans')!);
+        setMetadataText7(dataTranslate('text3_1_list_beans')!);
+        setMetadataText8(dataTranslate('text3_2_list_beans')!);
+        setMetadataText9(dataTranslate('note')!);
+        setMetadataText10(dataTranslate('metadata_text3_beans')!);
+        setMetadataText11(dataTranslate('references')!);
+        setMetadataText12(dataTranslate('faotext')!);
+        setMetadataText13(dataTranslate('variables')!);
+        setMetadataText14(dataTranslate('text4_1_list_beans')!);
+        setMetadataText15(dataTranslate('text4_2_list_beans')!);
         setLocationText(locationName);
     }, [dataTranslate, locationName])
     
@@ -620,7 +649,25 @@ const SurfaceContextPage: NextPage = () => {
                                     
                                 </Tab>
                                 <Tab eventKey="profile" title={metadataText} tabClassName={styles.coloredTab}>
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum architecto nemo maiores provident earum dicta tempora porro obcaecati. Cum voluptas ducimus quod, assumenda nesciunt tempora molestiae expedita repellendus nulla vel?
+                                    <p>
+                                        { metadataText1 }
+                                    </p>
+                                    <p>{ metadataText2 }</p>
+                                    <ol type='a'>
+                                        <li><span className={ styles['text-strong'] }>{ metadataText3 } </span>: { metadataText4 }</li>
+                                        <li><span className={ styles['text-strong'] }>{ metadataText5 } </span>: { metadataText6 }</li>
+                                        <li><span className={ styles['text-strong'] }>{ metadataText7 } </span>: { metadataText8 }</li>
+                                    </ol>
+                                    <p><span className={ styles['text-strong'] }>{ metadataText9 }: </span>{ metadataText10 }</p>
+                                    <p className={ styles['text-strong'] }>{ metadataText11 }</p>
+                                    <ul>
+                                        <li>{ metadataText12 } <a href="http://www.fao.org/faostat/en/#data">http://www.fao.org/faostat/en/#data</a></li>
+                                    </ul>
+                                    <p className={ styles['text-strong'] }>{ metadataText13 }</p>
+                                    <ul >
+                                        <li>{ metadataText14 }</li>
+                                        <li>{ metadataText15 }</li>
+                                    </ul>
                                 </Tab>
                             </Tabs>
                             </Col>

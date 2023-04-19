@@ -33,5 +33,20 @@
     "more_info_podium_beans": "o pódio classifica as culturas de acordo com o valor colhido anualmente",
     "harvested_area_in_relation_to_other_crops_beans": "Este gráfico apresenta a proporção da área colhida de feijão em relação à área colhida de outras leguminosas, e outros grupos de culturas. Quanto maior for a área vermelha em relação às outras cores, maior será a proporção de feijão em relação à área colhida com outros grupos de culturas. O filtro no canto superior direito permite alterar o tipo de gráfico, para que a informação seja apresentada em valores absolutos (número de hectares colhidos), ou em proporções (% da área total).  As categorias representam os diferentes tipos de culturas cultivadas na região seleccionada e o seu agregado é equivalente à área total cultivada. Poderá seleccionar na legenda as culturas que deseja excluir da visualização.",
     "harvested_area_in_relation_to_other_keywork_beans_1": "Este gráfico apresenta a proporção da área colhida de feijão em relação à área colhida de outras leguminosas. Quanto maior for a área da cor vermelha em relação às outras cores, maior será a proporção de cultivo de feijão em relação à área colhida com outras leguminosas. O filtro no canto superior direito permite alterar o tipo de gráfico para que a informação seja apresentada em valores absolutos (número de hectares colhidos), ou em proporções (% da área total).",
-    "harvested_area_in_relation_to_other_keywork_beans_2": "As categorias representam os diferentes tipos de leguminosas cultivados na região seleccionada e o seu agregado é equivalente à área total cultivada com leguminosas. Pode seleccionar na legenda as culturas que deseja excluir da visualização."
+    "harvested_area_in_relation_to_other_keywork_beans_2": "As categorias representam os diferentes tipos de leguminosas cultivados na região seleccionada e o seu agregado é equivalente à área total cultivada com leguminosas. Pode seleccionar na legenda as culturas que deseja excluir da visualização.",
+    "metadata_text1_beans": "Esta secção inclui indicadores que reflectem a importância do cultivo de feijão comum em comparação com a área total de culturas e leguminosas colhidas em 67 países e quatro regiões (Tropical, América Latina e Caraíbas, África Subsaariana, e Ásia do Sul e Sudeste Asiático e Pacífico).",
+    "metadata_text2_beans": "Estes são os indicadores disponíveis",
+    "text1_1_list_beans": "Posição da cultura de acordo com a área colhida",
+    "text1_2_list_beans": "Indica a posição original do feijão comum em comparação com a área colhida para outras culturas.",
+    "text2_1_list_beans": "Área de feijão comum em comparação com o total de culturas",
+    "text2_2_list_beans": "Reflecte a área colhida de feijão comum sobre a área total da cultura.",
+    "text3_1_list_beans": "Área comum comparada com a área das leguminosas",
+    "text3_2_list_beans": "Reflecte a área colhida de feijão comum como uma proporção da área colhida de leguminosas.",
+    "note": "Annotação",
+    "metadata_text3_beans": "Dados a nível regional para cada um dos países para os quais a informação está disponível.",
+    "references": "Referências",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "variables": "Variáveis",
+    "text4_1_list_beans": "Inputs-Land use-Cropland.",
+    "text4_2_list_beans": "Área de Produção-Crops-Harvested (feijão-legumes)."
 }

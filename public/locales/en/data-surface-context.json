@@ -33,5 +33,20 @@
     "more_info_podium_beans": "The podium ranks crops according to their yearly harvested area.",
     "harvested_area_in_relation_to_other_crops_beans": "This graph presents the proportion of beans harvested area in relation to the harvested area of other pulses, and other crop groups. The larger the red area in relation to the other colors, the greater the share of beans in relation to the area harvested with other crop groups. The filter in the upper right corner allows changing the type of graph, so that the information is displayed in absolute values (number of hectares harvested), or in proportions (% of total area). The categories represent the different types of crops grown in the selected region and their aggregate is equivalent to the total cultivated area. You will be able to select in the legend those crops you wish to exclude from the visualization.",
     "harvested_area_in_relation_to_other_keywork_beans_1": "This graph presents the proportion of beans harvested area in relation to the harvested area of other pulses. The larger the red area in relation to the other colors, the greater the share of beans in relation to the area harvested with other pulses. The filter in the upper right corner allows changing the type of graph so that the information is observed in absolute values (number of hectares harvested), or in proportions (% of total area).",
-    "harvested_area_in_relation_to_other_keywork_beans_2": "The categories represent the different types of pulses grown in the selected region and their aggregate is equivalent to the total area cultivated with pulses. You can select in the legend those crops that you wish to exclude from the visualization. "
+    "harvested_area_in_relation_to_other_keywork_beans_2": "The categories represent the different types of pulses grown in the selected region and their aggregate is equivalent to the total area cultivated with pulses. You can select in the legend those crops that you wish to exclude from the visualization. ",
+    "metadata_text1_beans": "This section includes indicators that reflect the importance of the common bean crop compare to the cropland and the pulses harvested area for 67 countries and four regions (Tropical, Latin American and The Caribbean, Sub-Saharan Africa, and South, South-East Asia, and Pacific).",
+    "metadata_text2_beans": "These are the available indicators",
+    "text1_1_list_beans": "Crop position according to the harvested area",
+    "text1_2_list_beans": "Indicates the ordinal position for the common bean compare to the harvested area of others crops.",
+    "text2_1_list_beans": "Common bean area compared to cropland",
+    "text2_2_list_beans": "Reflects common bean harvested area proportion over the total cropland area.",
+    "text3_1_list_beans": "Common area compared to pulses area",
+    "text3_2_list_beans": "Reflects common bean harvested area proportion over the pulses area.",
+    "note": "Note",
+    "metadata_text3_beans": "Regional level reported data corresponds to the aggregation of countries with available information.",
+    "references": "References",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "variables": "Variables",
+    "text4_1_list_beans": "Inputs-Land use-Cropland.",
+    "text4_2_list_beans": "Production-Crops-Harvested area (beans-pulses)."
 }

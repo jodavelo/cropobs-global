@@ -36,5 +36,15 @@
 
     "sources-text": "Fontes:",
     "graphs_maps": "Mapas e Gráficos",
-    "metadata": "Metadados"
+    "metadata": "Metadados",
+    "metadata_text1_beans": "Esta secção inclui informação a nível de país para 67 países. Além disso, pode ser encontrada informação para quatro regiões (tropical, América Latina e Caraíbas, África Subsaariana, Sul e Sudeste Asiático e Pacífico).",
+    "metadata_text2_beans": "Estes são os indicadores disponíveis",
+    "harvested_area": "Área colhida",
+    "harvested_area_description": "Área colhida de feijão comum em hectares",
+    "production": "Produção",
+    "production_description": "Área colhida de feijão comum em toneladas.",
+    "yield": "Rendimento",
+    "yield_description": "Rendimento expresso em toneladas por hectare",
+    "references": "Referências",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
 }
