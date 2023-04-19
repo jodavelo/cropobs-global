@@ -15,11 +15,14 @@
     "podium1-title": "`<span class=${styles['podium-text-description']}>O <span class=${styles['year-text-bold']}>feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> alimento mais importante em termos de sua contribuição calórica para a dieta em <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"O feijao foi o ",
     "podium1-title2":" alimento mais importante em termos de sua contribuição calorica para a dieta em ",
+    "podium1-info": "O pódio classifica as rações de acordo com sua contribuição calórica por hectare. Este indicador é estimado utilizando o rendimento médio da ração em sua forma de cultivo e a contribuição calórica média da ração por unidade de massa. ",
     "podium2-title": "`<span class=${styles['podium-text-description']}>O <span class=${styles['year-text-bold']}>feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> alimento mais importante em termos de sua contribuição proteica para a dieta em <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"O feijao foi o ",
     "podium2-title2":" alimento mais importante em termos de sua contribuição proteica para a dieta em ",
+    "podium2-info": "O pódio classifica as rações de acordo com sua contribuição protéica por unidade de massa. Este indicador é estimado com base nas gramas de proteína contidas em 1 kg de ração.",
     "podium3-title": "`<span class=${styles['podium-text-description']}>O <span class=${styles['year-text-bold']}>feijão</span> foi a cultura <span class=${styles['text-bold']}>#{1}</span> classificada em número de calorías produzidas por hectare em <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"O feijao foi o ",
+    "podium3-info": "O pódio classifica os alimentos de acordo com sua contribuição protéica por unidade de massa. Este indicador é estimado a partir das gramas de proteína contidas em 1 quilo de alimento.",
     "podium3-title2":" cultura x classificada em número de calorias produzidas por hectare em ",
     
     "podium-option1":"Contribuição calórica",
@@ -54,9 +57,10 @@
     "chart1-dataset6":"Pérdas",
     "chart1-axis-y":"Quantidade (Milhares de toneladas)",
     "chart1-axis-y2":"Consumo per cápita (kg/habitante/ano)",
-    "chart1-toggle":"Toggle 1 pt",
+    "chart1-toggle":"Este gráfico apresenta uma série anual da composição da oferta do feijão e do consumo per capita. A oferta representa a quantidade do feijão produzido, menos (-) as exportações, mais as importações. A alocação da oferta doméstica do feijão é composta do feijão para alimentação, sementes, ração animal, processamento, perdas e outros usos. O consumo per capita é a quantidade anual do feijão consumido por habitante. As categorias representam as variáveis que compõem o fornecimento do feijão e o consumo per capita. Você pode selecionar na legenda as variáveis que deseja excluir da exibição.",
 
     "porc5-label":"Relação de auto-suficiência",
+    "porc5-info": "Porcentagem da demanda doméstica suprida pela produção doméstica. Igual à razão produção mais variações de estoque dividida por, produção mais variações de estoque, mais importações, menos exportações.",
     
     "chart2-title":"Comercio y suficiencia del frijol - #{}",
     "chart2-dataset1":"Relação de auto-suficiência",
@@ -65,7 +69,7 @@
     "chart2-dataset4":"Importaciones",
     "chart2-axis-y":"Quantidade (Milhares de toneladas)",
     "chart2-axis-y2":"Relação de auto-suficiência (%)",
-    "chart2-toggle":"Toggle 2 pt",
+    "chart2-toggle":"Este gráfico apresenta a evolução histórica da composição da oferta de feijão disponível para consumo interno, em contraste com a produção destinada à exportação. Apresenta também a evolução histórica do coeficiente de auto-suficiência.",
 
     "sources-text": "Fontes:",
     "graphs_maps": "Mapas e Gráficos",

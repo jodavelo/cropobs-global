@@ -277,19 +277,19 @@ const DataPage: NextPage = () => {
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '1' : '4'}/2546/${year}`,
             text:  dataTranslate('podium1-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option1'),
-            description: '',
+            description: dataTranslate('podium1-info'),
         },
         {
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '16' : '20'}/2546/${year}`,
             text:  dataTranslate('podium2-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option2'),
-            description: '',
+            description: dataTranslate('podium2-info'),
         },
         {
             url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '2' : '5'}/2546/${year}`,
             text:  dataTranslate('podium3-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option3'),
-            description: '',
+            description: dataTranslate('podium3-info'),
         },
     ];
 
@@ -571,7 +571,7 @@ const DataPage: NextPage = () => {
                                                 </Row>
                                                 <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} />
                                             </Col>
-                                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                 {
                                                     buttonGraphs ?
                                                         <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>

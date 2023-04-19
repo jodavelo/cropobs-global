@@ -15,12 +15,15 @@
     "podium1-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución calórica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"Los frijoles fueron el ",
     "podium1-title2":" alimento más importante en cuanto a su contribución calórica a la dieta en ",
+    "podium1-info": "El podio ordena los alimentos según su contribución calórica por hectárea. Este indicador se estima utilizando el rendimiento promedio del alimento en su forma de cultivo y el aporte calórico promedio del alimento por unidad de masa. ",
     "podium2-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución proteica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Los frijoles fueron el ",
     "podium2-title2":" alimento más importante en cuanto a su contribución proteica a la dieta en ",
+    "podium2-info": "El podio ordena los alimentos según su contribución protéica por unidad de masa. Este indicador se estima a partir de los gramos de proteínca contenidos en un 1 kilogramo de alimento.",
     "podium3-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en número de calorías producidas por hectárea en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Los frijoles fueron el ",
     "podium3-title2":" cultivo más importante en número de calorías producidas por hectárea en ",
+    "podium3-info": "El podio ordena los alimentos según su contribución protéica por unidad de masa. Este indicador se estima a partir de los gramos de proteínca contenidos en un 1 kilogramo de alimento.",
     
     "podium-option1":"Aporte calórico",
     "podium-option2":"Aporte protéico",
@@ -54,9 +57,10 @@
     "chart1-dataset6":"Pérdidas",
     "chart1-axis-y":"Cantidad (Miles de toneladas)",
     "chart1-axis-y2":"Consumo per cápita (kg/habitante/año)",
-    "chart1-toggle":"Toggle 1 espanol",
+    "chart1-toggle":"Este gráfico presenta una serie anual de la composición de la oferta de frijoles y del consumo per cápita. La oferta representa la cantidad de frijol producida, menos (-) las exportaciones, más las importaciones. La asignación de la oferta de frijol nacional se compone de frijol para alimentación, semillas, piensos, transformación, pérdidas y otros usos. El consumo per cápita es la cantidad anual de frijol consumida por habitante. Las categorías representan las variables que componen la oferta de frijol y el consumo per cápita. Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
 
     "porc5-label":"Coeficiente de auto-suficiencia",
+    "porc5-info": "Porcentaje de la demanda interna abastecida por la producción interna. Equivale a la relación entre la producción más las variaciones de existencias dividida por, la producción más las variaciones de existencias, más las importaciones, menos las exportaciones.",
     
     "chart2-title":"Comercio y suficiencia del frijol - #{}",
     "chart2-dataset1":"Coeficiente de auto-suficiencia",
@@ -65,7 +69,7 @@
     "chart2-dataset4":"Importaciones",
     "chart2-axis-y":"Cantidad (Miles de toneladas)",
     "chart2-axis-y2":"Coeficiente de auto-suficiencia (%)",
-    "chart2-toggle":"Toggle 2 espanol",
+    "chart2-toggle":"Este gráfico presenta la evolución histórica de la composición de la oferta de frijol disponible para consumo doméstico en contraste con la producción destinada a la exportación. Además, presenta la evolución histórica del coeficiente de autosuficiencia.",
 
     "sources-text": "Fuentes:",
     "graphs_maps": "Mapas y Gráficos",

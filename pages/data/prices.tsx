@@ -56,6 +56,15 @@ enum FeatureType {
 interface marker {
     priceDataGeopoint: Feature
 }
+
+interface OtherTexts {
+    section_name: string
+    section_text: string
+    chart1_info: string
+    sources_text: string
+    search_country: string
+    element_locale: string
+}
 const mapFilterElements = [300050, 300051, 300052];
 const baseURL = 'https://cassavalighthouse.org';
 let clickId: string | number | null = null;
@@ -76,6 +85,7 @@ const PricesPage: NextPage = () => {
     });
     const { elementsObj, elementsOptions } = elementsState;
     const [chartTitle, setChartTitle] = useState<string>('');
+    const [otherTexts, setOtherTexts] = useState<OtherTexts | undefined>(undefined);
     const [chartTitleLine, setChartTitleLine] = useState<string>('');
     const [idCountry, setIdCountry] = useState(0); 
     const [idGeoPoint, setIdGeoPoint] = useState(0);
@@ -159,7 +169,7 @@ const PricesPage: NextPage = () => {
                 elementsOptions: generateElementsOptions(elementsData, variableByLocale, mapFilterElements)
             });
         }
-    }, [isLoadingElements]);
+    }, [isLoadingElements, locale]);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
@@ -253,6 +263,12 @@ const PricesPage: NextPage = () => {
             setChartTitleLine(`Monthly ${elementName} - ${locationName}`);
         }
     }, [elementId, elementsObj, locationName]);
+
+    useEffect(() => {
+        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
+        
+    }, [dataTranslate, locationName]);
+
     
     useEffect(()=>{
         getPriceData(elementId);
@@ -270,7 +286,7 @@ const PricesPage: NextPage = () => {
     }, []);
     
     return (
-        <Layout title={ dataTranslate('section-name') }>
+        <Layout title={ otherTexts ? otherTexts.section_name : 'Loading...' }>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -288,7 +304,7 @@ const PricesPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}  >
+                                <MainBar key={ uuidv4() } section={otherTexts ? otherTexts.section_text : 'Loading...'}  >
                                     <BackButtonPrices   locationName={locationName} setSectionState={setSectionState}/>
                                 </MainBar>
                             </Col>
@@ -303,7 +319,7 @@ const PricesPage: NextPage = () => {
                                 </Row>
                                 <MapViewPrices id='map-info' setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }> 
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }> 
                                 {
                                     buttonGraphs ?
                                     <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
@@ -316,7 +332,7 @@ const PricesPage: NextPage = () => {
                                 }                         
                                 <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitle} description='Boxplot de precios '/>
                                 <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={chartTitleLine} description='Grafico de precios'/>  
-                                <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>

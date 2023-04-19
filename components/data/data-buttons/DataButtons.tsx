@@ -46,7 +46,7 @@ export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {
             </Button>
         </div>
         <Collapse in={ isOpen }>
-            <div id={ uuidv4() } key={ uuidv4() }>
+            <div style={{textAlign: 'justify', textJustify: 'inter-word', margin: '10px'}} id={ uuidv4() } key={ uuidv4() }>
                 { text }
             </div>
         </Collapse>

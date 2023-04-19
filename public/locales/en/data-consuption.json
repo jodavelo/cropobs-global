@@ -15,12 +15,15 @@
     "podium1-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important food in terms of its caloric contribution to the diet in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"Beans were the ",
     "podium1-title2":" most important food in terms of its caloric contribution to the diet in ",
+    "podium1-info": "The podium ranks crops according to their caloric contribution per hectare. This indicator is estimated using the average yield of the crop and the average caloric contribution of the crop per unit mass.",
     "podium2-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important food in terms of its proteic contribution to the diet in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Beans were the ",
     "podium2-title2":" most important food in terms of its proteic contribution to the diet in ",
+    "podium2-info": "The podium ranks crops according to their protein contribution per unit mass. This indicator is estimated from the grams of protein contained in 1 kilogram of crop.",
     "podium3-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> ranked crop in number of calories produced per hectare in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Beans were the ",
     "podium3-title2":" ranked crop in number of calories produced per hectare in ",
+    "podium3-info": "The podium ranks crops according to their protein contribution per unit mass. This indicator is estimated from the grams of protein contained in 1 kilogram of food.",
     
     "podium-option1":"Caloric contribution",
     "podium-option2":"Proteic contribution",
@@ -54,9 +57,10 @@
     "chart1-dataset6":"Losses",
     "chart1-axis-y":"Quantity (thousands of tons)",
     "chart1-axis-y2":"Per capita consumption (kg/inhabitant/year)",
-    "chart1-toggle":"Toggle 1 english",
+    "chart1-toggle":"This graph presents an annual series of the composition of beans supply and per capita consumption. Supply represents the quantity of beans produced, minus (-) exports, plus imports. The allocation of the domestic beans supply is composed of beans for food, seeds, animal feed, processing, losses and other uses. Per capita consumption is the annual amount of beans consumed per inhabitant. The categories represent the variables that make up beans supply and per capita consumption. You can select in the legend those variables that you wish to exclude from the display.",
 
     "porc5-label":"Self-sufficiency ratio",
+    "porc5-info": "Percentage of domestic demand supplied by domestic production. Equals the ratio of production plus stock variations divided by, production, plus stock variations, plus imports, minus exports.",
     
     "chart2-title":"Beans trade and supply - #{}",
     "chart2-dataset1":"Self-sufficiency ratio",
@@ -65,7 +69,7 @@
     "chart2-dataset4":"Imports",
     "chart2-axis-y":"Quantity (thousands of tons)",
     "chart2-axis-y2":"Self-sufficiency ratio (%)",
-    "chart2-toggle":"Toggle 2 english",
+    "chart2-toggle":"This graph shows the historical evolution of the composition of bean supply available for domestic consumption in contrast to production destined for export. It also shows the historical evolution of the self-sufficiency coefficient. ",
 
     "sources-text": "Data sources:",
     "graphs_maps": "Maps and Graphs",

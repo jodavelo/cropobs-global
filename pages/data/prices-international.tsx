@@ -34,6 +34,15 @@ interface sectionState {
     locationName: string
 }
 
+interface OtherTexts {
+    section_name: string
+    section_text: string
+    chart1_info: string
+    sources_text: string
+    search_country: string
+    element_locale: string
+}
+
 const ProductionPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
     const [ sectionState, setSectionState ] = useState<sectionState>({
@@ -48,6 +57,8 @@ const ProductionPage: NextPage = () => {
     const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
     const { map } = useContext( MapContext );
     const [chartTitle, setChartTitle] = useState<string>('');
+    const [chartTitleLine, setChartTitleLine] = useState<string>('');
+    const [otherTexts, setOtherTexts] = useState<OtherTexts | undefined>(undefined);
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
@@ -178,6 +189,16 @@ const ProductionPage: NextPage = () => {
         // if( width! < 991 ) setContentColumn('100%');
     })
 
+    useEffect(() => {
+
+        const chartTitle = dataTranslate('chart2-title')
+        const chartTitleLine = dataTranslate('chart3-title')
+        setChartTitle(chartTitle)
+        setChartTitleLine(chartTitleLine)
+        setOtherTexts({section_name: dataTranslate('section-int-name'), section_text: dataTranslate('section-int-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
+        
+    }, [dataTranslate, locationName]);
+
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
@@ -191,7 +212,7 @@ const ProductionPage: NextPage = () => {
     }, []);
 
     return (
-        <Layout title={ dataTranslate('International Prices') }>
+        <Layout title={ otherTexts ? otherTexts.section_name : 'Loading...'}>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -220,11 +241,11 @@ const ProductionPage: NextPage = () => {
                                 
                                 <MapViewPricesInt setIdCountry={setIdCountry}/>
                             </Col>
-                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', marginLeft: '60px', padding: '10px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px', padding: '10px' } : { display: 'none' } }  className={ `${ styles['no-margin'] } ` } >
-                                        <MainBar key={ uuidv4() } section={dataTranslate('section-int-name').replace('#{}',locationName)}  ></MainBar>
-                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={dataTranslate('chart2-title')} description='Grafico de precios' /> 
-                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={dataTranslate('chart3-title')} description='Grafico de precios'/>
-                                    <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                            <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px', padding: '10px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px', padding: '10px' } : { display: 'none' } }  className={ `${ styles['no-margin'] } ` } >
+                                        <MainBar key={ uuidv4() } section={otherTexts ? otherTexts.section_text : 'Loading...'}  ></MainBar>
+                                        <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${id_country==0?'':'?id_country='+id_country}`} title={chartTitle} description='Grafico de precios' /> 
+                                        <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${id_country==0?'':'?id_country='+id_country}`} title={chartTitleLine} description='Grafico de precios'/>
+                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                             </Col>
                         </Row>
                     </div>
