@@ -43,5 +43,16 @@
 
     "sources-text": "Data Sources:",
     "graphs_maps": "Maps and Graphs",
-    "metadata": "Metadata"
+    "metadata": "Metadata",
+    "metadata_text1_beans": "This section includes economic indicators that reflect the importance of the common bean crop compare to the production value for 68 countries. You would find the data in nominal values in local currency and dollars.",
+    "metadata_text2_beans": "These are the available indicators",
+    "metadata_text3_beans": "Common bean production value compared to crops production value",
+    "metadata_text4_beans": "Reflects the estimated common bean gross production value over the crops aggregated value.",
+    "metadata_text5_beans": "Common bean production value compared to agricultural production value",
+    "metadata_text6_beans": "Reflects the estimated common bean gross production value over the agricultural aggregated value. Includes the value of animal production.",
+    "metadata_text7_beans": "References",
+    "metadata_text8_beans": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "metadata_text9_beans": "Variables",
+    "metadata_text10_beans": "Production value-Gross Production Value (current thousand SLC)",
+    "metadata_text11_beans": "Gross production Value (current thousand US$)"
 }

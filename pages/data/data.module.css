@@ -126,6 +126,10 @@
     font-size: 20px;
 }
 
+.text-strong {
+    font-weight: bold;
+}
+
 .coloredTab {
     /* TODO: Aqui para cambiar el color de los tabs de metadatos y gráficos */
     color: rgb(112, 106, 106) !important;

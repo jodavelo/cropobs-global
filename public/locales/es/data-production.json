@@ -36,5 +36,15 @@
 
     "sources-text": "Fuentes:",
     "graphs_maps": "Mapas y Gráficos",
-    "metadata": "Metadatos"
+    "metadata": "Metadatos",
+    "metadata_text1_beans": "Esta sección incluye información a nivel nacional para 67 países. En adición, se puede encontrar información para cuatro regiones (tropical, América Latina y el Caribe, Áfrcia Sub-Sahariana, sur, sudeste asíatico y pacífico).",
+    "metadata_text2_beans": "Estos son los indicadores disponibles",
+    "harvested_area": "Superficie cosechada",
+    "harvested_area_description": "Área cosechada de fríjol común en hectáreas",
+    "production": "Producción",
+    "production_description": "Área cosechada de fríjol común en toneladas.",
+    "yield": "Rendimiento",
+    "yield_description": "Rendimiento expresado en toneladas por hectárea",
+    "references": "Referencias",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
 }

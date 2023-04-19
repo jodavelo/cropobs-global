@@ -43,5 +43,16 @@
 
     "sources-text": "Fontes:",
     "graphs_maps": "Mapas e Gráficos",
-    "metadata": "Metadados"
+    "metadata": "Metadados",
+    "metadata_text1_beans": "Esta secção inclui indicadores económicos que reflectem a importância do feijão comum em comparação com o valor da produção para 68 países. Os dados podem ser encontrados em valor nominal em moeda local e dólares.",
+    "metadata_text2_beans": "Estes são os indicadores disponíveis",
+    "metadata_text3_beans": "Valor da produção de feijão comum em comparação com o valor da produção para o total das culturas",
+    "metadata_text4_beans": "Reflecte o valor estimado da produção de feijão comum sobre o valor acrescentado da cultura total.",
+    "metadata_text5_beans": "Valor da produção de feijão comum em comparação com o valor da produção na agricultura",
+    "metadata_text6_beans": "Reflecte o valor estimado da produção líquida de feijão comum no valor acrescentado agrícola. Inclui valores de produção animal.",
+    "metadata_text7_beans": "Referências",
+    "metadata_text8_beans": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "metadata_text9_beans": "Variáveis",
+    "metadata_text10_beans": "Valor de produção - Valor de produção em rede (Milhares de SLCs actuais)",
+    "metadata_text11_beans": "Valor líquido da produção (Milhares de dólares actuais)"
 }

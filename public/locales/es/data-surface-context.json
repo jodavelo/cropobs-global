@@ -33,5 +33,21 @@
     "more_info_podium_beans": "El podio clasifica los cultivos con respecto a su área cosechada anual.",
     "harvested_area_in_relation_to_other_crops_beans": "Este gráfico presenta la proporción del área cosechada de frijol en relación con el área cosechada de otras leguminosas y otros grupos de cultivos. Entre mayor sea el área de color rojo con relación a los otras colores, mayor será la participación del cultivo del frijol con relación a la superficie cosechada con otros grupos de cultivos. El filtro en la esquina superior derecha permite cambiar el tipo de gráfica para que la información se observe en valores absolutos (número de hectáreas cosechadas), o en proporciones (% del área total). Las categorías representan a los diferentes tipos de cultivos que se siembran en la región seleccionada y su agregado equivale al total del área cultivada. Podrás seleccionar en la leyenda aquellos cultivos que deseas excluir de la visualización. ",
     "harvested_area_in_relation_to_other_keywork_beans_1": "Este gráfico presenta la proporción del área cosechada de frijol en relación con el área cosechada de otras leguminosas. Entre mayor sea el área de color rojo con relación a los otras colores, mayor será la participación del cultivo del frijol con relación a la superficie cosechada con otras leguminosas. El filtro en la esquina superior derecha permite cambiar el tipo de gráfica para que la información se observe en valores absolutos (número de hectáreas cosechadas), o en proporciones (% del área total).",
-    "harvested_area_in_relation_to_other_keywork_beans_2": "Las categorías representan a los diferentes tipos de leguminosas que se siembran en la región seleccionada y su agregado equivale al total del área cultivada con leguminosas. Podrás seleccionar en la leyenda aquellos cultivos que deseas excluir de la visualización."
+    "harvested_area_in_relation_to_other_keywork_beans_2": "Las categorías representan a los diferentes tipos de leguminosas que se siembran en la región seleccionada y su agregado equivale al total del área cultivada con leguminosas. Podrás seleccionar en la leyenda aquellos cultivos que deseas excluir de la visualización.",
+    "metadata_text1_beans": "En esta sección se incluyen indicadores que reflejan la importancia del cultivo de fríjol común comparado con el área total de cultivos y legumbres cosechadas para 67 países y cuatro regiones (Tropical, Latinoamércia y el Caribe, África Sub-Sahariana, y sur, sudeste de Asia y Pacífico).",
+    "metadata_text2_beans": "Estos son los indicadores disponibles",
+    "text1_1_list_beans": "Posición del cultivo de acuerdo al área cosechada",
+    "text1_2_list_beans": "Indica la posición original para el fríjol común comparado al área cosechada para otros cultivos.",
+    "text2_1_list_beans": "Área del fríjol común comparado al total de cultivos",
+    "text2_2_list_beans": "Refleja el área cosechada de fríjol común sobre el área total de cultivos.",
+    "text3_1_list_beans": "Área común comparada al área de legumbres",
+    "text3_2_list_beans": "Refleja el área cosechada de fríjol común como proporción en relación al área de legumbres.",
+    "note": "Anotación",
+    "metadata_text3_beans": "Datos a nivel regional correspondientes a cada uno de los países con información disponible.",
+    "references": "Referencias",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "variables": "Variables",
+    "text4_1_list_beans": "Inputs-Land use-Cropland.",
+    "text4_2_list_beans": "Producción-Cultivos-Área cosechada (fríjol-legumbres)."
+
 }
