@@ -117,6 +117,7 @@ const SurfaceContextPage: NextPage = () => {
     // const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1202/27/${ year }`, dataFetcher);
 
     const sectionName = 'surface-context';
+    const [isMapView, setIsMapView] = useState(false);
 
     useEffect(() => {
         // console.log(`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`)
@@ -142,12 +143,30 @@ const SurfaceContextPage: NextPage = () => {
 
     useEffect( () => {
         if( buttonBoth ) {
+            setIsMapView( false );
             if (map) map.resize();
         }
         if( buttonMap ) {
+            setIsMapView( true );
             if (map) map.resize();
         }
     });
+
+    useEffect(() => {
+        if( isMapView ) { 
+            if( map ) {
+                map.setCenter([-74.261613, 4.658291])
+                map.setZoom(1);
+            }
+        }else{
+            if( map ) {
+                map.setCenter([-13.7856, 0])
+                map.setZoom(0.41);
+            }
+        }
+        
+    }, [ isMapView ])
+    
 
     const [podiumRank, setPodiumRank] = useState(0);
     
