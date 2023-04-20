@@ -70,7 +70,7 @@
     .indicators-container{
         flex-direction: row;
         /*height: 20vh;*/
-        padding: 30px 40px; 
+        padding: 30px 10vw; 
     }
     .img-icon {
         height: 25%;
@@ -83,7 +83,7 @@
     .indicators-container{
         flex-direction: row;
         /*height: 30vh;*/ 
-        padding: 30px 40px;
+        padding: 30px 10vw;
     }
     .img-icon {
         height: 30%;

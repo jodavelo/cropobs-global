@@ -1,6 +1,6 @@
 
 .publications-container {
-    padding: 40px 1px;
+    padding: 30px 1px;
     background-color: rgb(218, 218, 218);
     display: flex;
     flex-direction: column;
@@ -8,7 +8,7 @@
 
 .publications-section-title {
     font-size: 1.7rem;
-    margin-bottom: 5vh;
+    margin-bottom: 12px;
     font-weight: bold;
 }
 
@@ -97,7 +97,7 @@
 
 @media (max-width: 1000px) and (min-width: 800px){
     .publications-container{
-        height: 60vh;
+        height: auto;
     }
     .publication-container{
         justify-content: flex-start;
@@ -128,7 +128,7 @@
     }
     
     .publications-container{
-        height: 60vh;
+        height: auto;
     }
     .publication-img {
         object-fit: contain;

@@ -18,7 +18,7 @@
     width: 100%;
     background-color: #000;
     height: 36vh;
-    opacity: .4;
+    opacity: .5;
     position: absolute;
     /* top: 'calc(100vh - 40vh)'; */
     left: 0;
@@ -31,6 +31,7 @@
     width: fit-content;
     padding: 0;
     text-align: left;
+    margin: 0px 20px;
 }
 
 .main-text-content {
@@ -49,25 +50,26 @@
     text-shadow: 0 0 4px #000;
     font-style: italic;
     padding: 0px 10px;
+    font-weight: 200;
 }
 
 @media (max-width: 500px) and (min-width: 300px){
     .submain-text-content {
-        font-size: 1.1rem;
+        font-size: 1.5rem;
         padding: 0;
     }
 }
 
 @media (max-width: 1000px) and (min-width: 500px){
     .submain-text-content {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         padding: 0;
     }
 }
 
 @media (min-width: 1000px){ 
     .submain-text-content {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         padding: 0;
     }
 }

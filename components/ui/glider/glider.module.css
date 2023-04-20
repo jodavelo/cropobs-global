@@ -17,14 +17,18 @@
 }
 
 .glider-container{
-    height: 35vh;
+    height: auto;
     width: 100%;
     border: none;
     /* border: 1px bisque solid; */
 }
-
+/*
+.glider-container > div{
+    display: -webkit-inline-box;
+}
+*/
 .slide {
-    height: 120px !important;
+    height: auto !important;
     border: none;
     margin: 0px 3px;
     /* border: 1px black solid; */
@@ -32,13 +36,13 @@
 
 @media (min-width: 800px){
     .glider-component { 
-        height: 33vh;
+        height: auto;
         width: 90vw;
         padding-left: calc(100vw - 90vw);
     }
 
     .slide {
-        height: 30vh !important;
+        height: auto !important;
         /* border: 1px black solid; */
         
     }
