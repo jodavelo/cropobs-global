@@ -15,6 +15,7 @@ interface Props {
     admin: string
     legendTitle: string
     elementUnit: string | null
+    isMapView?: boolean
 }
 
 interface AdminJsonData {
@@ -66,7 +67,7 @@ const changeLineWidth = (map: mapboxgl.Map, adminIds: String[], mode='') => {
     map.setPaintProperty('country_layer_line', 'line-width', lineWidth);
 }
 
-export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, admin, legendTitle='No title', elementUnit }: Props) => {
+export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, admin, legendTitle='No title', elementUnit, isMapView }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-13.7856);
@@ -281,7 +282,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
          >
          </div>
          {/* Unit should de passed as a prop. TODO */}
-         <MapLegend unit={elementUnit ?? ''} title={legendTitle} percentiles={quintilArray ?? Array(5).fill(0)} />
+         <MapLegend unit={elementUnit ?? ''} title={legendTitle} percentiles={quintilArray ?? Array(5).fill(0)} isMapViewProps={ isMapView } />
       </>
     )
 }
