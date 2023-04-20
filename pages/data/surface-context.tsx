@@ -488,7 +488,8 @@ const SurfaceContextPage: NextPage = () => {
     const [mapGraphsText, setMapGraphsText] = useState('');
     const [metadataText, setMetadataText] = useState('');
     const [podiumMoreInfoText, setPodiumMoreInfoText] = useState('');
-    const [moreInfoChart1, setMoreInfoChart1] = useState('');
+    const [moreInfoChart1_1, setMoreInfoChart1_1] = useState('');
+    const [moreInfoChart1_2, setMoreInfoChart1_2] = useState('');
     const [moreInfoChart2_1, setMoreInfoChart2_1] = useState('');
     const [moreInfoChart2_2, setMoreInfoChart2_2] = useState('');
     const [localeFilterElement, setLocaleFilterElement] = useState('');
@@ -535,7 +536,8 @@ const SurfaceContextPage: NextPage = () => {
         setMapGraphsText(dataTranslate('graphs_maps')!);
         setMetadataText(dataTranslate('metadata')!);
         setPodiumMoreInfoText(dataTranslate('more_info_podium_beans')!);
-        setMoreInfoChart1(dataTranslate('harvested_area_in_relation_to_other_crops_beans')!);
+        setMoreInfoChart1_1(dataTranslate('harvested_area_in_relation_to_other_crops_beans_1')!);
+        setMoreInfoChart1_2(dataTranslate('harvested_area_in_relation_to_other_crops_beans_2')!);
         setMoreInfoChart2_1(dataTranslate('harvested_area_in_relation_to_other_keywork_beans_1')!);
         setMoreInfoChart2_2(dataTranslate('harvested_area_in_relation_to_other_keywork_beans_2')!);
         setMetadataText1(dataTranslate('metadata_text1_beans')!);
@@ -653,7 +655,7 @@ const SurfaceContextPage: NextPage = () => {
                                             {/* <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p> */} 
                                             <PercentContainer data={ indicators } percentAlone={ false } />
                                             <br /> 
-                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1 } stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1_1 } moreInfoTextStackedArea2={moreInfoChart1_2} stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1_1 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
                                             <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea={ moreInfoChart2_1 } moreInfoTextStackedArea2={ moreInfoChart2_2 } stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized={ moreInfoChart2_1 } moreInfoTextStackedAreaNormalized2={ moreInfoChart2_2 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
