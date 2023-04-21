@@ -8,7 +8,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { useWindowSize } from '../../../../hooks';import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
-;
+import styles from './styles.module.css';
 
 const style: CSSProperties = {
     color: '#0070f3',
@@ -89,10 +89,11 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
             //   width: '70%'
             },
           }}
+            className={ isCollapsedProp ? styles['sidebar-column'] : undefined}
             defaultCollapsed
           >
             <Menu>
-                <SubMenu icon={ <AgricultureIcon/> } label={productionText}>
+                <SubMenu icon={ <AgricultureIcon/> } label={productionText} className={ isCollapsedProp ? styles['menu-items'] : undefined } >
                     <MenuItem onClick={ () => push('/data/surface-context') } > {surfaceContextText} </MenuItem>
                     <MenuItem onClick={ () => push('/data/production') } > {productionText} </MenuItem>
                     <MenuItem onClick={ () => push('/data/production-value') }> {productionValueText} </MenuItem>
@@ -103,8 +104,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                     <MenuItem icon={ <AccessAlarm/> }> Pie charts </MenuItem>
                     <MenuItem icon={ <ThreeDRotation/> }> Line charts </MenuItem>
                 </SubMenu> */}
-                <MenuItem onClick={ () => push('/data/consumption') } icon={<TrendingUpIcon/>} > {consumptionText} </MenuItem>
-                <SubMenu icon={ <AgricultureIcon/> } label={pricesText}>
+                <MenuItem onClick={ () => push('/data/consumption') } icon={<TrendingUpIcon/>} className={ isCollapsedProp ? styles['menu-items'] : undefined } > {consumptionText} </MenuItem>
+                <SubMenu icon={ <AgricultureIcon/> } label={pricesText} className={ isCollapsedProp ? styles['menu-items'] : undefined }>
                     <MenuItem onClick={ () => push('/data/prices') }> {domesticPricesText} </MenuItem>
                     <MenuItem onClick={ () => push('/data/prices-international') }> {internationalPricesText} </MenuItem>
                 </SubMenu>

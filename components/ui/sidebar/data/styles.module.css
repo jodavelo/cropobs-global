@@ -1,0 +1,14 @@
+
+.sidebar-column {
+    min-width: 50px !important;
+    width: 50px !important;
+}
+
+.menu-items {
+    width: 50px !important;
+}
+
+.menu-items > a {
+    justify-content: center;
+    align-items: center;
+}

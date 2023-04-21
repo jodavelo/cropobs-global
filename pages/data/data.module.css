@@ -65,9 +65,21 @@
     background-color: transparent;
 }
 
+.sidebar-component-container-collapsed {
+    height: 100%;
+    width: 60%;
+    background-color: transparent;
+}
+
 .sidebar-arrow-container {
     height: 100%;
-    width: 15%;
+    width: 10%;
+    background-color: transparent;
+}
+
+.sidebar-arrow-container-collapsed {
+    height: 100%;
+    width: 40%;
     background-color: transparent;
 }
 

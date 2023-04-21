@@ -382,8 +382,8 @@ const ProductionPage: NextPage = () => {
                 setSideBarColumn( '20%' );
                 setContentColumn( '80%' );
             }else {
-                setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
             }
         }
         else if (width! > 1200 && width! < 1400){
@@ -391,20 +391,29 @@ const ProductionPage: NextPage = () => {
                 setSideBarColumn( '15%' );
                 setContentColumn( '85%' );
             }else {
-                setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setSideBarColumn( '7%' );
+                setContentColumn( '93%' );
             }
             
         }
-        else if (width! > 1400){
+        else if (width! > 1400 && width! < 1600){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
                 setContentColumn( '87%' );
             }else {
-                setSideBarColumn( '8%' );
-                setContentColumn( '92%' );
+                setSideBarColumn( '6%' );
+                setContentColumn( '94%' );
             }
             
+        }
+        else if ( width! > 1600 ){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '5%' );
+                setContentColumn( '95%' );
+            }
         }
         // if( width! < 991 ) setContentColumn('100%');
     })
@@ -446,10 +455,10 @@ const ProductionPage: NextPage = () => {
                 <Container fluid className={ styles['custom-container-fluid'] }>
                     <div className={ styles['custom-subcontainer-fluid'] }>
                         <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
-                            <div className={ styles['sidebar-component-container'] }>
-                                    <SidebarComponent isCollapsedProp={ isCollapsed }/>
+                            <div className={ isCollapsed ? styles['sidebar-component-container-collapsed'] : styles['sidebar-component-container'] }>
+                                <SidebarComponent isCollapsedProp={ isCollapsed }/>
                             </div>
-                            <div className={ styles['sidebar-arrow-container'] }>
+                            <div className={ isCollapsed ? styles['sidebar-arrow-container-collapsed'] : styles['sidebar-arrow-container'] }>
                                 <Button id='btn-collapse-sidebar' onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
                                     {  
                                         isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
