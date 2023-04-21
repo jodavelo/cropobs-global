@@ -5,6 +5,7 @@ import styles from './modal.module.css';
 import {SetCountriesList} from '../../../helpers/data'
 import {InputLabel, MenuItem, FormControl, TextField} from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useRouter } from "next/router";
 
 interface Props {
     dataJson : Object[],
@@ -13,6 +14,7 @@ interface Props {
 
 export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
     console.log({ dataJson })
+    const { locale } = useRouter();
     const exportFile = useCallback(() => {
         if (validateForm()){
             const ws = utils.json_to_sheet(dataJson);
@@ -79,14 +81,48 @@ export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
         SetCountriesList(setCountries)
       }, []);
     
+    const [title, setTitle] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [institution, setInstitution] = useState('');
+    const [countriesText, setCountriesText] = useState('')
+    useEffect(() => {
+        switch ( locale ) {
+            case 'en':
+                setTitle('Please enter your name and email to proceed with downloading the data.');
+                setFullName('Full name');
+                setEmail('Email');
+                setInstitution('Institution');
+                setCountriesText('Countries');
+                break;
+            case 'es':
+                setTitle('Por favor ingresa su nombre y un email para proceder a descargar los datos');
+                setFullName('Nombre completo');
+                setEmail('Correo electrónico');
+                setInstitution('Institución');
+                setCountriesText('Países');
+                break;
+        
+            default:
+                setTitle('Por favor, insira seu nome e e-mail para prosseguir com o download dos dados.');
+                setFullName('Nome completo');
+                setEmail('Email');
+                setInstitution('Instituição');
+                setCountriesText('Países');
+                break;
+        }
+    
+    }, [ locale ])
+    
+    
       return (
         <div className={styles["modal-container"]}>
             <div className={styles["modal-form"]}>
-                <label className= {styles["modal-label"]}>Por favor ingresa su nombre y un email para proceder a descargar los datos</label><br/>
-                <TextField error={!tfnameVal} className={styles["textfield"]} id="tf-name" label="Full Name" variant="standard" /><br/>
-                <TextField error={!tfemailVal} className={styles["textfield"]} id="tf-email" label="Email" variant="standard" /><br/><br/>
+                <label className= {styles["modal-label"]}>{ title }</label><br/>
+                <TextField error={!tfnameVal} className={styles["textfield"]} id="tf-name" label={ fullName } variant="standard" /><br/>
+                <TextField error={!tfemailVal} className={styles["textfield"]} id="tf-email" label={ email } variant="standard" /><br/><br/>
                 <FormControl fullWidth size="small">
-                    <InputLabel id="label-countries-select">Countries</InputLabel>
+                    <InputLabel id="label-countries-select">{ countriesText }</InputLabel>
                     <Select
                         labelId="label-countries-select"
                         id="countries-select"
@@ -98,7 +134,7 @@ export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
                         {countries.map((elem,idx)=> (<MenuItem value={elem} key={idx} >{elem}</MenuItem>) )}
                     </Select>
                 </FormControl><br/>
-                <TextField error={!tfinstVal} className={styles["textfield"]} id="tf-inst" label="Institution" variant="standard" /><br/><hr className={styles["modal-line"]}/>
+                <TextField error={!tfinstVal} className={styles["textfield"]} id="tf-inst" label={ institution } variant="standard" /><br/><hr className={styles["modal-line"]}/>
                 <div className={styles["modal-footer"]}>
                     <Button className={ styles.button } onClick={ () => setShowModal(false) }  variant="outline-secondary"> Close </Button>
                     <Button className={ styles.button } onClick={ exportFile } variant="secondary"> Submit </Button>
