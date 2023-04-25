@@ -26,12 +26,14 @@ export const Layout: FC<Props> = ({ children, title }) => {
         isDataPrices,
         isDataPricesInt,
         isDatabases, 
+        isDataTrade,
         setIsHome, 
         setIsDataSurfaceContext,
         setIsDataProduction, 
         setIsDataProductionValue,
         setIsAboutUs, 
-        setIsDatabases
+        setIsDatabases,
+        setIsDataTrade
     } = useContext( LayoutContext );
     //console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
     useEffect(() => {
@@ -45,6 +47,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
         else if ( isDataPricesInt ) setLayoutClassName( styles['data-prices-int'] );
         else if ( isAboutUs ) setLayoutClassName( styles['about-us'] );
         else if ( isDatabases ) setLayoutClassName( styles.databases );
+        else if ( isDataTrade ) setLayoutClassName( styles['data-trade'] );
     }, [])
     
     useEffect(() => {
@@ -88,6 +91,10 @@ export const Layout: FC<Props> = ({ children, title }) => {
             setLayoutClassName( styles.databases );
             setIsDatabases( true );
         }
+        else if ( asPath == '/data/trades' )  {
+            setLayoutClassName( styles['data-trade'] );
+        }
+            
     }, [ asPath ])
     
     

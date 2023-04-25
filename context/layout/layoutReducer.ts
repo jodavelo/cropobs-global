@@ -8,6 +8,7 @@ type LayoutActionType =
     | { type: '[Layout] - Set is Data - Production', payload: boolean}
     | { type: '[Layout] - Set is Data - Production Value', payload: boolean}
     | { type: '[Layout] - Set is Data - Consumption', payload: boolean}
+    | { type: '[Layout] - Set is Data - Trade', payload: boolean}
     | { type: '[Layout] - Set is About Us', payload: boolean}
     | { type: '[Layout] - Set is Databases', payload: boolean}
     | { type: '[Layout] - Set is setIsDataPrices', payload: boolean}
@@ -68,6 +69,11 @@ export const layoutReducer = (state: LayoutState, action: LayoutActionType): Lay
                 return {
                     ...state,
                     isDataPricesInt: action.payload
+                }
+            case '[Layout] - Set is Data - Trade':
+                return {
+                    ...state,
+                    isDataTrade: action.payload
                 }
         // case '[Layout] - Unenable is Home':
         //     return {
