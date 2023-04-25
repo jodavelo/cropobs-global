@@ -93,10 +93,10 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
             defaultCollapsed
           >
             <Menu>
-                <SubMenu icon={ <AgricultureIcon/> } label={productionText} className={ isCollapsedProp ? styles['menu-items'] : undefined } >
-                    <MenuItem onClick={ () => push('/data/surface-context') } > {surfaceContextText} </MenuItem>
-                    <MenuItem onClick={ () => push('/data/production') } > {productionText} </MenuItem>
-                    <MenuItem onClick={ () => push('/data/production-value') }> {productionValueText} </MenuItem>
+                <SubMenu defaultOpen={ true } icon={ <AgricultureIcon/> } label={productionText} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] } >
+                    <MenuItem  onClick={ () => push('/data/surface-context') } className={ styles['submenu-items'] } > {surfaceContextText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/production') }  className={ styles['submenu-items'] }> {productionText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/production-value')  }className={ styles['submenu-items'] }> {productionValueText} </MenuItem>
                 </SubMenu>
                 {/* <SubMenu icon={ <AdjustIcon/> } label="Documentation">
                     <MenuItem icon={ <AccessAlarm/> }> Pie charts </MenuItem>
@@ -104,10 +104,10 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                     <MenuItem icon={ <AccessAlarm/> }> Pie charts </MenuItem>
                     <MenuItem icon={ <ThreeDRotation/> }> Line charts </MenuItem>
                 </SubMenu> */}
-                <MenuItem onClick={ () => push('/data/consumption') } icon={<TrendingUpIcon/>} className={ isCollapsedProp ? styles['menu-items'] : undefined } > {consumptionText} </MenuItem>
-                <SubMenu icon={ <AgricultureIcon/> } label={pricesText} className={ isCollapsedProp ? styles['menu-items'] : undefined }>
-                    <MenuItem onClick={ () => push('/data/prices') }> {domesticPricesText} </MenuItem>
-                    <MenuItem onClick={ () => push('/data/prices-international') }> {internationalPricesText} </MenuItem>
+                <MenuItem onClick={ () => push('/data/consumption') } icon={<TrendingUpIcon/>} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] } > {consumptionText} </MenuItem>
+                <SubMenu icon={ <AgricultureIcon/> } label={pricesText} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] }>
+                    <MenuItem onClick={ () => push('/data/prices') } className={ styles['submenu-items'] }> {domesticPricesText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/prices-international') } className={ styles['submenu-items'] }> {internationalPricesText} </MenuItem>
                 </SubMenu>
             </Menu>
         </Sidebar>
