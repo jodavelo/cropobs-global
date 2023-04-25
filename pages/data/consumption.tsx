@@ -561,7 +561,7 @@ const DataPage: NextPage = () => {
                             </Button>
                         </div>
                     </div>
-                    <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
+                    <div className={ styles['main-content-container-consumption'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
                                 <MainBar key={uuidv4()} section={dataTranslate('section-text').replace('#{}',locationName)}>

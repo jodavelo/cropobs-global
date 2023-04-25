@@ -104,6 +104,12 @@
     padding-left: 10px;
 }
 
+.main-content-container-consumption {
+    background-color: transparent;
+    height: 100%;
+    padding-left: 10px;
+}
+
 @media (min-width: 992px) {
     .sidebar {
         height: 87vh;
@@ -159,5 +165,18 @@
 @media (min-width: 991px) {
     .padding-left-subcontainers {
         padding-left: 10px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-content-container {
+        margin-left: 15%;
+    }
+    .main-content-container-consumption {
+        width:85%;
+        margin-left: 8%;
+    }
+    .col-right-prodval{
+        width:100%!important
     }
 }
