@@ -564,6 +564,7 @@ const SurfaceContextPage: NextPage = () => {
         setMetadataText13(dataTranslate('variables')!);
         setMetadataText14(dataTranslate('text4_1_list_beans')!);
         setMetadataText15(dataTranslate('text4_2_list_beans')!);
+        setLocaleFilterElement(dataTranslate('LOCALE_FILTER_ELEMENT')!);
         setLocationText(locationName);
     }, [dataTranslate, locationName])
     
