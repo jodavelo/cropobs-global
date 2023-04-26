@@ -20,6 +20,17 @@ export const generateYearsOptions = (data: YearsData[]) => {
     return options;
 }
 
+export const generateYearsOptionsConsumption = (data: YearsData[]) => {
+    const options = { values: [], names: [] };
+    data.forEach( (value, index) => {
+        if(value.YEAR< 2020){
+            options.values.push(value.YEAR as never);
+            options.names.push(value.YEAR.toString() as never);
+        }
+    });
+    return options;
+}
+
 export const generateOptionsFromObj = (data: Record<string, any>, value_attr: string, name_attr: string, useKey=false) => {
     const options = { values: [], names: [] };
     Object.keys(data).forEach( (key, index) => {

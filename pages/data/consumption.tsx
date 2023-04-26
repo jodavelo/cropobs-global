@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import style from './data.module.css';
 import { PodiumProductVal as Podium, PorcentagesBox, MultichartPV, ChartFrame, MultiBar1, MultiBar2, MapCON } from '../../components/data';
-import { dataFetcher, datasetGeneratorPV, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
+import { dataFetcher, datasetGeneratorPV, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions, generateYearsOptionsConsumption } from '../../helpers/data';
 
 import axios from 'axios';
 import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
@@ -51,7 +51,7 @@ const DataPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2020,
+        year: 2019,
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
@@ -304,7 +304,7 @@ const DataPage: NextPage = () => {
             description: dataTranslate('podium2-info'),
         },
         {
-            url: `https://commonbeanobservatory.org/api/v1/data/podium/${countryCode}/${clickId ? '2' : '5'}/2546/${year-1}`,
+            url: `https://commonbeanobservatory.org/api/v1/data/podium/${countryCode}/${clickId ? '2' : '5'}/2546/${year}`,
             text:  dataTranslate('podium3-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option3'),
             description: dataTranslate('podium3-info'),
