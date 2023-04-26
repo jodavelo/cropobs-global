@@ -304,7 +304,7 @@ const DataPage: NextPage = () => {
             description: dataTranslate('podium2-info'),
         },
         {
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '2' : '5'}/2546/${year}`,
+            url: `https://commonbeanobservatory.org/api/v1/data/podium/${countryCode}/${clickId ? '2' : '5'}/2546/${year-1}`,
             text:  dataTranslate('podium3-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option3'),
             description: dataTranslate('podium3-info'),
@@ -561,7 +561,7 @@ const DataPage: NextPage = () => {
                             </Button>
                         </div>
                     </div>
-                    <div className={ styles['main-content-container-consumption'] } style={{ width: contentColumn }} >
+                    <div className={ styles['main-content-container-consumption'] } style={{ width: '85.5%' }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
                                 <MainBar key={uuidv4()} section={dataTranslate('section-text').replace('#{}',locationName)}>
