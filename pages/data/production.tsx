@@ -21,7 +21,7 @@ import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, Regio
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 import { BackButton } from '../../components/data/back-button';
 import { useTour } from '@reactour/tour';
-import { general_data_steps } from '../../helpers/data/tour';
+import { general_data_steps, general_data_steps_es, general_data_steps_pt } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { sectionState, PodiumConfig, ChartConfig, ConfigChart } from '../../interfaces/data/section-states';
@@ -30,6 +30,8 @@ import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useWindowSize } from '../../hooks';
 import { positionPodiumReplacer } from '../../helpers/data/podium/positionPodiumReplacer';
+import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
+import { useRouter } from 'next/router';
 
 
 const mapFilterElements = [1000, 5312, 5510];
@@ -49,6 +51,7 @@ interface OtherTexts {
 
 const ProductionPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-production');
+    const { locale } = useRouter();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 1000,
         regionCode: 'WLRD',
@@ -261,7 +264,9 @@ const ProductionPage: NextPage = () => {
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
             if (setSteps) {
-                setSteps(general_data_steps);
+                if( locale == 'en' ) setSteps(general_data_steps);
+                else if ( locale == 'es' ) setSteps(general_data_steps_es);
+                else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
                 setCookie('production_tour', true);
                 setIsOpen(true);
             }
@@ -492,13 +497,7 @@ const ProductionPage: NextPage = () => {
                                                             { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                                         </Row>
                                                         <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                                            <Button
-                                                                className={`${styles['search-country-button']}`}
-                                                                style={{width: '145px'}}
-                                                                onClick={() => setShowCountries(true)}
-                                                            >
-                                                                {otherTexts?.search_country}
-                                                            </Button>
+                                                            <SearchCountryButton btnText={otherTexts?.search_country ?? 'Loading...'} setShowCountries={setShowCountries} />
                                                         </Row>
                                                     </Row>
                                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ (otherTexts && elementsObj[elementId] ? elementsObj[elementId][otherTexts?.element_locale as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />

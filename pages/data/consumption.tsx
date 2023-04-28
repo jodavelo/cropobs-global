@@ -23,7 +23,7 @@ import { sectionState } from '../../interfaces/data/section-states';
 import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, RegionsData, RegionsState, YearsData, YearsState } from '../../interfaces/data';
 import { useTour } from '@reactour/tour';
 import { getCookie, setCookie } from 'cookies-next';
-import { general_data_steps } from '../../helpers/data/tour';
+import { general_data_steps, general_data_steps_es, general_data_steps_pt } from '../../helpers/data/tour';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { BackButton } from '../../components/data/back-button';
 import { SourcesComponent } from '../../components/ui/sources-component';
@@ -31,6 +31,8 @@ import DOMPurify from 'isomorphic-dompurify';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useWindowSize } from '../../hooks';
+import { useRouter } from 'next/router';
+import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
 
 var styles = style;
 const mapFilterElements = [6, 7, 645];
@@ -46,6 +48,7 @@ interface PodiumConfig {
 
 const DataPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-consuption');
+    const { locale } = useRouter();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 6,
         regionCode: 'WLRD',
@@ -259,7 +262,9 @@ const DataPage: NextPage = () => {
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
             if (setSteps) {
-                setSteps(general_data_steps);
+                if( locale == 'en' ) setSteps(general_data_steps);
+                else if ( locale == 'es' ) setSteps(general_data_steps_es);
+                else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
                 setCookie('production_tour', true);
                 setIsOpen(true);
             }
@@ -587,13 +592,7 @@ const DataPage: NextPage = () => {
                                                         { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                                     </Row>
                                                     <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                                        <Button
-                                                            className={`${styles['search-country-button']}`}
-                                                            style={{width: '145px'}}
-                                                            onClick={() => setShowCountries(true)}
-                                                        >
-                                                            {dataTranslate('search-country')}
-                                                        </Button>
+                                                        <SearchCountryButton btnText={dataTranslate('search-country')} setShowCountries={setShowCountries} />
                                                     </Row>
                                                 </Row>
                                                 <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
