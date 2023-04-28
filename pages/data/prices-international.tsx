@@ -235,7 +235,7 @@ const ProductionPage: NextPage = () => {
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <MainBar key={ uuidv4() } section={` ${locationName}`}  >
-                                    <BackButton regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState}/>
+                                    <BackButton regionCode={'asd'} countryCode={'asdasd'} setSectionState={setSectionState} locale={ locale ?? 'en'} />
                                 </MainBar>
                             </Col>
                         </Row>

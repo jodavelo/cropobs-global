@@ -595,7 +595,7 @@ const SurfaceContextPage: NextPage = () => {
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationText}`} >
-                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} locale={ locale ?? 'en'}/>
                                 </MainBar>
                             </Col>
                         </Row>

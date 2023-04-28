@@ -1,11 +1,15 @@
 import { IconButton } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { getCookie, setCookie } from 'cookies-next';
+import { back_button_step, back_button_step_es, back_button_step_pt } from '../../../helpers/data/tour';
+import { useTour } from '@reactour/tour';
 
 interface Props {
     regionCode: string
     countryCode: string
     setSectionState: Function
+    locale: string
     worldCode?: string
     resetPrices?: false
 }
@@ -44,10 +48,26 @@ const changeAdmin = (regionCode: string, countryCode: string, setSectionState: F
     }
 }
 
-export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', resetPrices= false }) => {
+export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', resetPrices= false, locale }) => {
+
+    const { setSteps, setIsOpen } = useTour();
+
     if (regionCode === countryCode && countryCode === worldCode) return <></>
+    
+    useEffect(() => {
+        if ( !(regionCode === countryCode && countryCode === worldCode) && !getCookie('back_button_tour') ) {
+            if (setSteps) {
+                if( locale == 'en' ) setSteps(back_button_step);
+                else if ( locale == 'es' ) setSteps(back_button_step_es);
+                else if ( locale == 'pt' ) setSteps(back_button_step_pt);
+                setCookie('back_button_tour', true);
+                setIsOpen(true);
+            }
+        }
+    }, [regionCode, countryCode, locale]);
+
     return (
-    <IconButton style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode, resetPrices)}>
+    <IconButton id='back-button' style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode, resetPrices)}>
         <ReplayIcon/>
     </IconButton>
     )

@@ -608,7 +608,7 @@ const PVPage: NextPage = () => {
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}>
-                                    <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState}/>
+                                    <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} locale={ locale ?? 'en'} />
                                 </MainBar>
                             </Col>
                         </Row>
