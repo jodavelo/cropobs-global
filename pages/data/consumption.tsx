@@ -414,7 +414,7 @@ const DataPage: NextPage = () => {
     let [databar23, setdatabar23] = useState(Array(0))
 
     useEffect(() => {
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_consumption/${countryCode}?elementIds=[5142,5527,5521,5131,5123,95154,${clickId ? '645' : '14'}]&cropIds=[2546]` })
+        axios({ url: `https://commonbeanobservatory.org/api/v1/chart/default/beans_consumption/${countryCode}?elementIds=[5142,5527,5521,5131,5123,95154,${clickId ? '645' : '14'}]&cropIds=[2546]` })
             .then(response => {
                 const data = datasetGeneratorPV(response.data.data.observations, response.data.data.labels, 'id_element', 'crop_name')
                 const chartjsData = { labels: response.data.data.labels, data };
@@ -424,6 +424,7 @@ const DataPage: NextPage = () => {
                 setdatabar12(data[4].data.map((datum: number) => datum > 0 ? datum : null))
                 setdatabar13(data[1].data.map((datum: number) => datum > 0 ? datum : null))
                 setdatabar14(data[3].data.map((datum: number) => datum > 0 ? datum : null))
+                setdatabar15(data[5].data.map((datum: number) => datum > 0 ? datum : null))
             })
         console.log(`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_consumption/${countryCode}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[2546]`);
         axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_consumption/${countryCode}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[2546]` })
@@ -444,7 +445,7 @@ const DataPage: NextPage = () => {
         axis_x : "",
         axis_y : dataTranslate('chart1-axis-y'),
         axis_y2 : dataTranslate('chart1-axis-y2'),
-        datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset3'),dataTranslate('chart1-dataset4'),dataTranslate('chart1-dataset5'),dataTranslate('chart1-dataset6')]
+        datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset4'),dataTranslate('chart1-dataset5'),dataTranslate('chart1-dataset6'),dataTranslate('chart1-dataset3')]
     }
 
     const chartTxts2 = {
@@ -628,7 +629,7 @@ const DataPage: NextPage = () => {
                                                     data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
                                                 <br></br>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                    { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} chartTexts={chartTxts1} />)} 
+                                                    { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
                                                 </ChartFrame>
                                                 <br></br>
                                                 <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
