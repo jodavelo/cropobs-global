@@ -36,6 +36,7 @@ import { getCookie, setCookie } from 'cookies-next';
 import { general_data_steps, general_data_steps_es, general_data_steps_pt } from '../../helpers/data/tour';
 import { BackButton } from '../../components/data/back-button';
 import { SourcesComponent } from '../../components/ui/sources-component';
+import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
 
 export const textBold: CSSProperties = {
     color: '#3e3e3e', 
@@ -616,13 +617,7 @@ const SurfaceContextPage: NextPage = () => {
                                                     { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
                                                 </Row>
                                                 <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
-                                                    <Button
-                                                        className={`${styles['search-country-button']}`}
-                                                        style={{width: '145px', height: 'inherit'}}
-                                                        onClick={() => setShowCountries(true)}
-                                                    >
-                                                        { searchCountryTextButton }
-                                                    </Button>
+                                                    <SearchCountryButton btnText={searchCountryTextButton} setShowCountries={setShowCountries} />
                                                 </Row>
                                             </Row>
                                             <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( (localeFilterElement !== '') && elementsObj[elementId] ? elementsObj[elementId][localeFilterElement as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />

@@ -21,7 +21,7 @@ import { ElementsData,SelectOptions } from '../../interfaces/data';
 import { GeoJsonProperties, Geometry } from 'geojson';
 import { SidebarComponent } from '../../components/ui/sidebar';
 import { useTour } from '@reactour/tour';
-import { general_data_steps, general_data_steps_prices } from '../../helpers/data/tour';
+import { general_data_steps, general_data_steps_prices, general_data_steps_prices_es, general_data_steps_prices_pt } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SourcesComponent } from '../../components/ui/sources-component';
 import { BackButtonPrices } from '../../components/data/back-button';
@@ -278,8 +278,10 @@ const PricesPage: NextPage = () => {
     useEffect(() => {
         if ( !getCookie('prices_tour') ) {
             if (setSteps) {
-                setSteps(general_data_steps_prices);
-                setCookie('prices_tour', true);
+                if( locale == 'en' ) setSteps(general_data_steps_prices);
+                else if ( locale == 'es' ) setSteps(general_data_steps_prices_es);
+                else if ( locale == 'pt' ) setSteps(general_data_steps_prices_pt);
+                setCookie('production_tour', true);
                 setIsOpen(true);
             }
         }

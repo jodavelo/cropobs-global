@@ -16,7 +16,7 @@ import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, Regio
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
 import { BackButton } from '../../components/data/back-button';
 import { useTour } from '@reactour/tour';
-import { general_data_steps, general_data_steps_prices } from '../../helpers/data/tour';
+import { general_data_steps, general_data_steps_prices, general_data_steps_prices_es, general_data_steps_prices_pt } from '../../helpers/data/tour';
 import { getCookie, setCookie } from 'cookies-next';
 import { SourcesComponent } from '../../components/ui/sources-component';
 import { PlotlyChartLineInternational } from '../../components/data/plotly-chart/PlotlyChartLineInternational';
@@ -25,6 +25,7 @@ import { MapViewPricesInt } from '../../components/ui/map/MapViewPricesInt';
 import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useRouter } from 'next/router';
 
 
 //let clickId: string | number | null = null;
@@ -45,6 +46,7 @@ interface OtherTexts {
 
 const ProductionPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
+    const { locale } = useRouter();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         elementId: 300050,
         locationName: 'WORLD'
@@ -202,9 +204,11 @@ const ProductionPage: NextPage = () => {
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
-        if ( !getCookie('production_tour') ) {
+        if ( !getCookie('prices_tour') ) {
             if (setSteps) {
-                setSteps(general_data_steps_prices);
+                if( locale == 'en' ) setSteps(general_data_steps_prices);
+                else if ( locale == 'es' ) setSteps(general_data_steps_prices_es);
+                else if ( locale == 'pt' ) setSteps(general_data_steps_prices_pt);
                 setCookie('production_tour', true);
                 setIsOpen(true);
             }
