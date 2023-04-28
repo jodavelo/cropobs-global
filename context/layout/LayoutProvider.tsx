@@ -12,6 +12,7 @@ export interface LayoutState {
     isDatabases: boolean;
     isDataPrices: boolean;
     isDataPricesInt: boolean;
+    isDataTrade: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
@@ -24,7 +25,8 @@ const LAYOUT_INITIAL_STATE: LayoutState = {
     isDataConsumption: false,
     isDatabases: false,
     isDataPrices: false,
-    isDataPricesInt: false
+    isDataPricesInt: false,
+    isDataTrade: false
 }
 
 interface Props {
@@ -75,6 +77,10 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Data Prices Int', payload: settingIsDataPricesInt });
     }
 
+    const setIsDataTrade = ( settingIsDataTrade: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Data - Trade', payload: settingIsDataTrade });
+    }
+
     return (
         <LayoutContext.Provider value={{
             ...state,
@@ -89,7 +95,8 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             setIsDataConsumption,
             setIsDatabases,
             setIsDataPrices,
-            setIsDataPricesInt
+            setIsDataPricesInt,
+            setIsDataTrade
         }}>
             { children }
         </LayoutContext.Provider>

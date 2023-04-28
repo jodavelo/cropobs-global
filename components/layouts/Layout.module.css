@@ -44,6 +44,11 @@
     height: 180vh;
 }
 
+.data-trade {
+    padding: 10px 0;
+    height: 180vh;
+}
+
 .about-us {
     /*height: 180vh;*/
     height: auto;
@@ -123,7 +128,7 @@
     .about-us {
         /*height: 145vh;*/ 
     }
-    .data-sf, .data-prod, .data-prod-value, .data-consumption .data-prices, .data-prices-int {
+    .data-sf, .data-prod, .data-prod-value, .data-consumption .data-prices, .data-prices-int, .data-trade {
         height: 90vh;
     }
     
@@ -137,7 +142,7 @@
         /*height: 115vh;*/
         
     }
-    .data-sf, .data-prod, .data-prod-value, .data-consumption, .data-prices, .data-prices-int {
+    .data-sf, .data-prod, .data-prod-value, .data-consumption, .data-prices, .data-prices-int, .data-trade {
         height: 100vh;
     }
     .databases {

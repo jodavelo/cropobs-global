@@ -81,34 +81,46 @@ export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
         SetCountriesList(setCountries)
       }, []);
     
+    const [modalTitle, setModalTitle] = useState('');
     const [title, setTitle] = useState('');
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [institution, setInstitution] = useState('');
     const [countriesText, setCountriesText] = useState('')
+    const [closeButtonText, setCloseButtonText] = useState('');
+    const [submitButtonText, setSubmitButtonText] = useState('');
     useEffect(() => {
         switch ( locale ) {
             case 'en':
-                setTitle('Please enter your name and email to proceed with downloading the data.');
+                setModalTitle('Export data')
+                setTitle('Complete the information below to continue');
                 setFullName('Full name');
                 setEmail('Email');
                 setInstitution('Institution');
                 setCountriesText('Countries');
+                setCloseButtonText('Close');
+                setSubmitButtonText('Submit');
                 break;
             case 'es':
-                setTitle('Por favor ingresa su nombre y un email para proceder a descargar los datos');
+                setModalTitle('Exportar datos')
+                setTitle('Complete la siguiente información para continuar');
                 setFullName('Nombre completo');
                 setEmail('Correo electrónico');
                 setInstitution('Institución');
                 setCountriesText('Países');
+                setCloseButtonText('Cerrar');
+                setSubmitButtonText('Enviar');
                 break;
         
             default:
-                setTitle('Por favor, insira seu nome e e-mail para prosseguir com o download dos dados.');
+                setModalTitle('Exportar dados')
+                setTitle('Preencha as informações abaixo para continuar');
                 setFullName('Nome completo');
                 setEmail('Email');
                 setInstitution('Instituição');
                 setCountriesText('Países');
+                setCloseButtonText('Fechar');
+                setSubmitButtonText('Enviar');
                 break;
         }
     
@@ -118,6 +130,7 @@ export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
       return (
         <div className={styles["modal-container"]}>
             <div className={styles["modal-form"]}>
+                <h2>{ modalTitle } </h2>
                 <label className= {styles["modal-label"]}>{ title }</label><br/>
                 <TextField error={!tfnameVal} className={styles["textfield"]} id="tf-name" label={ fullName } variant="standard" /><br/>
                 <TextField error={!tfemailVal} className={styles["textfield"]} id="tf-email" label={ email } variant="standard" /><br/><br/>
@@ -136,8 +149,8 @@ export const ModalForm: FC<Props> = ({dataJson, setShowModal}) => {
                 </FormControl><br/>
                 <TextField error={!tfinstVal} className={styles["textfield"]} id="tf-inst" label={ institution } variant="standard" /><br/><hr className={styles["modal-line"]}/>
                 <div className={styles["modal-footer"]}>
-                    <Button className={ styles.button } onClick={ () => setShowModal(false) }  variant="outline-secondary"> Close </Button>
-                    <Button className={ styles.button } onClick={ exportFile } variant="secondary"> Submit </Button>
+                    <Button className={ styles.button } onClick={ () => setShowModal(false) }  variant="outline-secondary"> { closeButtonText } </Button>
+                    <Button className={ styles.button } onClick={ exportFile } variant="secondary"> { submitButtonText } </Button>
                 </div>
             </div>
         </div>

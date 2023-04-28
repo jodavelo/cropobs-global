@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { GetStaticProps, NextPage } from 'next';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'next-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,6 +23,9 @@ import { MapContext } from '../../context/map';
 import { APorcentagesBoxTr } from '../../components/data/porcentages-box/APorcentagesBoxTr';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { BackButton } from '../../components/data/back-button';
 
 interface sectionState {
     elementId: number,
@@ -292,52 +295,171 @@ const DataPage: NextPage = () => {
         axis_y : dataTranslate('chart2-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
     }
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    
+    const [sideBarColumn, setSideBarColumn] = useState('');
+    const [contentColumn, setContentColumn] = useState('');
+    const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
+    const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
+
+    const onCickCollapsed = () => {
+        
+        setIsCollapsed(!isCollapsed);
+        //console.log(isCollapsed)
+    }
+    useEffect(() => {
+        if( width! < 992 ) {
+            setSideBarColumn( '0%' );
+            setContentColumn( '100%' );
+        }
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+        }else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '10%' );
+                setContentColumn( '90%' );
+            }
+            
+        }
+        else if (width! > 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+            
+        }
+
+    }, [ isCollapsed ])
+
+    useEffect(() => {
+        if ( width! > 992 && width! < 1200 ) {
+            if ( !isCollapsed ) {
+                setSideBarColumn( '20%' );
+                setContentColumn( '80%' );
+            }else {
+                setSideBarColumn( '8%' );
+                setContentColumn( '92%' );
+            }
+        }
+        else if (width! > 1200 && width! < 1400){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '15%' );
+                setContentColumn( '85%' );
+            }else {
+                setSideBarColumn( '7%' );
+                setContentColumn( '93%' );
+            }
+            
+        }
+        else if (width! > 1400 && width! < 1600){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '6%' );
+                setContentColumn( '94%' );
+            }
+            
+        }
+        else if ( width! > 1600 ){
+            if ( !isCollapsed ) {
+                setSideBarColumn( '13%' );
+                setContentColumn( '87%' );
+            }else {
+                setSideBarColumn( '5%' );
+                setContentColumn( '95%' );
+            }
+        }
+        // if( width! < 991 ) setContentColumn('100%');
+    })
 
     return (
         <Layout title={dataTranslate('title-header')}>
-            <Container fluid>
-                <Row>
-                    <Col xs={12} lg={3} xl={2} className={styles.sidebar}>
-                        <SidebarComponent />
-                    </Col>
-                    <Col xs={12} lg={9} xl={10} className={styles['content-data']}>
-                        <Container fluid className={`${styles['content-data']} ${styles['no-padding']}`} >
-                            <Row>
-                                <Col xs={12} className={`${styles['no-margin']} ${styles['no-padding']}`}>
-                                    <MainBar key={uuidv4()} section='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quas quis quae accusantium vel' />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <LeftSideMenuContainer />
-                                <Col xs={12} lg={mapCol} style={showMap ? { display: 'block', height: '80vh', } : { display: 'none' }} className={`${styles['no-margin']} ${styles['no-padding']}`}>
-                                    
-                                </Col>
-                                <Col xs={12} lg={graphsCol} style={showGraphs ? { display: 'block', height: '80vh', border: '1px black solid', overflowY: 'scroll' } : { display: 'none' }}>
-                                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                                        <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} [<i>{`<`}]<b>{dataTranslate('label-chart2')}</b> {dataTranslate('label-chart3')} {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
-                                        <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{dataTranslate('label-chart7')}{dataTranslate('label-chart8')}: <br/> <i><b>1.5M</b></i> USD </div>
-                                    </div>
-                                    <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
-                                        {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
-                                    </ChartFrame>
-                                    <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                        {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
-                                    </ChartFrame>
-                                    <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                        {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
-                                    </ChartFrame>
-                                    <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') }}
-                                        data_2={{ value: percent2, text: dataTranslate('label-perc2') }} />
-                                    <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')}}/>
-                                    <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
-                                        <ChartSelectionPV chartConfigList={chartConfig} />
-                                    </ChartFrame>
-                                    <div> Source: <i>Data source</i> </div>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Col>
-                </Row>
+            <Container fluid className={ styles['custom-container-fluid'] }>
+                <div className={ styles['custom-subcontainer-fluid'] }>
+                    <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
+                        <div className={ isCollapsed ? styles['sidebar-component-container-collapsed'] : styles['sidebar-component-container'] }>
+                            <SidebarComponent isCollapsedProp={ isCollapsed }/>
+                        </div>
+                        <div className={ isCollapsed ? styles['sidebar-arrow-container-collapsed'] : styles['sidebar-arrow-container'] }>
+                            <Button id='btn-collapse-sidebar' onClick={ onCickCollapsed } className={ styles['button-collapsed'] } >
+                                {  
+                                    isCollapsed ? <KeyboardTabIcon/> : <KeyboardBackspaceIcon/> 
+                                }
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
+                        <Row className={ styles['padding-left-subcontainers'] }>
+                            <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                <MainBar key={ uuidv4() } section={` Trade `} >
+                                    <></>
+                                        {/* <BackButton /> */}
+                                </MainBar>
+                            </Col>
+                        </Row>
+                        <Row className={ styles['padding-left-subcontainers'] }>
+                            <Col xs={ 12 } style={{ height: '50px', padding: '0' }}>
+                                <Tabs
+                                    defaultActiveKey="home"
+                                    id="uncontrolled-tab-example"
+                                >
+                                    <Tab eventKey="home" title={ 'Graph' } tabClassName={styles.coloredTab}>
+                                        <Row style={{ paddingLeft: '12px' }}>
+                                            <LeftSideMenuContainer/>
+                                            <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                                
+                                                mapa
+                                                {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
+                                            
+                                            </Col>
+                                            <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
+                                                <div style={{display: 'flex', flexDirection: 'row'}}>
+                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} [<i>{`<`}]<b>{dataTranslate('label-chart2')}</b> {dataTranslate('label-chart3')} {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                                    <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{dataTranslate('label-chart7')}{dataTranslate('label-chart8')}: <br/> <i><b>1.5M</b></i> USD </div>
+                                                </div>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
+                                                    {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
+                                                </ChartFrame>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                    {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
+                                                </ChartFrame>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                                    {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
+                                                </ChartFrame>
+                                                <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') }}
+                                                    data_2={{ value: percent2, text: dataTranslate('label-perc2') }} />
+                                                <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')}}/>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
+                                                    <ChartSelectionPV chartConfigList={chartConfig} />
+                                                </ChartFrame>
+                                                <div> Source: <i>Data source</i> </div>
+                                            </Col>
+                                        </Row>
+                                    </Tab>
+                                    <Tab eventKey="profile" title={ 'Metadata' } tabClassName={styles.coloredTab}>
+
+                                    </Tab>
+                                </Tabs>
+                            </Col>
+                        </Row>
+                    </div>
+                    {/* ----- */}
+                </div>
+                
+                
             </Container>
         </Layout>
     )
