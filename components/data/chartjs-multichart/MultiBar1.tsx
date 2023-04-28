@@ -18,11 +18,12 @@ interface Props {
     databar2: number[],
     databar3: number[],
     databar4: number[],
+    databar5: number[],
     datapoints: number[],
     chartTexts: ChartTexts,
 };
 
-export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, databar3, databar4, chartTexts}) => {
+export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, databar3, databar4, databar5, chartTexts}) => {
     const data = {
         labels: xLabels,
         datasets: [
@@ -51,36 +52,43 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
             yAxisID: 'y1',
           },
           {
-          label: chartTexts.datasets[1],
-          data: databar1,
-          backgroundColor: 'rgba(100,209,209,1)',
-          yAxisID: 'y',
-        },
-        {
-          label: chartTexts.datasets[2],
-          data: databar2,
-          backgroundColor: 'rgba(178,178,178,1)',
-          yAxisID: 'y',
-        },
-        {
-          label: chartTexts.datasets[3],
-          data: databar3,
-          backgroundColor: 'rgba(178,0,178,1)',
-          yAxisID: 'y',
-        },
-        {
-          label: chartTexts.datasets[4],
-          data: databar4,
-          backgroundColor: 'rgba(178,178,0,1)',
-          yAxisID: 'y',
-        },
+            label: chartTexts.datasets[1],
+            data: databar1,
+            backgroundColor: 'rgba(100,209,209,1)',
+            yAxisID: 'y',
+          },
+          {
+            label: chartTexts.datasets[5],
+            data: databar5,
+            backgroundColor: 'rgba(178,178,0,1)',
+            yAxisID: 'y',
+          },
+          {
+            label: chartTexts.datasets[2],
+            data: databar2,
+            backgroundColor: 'rgba(178,178,178,1)',
+            yAxisID: 'y',
+          },
+          {
+            label: chartTexts.datasets[3],
+            data: databar3,
+            backgroundColor: 'rgba(178,0,178,1)',
+            yAxisID: 'y',
+          },
+          {
+            label: chartTexts.datasets[4],
+            data: databar4,
+            backgroundColor: 'rgba(178,178,0,1)',
+            yAxisID: 'y',
+          },/*
+          ,*/
         ]
       };
     
       const options = {
         responsive: true,
         devicePixelRatio: 2,
-        maintainAspectRatio: false,
+        aspectRatio: 1.4,
         interaction: {
           mode: 'index' as const,
           intersect: false,
@@ -119,13 +127,11 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
               display: true,
               text: chartTexts.axis_y2
             },
-            type: 'linear' as const,
-            display: true,
             position: 'right' as const,
             grid: {
               drawOnChartArea: false,
             },
-            stacked: true
+            min: 2.2,
           },
         },
       };
