@@ -23,7 +23,7 @@
     "podium3-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> ranked crop in number of calories produced per hectare in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Beans were the ",
     "podium3-title2":" ranked crop in number of calories produced per hectare in ",
-    "podium3-info": "The podium ranks crops according to their protein contribution per unit mass. This indicator is estimated from the grams of protein contained in 1 kilogram of food.",
+    "podium3-info": "The podium ranks crops according to their caloric contribution per unit mass. This indicator is estimated from the number of kilocalories contained in 1 kilogram of food.",
     
     "podium-option1":"Caloric contribution",
     "podium-option2":"Proteic contribution",
@@ -69,7 +69,7 @@
     "chart2-dataset4":"Imports",
     "chart2-axis-y":"Quantity (thousands of tons)",
     "chart2-axis-y2":"Self-sufficiency ratio (%)",
-    "chart2-toggle":"This graph shows the historical evolution of the composition of bean supply available for domestic consumption in contrast to production destined for export. It also shows the historical evolution of the self-sufficiency coefficient. ",
+    "chart2-toggle":"This graph shows the historical evolution of the composition of beans supply available for domestic consumption in contrast to production destined for export. It also shows the historical evolution of the self-sufficiency coefficient. You can select in the legend those variables that you wish to exclude from the display.",
 
     "sources-text": "Data sources:",
     "graphs_maps": "Maps and Graphs",

@@ -19,11 +19,11 @@
     "podium2-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución proteica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Los frijoles fueron el ",
     "podium2-title2":" alimento más importante en cuanto a su contribución proteica a la dieta en ",
-    "podium2-info": "El podio ordena los alimentos según su contribución protéica por unidad de masa. Este indicador se estima a partir de los gramos de proteínca contenidos en un 1 kilogramo de alimento.",
+    "podium2-info": "El podio clasifica los cultivos según su aporte proteico por unidad de masa. Este indicador se estima a partir de los gramos de proteína contenidos en 1 kilogramo de cultivo.",
     "podium3-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en número de calorías producidas por hectárea en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Los frijoles fueron el ",
     "podium3-title2":" cultivo más importante en número de calorías producidas por hectárea en ",
-    "podium3-info": "El podio ordena los alimentos según su contribución protéica por unidad de masa. Este indicador se estima a partir de los gramos de proteínca contenidos en un 1 kilogramo de alimento.",
+    "podium3-info": "El podio ordena los alimentos según su contribución calórica por unidad de masa. Este indicador se estima a partir del número de kilocalorías contenidos en un 1 kilogramo de alimento.",
     
     "podium-option1":"Aporte calórico",
     "podium-option2":"Aporte protéico",
@@ -69,7 +69,7 @@
     "chart2-dataset4":"Importaciones",
     "chart2-axis-y":"Cantidad (Miles de toneladas)",
     "chart2-axis-y2":"Coeficiente de auto-suficiencia (%)",
-    "chart2-toggle":"Este gráfico presenta la evolución histórica de la composición de la oferta de frijol disponible para consumo doméstico en contraste con la producción destinada a la exportación. Además, presenta la evolución histórica del coeficiente de autosuficiencia.",
+    "chart2-toggle":"Este gráfico muestra la evolución histórica de la composición de la oferta de frijol disponible para el consumo interno en contraste con la producción destinada a la exportación. También muestra la evolución histórica del coeficiente de autosuficiencia. Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
 
     "sources-text": "Fuentes:",
     "graphs_maps": "Mapas y Gráficos",

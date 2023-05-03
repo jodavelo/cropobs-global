@@ -170,11 +170,12 @@
 
 @media (max-width: 1000px) {
     .main-content-container {
-        margin-left: 15%;
+        margin-left: 1%;
+        width: 96%!important;
     }
     .main-content-container-consumption {
-        width:85%;
-        margin-left: 8%;
+        margin-left: 1%;
+        width: 96%!important;
     }
     .col-right-prodval{
         width:100%!important
