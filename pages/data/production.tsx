@@ -79,7 +79,7 @@ const ProductionPage: NextPage = () => {
         regionsOptions: { values: [], names: []}
     });
     const { regionsOptions, regionsObj } = regionsState;
-    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const { buttonBoth, buttonGraphs, buttonMap, activeBothButtons } = useContext( LeftSideMenuContext );
     const { map } = useContext( MapContext );
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
@@ -102,6 +102,11 @@ const ProductionPage: NextPage = () => {
 
     const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
     const [isMapView, setIsMapView] = useState(false);
+
+    useEffect(() => {
+        activeBothButtons();
+    }, []);
+
     useEffect(() => {
         if( buttonBoth ) {
             setMapCol(6)

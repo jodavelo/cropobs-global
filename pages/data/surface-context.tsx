@@ -92,7 +92,7 @@ const SurfaceContextPage: NextPage = () => {
         regionsOptions: { values: [], names: []}
     });
     const { regionsOptions, regionsObj } = regionsState;
-    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const { buttonBoth, buttonGraphs, buttonMap, activeBothButtons } = useContext( LeftSideMenuContext );
     const { map } = useContext( MapContext );
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
@@ -119,6 +119,10 @@ const SurfaceContextPage: NextPage = () => {
 
     const sectionName = 'surface-context';
     const [isMapView, setIsMapView] = useState(false);
+
+    useEffect(() => {
+        activeBothButtons();
+    }, []);
 
     useEffect(() => {
         // console.log(`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`)

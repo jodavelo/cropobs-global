@@ -98,7 +98,7 @@ const PVPage: NextPage = () => {
         regionsOptions: { values: [], names: []}
     });
     const { regionsOptions, regionsObj } = regionsState;
-    const { buttonBoth, buttonGraphs, buttonMap } = useContext( LeftSideMenuContext );
+    const { buttonBoth, buttonGraphs, buttonMap, activeBothButtons } = useContext( LeftSideMenuContext );
     const { map } = useContext( MapContext );
     const [mapCol, setMapCol] = useState(0);
     const [graphsCol, setGraphsCol] = useState(0);
@@ -138,6 +138,10 @@ const PVPage: NextPage = () => {
         }
         return result
     }
+
+    useEffect(() => {
+        activeBothButtons();
+    }, []);
 
     useEffect(() => {
         if( buttonBoth ) {
