@@ -8,6 +8,7 @@ interface Props {
     setSectionState: Function
     worldCode?: string
     resetPrices?: false
+    isForTrade?: boolean
 }
 
 const changeAdmin = (regionCode: string, countryCode: string, setSectionState: Function, worldCode: string, resetPrices: false) => {
@@ -44,7 +45,24 @@ const changeAdmin = (regionCode: string, countryCode: string, setSectionState: F
     }
 }
 
-export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', resetPrices= false }) => {
+export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', resetPrices= false, isForTrade = false }) => {
+    const onClickTradeBack = ( setSectionState: Function ) => {
+        setSectionState( (prevState: Record<string, any>) => ({
+            ...prevState,
+            countryCode: 'WLRD',
+            regionCode: 'WLRD'
+        }));
+        console.log('áanaklnlkakaa')
+        console.log({regionCode, countryCode, worldCode, setSectionState})
+    }
+    if( isForTrade ) {
+        if (regionCode === countryCode && countryCode === worldCode) return <></>
+        return (
+        <IconButton style={{color: 'black'}} onClick={ () => onClickTradeBack( setSectionState ) }>
+            <ReplayIcon/>
+        </IconButton>
+        )
+    }
     if (regionCode === countryCode && countryCode === worldCode) return <></>
     return (
     <IconButton style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode, resetPrices)}>

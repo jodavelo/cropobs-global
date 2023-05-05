@@ -50,3 +50,11 @@ export interface RegionsState {
     regionsObj: Record<string, RegionsData>
     regionsOptions: SelectOptions
 }
+
+export interface TradeFlowState { 
+    tradeFlowOptions: SelectOptions
+}
+
+export interface TradeElementState { 
+    tradeElementOptions: SelectOptions
+}
