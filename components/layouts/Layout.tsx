@@ -91,7 +91,10 @@ export const Layout: FC<Props> = ({ children, title }) => {
             setLayoutClassName( styles.databases );
             setIsDatabases( true );
         }
-        else if ( asPath == '/data/trades' )  {
+        else if ( asPath == '/data/trade'  )  {
+            setLayoutClassName( styles['data-trade'] );
+        }
+        else if ( asPath == '/data/trade'  )  {
             setLayoutClassName( styles['data-trade'] );
         }
             

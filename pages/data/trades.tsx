@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { BackButton } from '../../components/data/back-button';
+import { GenericMapView } from '../../components/ui/map/generic';
 
 interface sectionState {
     elementId: number,
@@ -421,7 +422,7 @@ const DataPage: NextPage = () => {
                                             <LeftSideMenuContainer/>
                                             <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                                 
-                                                mapa
+                                            <GenericMapView divContainer='trade-map' geoJsonUrl='https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/geojson/countries/BEANS_TRADE_AUX/ISO3_REPORTER/713999' />
                                                 {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
                                             
                                             </Col>

@@ -165,7 +165,7 @@ export const datasetGeneratorPV = (entries: any[], labels: Number[], key_attr: s
         }
         datasets.push(dataObj);
     });
-    console.log(datasets);
+    //console.log(datasets);
     return datasets;
 }
 

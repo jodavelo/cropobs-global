@@ -18,7 +18,7 @@
 
     "tree-toggle" : "Toggle tree English",
 
-    "chart1-title": "<Imports> of <common beans> - <Word>",
+    "chart1-title": "of common beans - <Word>",
     "chart1-axis-y":"Value (USD) and Quality (kg)",
     "chart1-dataset1":"Value (US$)",
     "chart1-dataset2":"Quantity (kg)",
@@ -44,5 +44,8 @@
     "chart32-title":"10-year moving average <common beans> <imports> value - <World>",
     "chart32-dataset1":"Quantity growth (10-yr moving avg)",
     "chart32-dataset2":"Value growth (10-yr moving avg)",
-    "chart32-dataset3":"Price growth (10-yr moving avg)" 
+    "chart32-dataset3":"Price growth (10-yr moving avg)",
+    "trade": "Trade",
+    "graphs_map": "Graphs and map",
+    "metadata": "Metadata"
 }

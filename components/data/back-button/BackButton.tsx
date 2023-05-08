@@ -4,6 +4,7 @@ import { FC, useEffect } from 'react';
 import { getCookie, setCookie } from 'cookies-next';
 import { back_button_step, back_button_step_es, back_button_step_pt } from '../../../helpers/data/tour';
 import { useTour } from '@reactour/tour';
+import { useRouter } from 'next/router';
 
 interface Props {
     regionCode: string
@@ -11,6 +12,8 @@ interface Props {
     setSectionState: Function
     locale: string
     worldCode?: string
+    resetPrices?: false
+    isForTrade?: boolean
 }
 
 const changeAdmin = (regionCode: string, countryCode: string, setSectionState: Function, worldCode: string) => {
@@ -47,11 +50,9 @@ const changeAdmin = (regionCode: string, countryCode: string, setSectionState: F
     }
 }
 
-export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', locale }) => {
-
+export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState, worldCode='WLRD', resetPrices= false, isForTrade = false, locale }) => {
     const { setSteps, setIsOpen } = useTour();
-
-    if (regionCode === countryCode && countryCode === worldCode) return <></>
+    
     
     useEffect(() => {
         if ( !(regionCode === countryCode && countryCode === worldCode) && !getCookie('back_button_tour') ) {
@@ -64,6 +65,25 @@ export const BackButton: FC<Props> = ({ regionCode, countryCode, setSectionState
             }
         }
     }, [regionCode, countryCode, locale]);
+
+    const onClickTradeBack = ( setSectionState: Function ) => {
+        setSectionState( (prevState: Record<string, any>) => ({
+            ...prevState,
+            countryCode: 'WLRD',
+            regionCode: 'WLRD'
+        }));
+        console.log('áanaklnlkakaa')
+        console.log({regionCode, countryCode, worldCode, setSectionState})
+    }
+    if( isForTrade ) {
+        if (regionCode === countryCode && countryCode === worldCode) return <></>
+        return (
+        <IconButton style={{color: 'black'}} onClick={ () => onClickTradeBack( setSectionState ) }>
+            <ReplayIcon/>
+        </IconButton>
+        )
+    }
+    if (regionCode === countryCode && countryCode === worldCode) return <></>
 
     return (
     <IconButton id='back-button' style={{color: 'white'}} onClick={() => changeAdmin(regionCode, countryCode, setSectionState, worldCode)}>
