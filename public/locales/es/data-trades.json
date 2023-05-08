@@ -18,7 +18,7 @@
 
     "tree-toggle" : "Toggle tree Espanol",
 
-    "chart1-title": "<Importaciones> de <common beans> - <Mundo>",
+    "chart1-title": "de common beans - <Mundo>",
     "chart1-axis-y":"Valor (USD) y Cantidad (kg)",
     "chart1-dataset1":"Valor (US$)",
     "chart1-dataset2":"Cantidad (kg)",
@@ -44,5 +44,8 @@
     "chart32-title":"Media móvil de 10 años de las <importaciones> de <common beans> - <Mundo>",
     "chart32-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
     "chart32-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
-    "chart32-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)"
+    "chart32-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)",
+    "trade": "Comercio",
+    "graphs_map": "Gráficos y mapa",
+    "metadata": "Metadatos"
 }

@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
 import { PodiumProductVal as Podium, PorcentagesBoxTr, ChartFrame,  MultichartTr, MultichartTr2 } from '../../components/data';
-import { dataFetcher, datasetGeneratorPV, generateYearsOptions} from '../../helpers/data';
+import { commarize, dataFetcher, datasetGeneratorPV, generateYearsOptions} from '../../helpers/data';
 
 import { annual_growth_optionsPV, ten_year_moving_average_optionsPV } from '../../helpers/data/chartjs-options';
 import { ChartSelectionPV } from '../../components/data/charts';
@@ -54,33 +54,71 @@ const legendTitleObject = {
 const tradeFlowObject = {
     en: {
         import: 'Import',
-        export: 'Export)'
+        export: 'Export',
+        imported: 'import',
+        exported: 'export',
+        imports: 'Imports',
+        exports: 'Exports'
     },
     es: {
         import: 'Importación',
-        export: 'Exportación'
+        export: 'Exportación',
+        imported: 'importó',
+        exported: 'exportó',
+        imports: 'Importaciones',
+        exports: 'Exportaciones'
     },
     pt: {
         import: 'Importação',
-        export: 'Exportação'
+        export: 'Exportação',
+        imported: 'importou',
+        exported: 'exportou',
+        imports: 'Importações',
+        exports: 'Exportações'
     }
 }
 
 const tradeFlowTitleByLocale = ( locale: string, option: number ) => {
     let text = '';
+    let text2 = '';
+    let text3 = '';
     if( locale == 'en' ) {
-        if(option == 1) text = tradeFlowObject.en.import;
-        if(option == 2) text = tradeFlowObject.en.export;
+        if(option == 1) {
+            text = tradeFlowObject.en.import;
+            text2 = tradeFlowObject.en.imported;
+            text3 = tradeFlowObject.en.imports;
+        }
+        if(option == 2) {
+            text = tradeFlowObject.en.export;
+            text2 = tradeFlowObject.en.exported;
+            text3 = tradeFlowObject.en.exports;
+        }
     }
     else if( locale == 'es' ) {
-        if(option == 1) text = tradeFlowObject.es.import;
-        if(option == 2) text = tradeFlowObject.es.export;
+        if(option == 1) {
+            text = tradeFlowObject.es.import;
+            text2 = tradeFlowObject.es.imported;
+            text3 = tradeFlowObject.es.imports;
+        }
+        if(option == 2) {
+            text = tradeFlowObject.es.export;
+            text2 = tradeFlowObject.es.exported;
+            text3 = tradeFlowObject.es.exports;
+        }
     }
     else if( locale == 'pt' ) {
-        if(option == 1) text = tradeFlowObject.pt.import;
-        if(option == 2) text = tradeFlowObject.pt.export;
+        if(option == 1) {
+            text = tradeFlowObject.pt.import;
+            text2 = tradeFlowObject.pt.imported;
+            text3 = tradeFlowObject.pt.imports;
+        }
+        if(option == 2) {
+            text = tradeFlowObject.pt.export;
+            text2 = tradeFlowObject.pt.exported;
+            text3 = tradeFlowObject.pt.exports;
+        }
     }
-    return text;
+    return { text, text2, text3 };
 }
 
 const legendTitleByLocale = ( locale: string, option: number ) => {
@@ -163,6 +201,8 @@ const DataPage: NextPage = () => {
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName, flowId } = sectionState;
 
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
+    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/WLRD/${ elementId }/713999/${ year }`, dataFetcher);
+    const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher);
 
     const { width } = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext(LeftSideMenuContext);
@@ -229,6 +269,8 @@ const DataPage: NextPage = () => {
     const { regionsOptions, regionsObj } = regionsState;
     const [legendTitle, setLegendTitle] = useState('');
     const [tradeFlowText, setTradeFlowText] = useState('');
+    const [tradeFlowText2, settradeFlowText2] = useState('');
+    const [tradeFlowText3, settradeFlowText3] = useState('');
     const [showCountries, setShowCountries] = useState(false);
 
     useEffect(() => {
@@ -353,7 +395,7 @@ const DataPage: NextPage = () => {
     })
 
     useEffect(() => {
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/WLRD/3002/713999/2021` })
+        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
             .then(response => {
                 const valuesAux = Array<number>(0)
                 const labelsAux = Array<string>(0)
@@ -465,6 +507,117 @@ const DataPage: NextPage = () => {
             })
     }, [])
 
+    useEffect(() => {  
+        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
+            .then(response => {
+                const valuesAux = Array<number>(0)
+                const labelsAux = Array<string>(0)
+                const labelsAuxES = Array<string>(0)
+                const labelsAuxPT = Array<string>(0)
+
+                response.data.data.observations.map((elem : any, idx : number)=>{
+                    if (idx > 79){
+                        valuesAux.push(elem.value)
+                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
+                        labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
+                        labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
+                    }
+                })
+                setTreeLabels(labelsAux)
+                setTreeLabelsES(labelsAuxES)
+                setTreeLabelsPT(labelsAuxPT)
+                setTreeValues(valuesAux)
+                setTreeLoading(false)
+            })
+            .catch(error => {
+                console.log(error)
+                setTreeFailed(true)
+            })     
+        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]` })
+            .then(response => {
+
+            const valuesAux1 = Array<number>(0)
+            const valuesAux2 = Array<number>(0)
+            response.data.data.observations.map((elem:any) =>{
+                if(elem.id_element == 3002) valuesAux1.push(elem.value)
+                else if(elem.id_element == 3001) valuesAux2.push(elem.value)
+            })
+            setChartValues11(valuesAux1)
+            setChartValues12(valuesAux2)
+            setChartLabels1(response.data.data.labels)
+            setChartLoading1(false)
+            })
+            .catch(error => {
+                console.log(error)
+                setChartFailed1(true)
+            })
+        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]` })
+            .then(response => {
+
+                const valuesAux1 = Array<number>(0)
+                const valuesAux2 = Array<number>(0)
+                const valuesAux3 = Array<number>(0)
+                const valuesAux4 = Array<number>(0)
+                const namesAux = Array<string>(0)
+                response.data.data.observations.map((elem:any) =>{
+                    if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
+                    if(elem.id_crop == 71331) {valuesAux1.push(elem.value) }
+                    else if(elem.id_crop == 71332) valuesAux2.push(elem.value)
+                    else if(elem.id_crop == 71333) valuesAux3.push(elem.value)
+                    else if(elem.id_crop == 71339) valuesAux4.push(elem.value)
+                })
+                setChartValues21(valuesAux3)
+                setChartValues22(valuesAux1)
+                setChartValues23(valuesAux4)
+                setChartValues24(valuesAux2)
+                setChartLabels2(response.data.data.labels)
+                setChartDataNms2(namesAux)
+                setChartLoading2(false)
+            })
+            .catch(error => {
+                console.log(error)
+                setChartFailed2(true)
+            })
+            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/${ countryCode }/3101/713999/${ year }` })
+            .then(response => {
+                setpercent1( Math.round(response.data * 1000)/1000)
+            })
+            .catch(error => {
+                console.log(error)
+                setpercent1(0)
+            })
+            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/${ countryCode }/3102/713999/${ year }` })
+            .then(response => {
+                setpercent2( Math.round(response.data * 100)/100)
+            })
+            .catch(error => {
+                console.log(error)
+                setpercent2(0)
+            })
+            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/${ countryCode }/3103/713999/${ year }` })
+            .then(response => {
+                setpercent3( Math.round(response.data * 100)/100)
+            })
+            .catch(error => {
+                console.log(error)
+                setpercent3(0)
+            })
+            axios({url: `${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`})
+            .then(response => {
+                const data = response.data.data;
+                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
+                const chartjsData = {labels: data.labels, datasets};
+                setanualdata(chartjsData)
+            })
+            axios({url: `${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`})
+            .then(response => {
+                const data = response.data.data;
+                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
+                const chartjsData = {labels: data.labels, datasets};
+                settenyearsdata(chartjsData)
+            })
+    }, [countryCode, flowId, year])
+
     const data = [
         {
             type: "treemap",
@@ -523,7 +676,7 @@ const DataPage: NextPage = () => {
     ]
 
     const chartTxts1 = {
-        title: dataTranslate('chart1-title'),
+        title:  tradeFlowText3 + ' ' + dataTranslate('chart1-title'),
         axis_x : "",
         axis_y : dataTranslate('chart1-axis-y'),
         datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2')]
@@ -541,7 +694,10 @@ const DataPage: NextPage = () => {
         setTradeFlow( { tradeFlowOptions: selectOptionsObject } )
         setTradeElements({ tradeElementOptions: selectElementsOptionsObject })
         setLegendTitle( legendTitleByLocale( locale!, elementId ));
-        setTradeFlowText( tradeFlowTitleByLocale(locale!, flowId) );
+        const { text, text2, text3 } = tradeFlowTitleByLocale(locale!, flowId)
+        setTradeFlowText( text );
+        settradeFlowText2( text2 );
+        settradeFlowText3( text3 );
     }, [])
     //console.log( flowId )
 
@@ -595,13 +751,39 @@ const DataPage: NextPage = () => {
         setTradeFlow( { tradeFlowOptions: selectOptionsObject } )
         setTradeElements({ tradeElementOptions: selectElementsOptionsObject })
         setLegendTitle( legendTitleByLocale( locale!, elementId ));
-        setTradeFlowText( tradeFlowTitleByLocale(locale!, flowId) );
+        const { text, text2, text3 } = tradeFlowTitleByLocale(locale!, flowId)
+        setTradeFlowText( text );
+        settradeFlowText2( text2 );
+        settradeFlowText3( text3 );
     }, [ locale ])
 
     useEffect(() => {
         setLegendTitle( legendTitleByLocale( locale!, elementId ));
-        console.log(baseUrl + `/api/v1/data/adminIds/BEANS_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`)
+        // console.log(baseUrl + `/api/v1/data/adminIds/BEANS_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`)
+        
     }, [ elementId ])
+
+    useEffect(() => {
+        const { text, text2, text3 } = tradeFlowTitleByLocale(locale!, flowId)
+        setTradeFlowText( text );
+        settradeFlowText2( text2 );
+        settradeFlowText3( text3 );
+    }, [ flowId ])
+
+    // ---------------------------------------------------------------------------------------
+    // Total import o export value 
+    // ---------------------------------------------------------------------------------------
+    const [tradeTotal, setTradeTotal] = useState<number | string>('');
+    useEffect(() => {
+        if( !isLoadingTradeTotalData ) {
+            setTradeTotal( commarize(tradeTotalData!) )
+            console.log(tradeTotalData)
+            console.log( commarize(tradeTotalData!) )
+        }
+    }, [ isLoadingTradeTotalData ])
+
+    
+    
     
     
 
@@ -628,7 +810,7 @@ const DataPage: NextPage = () => {
     useEffect(() => {
         setTitlePage(dataTranslate('title-header')!);
         setSearchCountryTextButton(dataTranslate('search_country')!);
-        setMapGraphsText(dataTranslate('graphs_maps')!);
+        setMapGraphsText(dataTranslate('graphs_map')!);
         setMetadataText(dataTranslate('metadata')!);
         
         setLocationText(locationName);
@@ -636,7 +818,7 @@ const DataPage: NextPage = () => {
     
 
     return (
-        <Layout title={ 'Trade' }>
+        <Layout title={ dataTranslate('title-header') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     {/* modificar el width abajo */}
@@ -656,7 +838,7 @@ const DataPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={` ${ 'Trade' } - ${''}`} >
+                                <MainBar key={ uuidv4() } section={ dataTranslate('trade') } >
                                         <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} isForTrade={ true } />
                                 </MainBar>
                             </Col>
@@ -697,8 +879,8 @@ const DataPage: NextPage = () => {
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                             <div style={{display: 'flex', flexDirection: 'row'}}>
-                                                <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} [<i>{`<`}]<b>{dataTranslate('label-chart2')}</b> {dataTranslate('label-chart3')} {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
-                                                <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{dataTranslate('label-chart7')}{dataTranslate('label-chart8')}: <br/> <i><b>1.5M</b></i> USD </div>
+                                                <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i><b>{ tradeFlowText2 }</b>  {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                                <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
                                             </div>
                                             <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
                                                 {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
