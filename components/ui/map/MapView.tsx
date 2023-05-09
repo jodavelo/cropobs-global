@@ -93,7 +93,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
                 [180, 90] // Northeast coordinates
             ];
         if (map.current!) return;
-        console.log('creating new map canvas');
+        //console.log('creating new map canvas');
         map.current! = new Map({
             container: mapDiv.current!, // container ID
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
@@ -181,7 +181,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
             });
             map.current!.on('click', 'country_layer', (e) => {
                 if (e.features?.length! > 0) {
-                    console.log("on click");
+                    //console.log("on click");
                     if (clickedStateId == null) {
                         map.current!.setFeatureState(
                             { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
@@ -256,7 +256,8 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
     });
 
     useEffect( () => {
-         console.log('Geo:'+isLoadingGeo+' '+'Quintil:'+isLoadingQuintil);
+        console.error(adminIds)
+         //console.log('Geo:'+isLoadingGeo+' '+'Quintil:'+isLoadingQuintil);
         if (!isLoadingGeo && !isLoadingQuintil && loaded && quintilArray && predata) {
             const { data: geojson } = predata;
             if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);

@@ -158,6 +158,22 @@
     gap: 5px;
 }
 
+.loader-gif {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    margin-left: -32px;
+    margin-top: -32px;
+}
+
+.show_loader {
+    display: block;
+}
+
+.hide_loader {
+    display: none;
+}
+
 .coloredTab {
     /* TODO: Aqui para cambiar el color de los tabs de metadatos y gráficos */
     color: rgb(112, 106, 106) !important;

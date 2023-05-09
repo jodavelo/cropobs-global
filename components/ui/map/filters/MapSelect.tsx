@@ -13,6 +13,7 @@ interface MapSelectInterface {
 export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined }) => {
     const { values, names } = options;
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log('áakankakan;anan;la')
         setSelected( (prevState: Record<string, any>) => ({
             ...prevState,
             [atrName]: e.target.value

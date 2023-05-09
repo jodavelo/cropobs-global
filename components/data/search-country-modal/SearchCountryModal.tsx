@@ -24,7 +24,7 @@ interface CountryRow {
 
 export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, clickId, setSectionState, setClickId }) => {
     const { map } = useContext( MapContext );
-    console.log(adminIdsUrl);
+    //console.log(adminIdsUrl);
     const { data: adminIds } = useSWR<String[]>(adminIdsUrl, dataFetcher);
     const [ rows, setRows ] = useState<CountryRow[]>([]);
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {

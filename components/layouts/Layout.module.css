@@ -128,8 +128,11 @@
     .about-us {
         /*height: 145vh;*/ 
     }
-    .data-sf, .data-prod, .data-prod-value, .data-consumption .data-prices, .data-prices-int, .data-trade {
+    .data-sf, .data-prod, .data-prod-value, .data-consumption .data-prices, .data-prices-int {
         height: 90vh;
+    }
+    .data-trade {
+        height: 100vh;
     }
     
     .databases {
