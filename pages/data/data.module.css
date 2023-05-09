@@ -161,7 +161,7 @@
 .coloredTab {
     /* TODO: Aqui para cambiar el color de los tabs de metadatos y gráficos */
     color: rgb(112, 106, 106) !important;
-  }
+}
 @media (min-width: 991px) {
     .padding-left-subcontainers {
         padding-left: 10px;

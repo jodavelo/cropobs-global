@@ -90,7 +90,7 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     }, [fetchDataUrl])
     ///console.log({ selected })
     return (
-        <>
+        <div style={{maxWidth:'800px',margin:'auto'}}>
             <select
                 value={selected}
                 onChange={(e) => {
@@ -106,6 +106,6 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
             }
             
             
-        </>
+        </div>
     )
 }

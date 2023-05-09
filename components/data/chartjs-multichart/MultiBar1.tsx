@@ -88,7 +88,7 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
       const options = {
         responsive: true,
         devicePixelRatio: 2,
-        aspectRatio: 1.4,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index' as const,
           intersect: false,
@@ -136,6 +136,8 @@ export const MultiBar1: FC<Props> = ({xLabels, datapoints, databar1, databar2, d
         },
       };
     return (
-    <ChartComponent type='bar' data={data} options={options as Object}/>
+      <div style={{position: 'relative', height: '400px', maxWidth: '800px'}}>
+        <ChartComponent type='bar' data={data} options={options as Object}/>
+      </div>
     )
 }

@@ -639,7 +639,7 @@ const PVPage: NextPage = () => {
                                                 </Row>
                                                 <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
                                             </Col>
-                                            <Col xs={ 12 } lg={ graphsCol } className={styles['col-right-prodval']} style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px', width: '92%' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', width: '48%' } : { display: 'none' } }>
+                                            <Col xs={ 12 } lg={ graphsCol } className={styles['col-right-prodval']} style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px', width: '98%' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', width: '48%' } : { display: 'none' } }>
                                                 {
                                                     buttonGraphs ?
                                                         <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
@@ -666,15 +666,13 @@ const PVPage: NextPage = () => {
                                                         <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
                                                         <br></br>
                                                         <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                                            
                                                                 <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
-                                                            </div>
+                                                            
                                                         </ChartFrame>
                                                         <br></br>
                                                         <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
-                                                            <div style={  showGraphs && !showMap ? {alignSelf: 'center'} : {} }>
-                                                                <ChartSelectionPV chartConfigList={chartConfig} />
-                                                            </div>
+                                                            <ChartSelectionPV chartConfigList={chartConfig} />
                                                         </ChartFrame>
                                                     </>
                                                     :
