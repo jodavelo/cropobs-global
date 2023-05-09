@@ -30,9 +30,9 @@ export const PodiumBar: FC<Props> = ({ data }) => {
                         </div>
                         <div className={ styles['bar-description'] }>
                             <div style={{ height: '50%', width: '100%', maxWidth: '90px'  }} className={ styles['bar-description-content'] }>
-                                <span className={ styles.tooltip }>
-                                    { o.cropName.length > 10 ? o.cropName.substring(0, 4) + '...' : o.cropName }
-                                    <span className={ styles.tooltiptext }>{ o.cropName }</span>
+                                <span className={ `${ styles.tooltip } ${ styles['wrap-text'] }` }>
+                                    {o.cropName}
+                                    {/* <span className={ styles.tooltiptext }>{ o.cropName }</span> */}
                                 </span>
                             </div>
                             <div style={{ height: '50%', width: '100%', maxWidth: '90px' }} className={ styles['bar-description-content'] }>
