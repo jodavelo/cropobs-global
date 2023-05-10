@@ -22,7 +22,13 @@ const saveCanvas = (elementId: string) => {
 
 export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {
     const [isOpen, setIsOpen] = useState(false);
-
+    let finalText: string='';
+    if(text.includes('`')) {
+        finalText = eval(text)   
+    }
+    else{
+        finalText = text
+    }
     return (
     <>
         <div className={ styles['multichart-footer'] }>
@@ -46,9 +52,7 @@ export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {
             </Button>
         </div>
         <Collapse in={ isOpen }>
-            <div style={{textAlign: 'justify', textJustify: 'inter-word', margin: '10px'}} id={ uuidv4() } key={ uuidv4() }>
-                { text }
-            </div>
+            <div style={{textAlign: 'justify', textJustify: 'inter-word', margin: '10px'}} id={ uuidv4() } key={ uuidv4() } dangerouslySetInnerHTML={{__html: finalText}}/>
         </Collapse>
     </>
     );

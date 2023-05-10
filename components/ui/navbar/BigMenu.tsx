@@ -21,14 +21,14 @@ export interface menuItems {
 export interface Props {
     title: string;
     options: menuItems[];
+    href: string;
 }
 
 //
-export const BigMenu = ({ title, options }: Props) => {
+export const BigMenu = ({ title, options, href }: Props) => {
     
     const [columnWidth, setColumnWidth] = useState(0);
     const [isActive, setIsActive] = useState(false);
-    let href = '/data';
     const { asPath, locale } = useRouter();
     const { 
         setIsHome, 
@@ -91,7 +91,7 @@ export const BigMenu = ({ title, options }: Props) => {
 
     return (
         <div className={ styles.dropdown2 } key={ uuidv4() }>
-            <button className={ styles.dropbtn2 } style={ isActive ? style : undefined }>{ title } 
+            <button className={ styles.dropbtn2 } style={asPath.includes(href) ? style : undefined}>{ title } 
                 <i className="fa fa-caret-down"></i>
             </button>
             <div className={ styles['dropdown2-content'] }>
@@ -106,7 +106,7 @@ export const BigMenu = ({ title, options }: Props) => {
                                 {
                                     items.menuOptions.map(option => (
                                         <Link key={ uuidv4() } href={ option.href } legacyBehavior passHref >
-                                            <a key={ uuidv4() }  onClick={ () => onNavigateBigMenu(option.href) }>{ option.menuLabel }</a>
+                                            <a key={ uuidv4() } style={ option.href === asPath ? style : undefined }  onClick={ () => onNavigateBigMenu(option.href) }>{ option.menuLabel }</a>
                                         </Link>
                                     ))
                                 }

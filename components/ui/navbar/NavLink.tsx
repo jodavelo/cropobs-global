@@ -11,7 +11,7 @@ import { v4 as uuidv4  } from 'uuid';
 import { BigMenu, menuItems } from './BigMenu';
 
 export const style: CSSProperties = {
-    color: '#0070f3',
+    color: '#a1a1a1',
     fontWeight: 'bolder'
     // textDecoration: 'underline',
 }
@@ -71,7 +71,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
     if( bigMenu?.isHugeMenu ) {
         return (
             // console.log(bigMenu.isHugeMenu, bigMenu.items)
-            <BigMenu key={ uuidv4() } title='Data' options={ bigMenu.items! } />
+            <BigMenu key={ uuidv4() } title='Data' options={ bigMenu.items! } href={href} />
         );
     }
     
@@ -80,12 +80,12 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
         return (
             <div className={styles.dropdown} key={ uuidv4() } >
                 {/* <button className={ styles.dropbtn } style={{ padding: 0, border:'none', background: 'none',  }} >About  */}
-                <div className={ styles.dropbtn } style={ href === asPath ? style : undefined } >About 
+                <div className={ styles.dropbtn } style={ asPath.includes(href) ? style : undefined } >About 
                     <i className="fa fa-caret-down"></i>
                 </div>
                 <div className={ styles['dropdown-content'] }>
-                    <Link key={ href } href={ href } locale={ locale } passHref legacyBehavior>
-                        <Nav.Link onClick={ onSetIsHome }>{ text }</Nav.Link>
+                    <Link key={ uuidv4() } href={ href } locale={ locale } passHref legacyBehavior>
+                        <Nav.Link onClick={ onSetIsHome } style={ href === asPath ? style : undefined }>{ text }</Nav.Link>
                     </Link>
                     <a href="#">Link 2</a>
                     <a href="#">Link 3</a>
