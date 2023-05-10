@@ -98,6 +98,10 @@
     font: inherit;
     margin: 0;
   }
+
+  .dropbtn2:hover {
+    color: white;
+  }
   
   .navbar a:hover, .dropdown2:hover .dropbtn2 {
     background-color: rgb(189, 189, 189);
@@ -171,6 +175,9 @@
       color:#9c9c9c !important
     }
     .spacingNavbarOptions:hover {
+      color: black !important;
+    }
+    .dropbtn2:hover {
       color: black !important;
     }
   }
