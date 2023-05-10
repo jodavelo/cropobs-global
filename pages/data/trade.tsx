@@ -683,7 +683,7 @@ const DataPage: NextPage = () => {
     }
     
     const chartTxts2 = {
-        title: dataTranslate('chart2-title'),
+        title: dataTranslate('chart2-title').replace("<imports>",tradeFlowText3).replace("<Word>",sectionState.admin),
         axis_x : "",
         axis_y : dataTranslate('chart2-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
