@@ -10,7 +10,7 @@ import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 
 import style from './data.module.css';
-import { PodiumProductVal as Podium, PorcentagesBox, MultichartPV, ChartFrame, MultiBar1, MultiBar2, MapCON } from '../../components/data';
+import { PodiumProductVal as Podium, PorcentagesBox, MultichartPV, ChartFrame, MultiBar1, MultiBar2, MapCON, ChartFrame1Btn } from '../../components/data';
 import { dataFetcher, datasetGeneratorPV, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions, generateYearsOptionsConsumption } from '../../helpers/data';
 
 import axios from 'axios';
@@ -636,7 +636,9 @@ const DataPage: NextPage = () => {
                                                     { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
                                                 </ChartFrame>
                                                 <br></br>
-                                                <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
+                                                <ChartFrame1Btn toggleText={dataTranslate('porc5-toggle')}>
+                                                    <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
+                                                </ChartFrame1Btn>
                                                 <br></br>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                                     { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 

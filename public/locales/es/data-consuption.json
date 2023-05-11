@@ -61,6 +61,7 @@
 
     "porc5-label":"Coeficiente de auto-suficiencia",
     "porc5-info": "Porcentaje de la demanda interna abastecida por la producción interna. Equivale a la relación entre la producción más las variaciones de existencias dividida por, la producción más las variaciones de existencias, más las importaciones, menos las exportaciones.",
+    "porc5-toggle":"",
     
     "chart2-title":"Comercio y suficiencia del frijol - #{}",
     "chart2-dataset1":"Coeficiente de auto-suficiencia",

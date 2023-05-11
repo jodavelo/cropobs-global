@@ -61,7 +61,8 @@
 
     "porc5-label":"Self-sufficiency ratio",
     "porc5-info": "Percentage of domestic demand supplied by domestic production. Equals the ratio of production plus stock variations divided by, production, plus stock variations, plus imports, minus exports.",
-    
+    "porc5-toggle":"",
+
     "chart2-title":"Beans trade and supply - #{}",
     "chart2-dataset1":"Self-sufficiency ratio",
     "chart2-dataset2":"Production for domestic use",
