@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, CSSProperties } from 'react'
+import { useState, useEffect, useContext, CSSProperties, useLayoutEffect } from 'react';
 import { GetStaticProps, NextPage } from 'next';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -44,6 +44,14 @@ export const textBold: CSSProperties = {
     fontSize: '25px'
 }
 
+interface locationNameOptions {
+    en: string;
+    es: string;
+    pt: string;
+    isoLabel: string;
+    clickId: number | null | string;
+}
+
 interface sectionState {
     elementId: number
     regionCode: string
@@ -51,7 +59,7 @@ interface sectionState {
     countryCode: string
     year: number
     admin: string
-    locationName: string
+    locationName: string;
 }
 
 const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui 
@@ -72,7 +80,16 @@ const SurfaceContextPage: NextPage = () => {
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
+    const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
+        en: 'World',
+        es: 'Mundo',
+        pt: 'Mundo',
+        isoLabel: 'WLRD',
+        clickId: 0
+    });
+    const [locationName2, setLocationName2] = useState('');
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName } = sectionState;
+    const [countryCode2, setCountryCode2] = useState('WLRD');
     const [onAverageIndicator, setOnAverageIndicator] = useState(0);
     const [indicators, setIndicators] = useState<PercentInfoProps[]>([]);
     const [elementsState, setElements] = useState<ElementsState>({
@@ -109,9 +126,9 @@ const SurfaceContextPage: NextPage = () => {
     const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
 
     const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
-    const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode }/1101/176/${ year }`, dataFetcher);
-    const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode }/1201/176/${ year }`, dataFetcher);
-    const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode }/1202/176/${ year }`, dataFetcher);
+    const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode2 }/1101/176/${ year }`, dataFetcher);
+    const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode2 }/1201/176/${ year }`, dataFetcher);
+    const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode2 }/1202/176/${ year }`, dataFetcher);
     // const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/27/${year}`, dataFetcher);
     // const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1101/27/${ year }`, dataFetcher);
     // const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1201/27/${ year }`, dataFetcher);
@@ -179,16 +196,96 @@ const SurfaceContextPage: NextPage = () => {
         if (map){
             map.on('load', () => {
                 map.on('click', 'country_layer', (e) => {
-                    setSectionState( (prevState) => ({
-                        ...prevState,
-                        countryCode: e.features![0].properties!.iso3,
-                        locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
-                    }));
-                    setClickId(e.features![0].id ?? null);
+                    
+                    if( e.features ){
+                        if( e.features[0] ){
+                            const { properties } = e.features[0]; 
+                            let id = e.features![0].id ?? null;
+                            const iso = properties!.iso3
+                            setSectionState( (prevState) => ({
+                                ...prevState,
+                                countryCode: iso,
+                                locationName: properties![dataTranslate('LOCALE_COUNTRY_NAME')]
+                            }));
+                            setCountryCode2(iso);
+                            console.log(properties!.iso3)
+                            setLocationNameOptions(( prevState ) => ({
+                                ...prevState,
+                                en: properties!.country_name,
+                                es: properties!.country_name_es,
+                                pt: properties!.country_name_pt,
+                                isoLabel: iso,
+                                clickId: id
+                            })); 
+                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
+                            setClickId(e.features![0].id ?? null);
+                        }
+                    }
+                    console.log(e.features![0].id)
                 });
             });
         }
     }, [map, dataTranslate, locale]);
+
+    useEffect(() => {
+        console.log(locationNameOptions)
+        let location = '';
+        switch (locale) {
+            case 'en':
+                location = locationNameOptions.en;
+                break;
+            case 'es':
+                location = locationNameOptions.es;
+                break;
+            default:
+                location = locationNameOptions.pt;           
+                break;
+        }
+        setLocationName2( location );
+        setLocationText( location );
+        setSectionState( (prevState) => ({
+            ...prevState,
+            countryCode: locationNameOptions.isoLabel,
+            locationName: location,
+        }));
+        setCountryCode2( locationNameOptions.isoLabel )
+        if( locationNameOptions.isoLabel === 'WLRD' ) {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
+            }
+        }else {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: true }
+                    );
+                }
+                setClickId( clickId );
+            }
+        }
+        //else setClickId( null );
+        console.log(clickId)
+        console.log({ map })
+    }, [locale]);
+
+    useEffect(() => {
+        if( clickId === null ) {
+            let title = '';
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setLocationName2( title );
+        }
+    }, [ clickId ])
+    
+    
 
 // ------------------------------------------------------------------------------------------------
     useEffect(() => {
@@ -251,14 +348,26 @@ const SurfaceContextPage: NextPage = () => {
                 regionCode: macroRegionCode == '10' ? 'WLRD' : codeRegion,
                 countryCode: codeRegion
             }));
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: false }
-                    );
+            if( locationNameOptions.isoLabel === 'WLRD' ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
                 }
-                setClickId(null);
+            }else {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: true }
+                        );
+                    }
+                    setClickId( clickId );
+                }
             }
         }
     }, [isLoadingRegions, macroRegionCode, locale]);
@@ -270,14 +379,26 @@ const SurfaceContextPage: NextPage = () => {
             countryCode: regionCode,
             locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
         }));
-        if(map){
-            if (clickId !== null){
-                map.setFeatureState(
-                    { source: 'geo_countries', id: clickId },
-                    { clicked: false }
-                );
+        if( locationNameOptions.isoLabel === 'WLRD' ) {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
             }
-            setClickId(null);
+        }else {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: true }
+                    );
+                }
+                setClickId( clickId );
+            }
         }
     }, [regionCode, dataTranslate])
 
@@ -357,14 +478,26 @@ const SurfaceContextPage: NextPage = () => {
                 ...prevState,
                 locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
             }));
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: false }
-                    );
+            if( locationNameOptions.isoLabel === 'WLRD' ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
                 }
-                setClickId(null);
+            }else {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: true }
+                        );
+                    }
+                    setClickId( clickId );
+                }
             }
         }
     }, [countryCode, dataTranslate]);
@@ -576,7 +709,7 @@ const SurfaceContextPage: NextPage = () => {
 
     // console.log(sideBarColumn, contentColumn)  
 
-    console.log(elementsOptions)
+    //console.log(elementsOptions)
     return (
         <Layout title={ titlePage }>
             <Container fluid className={ styles['custom-container-fluid'] }>
@@ -598,8 +731,8 @@ const SurfaceContextPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationText}`} >
-                                        <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} locale={ locale ?? 'en'}/>
+                                <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName2}`} >
+                                        <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/>
                                 </MainBar>
                             </Col>
                         </Row>
@@ -649,7 +782,7 @@ const SurfaceContextPage: NextPage = () => {
                                                     <></>
                                             }
                                             <PodiumWithLink 
-                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode }/5412/176/${ year }` } 
+                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode2 }/5412/176/${ year }` } 
                                                 text1={ text1Podium } 
                                                 text2={ `${ podiumRank }°` }
                                                 text3={ text2Podium }
@@ -664,8 +797,8 @@ const SurfaceContextPage: NextPage = () => {
                                             {/* <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p> */} 
                                             <PercentContainer data={ indicators } percentAlone={ false } />
                                             <br /> 
-                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1_1 } moreInfoTextStackedArea2={moreInfoChart1_2} stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1_1 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
-                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea={ moreInfoChart2_1 } moreInfoTextStackedArea2={ moreInfoChart2_2 } stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized={ moreInfoChart2_1 } moreInfoTextStackedAreaNormalized2={ moreInfoChart2_2 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1_1 } moreInfoTextStackedArea2={moreInfoChart1_2} stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1_1 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode2 }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
+                                            <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea={ moreInfoChart2_1 } moreInfoTextStackedArea2={ moreInfoChart2_2 } stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized={ moreInfoChart2_1 } moreInfoTextStackedAreaNormalized2={ moreInfoChart2_2 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode2 }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                             {/* <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
