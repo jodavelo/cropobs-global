@@ -38,6 +38,14 @@ const mapFilterElements = [58, 1059, 1060];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 
+interface locationNameOptions {
+    en: string;
+    es: string;
+    pt: string;
+    isoLabel: string;
+    clickId: number | null | string;
+}
+
 interface PercentConfig {
     value: number
     text: string
@@ -80,7 +88,16 @@ const PVPage: NextPage = () => {
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
+    const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
+        en: 'World',
+        es: 'Mundo',
+        pt: 'Mundo',
+        isoLabel: 'WLRD',
+        clickId: 0
+    });
+    const [locationName2, setLocationName2] = useState('');
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName } = sectionState;
+    const [countryCode2, setCountryCode2] = useState('WLRD');
     const [elementsState, setElements] = useState<ElementsState>({
         elementsObj: {},
         elementsOptions: { values: [], names: []}
@@ -194,16 +211,94 @@ const PVPage: NextPage = () => {
         if (map){
             map.on('load', () => {
                 map.on('click', 'country_layer', (e) => {
-                    setSectionState( (prevState) => ({
-                        ...prevState,
-                        countryCode: e.features![0].properties!.iso3,
-                        locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
-                    }));
-                    setClickId(e.features![0].id ?? null);
+                    if( e.features ){
+                        if( e.features[0] ){
+                            const { properties } = e.features[0]; 
+                            let id = e.features![0].id ?? null;
+                            const iso = properties!.iso3
+                            setSectionState( (prevState) => ({
+                                ...prevState,
+                                countryCode: e.features![0].properties!.iso3,
+                                locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
+                            }));
+                            setCountryCode2(iso);
+                            console.log(properties!.iso3)
+                            setLocationNameOptions(( prevState ) => ({
+                                ...prevState,
+                                en: properties!.country_name,
+                                es: properties!.country_name_es,
+                                pt: properties!.country_name_pt,
+                                isoLabel: iso,
+                                clickId: id
+                            })); 
+                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
+                            setClickId(e.features![0].id ?? null);
+                        }
+                    }                 
                 });
             });
         }
-    }, [map, dataTranslate]);
+        
+    }, [map, dataTranslate, locale]);
+
+    useEffect(() => {
+        let location = '';
+        switch (locale) {
+            case 'en':
+                location = locationNameOptions.en;
+                break;
+            case 'es':
+                location = locationNameOptions.es;
+                break;
+            default:
+                location = locationNameOptions.pt;           
+                break;
+        }
+        setLocationName2( location );
+        setLocationText( location );
+        setSectionState( (prevState) => ({
+            ...prevState,
+            countryCode: locationNameOptions.isoLabel,
+            locationName: location,
+        }));
+        setCountryCode2( locationNameOptions.isoLabel )
+        if( locationNameOptions.isoLabel === 'WLRD' ) {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
+            }
+        }else {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: true }
+                    );
+                }
+                setClickId( clickId );
+            }
+        }
+        setTitleSection(dataTranslate('section-name')!);
+    }, [locale])
+
+    useEffect(() => {
+        if( clickId === null ) {
+            let title = '';
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: title
+            }));
+            setLocationName2( title );
+        }
+    }, [ clickId ])
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
@@ -254,14 +349,26 @@ const PVPage: NextPage = () => {
                 regionCode: macroRegionCode == '10' ? 'WLRD' : codeRegion,
                 countryCode: codeRegion
             }));
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: false }
-                    );
+            if( locationNameOptions.isoLabel === 'WLRD' ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
                 }
-                setClickId(null);
+            }else {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: true }
+                        );
+                    }
+                    setClickId( clickId );
+                }
             }
         }
     }, [isLoadingRegions, macroRegionCode, dataTranslate]);
@@ -273,14 +380,26 @@ const PVPage: NextPage = () => {
             countryCode: regionCode,
             locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
         }));
-        if(map){
-            if (clickId !== null){
-                map.setFeatureState(
-                    { source: 'geo_countries', id: clickId },
-                    { clicked: false }
-                );
+        if( locationNameOptions.isoLabel === 'WLRD' ) {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
             }
-            setClickId(null);
+        }else {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: true }
+                    );
+                }
+                setClickId( clickId );
+            }
         }
     }, [regionCode, dataTranslate]);
 
@@ -291,14 +410,26 @@ const PVPage: NextPage = () => {
                 ...prevState,
                 locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
             }));
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: false }
-                    );
+            if( locationNameOptions.isoLabel === 'WLRD' ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
                 }
-                setClickId(null);
+            }else {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: true }
+                        );
+                    }
+                    setClickId( clickId );
+                }
             }
         }
     }, [countryCode, dataTranslate]);
@@ -354,12 +485,12 @@ const PVPage: NextPage = () => {
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
 
     useEffect( () => {
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/${clickId ? '1059' : '1153'}/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode2}/${clickId ? '1059' : '1153'}/176/${year}`})
         .then(response => {
             setValuePorc1(response.data)
         })
 
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode}/${clickId ? '1060' : '1154'}/176/${year}`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode2}/${clickId ? '1060' : '1154'}/176/${year}`})
         .then(response => {
             setValuePorc2(response.data)
         })
@@ -367,14 +498,14 @@ const PVPage: NextPage = () => {
     },[clickId, year, regionCode]);
 
     useEffect(() => {
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode2}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
                 const chartjsData = {labels: data.labels, datasets};
                 setanualdata(chartjsData)
             })
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}?elementIds=[2058,8184]&cropIds=[176,22008,22016]`})
+        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode2}?elementIds=[2058,8184]&cropIds=[176,22008,22016]`})
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
@@ -431,7 +562,7 @@ const PVPage: NextPage = () => {
         })
     
         setPodiumConfig({
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode}/${clickId ? '158' : '252'}/176/${year}`,
+            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode2}/${clickId ? '158' : '252'}/176/${year}`,
             text: dataTranslate('podium-title').replace('#{2}', year.toString()),
             description: dataTranslate('podium-info'),
         })
@@ -480,6 +611,8 @@ const PVPage: NextPage = () => {
     const [contentColumn, setContentColumn] = useState('');
     const [sideBarSubcolumn, setSideBarSubcolumn] = useState(9);
     const [collapsedSideBarButton, setCollapsedSideBarButton] = useState(3);
+    const [locationText, setLocationText] = useState('');
+    const [titleSection, setTitleSection] = useState('');
 
     const onCickCollapsed = () => {
         
@@ -611,8 +744,10 @@ const PVPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }}>
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}>
-                                    <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} locale={ locale ?? 'en'} />
+                                {/* <MainBar key={ uuidv4() } section={dataTranslate('section-text').replace('#{}',locationName)}> */}
+                                <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName2}`} >
+                                    {/* <BackButton regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} locale={locale ?? 'en'}/> */}
+                                    <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/>
                                 </MainBar>
                             </Col>
                         </Row>
