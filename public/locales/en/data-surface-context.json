@@ -25,7 +25,7 @@
     "plotly1_ylabel_by_share_beans": "Share of total area (%)",
     "plotly2_by_value_beans": "Harvested area of bean in relation to other fruits - ",
     "plotly2_ylabel_by_value_beans": "Area (ha)",
-    "plotly2_by_share_beans": "Share of harvested area of bean in relation to other fruits - ",
+    "plotly2_by_share_beans": "Share of harvested area of bean in relation to other legumes - ",
     "plotly2_ylabel_by_share_beans": "Share of total area (%)",
     "by_value": "By value",
     "by_share": "By share",
