@@ -1,5 +1,9 @@
 {
     "LOCALE_NAME": "ELEMENT_EN",
+    "LOCALE_COUNTRY_NAME": "country_name",
+    "LOCALE_FILTER_REGION": "region_name",
+
+    "world-locale": "World",
 
     "section-name": "Domestic Prices",
     "section-text": "Domestic Prices - #{}",
@@ -7,12 +11,33 @@
     "section-int-text": "International Prices - #{}",
 
     "chart-int-info": "International graph",
-
-    "chart1-title": "Yearly - #{}",
-    "chart2-title": "Yearly International Benchmark Prices by type of rice",
-    "chart3-title": "Monthly International Benchmark Prices by type of rice",
+    "podiums-info": "This podium ranks crops according to year-on-year growth in production, harvested area and yield for the selected period. The filter allows you to switch between the three variables. The podium will show the three crops that grew the most in relation to the selected variable, as well as the position of the beans in the selected region.",
+    "nominal-option-filter": "Current prices - SLC",
+    "real-option-filter": "Constant prices - SLC",
+    "usd-option-filter": "Current prices - USD",
+    "chart-title-whole-yearly": "Yearly Wholesale Prices",
+    "chart-title-consumer-yearly": "Yearly Consumer Prices",
+    "chart-title-producer-yearly": "Yearly Producer prices",
+    "chart-title-whole-monthly": "Monthly Wholesale Prices",
+    "chart-title-consumer-monthly": "Monthly Consumer Prices",
+    "chart-title-producer-monthly": "Monthly Producer Prices",
+    "chart1-title": " Yearly",
+    "chart1-title2": "Monthly",
+    "chart2-title": "Yearly International Benchmark Prices by type of rice - #{}",
+    "chart3-title": "Monthly International Benchmark Prices by type of rice - #{}",
     "chart1-info": "This graph presents the historical evolution of beans harvested area in hectares, production level in tons, and yield in tons per hectare for the selected region. This is a two-axis graph, where the one on the left shows the values for the production and area variables, while the one on the right shows the values for the yield variable.<br>You can select in the legend those variables that you wish to exclude from the visualization.",
 
-    "sources-text": "Data sources:"
-    
+    "sources-text": "Data sources:",
+    "graphs_maps": "Maps and Graphs",
+    "metadata": "Metadata",
+    "metadata_text1_beans": "This section includes information to a national level for 67 countries. In addition, you could find the information for four regions (Tropical, Latin American and The Caribbean, Sub-Saharan Africa, and South, South-East Asia, and Pacific).",
+    "metadata_text2_beans": "These are the available indicators",
+    "harvested_area": "Harvested area",
+    "harvested_area_description": "Common bean harvested area in hectares.",
+    "production": "Production",
+    "production_description": "Common bean harvest in tonnes.",
+    "yield": "Yield",
+    "yield_description": "Expressed yield in tonnes per hectares",
+    "references": "References",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
 }

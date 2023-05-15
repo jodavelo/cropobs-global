@@ -1,18 +1,44 @@
 {
     "LOCALE_NAME": "ELEMENT_ES",
+    "LOCALE_COUNTRY_NAME": "spanish_name",
+    "LOCALE_FILTER_REGION": "region_name_es",
+
+    "world-locale": "Mundo",
 
     "section-name": "Precios Nacionales",
     "section-text": "Precios Nacionales - #{}",
     "section-int-name": " Precios Internacionales",
-    "section-int-text": "Precios Internacionales- #{}",
+    "section-int-text": "Precios Internacionales - #{}",
 
     "chart-int-info": "Grafico internacionales",
-
-    "chart1-title": "Precios",
-    "chart2-title": "Precios internacionales de referencia anuales por tipo de arroz",
-    "chart3-title": "Precios internacionales de referencia mensuales por tipo de arroz",
+    "podiums-info": "Este podio ordena los cultivos en función del crecimiento interanual de la producción, del área cosechada y del rendimiento para el periodo seleccionado. El filtro le permite cambiar entre las tres variables. El podio mostrará los tres cultivos que crecieron más con relación a la variable seleccionada, además del puesto que ocupa el cultivo de yuca en la región seleccionada.",
+    "nominal-option-filter": "Precios corrientes - SLC",
+    "real-option-filter": "Precios constantes - SLC",
+    "usd-option-filter": "Precios corrientes - USD",
+    "chart-title-whole-yearly": "Precios mayoristas anuales",
+    "chart-title-consumer-yearly": "Precios al consumidor anuales",
+    "chart-title-producer-yearly": "Precios al productor anuales",
+    "chart-title-whole-monthly": "Precios mayoristas mensuales",
+    "chart-title-consumer-monthly": "Precios al consumidor mensuales",
+    "chart-title-producer-monthly": "Precios al productor mensuales",
+    "chart1-title": "anuales",
+    "chart1-title2": "mensuales",
+    "chart2-title": "Precios internacionales de referencia anuales por tipo de arroz - #{}",
+    "chart3-title": "Precios internacionales de referencia mensuales por tipo de arroz - #{}",
     "chart1-info": "Este gráfico presenta la evolución histórica del área cosechada de frijol en hectáreas, del nivel de producción en toneladas, y del rendimiento en toneladas por hectárea para la región seleccionada. Este es un gráfico de dos ejes, donde el de la izquierda muestra los valores para las variables de producción y área, mientras el de la derecha para la variable de rendimiento.<br>Podrás seleccionar en la leyenda aquellas variables que deseas excluir de la visualización.",
 
-    "sources-text": "Fuentes:"
+    "sources-text": "Fuentes:",
+    "graphs_maps": "Mapas y Gráficos",
+    "metadata": "Metadatos",
+    "metadata_text1_beans": "Esta sección incluye información a nivel nacional para 67 países. En adición, se puede encontrar información para cuatro regiones (tropical, América Latina y el Caribe, Áfrcia Sub-Sahariana, sur, sudeste asíatico y pacífico).",
+    "metadata_text2_beans": "Estos son los indicadores disponibles",
+    "harvested_area": "Superficie cosechada",
+    "harvested_area_description": "Área cosechada de fríjol común en hectáreas",
+    "production": "Producción",
+    "production_description": "Área cosechada de fríjol común en toneladas.",
+    "yield": "Rendimiento",
+    "yield_description": "Rendimiento expresado en toneladas por hectárea",
+    "references": "Referencias",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
     
 }

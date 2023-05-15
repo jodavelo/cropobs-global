@@ -1,19 +1,44 @@
 {
-
     "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "spanish_name",
+    "LOCALE_FILTER_REGION": "region_name_pt",
+
+    "world-locale": "Mundo",
 
     "section-name": "Preços domésticos",
     "section-text": "Preços domésticos - #{}",
     "section-int-name": "Preços internacionais",
-    "section-int-text": "Preços internacionais- #{}",
+    "section-int-text": "Preços internacionais - #{}",
 
     "chart-int-info": "internacionais grafico",
-
-    "chart1-title": "Preços",
-    "chart2-title": "Preços de referência internacionais anuais por tipo de arroz",
-    "chart3-title": "Preços de referência mensais internacionais por  tipo de arroz",
+    "podiums-info": "Este pódio classifica as colheitas de acordo com o crescimento anual da produção, área colhida e rendimento para o período selecionado. O filtro permite alternar entre as três variáveis. O pódio mostrará as três culturas que mais cresceram em relação à variável selecionada, assim como o ranking da cultura de mandioca na região selecionada.",
+    "nominal-option-filter": "Preços actuais - SLC",
+    "real-option-filter": "Preços constantes - SLC",
+    "usd-option-filter": "Preços actuais - USD",
+    "chart-title-whole-yearly": "Preços anuais de venda por grosso",
+    "chart-title-consumer-yearly": "Preços anuais ao consumidor",
+    "chart-title-producer-yearly": "Preços anuais ao produtor",
+    "chart-title-whole-monthly": "Preços mensais de venda por grosso",
+    "chart-title-consumer-monthly": "Preços mensais ao consumidor", 
+    "chart-title-producer-monthly": "Preços mensais ao produtor",
+    "chart1-title": "anuais",
+    "chart1-title2": "mensais",
+    "chart2-title": "Preços de referência internacionais anuais por tipo de arroz - #{}",
+    "chart3-title": "Preços de referência mensais internacionais por  tipo de arroz - #{}",
     "chart1-info": "Este gráfico apresenta a evolução histórica da área colhida de mandioca em hectares, o nível de produção em toneladas e o rendimento em toneladas por hectare para a região selecionada. Este é um gráfico de dois eixos, onde o eixo esquerdo mostra os valores para as variáveis de produção e área, enquanto o eixo direito mostra os valores para a variável de rendimento.<br>Você pode selecionar na legenda as variáveis que deseja excluir da visualização.",
 
-    "sources-text": "Fontes:"
+    "sources-text": "Fontes:",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados",
+    "metadata_text1_beans": "Esta secção inclui informação a nível de país para 67 países. Além disso, pode ser encontrada informação para quatro regiões (tropical, América Latina e Caraíbas, África Subsaariana, Sul e Sudeste Asiático e Pacífico).",
+    "metadata_text2_beans": "Estes são os indicadores disponíveis",
+    "harvested_area": "Área colhida",
+    "harvested_area_description": "Área colhida de feijão comum em hectares",
+    "production": "Produção",
+    "production_description": "Área colhida de feijão comum em toneladas.",
+    "yield": "Rendimento",
+    "yield_description": "Rendimento expresso em toneladas por hectare",
+    "references": "Referências",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
     
 }

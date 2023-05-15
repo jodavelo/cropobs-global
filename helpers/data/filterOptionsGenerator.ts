@@ -1,4 +1,4 @@
-import { ElementsData, RegionsData, SelectOptions, YearsData } from "../../interfaces/data";
+import { ElementsData, RegionsData, SelectOptions, YearsData, CitiesData, CitiesDataInt } from "../../interfaces/data";
 
 export const generateElementsOptions = (data: ElementsData[], locale_attr: string, mapFilterElements: Number[]) => {
     const options: SelectOptions = { values: [], names: [] };
@@ -7,6 +7,26 @@ export const generateElementsOptions = (data: ElementsData[], locale_attr: strin
             options.values.push(value.ID_ELEMENT as never);
             options.names.push(value[locale_attr as keyof typeof value] as never);
         }
+    });
+    return options;
+}
+
+export const generateCitiesOptions = (data:  CitiesData[], locale_attr: string) => {
+    const options: SelectOptions = { values: [], names: [] };
+    console.log(data);
+    data.forEach( (value, index) => {
+            options.values.push(value.id_geo_point as never);
+            options.names.push(value.label as never);
+    });
+    return options;
+}
+
+export const generateCitiesOptionsInt = (data:  CitiesDataInt[], locale_attr: string) => {
+    const options: SelectOptions = { values: [], names: [] };
+    console.log(data);
+    data.forEach( (value, index) => {
+            options.values.push(value.id_country as never);
+            options.names.push(value.country_name as never);
     });
     return options;
 }

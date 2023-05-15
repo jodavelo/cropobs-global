@@ -1,10 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import dynamic from "next/dynamic"
 import useSWR from 'swr';
 import { boxDataGenerator, dataFetcher } from '../../../helpers/data';
 import { DataButtons } from "../data-buttons/DataButtons";
 import { v4 as uuidv4 } from 'uuid';
 import { ModalForm } from "../modal-form";
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     dataURL: string;
@@ -54,31 +55,66 @@ const data = [
 
 export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description}) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false});
+    const { t: dataTranslate } = useTranslation('data-prices');
     const [priceType, setPriceType] = useState('nominal');
     const [showModal, setShowModal] = useState(false);
 
     const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
+    const [filterOptionNominal, setFilterOptionNominal] = useState('');
+    const [filterOptionReal, setFilterOptionReal] = useState('');
+    const [filterOptionUsd, setFilterOptionUsd] = useState('');
+
+    useEffect(() => {
+        setFilterOptionNominal(dataTranslate('nominal-option-filter')!);
+        setFilterOptionReal(dataTranslate('real-option-filter')!);
+        setFilterOptionUsd(dataTranslate('usd-option-filter')!);
+    }, )
 
     if (error) return <div>Failed to load {error.message}</div>
     if (isLoading) return <div>Loading...</div>
 
     const layout = {
+        font: {
+            family: "'Open Sans', sans-serif",
+            size: 14,
+            color: '#54667a'
+        },
         title:  {
             text: `<b> ${title}`,
             font: {
                 size: 14,
-                color: '#7a7a7a',
-                family: 'Montserrat, sans-serif'
             },
+            standoff: 5
+        },
+        xaxis: {
+            tickmode: "array",
+            tickangle: -45,
         },
         yaxis: {
-            title: 'SLC/kg',
+            title: {
+                text: 'SLC/Kg',
+                font: {
+                    size: 14,
+                },
+                standoff: 5
+            },
             zeroline: true,
             rangemode: 'tozero',
+            
         },
         autosize: true,
         boxmode: 'group',
-        legend: {"orientation": "h"},
+        legend: {
+            //borderwidth: 5,
+            orientation: "h",
+            yanchor: 'bottom',
+            y: -0.3,
+            xanchor: 'center',
+            x: 0.5,
+            itemsizing: 'constant',
+            valign: 'top',
+            traceorder: 'normal'
+        },
         colorway: Object.values(chartColors),
     };
 
@@ -90,9 +126,9 @@ export const PlotlyChartBox: FC<Props> = ({ dataURL, title, description}) => {
     <>
         <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
             <select value={priceType} onChange={(e) => setPriceType(e.target.value)} style={{marginTop: '10px'}}>
-                <option value="nominal">Current prices - SLC</option>
-                <option value="ipc">Constant prices - SLC</option>
-                <option value="usd">Current prices - USD</option>
+                <option value="nominal">{filterOptionNominal}</option>
+                <option value="ipc">{filterOptionReal}</option>
+                <option value="usd">{filterOptionUsd}</option>
             </select>
                 <Plot 
                     /*  @ts-ignore// */

@@ -8,6 +8,18 @@ export interface ElementsData {
     ELEMENT_EN:   string;
     SECTION_NAME: string;
 }
+export interface CitiesData {
+    id_geo_point : number;
+    id_country: number;
+    id_geo_admin2: number;
+    label: string
+}
+
+export interface CitiesDataInt {
+    id_country: number;
+    country_name: string
+    spanish_name: string
+}
 
 export interface MacroRegionsData {
     region_name:    string;

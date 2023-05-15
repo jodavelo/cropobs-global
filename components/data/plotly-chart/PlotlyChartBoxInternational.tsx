@@ -68,7 +68,14 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
     if (isLoading) return <div>Loading...</div>
 
     const layout = {
-        title: title,
+        title:  {
+            text: `<b> ${title}`,
+            font: {
+                size: 14,
+                color: '#7a7a7a',
+                family: 'Montserrat, sans-serif'
+            },
+        },
         yaxis: {
             title: 'USD / Ton',
             zeroline: true,
@@ -85,7 +92,7 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
     console.log(data);
     return (
     <>
-        <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
+        <div style={{ position: 'relative', height: '390px', margin: 'auto', maxWidth: '800px'}}>
     
             <Plot 
                 /*  @ts-ignore// */

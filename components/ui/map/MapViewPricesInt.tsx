@@ -27,6 +27,7 @@ interface Props {
     markers?: marker
     features?: Feature
     setIdCountry?: (data: number) => void;
+    setCountryName?: (data: string) => void;
     setIdGeoPoint?: (data: number) => void;
 }
 
@@ -49,7 +50,7 @@ const changeFillColor = (map: mapboxgl.Map, steps: Number[]) => {
 }
 
 
-export const MapViewPricesInt = ({ children, setIdCountry }: Props) => {
+export const MapViewPricesInt = ({ children, setIdCountry, setCountryName }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
@@ -140,9 +141,11 @@ export const MapViewPricesInt = ({ children, setIdCountry }: Props) => {
             map.current!.on('click', 'country_layer', (e) => {
 
                 setIdCountry?.(e.features![0].properties?.id_country)
+                setCountryName?.(e.features![0].properties?.country_name)
                 
             });
         });
+        setMap( map.current! );
     });
 
     return (

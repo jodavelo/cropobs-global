@@ -7,6 +7,7 @@ import useSWR from 'swr';
 import { dataFetcher, pricesLineDataGenerator, treeMapDataGenerator } from '../../../helpers/data';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from "../modal-form";
+import { useTranslation } from 'react-i18next';
 
 
 interface Props {
@@ -43,12 +44,21 @@ const chartColors = {
 
 export const PlotlyChartLine: FC<Props> = ({ dataURL, title, description }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
+    const { t: dataTranslate } = useTranslation('data-prices');
     const [priceType, setPriceType] = useState('nominal');
     const [showModal, setShowModal] = useState(false);
     const id = uuidv4();
    
     const {data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
+    const [filterOptionNominal, setFilterOptionNominal] = useState('');
+    const [filterOptionReal, setFilterOptionReal] = useState('');
+    const [filterOptionUsd, setFilterOptionUsd] = useState('');
 
+    useEffect(() => {
+        setFilterOptionNominal(dataTranslate('nominal-option-filter')!);
+        setFilterOptionReal(dataTranslate('real-option-filter')!);
+        setFilterOptionUsd(dataTranslate('usd-option-filter')!);
+    }, )
     if(error) return <div> Failed to load ...</div>
     if(isLoading) return <div>Is loading ...</div>
 
@@ -78,9 +88,9 @@ export const PlotlyChartLine: FC<Props> = ({ dataURL, title, description }) => {
         <>
             <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
                 <select value={priceType} onChange={(e) => setPriceType(e.target.value)} style={{marginTop: '10px'}}>
-                <option value="nominal">Current prices - SLC</option>
-                <option value="ipc">Constant prices - SLC</option>
-                <option value="usd">Current prices - USD</option>
+                    <option value="nominal">{filterOptionNominal}</option>
+                    <option value="ipc">{filterOptionReal}</option>
+                    <option value="usd">{filterOptionUsd}</option>
                 </select>
                     <Plot
                     /*  @ts-ignore// */
