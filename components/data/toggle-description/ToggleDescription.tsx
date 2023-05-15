@@ -10,19 +10,17 @@ interface Props {
 }
 
 export const ToggleDescription: FC<Props> = ({ isOpen, text, text2 = '' }) => {
-    // const [open, setOpen] = useState( isOpen );
-
-    // const collapseDivRef = useRef<HTMLDivElement>(null);
-
+    let finalText: string='';
+    if(text.includes('`')) {
+        finalText = eval(text+text2)   
+    }
+    else{
+        finalText = text+text2
+    }
     return (
         <>
             <Collapse in={ isOpen }>
-                <div key={ uuidv4() } className={ styles.text }>
-                    <p>{ text }</p>
-                    { 
-                        text2.length > 0 ? <p> { text2 } </p> : undefined
-                    }
-                </div>
+                <div key={ uuidv4() } className={ styles.text } dangerouslySetInnerHTML={{__html: finalText}}/>
                 
             </Collapse>
         </>

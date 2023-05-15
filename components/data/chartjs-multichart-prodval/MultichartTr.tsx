@@ -126,7 +126,8 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
     
       const options = {
         responsive: true,
-        aspectRatio: 1.9,
+        devicePixelRatio: 2,
+        maintainAspectRatio: false,
         interaction: {
           mode: 'index' as const,
           intersect: false,
@@ -179,6 +180,8 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
         },
       };
     return (
-    <ChartComponent type='line' data={data} options={options as Object}/>
+      <div style={{position: 'relative', height: '400px', maxWidth: '800px'}}>
+        <ChartComponent type='line' data={data} options={options as Object}/>
+      </div>
     )
 }

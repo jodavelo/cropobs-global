@@ -61,6 +61,7 @@
 
     "porc5-label":"Relação de auto-suficiência",
     "porc5-info": "Porcentagem da demanda doméstica suprida pela produção doméstica. Igual à razão produção mais variações de estoque dividida por, produção mais variações de estoque, mais importações, menos exportações.",
+    "porc5-toggle":"",
     
     "chart2-title":"Comercio y suficiencia del frijol - #{}",
     "chart2-dataset1":"Relação de auto-suficiência",
