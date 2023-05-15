@@ -117,7 +117,9 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yA
                     size: 14,
                 },
                 standoff: 5
-            }
+            },
+            zeroline: true,
+          
         },
         hovermode: 'x',
         // font: {
@@ -129,13 +131,13 @@ export const PlotlyChartStackedArea: FC<Props> = ({ dataTraces, title, ticks, yA
         legend: {
             //borderwidth: 5,
             orientation: "h",
-            yanchor: 'bottom',
-            y: positionLegend,
+            yanchor: 'center',
+            y: -0.5,
             xanchor: 'center',
             x: 0.5,
             itemsizing: 'constant',
             valign: 'top',
-            traceorder: 'normal'
+            traceorder: 'normal',
         },
         boxmode: 'group',
         autosize: true,

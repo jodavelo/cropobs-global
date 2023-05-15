@@ -142,8 +142,8 @@ export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataT
         legend: {
             //borderwidth: 5,
             orientation: "h",
-            yanchor: 'bottom',
-            y: positionLegend,
+            yanchor: 'center',
+            y: -0.5,
             xanchor: 'center',
             x: 0.5,
             itemsizing: 'constant',
