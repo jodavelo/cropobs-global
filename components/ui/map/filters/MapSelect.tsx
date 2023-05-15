@@ -1,6 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { SelectOptions } from '../../../../interfaces/data';
 import styles from './mapSelect.module.css';
+import { useTour } from '@reactour/tour';
+import { getCookie, setCookie } from 'cookies-next';
+import { map_select_filter_price, map_select_filter_price_es, map_select_filter_price_pt } from '../../../../helpers/data/tour';  
 
 interface MapSelectInterface {
     options: SelectOptions
@@ -8,12 +11,25 @@ interface MapSelectInterface {
     setSelected: Function
     atrName: string
     id?: string
+    locale?: string
 }
 
-export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined }) => {
+export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined, locale }) => {
     const { values, names } = options;
+    const { setSteps, setIsOpen } = useTour();
+    useEffect(() => {
+        if ( !(selected === 'Wholesale Price') && !getCookie('map_select_filter_price') ) {
+            if (setSteps) {
+                if( locale == 'en' ) setSteps(map_select_filter_price);
+                else if ( locale == 'es' ) setSteps(map_select_filter_price_es);
+                else if ( locale == 'pt' ) setSteps(map_select_filter_price_pt);
+                setCookie('map_select_filter_price', false);
+                setIsOpen(true);
+            }
+        }
+    }, [ locale]);
+
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log('áakankakan;anan;la')
         setSelected( (prevState: Record<string, any>) => ({
             ...prevState,
             [atrName]: e.target.value

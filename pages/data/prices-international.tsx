@@ -71,6 +71,7 @@ const ProductionPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
     const { locale } = useRouter();
     const[priceData, setPriceData] = useState<Feature>();
+    const [countryProperty, setCountryProperty] = useState<{ [name: string]: any } | undefined>();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         idCountry: 0,
         locationName: 'World'
@@ -150,20 +151,43 @@ const ProductionPage: NextPage = () => {
         if (map){
             map.on('load', () => {
                 map.on('click', 'country_layer', (e) => {
-                    const temCountryCode =e.features![0].properties?.id_country;
-                    const tempLocationNameI = e.features![0].properties?.[dataTranslate('LOCALE_COUNTRY_NAME')]
-                    setSectionState( (prevState) => ({
-                        ...prevState,
-                        idCountry: temCountryCode,
-                        locationName: tempLocationNameI,
-                    }));
-                    console.log(dataTranslate('LOCALE_COUNTRY_NAME'))
-                    setClickId(e.features![0].id ?? null);
+                    if (e.features && e.features.length > 0) { // check that features is defined and not empty
+                        setCountryProperty(e.features![0].properties as Properties); // pass undefined if properties is null or undefined
+                    }
                 });
             });
         }
-    }, [map,  dataTranslate, locationName]);
+    }, [map]);
 
+    useEffect(() =>{
+        if (countryProperty) { // make sure that countryProperty is defined before accessing its properties
+            let temCountryCode = countryProperty.id_country;
+            let tempLocationNameI = countryProperty?.[dataTranslate('LOCALE_COUNTRY_NAME')]
+            setSectionState((prevState) => ({
+              ...prevState,
+              idCountry: temCountryCode,
+              locationName: tempLocationNameI,
+            }));
+          }
+    }, [countryProperty, dataTranslate, locationName]);
+
+    // useEffect(() => {
+    //     if (map){
+    //         map.on('load', () => {
+    //             map.on('click', 'country_layer', (e) => {
+    //                 let temCountryCode = e.features![0].properties?.id_country;
+    //                 let tempLocationNameI = e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
+    //                 setSectionState( (prevState) => ({
+    //                     ...prevState,
+    //                     idCountry: temCountryCode,
+    //                     locationName: tempLocationNameI,
+    //                 }));
+    //                 setClickId(e.features![0].id ?? null);
+    //             });
+    //         });
+    //     }
+    // }, [dataTranslate, locationName, map]);
+    
 //Filter for district elements
     const fetchJson = () => {
         fetch('/api/international-prices')

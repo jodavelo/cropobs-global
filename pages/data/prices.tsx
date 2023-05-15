@@ -11,7 +11,7 @@ import styles from './data.module.css';
 import {PlotlyChartBox } from '../../components/data';
 import { PlotlyChartLine } from '../../components/data';
 import axios from 'axios';
-import { LeftSideMenuContainer, MapSelectPrices, MapSelect, MapSelectCity } from '../../components/ui/map/filters';
+import { LeftSideMenuContainer, MapSelectPrices, MapSelectCity, MapSelect } from '../../components/ui/map/filters';
 import { dataFetcher, generateElementsOptions, generateCitiesOptions } from '../../helpers/data';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
@@ -73,7 +73,7 @@ interface OtherTexts {
     element_locale: string
 }
 const mapFilterElements = [300050, 300051, 300052];
-const baseURL = 'https://cassavalighthouse.org';
+const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 let clickId: string | number | null = null;
 
 const PricesPage: NextPage = () => {
@@ -168,7 +168,7 @@ const PricesPage: NextPage = () => {
     }, [map]);
 
     const getPriceData = (elementId: SetStateAction<number> ) => {
-        axios.get(`https://cassavalighthouse.org/api/v1/geojson/admin2/prices/Nals/${elementId}`)
+        axios.get(`https://cropobs-central.ciat.cgiar.org/api/v1/geojson/admin2/125/prices/${elementId}`)
             .then(res=>{
                 setPriceData( res.data.data.geo_points)
                 let countries = res.data.data.geo_points.features;
@@ -446,7 +446,7 @@ const PricesPage: NextPage = () => {
                                                         buttonGraphs ?
                                                         <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
                                                             <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
-                                                                <MapSelect id='element-filter-price'  options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> 
+                                                                <MapSelect id='element-filter-price'  options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'  locale={ locale ?? 'en'}/> 
                                                                 <MapSelectCity id='city-filter'  options={citiesOptions} selected={idGeoPoint}   setSelected={setSectionState} dataCity={cityData} setIdCountry={setIdCountry} setIdGeoPoint={setIdGeoPoint} atrName='selectCity'/> 
 
                                                                 {/* <MapSelectPrices id='element-filter'  options={locationName} selected={locationName} setSelected={setSectionState} atrName='locationName'/>  */}
@@ -455,8 +455,8 @@ const PricesPage: NextPage = () => {
                                                         :
                                                             <></>
                                                     }                         
-                                                    <PlotlyChartBox dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/boxplot/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleYear} - ${locationName}`} description='Boxplot de precios '/>
-                                                    <PlotlyChartLine dataURL={`https://cassavalighthouse.org/api/v1/charts/prices/national/line/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleMonth} - ${locationName}`} description='Grafico de precios'/>  
+                                                    <PlotlyChartBox dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/boxplot/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleYear} - ${locationName}`} description='Boxplot de precios '/>
+                                                    <PlotlyChartLine dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/line/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleMonth} - ${locationName}`} description='Grafico de precios'/>  
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                                 </Row>
