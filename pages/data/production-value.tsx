@@ -25,7 +25,7 @@ import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, Regio
 import { useTour } from '@reactour/tour';
 import useSWR from 'swr';
 import { getCookie, setCookie } from 'cookies-next';
-import { general_data_steps, general_data_steps_es, general_data_steps_pt } from '../../helpers/data/tour';
+import { general_data_steps, general_data_steps_es, general_data_steps_es_mobile, general_data_steps_mobile, general_data_steps_pt, general_data_steps_pt_mobile } from '../../helpers/data/tour';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { BackButton } from '../../components/data/back-button';
 import { SourcesComponent } from '../../components/ui/sources-component';
@@ -438,9 +438,18 @@ const PVPage: NextPage = () => {
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
             if (setSteps) {
-                if( locale == 'en' ) setSteps(general_data_steps);
-                else if ( locale == 'es' ) setSteps(general_data_steps_es);
-                else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
+                if( window.innerWidth! < 991 ) {
+                    if( locale == 'en' ) setSteps(general_data_steps_mobile);
+                    else if ( locale == 'es' ) setSteps(general_data_steps_es_mobile);
+                    else if ( locale == 'pt' ) setSteps(general_data_steps_pt_mobile);
+                    console.error('fdklfbglkr')
+                }
+                else { 
+                    if( locale == 'en' ) setSteps(general_data_steps);
+                    else if ( locale == 'es' ) setSteps(general_data_steps_es);
+                    else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
+                    console.error('despues')
+                }
                 setCookie('production_tour', true);
                 setIsOpen(true);
             }
