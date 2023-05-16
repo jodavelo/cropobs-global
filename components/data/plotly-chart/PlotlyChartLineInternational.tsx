@@ -44,9 +44,62 @@ const chartColors = {
 export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, description }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
     const [priceType, setPriceType] = useState('month');
+    const { width } = useWindowSize();
     const [showModal, setShowModal] = useState(false);
+    const [chartHeight, setChartHeight] = useState(0);
+    const [positionLegend, setPositionLegend] = useState(0);
+    const [chartFontSize, setChartFontSize] = useState(0);
+
     const id = uuidv4();
-   
+    useEffect(() => {
+        if (width){
+          if( width < 300 ) {
+            setChartHeight(700);
+            setPositionLegend(-0.6);
+            setChartFontSize(8);
+          }
+          else if( width > 300 && width < 400) {
+            setChartHeight(500);
+            setPositionLegend(-1);
+            setChartFontSize(10);
+          }
+          else if( width > 400 && width < 500) {
+            // setChartHeight(500);
+            setPositionLegend(-0.6);
+            setChartFontSize(11);
+          }
+          else if( width > 500 && width < 700) {
+            // setChartHeight(500);
+            setPositionLegend(-0.4);
+            setChartFontSize(12);
+          }
+          else if( width > 700 && width < 1000) {
+            // setChartHeight(500);
+            setPositionLegend(-0.4);
+            setChartFontSize(13);
+          }
+          else if( width > 1000 && width < 1200) {
+            // setChartHeight(500);
+            setPositionLegend(-0.38);
+            setChartFontSize(14);
+          }
+          else if( width > 1200 && width < 1400) {
+            // setChartHeight(500);
+            setPositionLegend(-0.6);
+            // setChartFontSize(14);
+          }
+          else if( width > 1400 && width < 1600 ) {
+            setChartHeight(450);
+            setPositionLegend(-0.62);
+            setChartFontSize(14);
+          }
+          else if( width > 1600 && width < 3000){
+            setChartHeight(450);
+            setPositionLegend(-0.60);
+            setChartFontSize(15);
+          }
+        }
+      }, [width])
     const {data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
 
     if(error) return <div> Failed to load ...</div>
@@ -56,9 +109,9 @@ export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, descri
         title:  {
             text: `<b> ${title}`,
             font: {
-                size: 14,
+                size: chartFontSize,
                 color: '#7a7a7a',
-                family: 'Montserrat, sans-serif'
+                family: "'Open Sans', sans-serif"
             },
         },
         yaxis: {
