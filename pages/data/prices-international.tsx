@@ -179,7 +179,7 @@ const ProductionPage: NextPage = () => {
                                 locationName: properties![dataTranslate('LOCALE_COUNTRY_NAME')]
                             }));
                             setCountryCode2(iso);
-                            console.log(properties!.iso3)
+                            console.log(properties!.id_country)
                             setLocationNameOptions(( prevState ) => ({
                                 ...prevState,
                                 en: properties!.country_name,
@@ -473,7 +473,7 @@ const ProductionPage: NextPage = () => {
                         <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                             <Row className={ styles['padding-left-subcontainers'] }>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName2}`} >
+                                    <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName}`} >
                                         <BackButtonPricesInt  idCountry={idCountry} locationName={locationName} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
