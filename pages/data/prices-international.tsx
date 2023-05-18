@@ -31,7 +31,13 @@ import data from '../api/international-prices';
 
 
 //let clickId: string | number | null = null;
-
+interface locationNameOptions {
+    en: string;
+    es: string;
+    pt: string;
+    isoLabel: string;
+    clickId: number | null | string;
+}
 interface sectionState {
     idCountry: number
     locationName: string
@@ -61,6 +67,7 @@ interface OtherTexts {
     section_name: string
     section_text: string
     chart1_info: string
+    chart2_info: string
     sources_text: string
     search_country: string
     element_locale: string
@@ -76,6 +83,15 @@ const ProductionPage: NextPage = () => {
         idCountry: 0,
         locationName: 'World'
     });
+    const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
+        en: 'World',
+        es: 'Mundo',
+        pt: 'Mundo',
+        isoLabel: 'WLRD',
+        clickId: 0
+    });
+    const [locationName2, setLocationName2] = useState('');
+    const [countryCode2, setCountryCode2] = useState('WLRD');
     const {idCountry, locationName } = sectionState;
     const [citiesName, setCityName] = useState<CitiesState>({
         citiesObj: {},
@@ -151,25 +167,84 @@ const ProductionPage: NextPage = () => {
         if (map){
             map.on('load', () => {
                 map.on('click', 'country_layer', (e) => {
-                    if (e.features && e.features.length > 0) { // check that features is defined and not empty
-                        setCountryProperty(e.features![0].properties as Properties); // pass undefined if properties is null or undefined
+                    
+                    if( e.features ){
+                        if( e.features[0] ){
+                            const { properties } = e.features[0]; 
+                            let id = e.features![0].id ?? null;
+                            const iso = properties!.id_country
+                            setSectionState( (prevState) => ({
+                                ...prevState,
+                                idCountry: iso,
+                                locationName: properties![dataTranslate('LOCALE_COUNTRY_NAME')]
+                            }));
+                            setCountryCode2(iso);
+                            console.log(properties!.iso3)
+                            setLocationNameOptions(( prevState ) => ({
+                                ...prevState,
+                                en: properties!.country_name,
+                                es: properties!.spanish_name,
+                                pt: properties!.spanish_name,
+                                isoLabel: iso,
+                                clickId: id
+                            })); 
+                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.spanish_name : e.features![0].properties!.spanish_name) )
+                            setClickId(e.features![0].id ?? null);
+                        }
                     }
+                    console.log(e.features![0].id)
                 });
             });
         }
-    }, [map]);
+    }, [map, dataTranslate, locale]);
 
-    useEffect(() =>{
-        if (countryProperty) { // make sure that countryProperty is defined before accessing its properties
-            let temCountryCode = countryProperty.id_country;
-            let tempLocationNameI = countryProperty?.[dataTranslate('LOCALE_COUNTRY_NAME')]
-            setSectionState((prevState) => ({
-              ...prevState,
-              idCountry: temCountryCode,
-              locationName: tempLocationNameI,
-            }));
-          }
-    }, [countryProperty, dataTranslate, locationName]);
+    useEffect(() => {
+        console.log(locationNameOptions)
+        let location = '';
+        switch (locale) {
+            case 'en':
+                location = locationNameOptions.en;
+                break;
+            case 'es':
+                location = locationNameOptions.es;
+                break;
+            default:
+                location = locationNameOptions.pt;           
+                break;
+        }
+        setLocationName2( location );
+        setLocationText( location );
+        setSectionState( (prevState) => ({
+            ...prevState,
+            countryCode: locationNameOptions.isoLabel,
+            locationName: location,
+        }));
+        setCountryCode2( locationNameOptions.isoLabel )
+        if( locationNameOptions.isoLabel === 'WLRD' ) {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: false }
+                    );
+                }
+                setClickId(null);
+            }
+        }else {
+            if(map){
+                if (clickId !== null){
+                    map.setFeatureState(
+                        { source: 'geo_countries', id: clickId },
+                        { clicked: true }
+                    );
+                }
+                setClickId( clickId );
+            }
+        }
+        //else setClickId( null );
+        console.log(clickId)
+        console.log({ map })
+    }, [locale]);
 
     // useEffect(() => {
     //     if (map){
@@ -312,7 +387,8 @@ const ProductionPage: NextPage = () => {
     // Local variables for translation
     // --------------------------------------------------------------------------------------------------------------
 
-
+    const [locationText, setLocationText] = useState('');
+    const [titleSection, setTitleSection] = useState('');
     const [mapGraphsText, setMapGraphsText] = useState('');
     const [metadataText, setMetadataText] = useState('');
     const [metadataText1, setMetadataText1] = useState('');
@@ -328,6 +404,7 @@ const ProductionPage: NextPage = () => {
     const [metadataText11, setMetadataText11] = useState('');
     const [metadataText12, setMetadataText12] = useState('');
     useEffect(() => {
+        setTitleSection(dataTranslate('section-int-name')!);
         setMapGraphsText(dataTranslate('graphs_maps')!);
         setMetadataText(dataTranslate('metadata')!);
         setMetadataText1(dataTranslate('metadata_text1_beans')!);
@@ -340,14 +417,16 @@ const ProductionPage: NextPage = () => {
         setMetadataText8(dataTranslate('yield_description')!);
         setMetadataText9(dataTranslate('references')!);
         setMetadataText10(dataTranslate('faotext')!);
-    }, )
+        setLocationText(locationName);
+
+    }, [dataTranslate, locationName])
     useEffect(() => {
 
         const chartTitle = dataTranslate('chart2-title').replace('#{}',locationName)
         const chartTitleLine = dataTranslate('chart3-title').replace('#{}',locationName)
         setChartTitle(chartTitle)
         setChartTitleLine(chartTitleLine)
-        setOtherTexts({section_name: dataTranslate('section-int-name'), section_text: dataTranslate('section-int-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
+        setOtherTexts({section_name: dataTranslate('section-int-name'), section_text: dataTranslate('section-int-text').replace('#{}',locationName), chart1_info: dataTranslate('chart-int-info'), chart2_info: dataTranslate('chart-int-info2'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
         
     }, [dataTranslate, locationName]);
 
@@ -394,7 +473,7 @@ const ProductionPage: NextPage = () => {
                         <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                             <Row className={ styles['padding-left-subcontainers'] }>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={otherTexts ? otherTexts.section_text : 'Loading...'} >
+                                    <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName2}`} >
                                         <BackButtonPricesInt  idCountry={idCountry} locationName={locationName} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
@@ -422,8 +501,8 @@ const ProductionPage: NextPage = () => {
                                                         :
                                                             <></>
                                                         }
-                                                            <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitle} description='Grafico de precios' /> 
-                                                            <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitleLine} description='Grafico de precios'/>
+                                                            <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
+                                                            <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                             </Row>
