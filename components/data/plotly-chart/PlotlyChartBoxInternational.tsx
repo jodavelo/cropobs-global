@@ -145,7 +145,7 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
     console.log(data);
     return (
     <>
-        <div style={{ position: 'relative', height: '390px', margin: 'auto', maxWidth: '800px'}}>
+        <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
     
             <Plot 
                 /*  @ts-ignore// */

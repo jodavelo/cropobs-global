@@ -100,6 +100,7 @@ export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, descri
           }
         }
       }, [width])
+      
     const {data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
 
     if(error) return <div> Failed to load ...</div>
@@ -130,7 +131,7 @@ export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, descri
 
     return (
     <>
-        <div style={{ position: 'relative', height: '390px', margin: 'auto', maxWidth: '800px'}}>
+        <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
             <Plot
              /*  @ts-ignore// */
                 id={ id }

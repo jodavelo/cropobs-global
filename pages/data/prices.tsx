@@ -68,6 +68,7 @@ interface OtherTexts {
     section_name: string
     section_text: string
     chart1_info: string
+    chart2_info: string
     sources_text: string
     search_country: string
     element_locale: string
@@ -396,7 +397,7 @@ const PricesPage: NextPage = () => {
 
     useEffect(() => {
         
-        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
+        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), chart2_info: dataTranslate('chart2-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
         
     }, [dataTranslate, locationName]);
     
@@ -455,8 +456,8 @@ const PricesPage: NextPage = () => {
                                                         :
                                                             <></>
                                                     }                         
-                                                    <PlotlyChartBox dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/boxplot/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleYear} - ${locationName}`} description='Boxplot de precios '/>
-                                                    <PlotlyChartLine dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/line/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleMonth} - ${locationName}`} description='Grafico de precios'/>  
+                                                    <PlotlyChartBox dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/boxplot/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleYear} - ${locationName}`} description={otherTexts ? otherTexts.chart1_info : 'Loading...'}/>
+                                                    <PlotlyChartLine dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/line/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleMonth} - ${locationName}`} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>  
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                                 </Row>
