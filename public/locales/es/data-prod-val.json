@@ -36,11 +36,13 @@
     "chart21-dataset2":"Valor agregado (Agricultura, Silvicultura y Pesca)",
     "chart21-dataset3":"Producto Interno Bruto",
     "chart2-toggle":"Este gráfico presenta la evolución histórica de las tasas de crecimiento del valor de la producción de frijoles, del PIB y del PIB agrícola. El filtro de la esquina superior derecha permite cambiar la visualización entre la tasa de crecimiento anual y la media móvil de 10 años de dicha tasa. La tasa de crecimiento anual refleja el cambio porcentual de la variable de interés en relación con el año anterior, mientras que la media móvil expresa el promedio de ese cambio en los últimos diez años. Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
+    "chart21-y-axis":"Tasa de crecimiento(%)",
 
     "chart22-title":"Media móvil de 10 años - #{}",
     "chart22-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
     "chart22-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
     "chart22-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)",
+    "chart22-y-axis":"Tasa de crecimiento(%)",
 
     "sources-text": "Fuentes:",
     "graphs_maps": "Mapas y Gráficos",

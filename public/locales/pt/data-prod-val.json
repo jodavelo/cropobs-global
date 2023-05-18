@@ -36,11 +36,13 @@
     "chart21-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
     "chart21-dataset3":"Produto Interno Bruto",
     "chart2-toggle":"Este gráfico apresenta a evolução histórica das taxas de crescimento do valor da produção do feijão, do PIB e do PIB agrícola. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual e a média móvel de 10 anos da taxa de crescimento anual. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança durante os últimos dez anos. Você pode selecionar na legenda as variáveis que deseja excluir do visor",
+    "chart21-y-axis":"Taxa de crescimento(%)",
 
     "chart22-title":"Média móvel de 10 anos - #{}",
     "chart22-dataset1":"Feijão, seco",
     "chart22-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
     "chart22-dataset3":"Produto Interno Bruto",
+    "chart22-y-axis":"Taxa de crescimento(%)",
 
     "sources-text": "Fontes:",
     "graphs_maps": "Mapas e Gráficos",

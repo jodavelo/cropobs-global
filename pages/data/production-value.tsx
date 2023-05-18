@@ -152,6 +152,7 @@ const PVPage: NextPage = () => {
         for (let key in options) {
             result[key] = options[key]
             if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart2'+index+'-title').replace('#{}', locationName)
+            if(key == "scales") result[key]['y']['title']['text'] = dataTranslate('chart2'+index+'-y-axis')
         }
         return result
     }
