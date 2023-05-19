@@ -29,6 +29,7 @@ import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { LocalSeeRounded } from '@mui/icons-material';
+import { LoadingComponent } from '../../components/ui/loading-component';
 
 interface sectionState {
     elementId: number
@@ -454,7 +455,7 @@ const PricesPage: NextPage = () => {
                                                             </Row>
                                                         </Row>
                                                         :
-                                                            <></>
+                                                        <div style={{height:"100%",width:"100%",position:"absolute",top:"40%",left:"50%"}}><LoadingComponent/></div>
                                                     }                         
                                                     <PlotlyChartBox dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/boxplot/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleYear} - ${locationName}`} description={otherTexts ? otherTexts.chart1_info : 'Loading...'}/>
                                                     <PlotlyChartLine dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/line/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleMonth} - ${locationName}`} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>  

@@ -35,6 +35,7 @@ import { TradeMap } from '../../components/ui/map/trade';
 import { RegionsState, SelectOptions, TradeElementState, TradeFlowState, YearsData, YearsState } from '../../interfaces/data';
 import useSWR from 'swr';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
+import { LoadingComponent } from '../../components/ui/loading-component';
 
 const legendTitleObject = {
     en: {
@@ -246,9 +247,9 @@ const DataPage: NextPage = () => {
     let [chartLoading2, setChartLoading2] = useState(true)
     let [chartFailed2, setChartFailed2] = useState(false)
 
-    let [percent1, setpercent1] = useState(0)
-    let [percent2, setpercent2] = useState(0)
-    let [percent3, setpercent3] = useState(0)
+    let [percent1, setpercent1] = useState(-1000)
+    let [percent2, setpercent2] = useState(-1000)
+    let [percent3, setpercent3] = useState(-1000)
 
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
@@ -878,27 +879,34 @@ const DataPage: NextPage = () => {
                                         
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                            <div style={{display: 'flex', flexDirection: 'row'}}>
-                                                <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i><b>{ tradeFlowText2 }</b>  {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
-                                                <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
-                                            </div>
-                                            <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
-                                                {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
-                                            </ChartFrame>
-                                            <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
-                                            </ChartFrame>
-                                            <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                                {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
-                                            </ChartFrame>
-                                            <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') }}
-                                                data_2={{ value: percent2, text: dataTranslate('label-perc2') }} />
-                                            <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')}}/>
-                                            <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
-                                                <ChartSelectionPV chartConfigList={chartConfig} />
-                                            </ChartFrame>
-                                            <div> Source: <i>Data source</i> </div>
+                                        {(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels.length>0) ?
+                                            <>
+                                                <div style={{display: 'flex', flexDirection: 'row'}}>
+                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i><b>{ tradeFlowText2 }</b>  {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                                    <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
+                                                </div>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
+                                                    {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
+                                                </ChartFrame>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                    {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
+                                                </ChartFrame>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                                    {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
+                                                </ChartFrame>
+                                                <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') }}
+                                                    data_2={{ value: percent2, text: dataTranslate('label-perc2') }} />
+                                                <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')}}/>
+                                                <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
+                                                    <ChartSelectionPV chartConfigList={chartConfig} />
+                                                </ChartFrame>
+                                                <div> Source: <i>Data source</i> </div>
+                                            </>
+                                        :
+                                        <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
+                                        }
                                         </Col>
+                                        
                                     </Row>
                                     
                                 </Tab>

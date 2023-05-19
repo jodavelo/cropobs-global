@@ -33,6 +33,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useWindowSize } from '../../hooks';
 import { useRouter } from 'next/router';
 import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
+import { LoadingComponent } from '../../components/ui/loading-component';
 
 var styles = style;
 const mapFilterElements = [6, 7, 645];
@@ -471,34 +472,34 @@ const DataPage: NextPage = () => {
         },
     ];
 
-    let [perCapConsup, setPerCapConsup] = useState(0);
+    let [perCapConsup, setPerCapConsup] = useState(-1000);
 
-    let [dataComplmnt1, setDataComplmnt1] = useState(0);
-    let [dataComplmnt2, setDataComplmnt2] = useState(0);
-    let [dataComplmnt3, setDataComplmnt3] = useState(0);
-    let [dataComplmnt4, setDataComplmnt4] = useState(0);
+    let [dataComplmnt1, setDataComplmnt1] = useState(-1000);
+    let [dataComplmnt2, setDataComplmnt2] = useState(-1000);
+    let [dataComplmnt3, setDataComplmnt3] = useState(-1000);
+    let [dataComplmnt4, setDataComplmnt4] = useState(-1000);
     const [locationText, setLocationText] = useState('');
     const [titleSection, setTitleSection] = useState('');
 
-    let [selfSuff, setSelfSuff] = useState(0);
+    let [selfSuff, setSelfSuff] = useState(-1000);
 
     let [dataPorcentage1, setPorc1] = useState({
-        value: 0,
+        value: -1000,
         text: ``,
     })
 
     let [dataPorcentage2, setPorc2] = useState({
-        value: 0,
+        value: -1000,
         text: ``,
     });
 
     let [dataPorcentage3, setPorc3] = useState({
-        value: 0,
+        value: -1000,
         text: ``,
     })
 
     let [dataPorcentage4, setPorc4] = useState({
-        value: 0,
+        value: -1000,
         text: ``,
     });
 
@@ -778,6 +779,8 @@ const DataPage: NextPage = () => {
                                                 }
                                                 {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
                                                     <br></br>
+                                                {(podiumConfig && perCapConsup!==-1000 && dataPorcentage1.value!==-1000 && dataComplmnt1!==-1000 && dataPorcentage2.value!==-1000 && dataComplmnt2!==-1000 && dataPorcentage3.value!==-1000 && dataComplmnt3!==-1000 && dataPorcentage4.value!==-1000  && dataComplmnt4!==-1000 && xlabels1.length!==0 && selfSuff!==-1000 && xlabels2.length!==0) ?
+                                                <>
                                                 <PodiumSelectionCon podiumsList={podiumConfig} />
                                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
                                                 <br></br>
@@ -795,9 +798,15 @@ const DataPage: NextPage = () => {
                                                 </ChartFrame1Btn>
                                                 <br></br>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                                    { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
+                                                    { xlabels2.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                                 </ChartFrame>
                                                 <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                                </>
+                                                :
+                                                <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
+                                                    <LoadingComponent/>
+                                                </div>
+                                            }
                                             </Col>
                                         </Row>
                                     </Tab>

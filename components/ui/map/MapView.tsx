@@ -6,6 +6,7 @@ import { dataFetcher } from '../../../helpers/data';
 import { MapLegend } from './legend/MapLegend';
 import { Data, GeoJSONData } from '../../../interfaces/data/map';
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
+import { LoadingComponent } from '../loading-component';
 
 interface Props {
     geoJsonURL: string
@@ -284,6 +285,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
          </div>
          {/* Unit should de passed as a prop. TODO */}
          <MapLegend unit={elementUnit ?? ''} title={legendTitle} percentiles={quintilArray ?? Array(5).fill(0)} isMapViewProps={ isMapView } />
+        { (isLoadingGeo || isLoadingQuintil || errorGeo) ? <div style={{height:"100%",width:"100%",position:"absolute",top:"40%",left:"50%"}}><LoadingComponent/></div> : <div></div> }
       </>
     )
 }

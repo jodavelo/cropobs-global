@@ -37,6 +37,7 @@ import { general_data_steps, general_data_steps_es, general_data_steps_es_mobile
 import { BackButton } from '../../components/data/back-button';
 import { SourcesComponent } from '../../components/ui/sources-component';
 import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
+import { LoadingComponent } from '../../components/ui/loading-component';
 
 export const textBold: CSSProperties = {
     color: '#3e3e3e', 
@@ -790,6 +791,8 @@ const SurfaceContextPage: NextPage = () => {
                                                 :
                                                     <></>
                                             }
+                                            {(!isLoadingElements && !isLoadingYears && !isLoadingMacroRegions && !isLoadingRegions)?
+                                            <>
                                             <PodiumWithLink 
                                                 dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode2 }/5412/176/${ year }` } 
                                                 text1={ text1Podium } 
@@ -816,6 +819,11 @@ const SurfaceContextPage: NextPage = () => {
                                             <br/>
                                             <ChartSelection chartConfigList={chartConfig} /> */}
                                             <SourcesComponent sourcesText={ locale == 'en' ? 'Data Sources:' : ( locale == 'es' ? 'Fuentes:' : 'Fontes:' ) } shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                            </>
+                                            :
+                                            <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
+                                            }
+                                            
                                         </Col>
                                     </Row>
                                     

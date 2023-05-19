@@ -33,6 +33,7 @@ import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
 import { useRouter } from 'next/router';
+import { LoadingComponent } from '../../components/ui/loading-component';
 
 const mapFilterElements = [58, 1059, 1060];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
@@ -821,7 +822,8 @@ const PVPage: NextPage = () => {
                                                         </ChartFrame>
                                                     </>
                                                     :
-                                                    'Loading...'
+                                                    <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
+                                                    
                                                 }
                                                 <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                             </Col>

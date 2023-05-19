@@ -32,6 +32,7 @@ import { useWindowSize } from '../../hooks';
 import { positionPodiumReplacer } from '../../helpers/data/podium/positionPodiumReplacer';
 import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
 import { useRouter } from 'next/router';
+import { LoadingComponent } from '../../components/ui/loading-component';
 
 
 interface locationNameOptions {
@@ -670,7 +671,9 @@ const ProductionPage: NextPage = () => {
                                                         :
                                                             <></>
                                                         }
-                                                    {
+                                                        {(!isLoadingElements && !isLoadingYears && !isLoadingMacroRegions && !isLoadingRegions) ?
+                                                        <>
+                                                        {
                                                             lineChartConfig ? 
                                                             <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode2}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
                                                             : 'Loading...'
@@ -687,7 +690,11 @@ const ProductionPage: NextPage = () => {
                                                         <ChartSelection chartConfigList={chartConfig} />
                                                             : 'Loading...'
                                                         }
-                                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />          
+                                                    </>
+                                                        :
+                                                        <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
+                                                        }
                                                 </Col>
                                             </Row>
                                         </Tab>
