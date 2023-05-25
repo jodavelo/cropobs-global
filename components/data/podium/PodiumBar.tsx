@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { FC, useState, useEffect } from 'react';
 import styles from './podium.module.css';
+import { getLengthOfText, getLongestString } from '../../../helpers/data/podium/podiumHelpers';
 
 export interface DataPodium {
     rank: number;
@@ -17,6 +18,21 @@ interface Props {
 }
 
 export const PodiumBar: FC<Props> = ({ data }) => {
+    const [isLongText, setIsLongText] = useState(false);
+    const [cropNameContainer, setCropNameContainer] = useState('');
+    const [cropImageContainer, setCropImageContainer] = useState('');
+    let longestText = getLongestString([
+        data[0]?.cropName ?? '',
+        data[1]?.cropName ?? '',
+        data[2]?.cropName ?? '',
+        data[3]?.cropName ?? ''
+    ]);
+    useEffect(() => {
+        let textLength = getLengthOfText( longestText );
+        if( textLength < 12 )  setCropNameContainer( '35%' );
+        else setCropNameContainer( '50%' );
+    }, [ data ])
+    
     return (
         <>
             {
@@ -29,13 +45,13 @@ export const PodiumBar: FC<Props> = ({ data }) => {
                             </div>
                         </div>
                         <div className={ styles['bar-description'] }>
-                            <div style={{ height: '50%', width: '100%', maxWidth: '90px'  }} className={ styles['bar-description-content'] }>
+                            <div style={{ height: cropNameContainer, width: '100%', maxWidth: '90px'  }} className={ styles['bar-description-content'] }>
                                 <span className={ `${ styles.tooltip } ${ styles['wrap-text'] }` }>
                                     {o.cropName}
                                     {/* <span className={ styles.tooltiptext }>{ o.cropName }</span> */}
                                 </span>
                             </div>
-                            <div style={{ height: '50%', width: '100%', maxWidth: '90px' }} className={ styles['bar-description-content'] }>
+                            <div style={{ height: cropImageContainer, width: '100%', maxWidth: '90px' }} className={ styles['bar-description-content'] }>
                                 <Image src={ o.urlIcon } key={ o.urlIcon } width={ 30 } height={ 30 } alt={ `Icon ${ o.cropName }` }></Image>
                             </div>
                         </div>

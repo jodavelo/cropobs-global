@@ -20,3 +20,20 @@ export const toFindCropOfInterest = (dataFetched: PodiumDataStructureFetchApi, c
     } )
     return numberRank;
 }
+
+export const getLengthOfText = (text: string) => text.length;
+export const getLongestString = (arrayOfStrings: string[]): string => {
+    if (arrayOfStrings.length === 0) {
+        return '';
+    }
+
+    let longestString = arrayOfStrings[0];
+    
+    for (let i = 1; i < arrayOfStrings.length; i++) {
+        if (getLengthOfText(arrayOfStrings[i]) > getLengthOfText(longestString)) {
+            longestString = arrayOfStrings[i];
+        }
+    }
+    
+    return longestString;
+}
