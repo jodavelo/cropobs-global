@@ -211,6 +211,21 @@ const DataPage: NextPage = () => {
     }, [map, dataTranslate, locale]);
 
     useEffect(() => {
+        let title = '';
+        if( clickId === null ) {
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setLocationName2( title );
+        }else {
+            if( locale == 'en' ) title = locationNameOptions.en;
+            if( locale == 'es' ) title = locationNameOptions.es;
+            if( locale == 'pt' ) title = locationNameOptions.pt;
+            setLocationName2( title );
+        }
+    }, [ clickId ])
+
+    useEffect(() => {
         let location = '';
         switch (locale) {
             case 'en':
