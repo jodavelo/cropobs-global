@@ -879,8 +879,8 @@ const DataPage: NextPage = () => {
                                         
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        {(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels.length>0) ?
-                                            <>
+                                        {/*(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels.length>0) ?
+                                           */ <>
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
                                                     <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i><b>{ tradeFlowText2 }</b>  {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
@@ -902,9 +902,9 @@ const DataPage: NextPage = () => {
                                                 </ChartFrame>
                                                 <div> Source: <i>Data source</i> </div>
                                             </>
-                                        :
+                                        /*:
                                         <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
-                                        }
+                                        */}
                                         </Col>
                                         
                                     </Row>
