@@ -52,6 +52,14 @@ const legendTitleObject = {
     }
 }
 
+interface locationNameOptions {
+    en: string;
+    es: string;
+    pt: string;
+    isoLabel: string;
+    clickId: number | null | string;
+}
+
 const tradeFlowObject = {
     en: {
         import: 'Import',
@@ -200,7 +208,14 @@ const DataPage: NextPage = () => {
         flowId: 1        
     });
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName, flowId } = sectionState;
-
+    const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
+        en: 'World',
+        es: 'Mundo',
+        pt: 'Mundo',
+        isoLabel: 'WLRD',
+        clickId: 0
+    });
+    const [countryCode2, setCountryCode2] = useState('WLRD');
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
     const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/WLRD/${ elementId }/713999/${ year }`, dataFetcher);
     const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher);
@@ -273,6 +288,9 @@ const DataPage: NextPage = () => {
     const [tradeFlowText2, settradeFlowText2] = useState('');
     const [tradeFlowText3, settradeFlowText3] = useState('');
     const [showCountries, setShowCountries] = useState(false);
+
+    // --------------------------------
+    const [locationName2, setLocationName2] = useState('');
 
     useEffect(() => {
         if (buttonBoth) {
@@ -506,6 +524,13 @@ const DataPage: NextPage = () => {
                 const chartjsData = {labels: data.labels, datasets};
                 settenyearsdata(chartjsData)
             })
+        if( clickId === null ) {
+            let title = '';
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setLocationName2( title );
+        }
     }, [])
 
     useEffect(() => {  
@@ -712,21 +737,42 @@ const DataPage: NextPage = () => {
         if (map){
             map.on('load', () => {
                 map.on('click', 'country_layer', (e) => {
-                    setIsCountry( true );
-                    console.log(e.features![0].properties!.iso3)
-                    const iso = e.features![0].properties!.iso3;
-                    //console.log( e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')])
-                    setSectionState( (prevState) => ({
-                        ...prevState,
-                        countryCode: iso,
-                        regionCode: 'trade_country'
-                        //locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
-                    }));
-                    // setClickId(e.features![0].id ?? null);
+                    if( e.features ) {
+                        if( e.features[0] ){
+                            const { properties } = e.features[0]; 
+                            let id = e.features![0].id ?? null;
+                            setIsCountry( true );
+                            console.log(e.features![0].properties!.iso3)
+                            const iso = e.features![0].properties!.iso3;
+                            //console.log( e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')])
+                            setSectionState( (prevState) => ({
+                                ...prevState,
+                                countryCode: iso,
+                                regionCode: 'trade_country'
+                                //locationName: e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
+                            }));
+                            setLocationNameOptions(( prevState ) => ({
+                                ...prevState,
+                                en: properties!.country_name,
+                                es: properties!.country_name_es,
+                                pt: properties!.country_name_pt,
+                                isoLabel: iso,
+                                clickId: id
+                            })); 
+                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
+                            setClickId(e.features![0].id ?? null);
+                        }
+                    }
+                    
                 });
             });
         }
     }, [map, dataTranslate, locale]);
+
+    useEffect(() => {
+        console.log({clickId})
+    }, [ locale ])
+    
 
     // This useEffect is used when the back button is clicked
     useEffect(() => {
@@ -839,8 +885,9 @@ const DataPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={ dataTranslate('trade') } >
-                                        <BackButton locale={ locale! } regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} isForTrade={ true } />
+                                <MainBar key={ uuidv4() } section={  `${dataTranslate('trade')} -  ${locationName2}` } >
+                                        {/* <BackButton locale={ locale! } regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} isForTrade={ true } /> */}
+                                        <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/>
                                 </MainBar>
                             </Col>
                         </Row>
