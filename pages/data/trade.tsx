@@ -31,11 +31,13 @@ import { GenericMapView } from '../../components/ui/map/generic';
 import { GenericMapContext, GenericMapProvider } from '../../context/map/generic';
 
 import gif from '../../public/Spinner-0.5s-98px.gif';
-import { TradeMap } from '../../components/ui/map/trade';
+// 
 import { RegionsState, SelectOptions, TradeElementState, TradeFlowState, YearsData, YearsState } from '../../interfaces/data';
 import useSWR from 'swr';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { LoadingComponent } from '../../components/ui/loading-component';
+import { TradeApiResponse, TradeObservation } from '../../interfaces/data/trade/trade-helpers';
+import { TradeMapView } from '../../components/ui/map/trade';
 
 const legendTitleObject = {
     en: {
@@ -219,6 +221,7 @@ const DataPage: NextPage = () => {
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
     const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/WLRD/${ elementId }/713999/${ year }`, dataFetcher);
     const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher);
+    const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
 
     const { width } = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext(LeftSideMenuContext);
@@ -242,7 +245,7 @@ const DataPage: NextPage = () => {
 
     let [treeLabels, setTreeLabels] = useState(Array<string>(0))
     let [treeLabelsES,setTreeLabelsES] = useState(Array<string>(0))
-    let [treeLabelsPT,setTreeLabelsPT] = useState(Array<string>(0))
+    let [treeLabelsPT,setTreeLabelsPT] = useState(Array<string | null>(0))
     let [treeValues, setTreeValues] = useState(Array<number>(0))
     let [treeLoading, setTreeLoading] = useState(true)
     let [treeFailed, setTreeFailed] = useState(false)
@@ -413,32 +416,55 @@ const DataPage: NextPage = () => {
         
     })
 
-    useEffect(() => {
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
-            .then(response => {
-                const valuesAux = Array<number>(0)
-                const labelsAux = Array<string>(0)
-                const labelsAuxES = Array<string>(0)
-                const labelsAuxPT = Array<string>(0)
+    // for to can to update treeMap by force
+    const [revision, setRevision] = useState(0);
 
-                response.data.data.observations.map((elem : any, idx : number)=>{
-                    if (idx > 79){
-                        valuesAux.push(elem.value)
-                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
-                        labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
-                        labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
-                    }
-                })
-                setTreeLabels(labelsAux)
-                setTreeLabelsES(labelsAuxES)
-                setTreeLabelsPT(labelsAuxPT)
-                setTreeValues(valuesAux)
-                setTreeLoading(false)
+    useEffect(() => {
+        if( !isLoadingTreeMapData ) {
+            const valuesAux = Array<number>(0)
+            const labelsAux = Array<string>(0)
+            const labelsAuxES = Array<string>(0)
+            const labelsAuxPT = Array<string | null>(0)
+            //console.log( treeMapData?.data )
+            treeMapData?.data.observations.map((elem: TradeObservation, idx: number) => {
+                if (idx > 79){
+                    valuesAux.push(elem.value)
+                    labelsAux.push(treeMapData?.data.country_index[elem.iso3_reporter].country_name)
+                    labelsAuxES.push(treeMapData?.data.country_index[elem.iso3_reporter].esp_name)
+                    labelsAuxPT.push(treeMapData?.data.country_index[elem.iso3_reporter].pt_name)
+                    setTreeLabels(labelsAux)
+                    setTreeLabelsES(labelsAuxES)
+                    setTreeLabelsPT(labelsAuxPT)
+                    setTreeValues(valuesAux)
+                    setTreeLoading(false)
+                }
             })
-            .catch(error => {
-                console.log(error)
-                setTreeFailed(true)
-            })
+        }
+        // axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
+        //     .then(response => {
+        //         const valuesAux = Array<number>(0)
+        //         const labelsAux = Array<string>(0)
+        //         const labelsAuxES = Array<string>(0)
+        //         const labelsAuxPT = Array<string>(0)
+
+        //         response.data.data.observations.map((elem : any, idx : number)=>{
+        //             if (idx > 79){
+        //                 valuesAux.push(elem.value)
+        //                 labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
+        //                 labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
+        //                 labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
+        //             }
+        //         })
+        //         setTreeLabels(labelsAux)
+        //         setTreeLabelsES(labelsAuxES)
+        //         setTreeLabelsPT(labelsAuxPT)
+        //         setTreeValues(valuesAux)
+        //         setTreeLoading(false)
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //         setTreeFailed(true)
+        //     })
 
             axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[71333]&elementIds=[3001,3002]` })
             .then(response => {
@@ -534,31 +560,56 @@ const DataPage: NextPage = () => {
     }, [])
 
     useEffect(() => {  
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
-            .then(response => {
-                const valuesAux = Array<number>(0)
-                const labelsAux = Array<string>(0)
-                const labelsAuxES = Array<string>(0)
-                const labelsAuxPT = Array<string>(0)
-
-                response.data.data.observations.map((elem : any, idx : number)=>{
-                    if (idx > 79){
-                        valuesAux.push(elem.value)
-                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
-                        labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
-                        labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
-                    }
-                })
-                setTreeLabels(labelsAux)
-                setTreeLabelsES(labelsAuxES)
-                setTreeLabelsPT(labelsAuxPT)
-                setTreeValues(valuesAux)
-                setTreeLoading(false)
+        if( !isLoadingTreeMapData ) {
+            //console.log(treeMapData)
+            setTreeLoading(true)
+            const valuesAux = Array<number>(0)
+            const labelsAux = Array<string>(0)
+            const labelsAuxES = Array<string>(0)
+            const labelsAuxPT = Array<string | null>(0)
+            //console.log( treeMapData?.data )
+            treeMapData?.data.observations.map((elem: TradeObservation, idx: number) => {
+                if (idx > 79){
+                    valuesAux.push(elem.value)
+                    labelsAux.push(treeMapData?.data.country_index[elem.iso3_reporter].country_name)
+                    labelsAuxES.push(treeMapData?.data.country_index[elem.iso3_reporter].esp_name)
+                    labelsAuxPT.push(treeMapData?.data.country_index[elem.iso3_reporter].pt_name)
+                    setTreeLabels(labelsAux)
+                    setTreeLabelsES(labelsAuxES)
+                    setTreeLabelsPT(labelsAuxPT)
+                    setTreeValues(valuesAux)
+                    setTreeLoading(false)
+                }
             })
-            .catch(error => {
-                console.log(error)
-                setTreeFailed(true)
-            })     
+            console.log({valuesAux, labelsAux, labelsAuxES, labelsAuxPT, treeLoading})
+            setRevision(revision + 1);
+        }
+        // axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
+        //     .then(response => {
+        //         //console.log( response )
+        //         const valuesAux = Array<number>(0)
+        //         const labelsAux = Array<string>(0)
+        //         const labelsAuxES = Array<string>(0)
+        //         const labelsAuxPT = Array<string>(0)
+
+        //         response.data.data.observations.map((elem : any, idx : number)=>{
+        //             if (idx > 79){
+        //                 valuesAux.push(elem.value)
+        //                 labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
+        //                 labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
+        //                 labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
+        //             }
+        //         })
+        //         setTreeLabels(labelsAux)
+        //         setTreeLabelsES(labelsAuxES)
+        //         setTreeLabelsPT(labelsAuxPT)
+        //         setTreeValues(valuesAux)
+        //         setTreeLoading(false)
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //         setTreeFailed(true)
+        //     })     
         axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]` })
             .then(response => {
 
@@ -642,7 +693,8 @@ const DataPage: NextPage = () => {
                 const chartjsData = {labels: data.labels, datasets};
                 settenyearsdata(chartjsData)
             })
-    }, [countryCode, flowId, year])
+            console.log('==============================================================================================', clickId)
+    }, [countryCode, flowId, year, clickId])
 
     const data = [
         {
@@ -770,8 +822,34 @@ const DataPage: NextPage = () => {
     }, [map, dataTranslate, locale]);
 
     useEffect(() => {
-        console.log({clickId})
+        let title = '';
+        if( clickId === null ) {
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setLocationName2( title );
+        }else {
+            if( locale == 'en' ) title = locationNameOptions.en;
+            if( locale == 'es' ) title = locationNameOptions.es;
+            if( locale == 'pt' ) title = locationNameOptions.pt;
+            setLocationName2( title );
+        }
     }, [ locale ])
+
+    useEffect(() => {
+        let title = '';
+        if( clickId === null ) {
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setLocationName2( title );
+        }else {
+            if( locale == 'en' ) title = locationNameOptions.en;
+            if( locale == 'es' ) title = locationNameOptions.es;
+            if( locale == 'pt' ) title = locationNameOptions.pt;
+            setLocationName2( title );
+        }
+    }, [ clickId ])
     
 
     // This useEffect is used when the back button is clicked
@@ -886,8 +964,8 @@ const DataPage: NextPage = () => {
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <MainBar key={ uuidv4() } section={  `${dataTranslate('trade')} -  ${locationName2}` } >
-                                        {/* <BackButton locale={ locale! } regionCode={regionCode} countryCode={countryCode} setSectionState={setSectionState} isForTrade={ true } /> */}
-                                        <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/>
+                                        <BackButton locale={ locale! } regionCode={regionCode} countryCode={countryCode} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } clickId={ clickId } setSectionState={setSectionState} isForTrade={ true } />
+                                        {/* <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/> */}
                                 </MainBar>
                             </Col>
                         </Row>
@@ -929,11 +1007,11 @@ const DataPage: NextPage = () => {
                                         {/*(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels.length>0) ?
                                            */ <>
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
-                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i><b>{ tradeFlowText2 }</b>  {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName2 : ( locale == 'pt' ? locationName2 : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName2 : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
                                                 </div>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
-                                                    {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot data={data} layout={layout} config={config}/>) )}
+                                                    {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot key={revision} data={data} layout={layout} config={config} />) )}
                                                 </ChartFrame>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                                     {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
