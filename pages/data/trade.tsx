@@ -37,7 +37,6 @@ import useSWR from 'swr';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { LoadingComponent } from '../../components/ui/loading-component';
 import { TradeApiResponse, TradeObservation } from '../../interfaces/data/trade/trade-helpers';
-import { TradeMapView } from '../../components/ui/map/trade';
 
 const legendTitleObject = {
     en: {
