@@ -202,7 +202,7 @@ const DataPage: NextPage = () => {
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName, flowId } = sectionState;
 
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
-    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/WLRD/${ elementId }/713999/${ year }`, dataFetcher);
+    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/713999/${ year }`, dataFetcher);
     const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher);
 
     const { width } = useWindowSize();
@@ -395,133 +395,37 @@ const DataPage: NextPage = () => {
         
     })
 
-    useEffect(() => {
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
-            .then(response => {
-                const valuesAux = Array<number>(0)
-                const labelsAux = Array<string>(0)
-                const labelsAuxES = Array<string>(0)
-                const labelsAuxPT = Array<string>(0)
-
-                response.data.data.observations.map((elem : any, idx : number)=>{
-                    if (idx > 79){
-                        valuesAux.push(elem.value)
-                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
-                        labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
-                        labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
-                    }
-                })
-                setTreeLabels(labelsAux)
-                setTreeLabelsES(labelsAuxES)
-                setTreeLabelsPT(labelsAuxPT)
-                setTreeValues(valuesAux)
-                setTreeLoading(false)
-            })
-            .catch(error => {
-                console.log(error)
-                setTreeFailed(true)
-            })
-
-            axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[71333]&elementIds=[3001,3002]` })
-            .then(response => {
-
-                const valuesAux1 = Array<number>(0)
-                const valuesAux2 = Array<number>(0)
-                response.data.data.observations.map((elem:any) =>{
-                    if(elem.id_element == 3002) valuesAux1.push(elem.value)
-                    else if(elem.id_element == 3001) valuesAux2.push(elem.value)
-                })
-                setChartValues11(valuesAux1)
-                setChartValues12(valuesAux2)
-                setChartLabels1(response.data.data.labels)
-                setChartLoading1(false)
-            })
-            .catch(error => {
-                console.log(error)
-                setChartFailed1(true)
-            })
-
-            axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[71339,71333,71332,71331]&elementIds=[3002]` })
-            .then(response => {
-
-                const valuesAux1 = Array<number>(0)
-                const valuesAux2 = Array<number>(0)
-                const valuesAux3 = Array<number>(0)
-                const valuesAux4 = Array<number>(0)
-                const namesAux = Array<string>(0)
-                response.data.data.observations.map((elem:any) =>{
-                    if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
-                    if(elem.id_crop == 71331) {valuesAux1.push(elem.value) }
-                    else if(elem.id_crop == 71332) valuesAux2.push(elem.value)
-                    else if(elem.id_crop == 71333) valuesAux3.push(elem.value)
-                    else if(elem.id_crop == 71339) valuesAux4.push(elem.value)
-                })
-                setChartValues21(valuesAux3)
-                setChartValues22(valuesAux1)
-                setChartValues23(valuesAux4)
-                setChartValues24(valuesAux2)
-                setChartLabels2(response.data.data.labels)
-                setChartDataNms2(namesAux)
-                setChartLoading2(false)
-            })
-            .catch(error => {
-                console.log(error)
-                setChartFailed2(true)
-            })
-            axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/WLRD/3101/713999/2021` })
-            .then(response => {
-                setpercent1( Math.round(response.data * 1000)/1000)
-            })
-            .catch(error => {
-                console.log(error)
-                setpercent1(0)
-            })
-            axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/WLRD/3102/713999/2021` })
-            .then(response => {
-                setpercent2( Math.round(response.data * 100)/100)
-            })
-            .catch(error => {
-                console.log(error)
-                setpercent2(0)
-            })
-            axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/WLRD/3103/713999/2021` })
-            .then(response => {
-                setpercent3( Math.round(response.data * 100)/100)
-            })
-            .catch(error => {
-                console.log(error)
-                setpercent3(0)
-            })
-            axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`})
-            .then(response => {
-                const data = response.data.data;
-                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
-                const chartjsData = {labels: data.labels, datasets};
-                setanualdata(chartjsData)
-            })
-            axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/WLRD?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`})
-            .then(response => {
-                const data = response.data.data;
-                const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
-                const chartjsData = {labels: data.labels, datasets};
-                settenyearsdata(chartjsData)
-            })
-    }, [])
-
     useEffect(() => {  
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }` })
+        axios({ url: `https://commonbeanobservatory.org/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/${ flowId }/${ countryCode }/3002/713999/${ year }` })
             .then(response => {
                 const valuesAux = Array<number>(0)
                 const labelsAux = Array<string>(0)
                 const labelsAuxES = Array<string>(0)
                 const labelsAuxPT = Array<string>(0)
 
+                let begin = false
                 response.data.data.observations.map((elem : any, idx : number)=>{
-                    if (idx > 79){
-                        valuesAux.push(elem.value)
-                        labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
-                        labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
-                        labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
+                    if(countryCode === 'WLRD'){
+                        if(!begin && response.data.data.country_index[elem.iso3_reporter] !== undefined){
+                            begin = true
+                        }
+                        if (begin){
+                            valuesAux.push(elem.value)
+                            labelsAux.push(response.data.data.country_index[elem.iso3_reporter].country_name)
+                            labelsAuxES.push(response.data.data.country_index[elem.iso3_reporter].esp_name)
+                            labelsAuxPT.push(response.data.data.country_index[elem.iso3_reporter].pt_name)
+                        }
+                    }
+                    else{
+                        if(!begin && response.data.data.country_index[elem.iso3_partner] !== undefined){
+                            begin = true
+                        }
+                        if (begin){
+                            valuesAux.push(elem.value)
+                            labelsAux.push(response.data.data.country_index[elem.iso3_partner].country_name)
+                            labelsAuxES.push(response.data.data.country_index[elem.iso3_partner].esp_name)
+                            labelsAuxPT.push(response.data.data.country_index[elem.iso3_partner].pt_name)
+                        }
                     }
                 })
                 setTreeLabels(labelsAux)
@@ -534,7 +438,7 @@ const DataPage: NextPage = () => {
                 console.log(error)
                 setTreeFailed(true)
             })     
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]` })
+        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/${ flowId }/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]` })
             .then(response => {
 
             const valuesAux1 = Array<number>(0)
@@ -552,7 +456,7 @@ const DataPage: NextPage = () => {
                 console.log(error)
                 setChartFailed1(true)
             })
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]` })
+        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/trade/default/BEANS_TRADE_AUX/${ flowId }/${ countryCode }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]` })
             .then(response => {
 
                 const valuesAux1 = Array<number>(0)
@@ -579,7 +483,7 @@ const DataPage: NextPage = () => {
                 console.log(error)
                 setChartFailed2(true)
             })
-            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/${ countryCode }/3101/713999/${ year }` })
+            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/${ flowId }/${ countryCode }/3101/713999/${ year }` })
             .then(response => {
                 setpercent1( Math.round(response.data * 1000)/1000)
             })
@@ -587,7 +491,7 @@ const DataPage: NextPage = () => {
                 console.log(error)
                 setpercent1(0)
             })
-            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/${ countryCode }/3102/713999/${ year }` })
+            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/${ flowId }/${ countryCode }/3102/713999/${ year }` })
             .then(response => {
                 setpercent2( Math.round(response.data * 100)/100)
             })
@@ -595,7 +499,7 @@ const DataPage: NextPage = () => {
                 console.log(error)
                 setpercent2(0)
             })
-            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/1/${ countryCode }/3103/713999/${ year }` })
+            axios({ url: `${ baseUrl }/api/v1/data/trade/value/BEANS_TRADE_AUX/VALUE/${ flowId }/${ countryCode }/3103/713999/${ year }` })
             .then(response => {
                 setpercent3( Math.round(response.data * 100)/100)
             })
@@ -603,14 +507,14 @@ const DataPage: NextPage = () => {
                 console.log(error)
                 setpercent3(0)
             })
-            axios({url: `${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`})
+            axios({url: `${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/${ flowId }/${ countryCode }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`})
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
                 const chartjsData = {labels: data.labels, datasets};
                 setanualdata(chartjsData)
             })
-            axios({url: `${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`})
+            axios({url: `${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/${ flowId }/${ countryCode }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`})
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
