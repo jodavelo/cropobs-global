@@ -262,7 +262,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
         if (!isLoadingGeo && !isLoadingQuintil && loaded && quintilArray && predata) {
             const { data: geojson } = predata;
             if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);
-            console.log(geojson);
+            //console.log(geojson);
             (map.current!.getSource('geo_countries') as GeoJSONSource).setData(geojson as FeatureCollection<Geometry, GeoJsonProperties>);
             console.log('in');
             map.current!.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
