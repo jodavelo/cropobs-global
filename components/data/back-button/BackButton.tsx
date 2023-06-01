@@ -89,6 +89,17 @@ const changeAdmin = (regionCode: string, countryCode: string, setSectionState: F
                 }))
             }
             if ( setCountryCode2 ) setCountryCode2( regionCode )
+            if( setClickId ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
+                }
+            }
             break;
         default:
             setSectionState( (prevState: Record<string, any>) => ({
