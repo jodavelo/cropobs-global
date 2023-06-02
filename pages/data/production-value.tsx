@@ -453,22 +453,22 @@ const PVPage: NextPage = () => {
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
         if ( !getCookie('production_tour') ) {
-            if (setSteps) {
-                if( window.innerWidth! < 991 ) {
-                    if( locale == 'en' ) setSteps(general_data_steps_mobile);
-                    else if ( locale == 'es' ) setSteps(general_data_steps_es_mobile);
-                    else if ( locale == 'pt' ) setSteps(general_data_steps_pt_mobile);
-                    console.error('fdklfbglkr')
+            setTimeout( () => {
+                if (setSteps) {
+                    if( window.innerWidth! < 991 ) {
+                        if( locale == 'en' ) setSteps(general_data_steps_mobile);
+                        else if ( locale == 'es' ) setSteps(general_data_steps_es_mobile);
+                        else if ( locale == 'pt' ) setSteps(general_data_steps_pt_mobile);
+                    }
+                    else { 
+                        if( locale == 'en' ) setSteps(general_data_steps);
+                        else if ( locale == 'es' ) setSteps(general_data_steps_es);
+                        else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
+                    }
+                    setCookie('production_tour', true);
+                    setIsOpen(true);
                 }
-                else { 
-                    if( locale == 'en' ) setSteps(general_data_steps);
-                    else if ( locale == 'es' ) setSteps(general_data_steps_es);
-                    else if ( locale == 'pt' ) setSteps(general_data_steps_pt);
-                    console.error('despues')
-                }
-                setCookie('production_tour', true);
-                setIsOpen(true);
-            }
+            }, 2000);
         }
     }, []);
 
