@@ -207,18 +207,19 @@ const ProductionPage: NextPage = () => {
 
     useEffect(() => {
         let title = '';
-        if( clickId === null ) {
+        if( clickId === null && countryCode === 'WLRD') {
             if( locale == 'en' ) title = 'World';
             if( locale == 'es' ) title = 'Mundo';
             if( locale == 'pt' ) title = 'Mundo';
             setLocationName2( title );
-        }else {
+        }
+        else if ( clickId !== null && (countryCode !== regionCode) ) {
             if( locale == 'en' ) title = locationNameOptions.en;
             if( locale == 'es' ) title = locationNameOptions.es;
             if( locale == 'pt' ) title = locationNameOptions.pt;
             setLocationName2( title );
         }
-    }, [ clickId ])
+    }, [ clickId, countryCode ])
 
     useEffect(() => {
         let location = '';
@@ -266,20 +267,6 @@ const ProductionPage: NextPage = () => {
     }, [locale])
 
     useEffect(() => {
-        if( clickId === null ) {
-            let title = '';
-            if( locale == 'en' ) title = 'World';
-            if( locale == 'es' ) title = 'Mundo';
-            if( locale == 'pt' ) title = 'Mundo';
-            setSectionState( (prevState) => ({
-                ...prevState,
-                locationName: title
-            }));
-        }
-    }, [ clickId ])
-    
-
-    useEffect(() => {
         if (elementsData && !isLoadingElements) {
             const elemsObj: Record<string, ElementsData> = {};
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
@@ -307,10 +294,28 @@ const ProductionPage: NextPage = () => {
 
     useEffect(() => {
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
-            console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
+            let variableByLocale = ''
+            if( locale == 'en' ) variableByLocale = 'region_name';
+            if( locale == 'es' ) variableByLocale = 'region_name_es';
+            if( locale == 'pt' ) variableByLocale = 'region_name_pt';
+            // console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
             setRegions({
                 regionsObj: regionsData,
-                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, dataTranslate('LOCALE_FILTER_REGION'), macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
+                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, variableByLocale, macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
+            });
+        }
+    }, [locale]);
+
+    useEffect(() => {
+        if (macroRegionsObj && regionsData && !isLoadingRegions) {
+            let variableByLocale = ''
+            if( locale == 'en' ) variableByLocale = 'region_name';
+            if( locale == 'es' ) variableByLocale = 'region_name_es';
+            if( locale == 'pt' ) variableByLocale = 'region_name_pt';
+            // console.log(macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj]);
+            setRegions({
+                regionsObj: regionsData,
+                regionsOptions: macroRegionCode == '10' ? { values: ['WLRD'], names: ['World']} : generateRegionOptions(regionsData, variableByLocale, macroRegionsObj[macroRegionCode as keyof typeof macroRegionsObj].id_geo_regions)
             });
             let codeRegion = 'WLRD';
             let idx = -1;
@@ -326,39 +331,7 @@ const ProductionPage: NextPage = () => {
                 regionCode: macroRegionCode == '10' ? 'WLRD' : codeRegion,
                 countryCode: codeRegion
             }));
-            if( locationNameOptions.isoLabel === 'WLRD' ) {
-                if(map){
-                    if (clickId !== null){
-                        map.setFeatureState(
-                            { source: 'geo_countries', id: clickId },
-                            { clicked: false }
-                        );
-                    }
-                    setClickId(null);
-                }
-            }else {
-                if(map){
-                    if (clickId !== null){
-                        map.setFeatureState(
-                            { source: 'geo_countries', id: clickId },
-                            { clicked: true }
-                        );
-                    }
-                    setClickId( clickId );
-                }
-            }
-        }
-    }, [isLoadingRegions, macroRegionCode, dataTranslate]);
-
-    useEffect(() => {
-        setSectionState( (prevState) => ({
-            ...prevState,
-            regionCode,
-            countryCode: regionCode,
-            locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
-        }));
-        if( locationNameOptions.isoLabel === 'WLRD' ) {
-            if(map){
+            if (map) {
                 if (clickId !== null){
                     map.setFeatureState(
                         { source: 'geo_countries', id: clickId },
@@ -367,18 +340,36 @@ const ProductionPage: NextPage = () => {
                 }
                 setClickId(null);
             }
-        }else {
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: true }
-                    );
-                }
-                setClickId( clickId );
-            }
         }
-    }, [regionCode, dataTranslate]);
+                
+    }, [isLoadingRegions, macroRegionCode]);
+
+    useEffect(() => {
+        setSectionState( (prevState) => ({
+            ...prevState,
+            regionCode,
+            countryCode: regionCode,
+            locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
+        }));
+        setLocationName2( (macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()) ?? 'Loading...' );
+        setLocationNameOptions(( prevState ) => ({
+            ...prevState,
+            en: regionsObj[regionCode]?.region_name,
+            es: regionsObj[regionCode]?.region_name_es,
+            pt: regionsObj[regionCode]?.region_name_pt,
+            isoLabel: regionCode,
+            clickId: null
+        })); 
+        if(map){
+            if (clickId !== null){
+                map.setFeatureState(
+                    { source: 'geo_countries', id: clickId },
+                    { clicked: false }
+                );
+            }
+            setClickId(null);
+        }
+    }, [regionCode])
 
     // This useEffect is used when the back button is clicked
     useEffect(() => {
@@ -387,6 +378,16 @@ const ProductionPage: NextPage = () => {
                 ...prevState,
                 locationName: macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()
             }));
+            setLocationName2( (macroRegionCode == '10' ? dataTranslate('world-locale') : regionsObj[regionCode][dataTranslate('LOCALE_FILTER_REGION') as keyof typeof regionsObj[typeof regionCode]].toString()) ?? '...' );
+            setLocationNameOptions(( prevState ) => ({
+                ...prevState,
+                en: regionsObj[regionCode]?.region_name,
+                es: regionsObj[regionCode]?.region_name_es,
+                pt: regionsObj[regionCode]?.region_name_pt,
+                isoLabel: regionCode,
+                clickId: null
+            })); 
+
             if( locationNameOptions.isoLabel === 'WLRD' ) {
                 if(map){
                     if (clickId !== null){
@@ -409,7 +410,7 @@ const ProductionPage: NextPage = () => {
                 }
             }
         }
-    }, [countryCode, dataTranslate]);
+    }, [countryCode]);
 
     // Executes the tour for production. This useEffect runs only once
     useEffect(() => {
