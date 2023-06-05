@@ -262,7 +262,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
         if (!isLoadingGeo && !isLoadingQuintil && loaded && quintilArray && predata) {
             const { data: geojson } = predata;
             if (adminJsonValues?.adminJson) featureValueUpdate(geojson, adminJsonValues.adminJson);
-            console.log(geojson);
+            //console.log(geojson);
             (map.current!.getSource('geo_countries') as GeoJSONSource).setData(geojson as FeatureCollection<Geometry, GeoJsonProperties>);
             console.log('in');
             map.current!.setFilter('country_layer', ['in', ['get', 'iso3'], ['literal', adminIds]]);
@@ -285,7 +285,7 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
          </div>
          {/* Unit should de passed as a prop. TODO */}
          <MapLegend unit={elementUnit ?? ''} title={legendTitle} percentiles={quintilArray ?? Array(5).fill(0)} isMapViewProps={ isMapView } />
-        { (isLoadingGeo || isLoadingQuintil || errorGeo) ? <div style={{height:"100%",width:"100%",position:"absolute",top:"40%",left:"50%"}}><LoadingComponent/></div> : <div></div> }
+        {/* (isLoadingGeo || isLoadingQuintil || errorGeo) ? <div style={{height:"100%",width:"100%",position:"absolute",top:"40%",left:"50%"}}><LoadingComponent/></div> : <div></div> */}
       </>
     )
 }

@@ -34,7 +34,7 @@ export const annual_growth_optionsPV = {
         intersect: false,
         callbacks: {
             label: function(context: Record<string, any>) {
-                console.log("test");
+                //console.log("test");
                 let value = context.parsed.y;
                 let units = context.dataset.unit;
                 let label = context.dataset.label;
