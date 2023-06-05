@@ -1,9 +1,12 @@
 import { useEffect, useRef, useContext, useState } from 'react';
-import mapboxgl, { Map, Marker, GeoJSONSource } from 'mapbox-gl';
+import mapboxgl, { Map, Marker, GeoJSONSource, LngLatBoundsLike } from 'mapbox-gl';
 import { MapContext } from '../../../context/map';
 import { LeftSideMenuContainer } from './filters';
 import { LeftSideMenuProvider } from '../../../context/map/leftsidemenu';
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
+import { dataFetcher } from '../../../helpers/data';
+import useSWR from 'swr';
+import { GeoJSONData } from '../../../interfaces/data/map';
 
 export interface Feature {
     type: FeatureType;
@@ -23,6 +26,7 @@ export interface marker {
     priceDataGeopoint: Feature
 }
 interface Props {
+    geoJsonURL: string
     children?: JSX.Element | JSX.Element[]
     markers?: marker
     features?: Feature
@@ -50,49 +54,53 @@ const changeFillColor = (map: mapboxgl.Map, steps: Number[]) => {
 }
 
 
-export const MapViewPricesInt = ({ children, setIdCountry, setCountryName }: Props) => {
+export const MapViewPricesInt = ({geoJsonURL, children, setIdCountry, setCountryName }: Props) => {
     const mapDiv = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [lng, setLng] = useState(-70.9);
-    const [lat, setLat] = useState(42.35);
-    const [zoom, setZoom] = useState(1);
-    const { setMap } = useContext(MapContext);
+    const [lng, setLng] = useState(-13.7856);
+    const [lat, setLat] = useState(0);
+    const [zoom, setZoom] = useState(0.5);
     const [loaded, setLoaded] = useState(false)
+    const { setMap } = useContext( MapContext );
     let hoveredStateId: number | string | null = null;
     let clickedStateId: number | string | null = null;
 
-    useEffect(() => {
-        if (!map.current) return; // wait for map to initialize        
-        map.current.on('move', () => {
-            setLng(Number(map.current!.getCenter().lng.toFixed(4)));
-            setLat(Number(map.current!.getCenter().lat.toFixed(4)));
-            setZoom(Number(map.current!.getZoom().toFixed(2)));
-        });
-    });
-
+    const { data: predata, isLoading: isLoadingGeo, error: errorGeo } = useSWR<GeoJSONData>(geoJsonURL, dataFetcher);
 
     useEffect(() => {
+        // for to restrict map panning to an area
+        const bounds: LngLatBoundsLike = [
+                [-180, -90], // Southwest coordinates
+                [180, 90] // Northeast coordinates
+            ];
         if (map.current!) return;
-        console.log('creating new map canvas');
+        //console.log('creating new map canvas');
         map.current! = new Map({
             container: mapDiv.current!, // container ID
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91', // style URL
             center: [lng, lat], // starting position [lng, lat]
             zoom: zoom, // starting zoom
+            maxBounds: bounds
             // trackResize: true
         });
+        // disable map rotation using right click + drag
+        map.current!.dragRotate.disable();
+        
+        // disable map rotation using touch rotation gesture
+        map.current!.touchZoomRotate.disableRotation();
+        
         map.current!.on('load', () => {
-            map.current!.addSource('geo_countries', {
+            map.current!!.addSource('geo_countries', {
                 type: 'geojson',
-                data: '/api/international-prices',
+                data: undefined,
                 generateId: true
-        });
+            });
             map.current!.addLayer({
                 id: 'country_layer',
                 type: 'fill',
                 source: 'geo_countries',
                 paint: {
-                    'fill-color': '#A82F31',
+                    'fill-color': '#F5D226',
                     'fill-opacity': 0.7
                 }
             });
@@ -139,14 +147,41 @@ export const MapViewPricesInt = ({ children, setIdCountry, setCountryName }: Pro
                 hoveredStateId = null;
             });
             map.current!.on('click', 'country_layer', (e) => {
-
-                setIdCountry?.(e.features![0].properties?.id_country)
-                setCountryName?.(e.features![0].properties?.country_name)
-                
+                if (e.features?.length! > 0) {
+                    //console.log("on click");
+                    if (clickedStateId == null) {
+                        map.current!.setFeatureState(
+                            { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
+                            { clicked: true }
+                        );
+                    }
+                    else {
+                        map.current!.setFeatureState(
+                            { source: 'geo_countries', id: clickedStateId},
+                            { clicked: false }
+                        );
+                    }
+                    clickedStateId = e.features![0].id ?? null;
+                    map.current!.setFeatureState(
+                        { source: 'geo_countries', id: clickedStateId == null ? undefined : clickedStateId },
+                        { clicked: true }
+                    );
+                }
             });
+            setLoaded(true);
         });
         setMap( map.current! );
     });
+
+    useEffect( () => {
+        console.error(predata)
+         //console.log('Geo:'+isLoadingGeo+' '+'Quintil:'+isLoadingQuintil);
+        if (!isLoadingGeo && loaded && predata) {
+            const { data: geojson } = predata;
+            (map.current!.getSource('geo_countries') as GeoJSONSource).setData(geojson as FeatureCollection<Geometry, GeoJsonProperties>);
+            console.log('in');          
+        }
+    }, [ isLoadingGeo,  loaded]);
 
     return (
         <div

@@ -27,7 +27,6 @@ import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { SidebarComponent } from '../../components/ui/sidebar';
-import data from '../api/international-prices';
 
 
 //let clickId: string | number | null = null;
@@ -41,7 +40,6 @@ interface locationNameOptions {
 interface sectionState {
     idCountry: number
     locationName: string
-
 }
 interface CitiesState {
     citiesObj: Record<string, CitiesData>
@@ -73,6 +71,7 @@ interface OtherTexts {
     element_locale: string
 }
 let clickId: string | number | null = null;
+const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 
 const ProductionPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
@@ -81,7 +80,7 @@ const ProductionPage: NextPage = () => {
     const [countryProperty, setCountryProperty] = useState<{ [name: string]: any } | undefined>();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         idCountry: 0,
-        locationName: 'World'
+        locationName: 'World',
     });
     const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
         en: 'World',
@@ -183,12 +182,12 @@ const ProductionPage: NextPage = () => {
                             setLocationNameOptions(( prevState ) => ({
                                 ...prevState,
                                 en: properties!.country_name,
-                                es: properties!.spanish_name,
-                                pt: properties!.spanish_name,
+                                es: properties!.country_name_es,
+                                pt: properties!.country_name_pt,
                                 isoLabel: iso,
                                 clickId: id
                             })); 
-                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.spanish_name : e.features![0].properties!.spanish_name) )
+                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
                             setClickId(e.features![0].id ?? null);
                         }
                     }
@@ -488,7 +487,7 @@ const ProductionPage: NextPage = () => {
                                             <Row style={{ paddingLeft: '12px' }}>
                                                 <LeftSideMenuContainer/>
                                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                                    <MapViewPricesInt setCountryName={setCountryName} setIdCountry={setIdCountry}/>
+                                                    <MapViewPricesInt  geoJsonURL={`${baseURL}/api/v1/data/adminIdsInter/region/CAM/4`} setCountryName={setCountryName} setIdCountry={setIdCountry}/>
                                                 </Col>
                                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                     {
@@ -501,8 +500,8 @@ const ProductionPage: NextPage = () => {
                                                         :
                                                             <></>
                                                         }
-                                                            <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
-                                                            <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
+                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4`} title={chartTitle} description='Grafico de precios' /> 
+                                                            <PlotlyChartLineInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4`} title={chartTitleLine} description='Grafico de precios'/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                             </Row>
