@@ -30,8 +30,8 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2, chartTexts}) =>
             fill: false, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: true, //mostrar linea
-            backgroundColor: 'rgba(245, 40, 145, 0.8)', //Color area bajo la curva
-            borderColor: 'rgba(245, 40, 145, 0.8)', //color curva
+            backgroundColor: '#4F0614', //Color area bajo la curva
+            borderColor: '#4F0614', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
             //borderDashOffset: 0.0,
@@ -41,8 +41,8 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2, chartTexts}) =>
             //pointBackgroundColor: '#fff',
             //pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: '#4F0614',
+            pointHoverBorderColor: '#4F0614',
             pointHoverBorderWidth: 2,
             //pointRadius: 1,
             pointHitRadius: 10,
@@ -54,8 +54,8 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2, chartTexts}) =>
             fill: false, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: true, //mostrar linea
-            backgroundColor: 'rgba(78, 240, 86, 0.8)', //Color area bajo la curva
-            borderColor: 'rgba(78, 240, 86, 0.8)', //color curva
+            backgroundColor: '#F89A21', //Color area bajo la curva
+            borderColor: '#F89A21', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
             //borderDashOffset: 0.0,
@@ -65,8 +65,8 @@ export const MultichartTr2: FC<Props> = ({xLabels, data1, data2, chartTexts}) =>
             //pointBackgroundColor: '#fff',
             //pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: 'F89A21',
+            pointHoverBorderColor: 'F89A21',
             pointHoverBorderWidth: 2,
             //pointRadius: 1,
             pointHitRadius: 10,

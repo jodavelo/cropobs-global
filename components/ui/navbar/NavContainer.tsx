@@ -95,6 +95,19 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 },
             ]
         },
+        {
+            titleCategory: 'Trade',
+            menuOptions: [
+                {
+                    menuLabel: 'Imports/Exports',
+                    href: '/data/trade'
+                },
+                // {
+                //     menuLabel: 'Any',
+                //     href: '/data/prices-international'
+                // },
+            ]
+        },
         
     ]
 
