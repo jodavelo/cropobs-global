@@ -50,6 +50,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
     const [pricesText, setPricesText] = useState('');
     const [domesticPricesText, setDomesticPricesText] = useState('');
     const [internationalPricesText, setInternationalPricesText] = useState('');
+    const [tradeText, setTradeText] = useState('')
+    const [exportImportsText, setExportImportsText] = useState('')
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -60,6 +62,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setPricesText('Prices');
                 setDomesticPricesText('Domestic Prices');
                 setInternationalPricesText('International Prices');
+                setTradeText('Trade');
+                setExportImportsText('Imports/Exports');
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
@@ -69,6 +73,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setPricesText('Precios');
                 setDomesticPricesText('Precios Nacionales');
                 setInternationalPricesText('Precios Internacionales');
+                setTradeText('Comercio');
+                setExportImportsText('Importaciones/Exportaciones');
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
@@ -78,6 +84,8 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setPricesText('Preços');
                 setDomesticPricesText('Preços domésticos');
                 setInternationalPricesText('Preços internacionais');
+                setTradeText('Comercio');
+                setExportImportsText('Importaciones/Exportaciones');
                 break;
         }
     }, )
@@ -108,6 +116,10 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 <SubMenu icon={ <AgricultureIcon/> } label={pricesText} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] }>
                     <MenuItem onClick={ () => push('/data/prices') } className={ styles['submenu-items'] }> {domesticPricesText} </MenuItem>
                     <MenuItem onClick={ () => push('/data/prices-international') } className={ styles['submenu-items'] }> {internationalPricesText} </MenuItem>
+                </SubMenu>
+                <SubMenu icon={ <AgricultureIcon/> } label={tradeText} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] }>
+                    <MenuItem onClick={ () => push('/data/trade') } className={ styles['submenu-items'] }> {exportImportsText} </MenuItem>
+                    {/* <MenuItem onClick={ () => push('/data/prices-international') } className={ styles['submenu-items'] }> {internationalPricesText} </MenuItem> */}
                 </SubMenu>
             </Menu>
         </Sidebar>

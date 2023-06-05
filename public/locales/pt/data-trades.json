@@ -12,19 +12,23 @@
     "label-chart7": "importação ",
     "label-chart8": "total",
     
-    "label-perc1": "del valor total de las importaciones de alimentos y bebidas",
-    "label-perc2": "del valor total de las importaciones de alimentos y bebidas (primario)",
-    "label-perc3": "del valor total de las importaciones de legumbre",
+    "label-perc1": "del valor total de las ",
+    "label-perc1_1": " de alimentos y bebidas",
+    "label-perc2": "del valor total de las ",
+    "label-perc2_2": " de alimentos y bebidas (primario)",
+    "label-perc3": "del valor total de las ",
+    "label-perc3_3": " de legumbre",
 
     "tree-toggle" : "Toggle tree Portugues",
 
-    "chart1-title": "do common beans - <Mundo>",
+    "chart1-title": "do common beans - ",
     "chart1-axis-y":"Valor (USD) e Quantidade (kg)",
     "chart1-dataset1":"Valor (US$)",
     "chart1-dataset2":"Quantidade (kg)",
     "chart1-toggle" : "Toggle chart 1 Portugues",
 
-    "chart2-title": "Valor do <importação> para tipo do <feijol> - <Mundo>",
+    "chart2-title": "Valor do ",
+    "chart2-title_1": " para tipo do feijol - ",
     "chart2-axis-y":"Valor (US$)",
     "chart2-dataset1":"",
     "chart2-dataset2":"",
@@ -35,7 +39,8 @@
     "chart3-opt1": "Crescimento anual",
     "chart3-opt2": "Média móvel de 10 anos",
 
-    "chart31-title":"Crescimento Anual do <Importação> de <common beans - <Mundo>",
+    "chart31-title":"Crescimento Anual do ",
+    "chart31-title_1":" de common beans - ",
     "chart31-dataset1":"Crescimento quantitativo (Anual)",
     "chart31-dataset2":"Crescimento do preço (Anual)",
     "chart31-dataset3":"Crescimento do valor (Anual)",

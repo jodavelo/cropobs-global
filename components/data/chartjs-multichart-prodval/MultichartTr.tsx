@@ -31,7 +31,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(245, 40, 145, 0.8)', //Color area bajo la curva
+            backgroundColor: '#4F0614', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -42,8 +42,8 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             //pointBackgroundColor: '#fff',
             //pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: '#4F0614',
+            pointHoverBorderColor: '#4F0614',
             pointHoverBorderWidth: 2,
             //pointRadius: 1,
             pointHitRadius: 10,
@@ -55,7 +55,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(78, 240, 86, 0.8)', //Color area bajo la curva
+            backgroundColor: '#F89A21', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -66,8 +66,8 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             //pointBackgroundColor: '#fff',
             //pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: '#F89A21',
+            pointHoverBorderColor: '#F89A21',
             pointHoverBorderWidth: 2,
             //pointRadius: 1,
             pointHitRadius: 10,
@@ -79,7 +79,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(78, 222, 240, 0.8)', //Color area bajo la curva
+            backgroundColor: '#bd7071', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -90,8 +90,8 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             //pointBackgroundColor: '#fff',
             //pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: '#bd7071',
+            pointHoverBorderColor: '#bd7071',
             pointHoverBorderWidth: 2,
             //pointRadius: 1,
             pointHitRadius: 10,
@@ -103,7 +103,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: 'rgba(75,192,192,0.9)', //Color area bajo la curva
+            backgroundColor: '#6BAA75', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -114,8 +114,8 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             //pointBackgroundColor: '#fff',
             //pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: '#6BAA75',
+            pointHoverBorderColor: '#6BAA75',
             pointHoverBorderWidth: 2,
             //pointRadius: 1,
             pointHitRadius: 10,
