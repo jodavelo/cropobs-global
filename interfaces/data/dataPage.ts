@@ -16,9 +16,10 @@ export interface CitiesData {
 }
 
 export interface CitiesDataInt {
-    id_country: number;
     country_name: string
-    spanish_name: string
+    country_name_es: string
+    country_name_pt: string
+    iso3: string
 }
 
 export interface MacroRegionsData {
