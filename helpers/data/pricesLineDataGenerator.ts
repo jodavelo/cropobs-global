@@ -81,11 +81,11 @@ export const pricesLineDataGenerator = (inputData: Record<string, any>, currency
     return data;
 }
 
-export const pricesInternationalLineDataGenerator =(inputData: Record<string, any>): pricesLine[] => {
+export const pricesInternationalLineDataGenerator = (inputData: Record<string, any>): pricesLine[] => {
 
     //console.log(inputData);
     const data: pricesLine[] = [];
-    inputData.forEach((type: Record<string, any>, index: number) => {
+    inputData.data.forEach((type: Record<string, any>, index: number) => {
         const x: Date[] = [];
         const y: number[] = [];
         type.data.forEach((report: Record<string, any>) => {
@@ -96,13 +96,13 @@ export const pricesInternationalLineDataGenerator =(inputData: Record<string, an
             x,
             y,
             type: 'scatter',
-            name: type.group,
+            name: type.crop,
             connectgaps: false,
             showlegend: true,
             colorway:  Object.values(chartColors)[index]
 
         });
-        //console.log(data);    
+        console.log(data);    
         const trace1 = {
             x: [1, 2, 3, 4],
             y: [10, 15, 13, 17],

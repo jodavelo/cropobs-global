@@ -18,7 +18,7 @@ export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names:
     const { values, names } = options;
     const { setSteps, setIsOpen } = useTour();
     useEffect(() => {
-        if ( !(selected === 'Wholesale Price') && !getCookie('map_select_filter_price') ) {
+        if ( ['Consumer price', 'Producer price'].includes(selected.toString()) && !getCookie('map_select_filter_price') ) {
             if (setSteps) {
                 if( locale == 'en' ) setSteps(map_select_filter_price);
                 else if ( locale == 'es' ) setSteps(map_select_filter_price_es);
