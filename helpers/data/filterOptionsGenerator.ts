@@ -25,7 +25,7 @@ export const generateCitiesOptionsInt = (data:  CitiesDataInt[], locale_attr: st
     const options: SelectOptions = { values: [], names: [] };
     console.log(data);
     data.forEach( (value, index) => {
-            options.values.push(value.id_country as never);
+            options.values.push(value.iso3 as never);
             options.names.push(value.country_name as never);
     });
     return options;

@@ -177,6 +177,7 @@ const PricesPage: NextPage = () => {
         axios.get(`https://cropobs-central.ciat.cgiar.org/api/v1/geojson/admin2/125/prices/${elementId}`)
             .then(res=>{
                 setPriceData( res.data.data.geo_points)
+                console.log(res.data.data.geo_points)
                 let countries = res.data.data.geo_points.features;
                 let cityName = (countries.map((c: { properties: { label: string; id_geo_point: number; id_country: number; id_geo_admin2: number;  } }) => {return {label: c.properties.label, id_geo_point: c.properties.id_geo_point, id_country: c.properties.id_country, id_geo_admin2: c.properties.id_geo_admin2}}))
                 let cityValue = (countries.map((c: { properties: { id_geo_point: any; }; }) => c.properties.id_geo_point))

@@ -12,7 +12,7 @@ import styles from './data.module.css';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, MapSelect, MapSelectCityInt } from '../../components/ui/map/filters';
-import { SelectOptions, CitiesData } from '../../interfaces/data';
+import { SelectOptions, CitiesData, CitiesDataInt } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateCitiesOptionsInt } from '../../helpers/data';
 import { BackButtonPricesInt } from '../../components/data/back-button';
 import { useTour } from '@reactour/tour';
@@ -27,6 +27,7 @@ import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { SidebarComponent } from '../../components/ui/sidebar';
+import axios from 'axios';
 
 
 //let clickId: string | number | null = null;
@@ -38,11 +39,11 @@ interface locationNameOptions {
     clickId: number | null | string;
 }
 interface sectionState {
-    idCountry: number
+    idCountry: string
     locationName: string
 }
 interface CitiesState {
-    citiesObj: Record<string, CitiesData>
+    citiesObj: Record<string, CitiesDataInt>
     citiesOptions: SelectOptions
 }
 
@@ -79,7 +80,7 @@ const ProductionPage: NextPage = () => {
     const[priceData, setPriceData] = useState<Feature>();
     const [countryProperty, setCountryProperty] = useState<{ [name: string]: any } | undefined>();
     const [ sectionState, setSectionState ] = useState<sectionState>({
-        idCountry: 0,
+        idCountry: '',
         locationName: 'World',
     });
     const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
@@ -263,38 +264,26 @@ const ProductionPage: NextPage = () => {
     // }, [dataTranslate, locationName, map]);
     
 //Filter for district elements
-    const fetchJson = () => {
-        fetch('/api/international-prices')
-        .then(response => {
-          return response.json();
-        }).then(priceData => {
-            setPriceData(priceData);
-            console.log(priceData.features);
-            let countries = priceData.features
-            let cityName = (countries.map((c: { properties: { id_country: number; country_name: string; spanish_name: string;  } }) => {return {id_country: c.properties.id_country, country_name: c.properties.country_name, spanish_name: c.properties.spanish_name}}))
-            let cityValue = (countries.map((c: { properties: { id_country: any; }; }) => c.properties.id_country))
-            const cityObj: Record<string, CitiesData> = {};
-            setCityData(cityName)
-            setCityName({
-                citiesObj: cityObj,
-                citiesOptions: generateCitiesOptionsInt(cityName, 'country_name')
-            })
-            console.log(cityObj)
-        }).catch((e: Error) => {
-          console.log(e.message);
-        });
-      }
-      useEffect(() => {
-        fetchJson()
-      },[])
- 
-    // const getPriceData = (locationName: SetStateAction<string>) =>{
-    //     setPriceData( data.country_name)
-    // }
 
-    // useEffect(()=>{
-    //     getPriceData(locationName, );
-    // },[locationName])
+    const getPriceData = () => {
+        axios.get(`${baseURL}/api/v1/data/adminIdsInter/region/CAM/4`)
+            .then(res=>{
+                setPriceData( res.data.data)
+                console.log(res.data.features)
+                let countries = res.data.data.features;
+                let cityName = (countries.map((c: { properties: { country_name: string; country_name_es: string; country_name_pt: string; iso3: string} }) => {return {country_name: c.properties.country_name, country_name_es: c.properties.country_name_es, country_name_pt: c.properties.country_name_pt, iso3: c.properties.iso3 }}))
+                let cityValue = (countries.map((c: { properties: { point: any; }; }) => c.properties.point))
+                const cityObj: Record<string, CitiesDataInt> = {};
+                setCityData(cityName)
+                setCityName({
+                    citiesObj: cityObj,
+                    citiesOptions: generateCitiesOptionsInt(cityName, 'country_name')
+                })
+            })
+    }
+    useEffect(() => {
+            getPriceData()
+    },[]) 
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
