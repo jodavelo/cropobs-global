@@ -119,7 +119,7 @@ export const PlotlyChartLineInternational: FC<Props> = ({ dataURL, title, descri
             title: 'USD / Ton',
             zeroline: true,
             rangemode: 'tozero',
-            range: [0, 2000]
+            range: [0, 30]
         },
         boxmode: 'group',
         legend: {"orientation": "h"},

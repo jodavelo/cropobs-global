@@ -30,6 +30,8 @@ import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { LocalSeeRounded } from '@mui/icons-material';
 import { LoadingComponent } from '../../components/ui/loading-component';
+import Alert from '@mui/material/Alert';
+
 
 interface sectionState {
     elementId: number
@@ -73,6 +75,7 @@ interface OtherTexts {
     sources_text: string
     search_country: string
     element_locale: string
+    select_country_alert: string
 }
 const mapFilterElements = [300050, 300051, 300052];
 const baseURL = 'https://cropobs-central.ciat.cgiar.org';
@@ -81,6 +84,7 @@ let clickId: string | number | null = null;
 const PricesPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
     const[priceData, setPriceData] = useState<Feature>();
+    const [ showCountrySelectAlert, setShowCountrySelectAlert ] = useState(false);
     const { locale } = useRouter();
     const { map } = useContext( MapContext );
     const [ sectionState, setSectionState ] = useState<sectionState>({
@@ -398,7 +402,7 @@ const PricesPage: NextPage = () => {
 
     useEffect(() => {
         
-        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), chart2_info: dataTranslate('chart2-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
+        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-info'), chart2_info: dataTranslate('chart2-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT'), select_country_alert: dataTranslate('country-select-alert')});
         
     }, [dataTranslate, locationName]);
     
@@ -444,19 +448,31 @@ const PricesPage: NextPage = () => {
                                                     <MapViewPrices id='map-info' setIdGeoPoint={setIdGeoPoint} setIdCountry={setIdCountry} markers={priceData ? {priceDataGeopoint: priceData} as marker : {} as marker} ></MapViewPrices>
                                                 </Col>
                                                 <Col xs={ 12 } xl={ graphsCol } style={ !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', marginTop: '10px' } : { display: 'none' } }> 
-                                                    {
+                                                {
                                                         buttonGraphs ?
-                                                        <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
-                                                            <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
-                                                                <MapSelect id='element-filter-price'  options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'  locale={ locale ?? 'en'}/> 
-                                                                <MapSelectCity id='city-filter'  options={citiesOptions} selected={idGeoPoint}   setSelected={setSectionState} dataCity={cityData} setIdCountry={setIdCountry} setIdGeoPoint={setIdGeoPoint} atrName='selectCity'/> 
+                                                        <>
+                                                            <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
+                                                                <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
+                                                                    <MapSelect id='element-filter-price'  options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'  locale={ locale ?? 'en'}/> 
+                                                                    <MapSelectCity id='city-filter'  options={citiesOptions} selected={idGeoPoint}   setSelected={setSectionState} dataCity={cityData} setIdCountry={setIdCountry} setIdGeoPoint={setIdGeoPoint} atrName='selectCity'/> 
 
-                                                                {/* <MapSelectPrices id='element-filter'  options={locationName} selected={locationName} setSelected={setSectionState} atrName='locationName'/>  */}
+                                                                    {/* <MapSelectPrices id='element-filter'  options={locationName} selected={locationName} setSelected={setSectionState} atrName='locationName'/>  */}
+                                                                </Row>
                                                             </Row>
-                                                        </Row>
+                                                            {
+                                                                showCountrySelectAlert ?
+                                                                    <Alert severity='warning'>
+                                                                        { otherTexts?.select_country_alert }
+                                                                    </Alert>
+                                                                :
+                                                                    <></>
+                                                            }
+                                                            {/* :
+                                                            <div style={{height:"100%",width:"100%",position:"absolute",top:"40%",left:"50%"}}><LoadingComponent/></div> */}
+                                                        </>
                                                         :
-                                                        <div style={{height:"100%",width:"100%",position:"absolute",top:"40%",left:"50%"}}><LoadingComponent/></div>
-                                                    }                         
+                                                            <></>
+                                                    }                               
                                                     <PlotlyChartBox dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/boxplot/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleYear} - ${locationName}`} description={otherTexts ? otherTexts.chart1_info : 'Loading...'}/>
                                                     <PlotlyChartLine dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/national/line/125/${elementId}?id_country=${idCountry}&id_geo_point=${idGeoPoint}`} title={`${chartTitleMonth} - ${locationName}`} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>  
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />

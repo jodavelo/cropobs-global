@@ -52,6 +52,10 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
     const [internationalPricesText, setInternationalPricesText] = useState('');
     const [tradeText, setTradeText] = useState('')
     const [exportImportsText, setExportImportsText] = useState('')
+    const [pestAndDiseasesSectionText, setPestAndDiseasesSectionText] = useState('')
+    const [pestSectionText, setPestSectionText] = useState('')
+    const [diseaseSectionTexts, setDiseaseSectionText] = useState('')
+
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -64,6 +68,9 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setInternationalPricesText('International Prices');
                 setTradeText('Trade');
                 setExportImportsText('Imports/Exports');
+                setPestAndDiseasesSectionText('Pests & Diseases')
+                setPestSectionText('Pests')
+                setDiseaseSectionText('Diseases')
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
@@ -75,6 +82,9 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setInternationalPricesText('Precios Internacionales');
                 setTradeText('Comercio');
                 setExportImportsText('Importaciones/Exportaciones');
+                setPestAndDiseasesSectionText('Plagas & Enfermedades')
+                setPestSectionText('Plagas')
+                setDiseaseSectionText('Enfermedades')
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
@@ -86,6 +96,9 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setInternationalPricesText('Preços internacionais');
                 setTradeText('Comercio');
                 setExportImportsText('Importaciones/Exportaciones');
+                setPestAndDiseasesSectionText('Pragas & Doenças')
+                setPestSectionText('Pragas')
+                setDiseaseSectionText('Doenças')
                 break;
         }
     }, )
@@ -120,6 +133,10 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 <SubMenu icon={ <AgricultureIcon/> } label={tradeText} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] }>
                     <MenuItem onClick={ () => push('/data/trade') } className={ styles['submenu-items'] }> {exportImportsText} </MenuItem>
                     {/* <MenuItem onClick={ () => push('/data/prices-international') } className={ styles['submenu-items'] }> {internationalPricesText} </MenuItem> */}
+                </SubMenu>
+                <SubMenu icon={ <AgricultureIcon/> } label={pestAndDiseasesSectionText} className={ isCollapsedProp ? styles['menu-items'] : styles['menu-items-show'] }>
+                    <MenuItem onClick={ () => push('/data/pests') } className={ styles['submenu-items'] }> {pestSectionText} </MenuItem>
+                    <MenuItem onClick={ () => push('/data/diseases') } className={ styles['submenu-items'] }> {diseaseSectionTexts} </MenuItem>
                 </SubMenu>
             </Menu>
         </Sidebar>

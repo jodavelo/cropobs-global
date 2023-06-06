@@ -10,6 +10,8 @@
     "section-int-name": " Precios Internacionales",
     "section-int-text": "Precios Internacionales - #{}",
 
+    "country-select-alert": "Por favor, seleccione un país y un tipo de precio",
+
     "chart-int-info": "El diagrama de caja muestra la evolución anual de los precios internacionales por tipo de frijol. Los precios en este gráfico se muestran en USD/tonelada, junto con el precio mínimo, el precio máximo y el precio medio para el período de tiempo seleccionado. <br><br> Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
     "chart-int-info2": "Este gráfico presenta la evolución histórica de los precios internacionales mensuales por tipo de frijol. Los precios se muestran en USD/tonelada para el período de tiempo seleccionado.<br><br> Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
     "podiums-info": "Este podio ordena los cultivos en función del crecimiento interanual de la producción, del área cosechada y del rendimiento para el periodo seleccionado. El filtro le permite cambiar entre las tres variables. El podio mostrará los tres cultivos que crecieron más con relación a la variable seleccionada, además del puesto que ocupa el cultivo de yuca en la región seleccionada.",
