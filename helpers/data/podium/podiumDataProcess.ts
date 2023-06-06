@@ -82,7 +82,6 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
         const data = Array(0);
         predata.forEach( (entry: RankingData, idx: number) => {
             const { pos, heightBar, heightTransparentBar } = getRankObj(entry.ranking);
-            //hacer push  
             data.push({
                 rank: entry.ranking,
                 cropName: locale=='en' ? entry.crop_name : locale=='es' ? (entry.crop_name_es ?? 'Sin traducción') : (entry.crop_name_pt ?? 'Sem tradução'),

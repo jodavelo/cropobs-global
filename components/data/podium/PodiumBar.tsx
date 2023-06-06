@@ -37,7 +37,7 @@ export const PodiumBar: FC<Props> = ({ data }) => {
         <>
             {
                 data.map(o => (
-                    <div className={ styles['podium-bar-container'] } key={ o.rank }>
+                    <div className={ styles['podium-bar-container'] } key={ o.rank+o.cropName+o.color }>
                         <div className={ styles.bar }>
                             <div style={{ maxWidth: '90px', width: '90%', height:  o.heightTransparentBar }}></div>
                             <div style={{ maxWidth: '90px', width: '90%', height:  o.heightBar, backgroundColor: o.color}} className={ styles['rank-podium-number'] }>
