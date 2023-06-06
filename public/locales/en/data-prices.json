@@ -10,6 +10,8 @@
     "section-int-name": "International Prices",
     "section-int-text": "International Prices - #{}",
 
+    "country-select-alert": "Please, select a country and type of price",
+
     "chart-int-info": "The box plot shows annual evolution of international prices by type of beans. The prices in this graph are shown in USD/ton, along with the minimum price, the maximum price and the median price for the selected time period. <br><br>You may select in the legend those variables you wish to exclude from the display.",
     "chart-int-info2": "This graph presents the historical evolution of monthly international prices by type of beans. The prices are shown in USD/ton for the selected time period. <br><br>You may select in the legend those variables you wish to exclude from the display.",
     "podiums-info": "This podium ranks crops according to year-on-year growth in production, harvested area and yield for the selected period. The filter allows you to switch between the three variables. The podium will show the three crops that grew the most in relation to the selected variable, as well as the position of the beans in the selected region.",
