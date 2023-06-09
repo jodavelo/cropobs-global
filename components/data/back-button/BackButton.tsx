@@ -121,7 +121,6 @@ export const BackButton: FC<Props> = ({ regionCode, countryCode, setCountryCode2
     const { setSteps, setIsOpen } = useTour();
     
     const { map } = useContext(MapContext);
-
     useEffect(() => {
         if ( !(regionCode === countryCode && countryCode === worldCode) && !getCookie('back_button_tour') ) {
             if (setSteps) {

@@ -275,6 +275,9 @@ const ProductionPage: NextPage = () => {
                 ...prevState,
                 locationName: title
             }));
+        }else {
+            setLocationName2( locationName2 );
+            setCountryCode2( locationNameOptions.isoLabel );
         }
     }, [ clickId ])
     
@@ -736,7 +739,7 @@ const ProductionPage: NextPage = () => {
                         {/* -------------- */}
                     
                 </Container>
-                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
             </Layout>
     )
 }

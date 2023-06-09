@@ -6,6 +6,7 @@ import { dataFetcher } from "../../../helpers/data";
 import { MapContext } from "../../../context/map";
 import { GridEventListener, GridRowsProp } from "@mui/x-data-grid";
 import { sectionState } from "../../../interfaces/data/section-states";
+import { useRouter } from "next/router";
 
 interface Props {
     show: boolean
@@ -14,20 +15,26 @@ interface Props {
     clickId: string | number | null
     setSectionState: Function
     setClickId: Function
+    setLocationName2?: Function
+    setLocationNames?: Function
 }
 
 interface CountryRow {
     id: number | string | undefined
     country: string
     iso3: string
+    country_es?: string | null | undefined
+    country_pt?: string | null | undefined
 }
 
-export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, clickId, setSectionState, setClickId }) => {
+export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, clickId, setSectionState, setClickId, setLocationName2 = () => {}, setLocationNames = () => {} }) => {
     const { map } = useContext( MapContext );
     //console.log(adminIdsUrl);
     const { data: adminIds } = useSWR<String[]>(adminIdsUrl, dataFetcher);
     const [ rows, setRows ] = useState<CountryRow[]>([]);
+    const { locale } = useRouter();
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+        console.log(params)
         if (map){
             if (clickId !== null) {
                 map.setFeatureState(
@@ -44,6 +51,32 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
                 countryCode: params.row.iso3,
                 locationName: params.row.country
             }));
+            if( setLocationName2 ) {
+                let countryName = '';
+                switch (locale) {
+                    case 'en':
+                        countryName = params.row.country
+                        break;
+                    case 'es':
+                        countryName = params.row.country_es
+                        break;
+                    default:
+                        countryName = params.row.country_pt
+                        break;
+                }
+                setLocationName2(countryName)
+            }
+            if( setLocationNames ) {
+                setLocationNames( (prevState: sectionState) => ({
+                    ...prevState,
+                    en: params.row.country,
+                    es: params.row.country_es,
+                    pt: params.row.country_pt,
+                    isoLabel: params.row.iso3,
+                    clickId: params.row.id
+                }));
+            }
+            console.log('aqui para pintar name', rows)
             setClickId(params.row.id);
         }
         console.log(`${params.row.country} clicked`);
@@ -65,6 +98,8 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
                             tempRows.push({
                                 id: layer.id,
                                 country: layer.properties?.country_name,
+                                country_es: layer.properties?.country_name_es,
+                                country_pt: layer.properties?.country_name_pt,
                                 iso3: layer.properties?.iso3
                             });
                         }

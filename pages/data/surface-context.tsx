@@ -51,6 +51,8 @@ interface locationNameOptions {
     pt: string;
     isoLabel: string;
     clickId: number | null | string;
+    macroRegionCode: null | string;
+    regionCode: null | string;
 }
 
 interface sectionState {
@@ -86,7 +88,9 @@ const SurfaceContextPage: NextPage = () => {
         es: 'Mundo',
         pt: 'Mundo',
         isoLabel: 'WLRD',
-        clickId: 0
+        clickId: 0,
+        macroRegionCode: '10',
+        regionCode: 'WLRD'
     });
     const [locationName2, setLocationName2] = useState('');
     const { elementId, regionCode, macroRegionCode, countryCode, year, admin, locationName } = sectionState;
@@ -209,7 +213,7 @@ const SurfaceContextPage: NextPage = () => {
                                 locationName: properties![dataTranslate('LOCALE_COUNTRY_NAME')]
                             }));
                             setCountryCode2(iso);
-                            console.log(properties!.iso3)
+                            // console.log(properties!.iso3)
                             setLocationNameOptions(( prevState ) => ({
                                 ...prevState,
                                 en: properties!.country_name,
@@ -241,8 +245,12 @@ const SurfaceContextPage: NextPage = () => {
             if( locale == 'pt' ) title = locationNameOptions.pt;
             setLocationName2( title );
         }
-    }, [ clickId ])
+    }, [ clickId ]) 
     
+    useEffect(() => {
+        console.log('11111111111111111111111111111111111111111111111111111111111', locationNameOptions)
+        setCountryCode2( locationNameOptions.regionCode! )
+    }, [ locationNameOptions.macroRegionCode, locationNameOptions.regionCode ])
 
     useEffect(() => {
         console.log(locationNameOptions)
@@ -299,9 +307,12 @@ const SurfaceContextPage: NextPage = () => {
             if( locale == 'es' ) title = 'Mundo';
             if( locale == 'pt' ) title = 'Mundo';
             setLocationName2( title );
+        }else {
+            setLocationName2( locationName2 );
+            setCountryCode2( locationNameOptions.isoLabel );
         }
+        //console.log('fngknrfkgknknkbnklnfkgn', locationName2)
     }, [ clickId ])
-    
     
 
 // ------------------------------------------------------------------------------------------------
@@ -425,7 +436,7 @@ const SurfaceContextPage: NextPage = () => {
     useEffect(() => {
         const dataPodiumFetch = async() => {
             // const response = await beansApi.get(`api/v1/data/podium/${ countryCode }/5412/27/${ year }`);
-            const response = await beansApi.get(`api/v1/data/podium/${ countryCode }/5412/176/${ year }`);
+            const response = await beansApi.get(`api/v1/data/podium/${ countryCode2 }/5412/176/${ year }`);
             const { data } = response;
             const dataFetch: PodiumDataStructureFetchApi = { data }
             const rank = toFindCropOfInterest( dataFetch, 'Beans, dry' )
@@ -433,7 +444,7 @@ const SurfaceContextPage: NextPage = () => {
             setPodiumRank( rank );
         }
         dataPodiumFetch();
-    }, [ countryCode, year ]);
+    }, [ countryCode2, year ]);
 
     useEffect(() => {
         if (indicatorOnAverage && !isLoadingIndicatorOnAverage) {
@@ -776,8 +787,8 @@ const SurfaceContextPage: NextPage = () => {
                                                 <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
                                                     <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
                                                     <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                                    <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                                    { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                    <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={locationNameOptions.macroRegionCode!} setSelected={setSectionState} setLocationNames={ setLocationNameOptions } atrName='macroRegionCode'/>
+                                                    { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={locationNameOptions.regionCode!} setSelected={setSectionState} setLocationNames={ setLocationNameOptions } atrName='regionCode'/> }
                                                 </Row>
                                                 <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap'}}>
                                                     <SearchCountryButton btnText={searchCountryTextButton} setShowCountries={setShowCountries} />
@@ -873,7 +884,7 @@ const SurfaceContextPage: NextPage = () => {
                     </div>
                 </div> 
             </Container>
-            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }
