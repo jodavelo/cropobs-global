@@ -11,7 +11,7 @@ import { v4 as uuidv4  } from 'uuid';
 import { BigMenu, menuItems } from './BigMenu';
 
 export const style: CSSProperties = {
-    color: '#a1a1a1',
+    color: '#ffff',
     fontWeight: 'bolder'
     // textDecoration: 'underline',
 }
