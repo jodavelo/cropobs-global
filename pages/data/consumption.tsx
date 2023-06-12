@@ -217,12 +217,13 @@ const DataPage: NextPage = () => {
             if( locale == 'es' ) title = 'Mundo';
             if( locale == 'pt' ) title = 'Mundo';
             setLocationName2( title );
-        }
-        else if ( clickId !== null && (countryCode !== regionCode) ) {
-            if( locale == 'en' ) title = locationNameOptions.en;
-            if( locale == 'es' ) title = locationNameOptions.es;
-            if( locale == 'pt' ) title = locationNameOptions.pt;
-            setLocationName2( title );
+        }else {
+            // if( locale == 'en' ) title = locationNameOptions.en;
+            // if( locale == 'es' ) title = locationNameOptions.es;
+            // if( locale == 'pt' ) title = locationNameOptions.pt;
+            // setLocationName2( title );
+            setLocationName2( locationName2 );
+            setCountryCode2( locationNameOptions.isoLabel );
         }
     }, [ clickId, countryCode ])
 
@@ -835,7 +836,7 @@ const DataPage: NextPage = () => {
                     </div>
                 </div>
             </Container>
-            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }
