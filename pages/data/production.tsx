@@ -267,6 +267,23 @@ const ProductionPage: NextPage = () => {
     }, [locale])
 
     useEffect(() => {
+        if( clickId === null ) {
+            let title = '';
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: title
+            }));
+        }else {
+            setLocationName2( locationName2 );
+            setCountryCode2( locationNameOptions.isoLabel );
+        }
+    }, [ clickId ])
+    
+
+    useEffect(() => {
         if (elementsData && !isLoadingElements) {
             const elemsObj: Record<string, ElementsData> = {};
             elementsData.map( (value, index) => (elemsObj[value.ID_ELEMENT] = value));
@@ -737,7 +754,7 @@ const ProductionPage: NextPage = () => {
                         {/* -------------- */}
                     
                 </Container>
-                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
             </Layout>
     )
 }

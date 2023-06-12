@@ -9,12 +9,14 @@ interface MapSelectInterface {
     options: SelectOptions
     selected: string | number
     setSelected: Function
+    setLocationName2?: Function
+    setLocationNames?: Function
     atrName: string
     id?: string
     locale?: string
 }
 
-export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined, locale }) => {
+export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names: []}, selected, setSelected, atrName, id=undefined, locale, setLocationName2 = () => {}, setLocationNames = () => {} }) => {
     const { values, names } = options;
     const { setSteps, setIsOpen } = useTour();
     useEffect(() => {
@@ -30,7 +32,12 @@ export const MapSelect: FC<MapSelectInterface> = ({ options={ values: [], names:
     }, [ locale]);
 
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log(e.target)
         setSelected( (prevState: Record<string, any>) => ({
+            ...prevState,
+            [atrName]: e.target.value
+        }));
+        setLocationNames( (prevState: Record<string, any>) => ({
             ...prevState,
             [atrName]: e.target.value
         }));
