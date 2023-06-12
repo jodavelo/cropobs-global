@@ -62,6 +62,7 @@
   align-items: center;
   flex-direction: column;
 }
+
 .container-logo-images{
   width: 100%;
   display: flex;
@@ -74,6 +75,19 @@
 .size-logos {
   /*width: 120px;*/
   height: 100px;
+  object-fit: contain;
+}
+.size-logos2 {
+  /*width: 120px;*/
+  padding-top: 23px;
+  padding-bottom: 23px;
+  height: 100px;
+  object-fit: contain;
+}
+.size-logos3 {
+  /*width: 120px;*/
+  padding-bottom: 23px;
+  height: 77px;
   object-fit: contain;
 }
 
