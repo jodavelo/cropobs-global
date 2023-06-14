@@ -453,33 +453,6 @@ const SurfaceContextPage: NextPage = () => {
         }
     }, [isLoadingIndicatorOnAverage]);
 
-    useEffect(() => {
-        setIndicators( [] );
-        if (indicatorTotalCropLandArea && !isLoadingIndicatorTotalCropLandArea) {
-            const totalCropLandArea = Number(indicatorTotalCropLandArea * 100).toFixed(2);
-            const indicatorTotalCropLand: PercentInfoProps = {
-                label: totalAreaText1,
-                percent: totalCropLandArea
-            }
-            setOnAverageIndicator(indicatorTotalCropLandArea);
-            setIndicators( indicators => [...indicators, indicatorTotalCropLand] );
-        }
-    }, [isLoadingIndicatorTotalCropLandArea]);
-
-    useEffect(() => {
-        // setIndicators( [] );
-        if (indicatorTotalCerealArea && !isLoadingIndicatorTotalCerealArea) {
-            const totalCerealArea = Number(indicatorTotalCerealArea * 100).toFixed(2);
-            const indicatorTotalCereal: PercentInfoProps = {
-                label: totalAreaText2,
-                percent: totalCerealArea
-            }
-            setOnAverageIndicator(indicatorTotalCerealArea);
-            setIndicators( indicators => [...indicators, indicatorTotalCereal] );
-        }
-    }, [isLoadingIndicatorTotalCerealArea]);
-
-
     // const chartConfig = [
     //     {
     //         dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1001,1002,1003]&cropIds=[176]`,
@@ -753,6 +726,33 @@ const SurfaceContextPage: NextPage = () => {
         setLocaleFilterElement(dataTranslate('LOCALE_FILTER_ELEMENT')!);
         setLocationText(locationName);
     }, [dataTranslate, locationName])
+
+    useEffect(() => {
+        setIndicators( [] );
+        if (indicatorTotalCropLandArea && !isLoadingIndicatorTotalCropLandArea) {
+            const totalCropLandArea = Number(indicatorTotalCropLandArea * 100).toFixed(2);
+            const indicatorTotalCropLand: PercentInfoProps = {
+                label: totalAreaText1,
+                percent: totalCropLandArea
+            }
+            setOnAverageIndicator(indicatorTotalCropLandArea);
+            setIndicators( indicators => [...indicators, indicatorTotalCropLand] );
+        }
+    }, [isLoadingIndicatorTotalCropLandArea, totalAreaText1]);
+    
+    useEffect(() => {
+        // setIndicators( [] );
+        if (indicatorTotalCerealArea && !isLoadingIndicatorTotalCerealArea) {
+            const totalCerealArea = Number(indicatorTotalCerealArea * 100).toFixed(2);
+            const indicatorTotalCereal: PercentInfoProps = {
+                label: totalAreaText2,
+                percent: totalCerealArea
+            }
+            setOnAverageIndicator(indicatorTotalCerealArea);
+            setIndicators( indicators => [...indicators, indicatorTotalCereal] );
+        }
+    }, [isLoadingIndicatorTotalCerealArea,totalAreaText2]);
+
     
 
     // console.log(sideBarColumn, contentColumn)  
