@@ -97,13 +97,13 @@ export const boxInternationalDataGenerator = (inputData: Record<string, any>, cu
     const y0: number[] = [];
     const y1: number[] = [];
     console.log(data)
-    inputData.forEach( (rice_type: Record<string, any>, index: number) => {
+    inputData.data.forEach( (crop_type: Record<string, any>, index: number) => {
         const years: number[] = [];
         const xdata: number[] = [];
-        rice_type.minsAndMaxs.forEach((minMax: { [x: string]: number; year: number; }, i: string | number)=>{
+        crop_type.minsAndMaxs.forEach((minMax: { [x: string]: number; year: number; }, i: string | number)=>{
             // console.log(rice_type.medians[i],'asas');
             xdata.push(minMax[`min`])
-            xdata.push(rice_type.medians[i].median)
+            xdata.push(crop_type.medians[i].median)
             xdata.push(minMax[`max`])
             //
             years.push(minMax.year)
@@ -114,7 +114,7 @@ export const boxInternationalDataGenerator = (inputData: Record<string, any>, cu
             y: xdata,
             x:years,
             type: 'box',
-            name: rice_type.rice_type,
+            name: crop_type.crop_type,
             showlegend: true,
             colorway:  Object.values(chartColors)[index]
         }

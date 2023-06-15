@@ -5,7 +5,7 @@ import React, { FC, useContext, useEffect } from 'react';
 
 interface Props {
     locationName: string
-    idCountry: number
+    idCountry: string
     setSectionState: Function
     worldCode?: string
 }
@@ -13,7 +13,7 @@ interface Props {
 
 
 export const BackButtonPricesInt: FC<Props> = ({ locationName, idCountry,  setSectionState, worldCode='World' }) => {
-    const changeAdmin = ( locationName: string, idCountry:number, setSectionState: Function, worldCode: string) => {
+    const changeAdmin = ( locationName: string, idCountry:string, setSectionState: Function, worldCode: string) => {
    
 
         switch (true) {
@@ -21,14 +21,14 @@ export const BackButtonPricesInt: FC<Props> = ({ locationName, idCountry,  setSe
             case (locationName != worldCode):
                 setSectionState( (prevState: Record<string, any>) => ({
                     ...prevState,
-                    ["idCountry"]: 0,
+                    ["idCountry"]: '',
                     locationName: worldCode
                 }));
                 break;
             default:
                 setSectionState( (prevState: Record<string, any>) => ({
                     ...prevState,
-                    ["idCountry"]: 0,
+                    ["idCountry"]: '',
                     ["locationName"]: 'World'
                 }));
         }

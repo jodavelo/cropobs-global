@@ -10,6 +10,8 @@
     "section-int-name": "Preços internacionais",
     "section-int-text": "Preços internacionais - #{}",
 
+    "country-select-alert": "Por favor, selecione um país e um tipo de preço",
+
     "chart-int-info": "O box plot mostra a evolução anual dos preços internacionais por tipo de feijão. Os preços neste gráfico são apresentados em USD/tonelada, juntamente com o preço mínimo, o preço máximo e o preço médio para o período de tempo selecionado. <br><br> Pode seleccionar na legenda as variáveis que deseja excluir da visualização.",
     "chart-int-info2": "Este gráfico apresenta a evolução histórica dos preços internacionais mensais por tipo de feijão. Os preços são apresentados em USD/tonelada para o período de tempo selecionado. <br><br> Pode seleccionar na legenda as variáveis que deseja excluir da visualização.",
     "podiums-info": "Este pódio classifica as colheitas de acordo com o crescimento anual da produção, área colhida e rendimento para o período selecionado. O filtro permite alternar entre as três variáveis. O pódio mostrará as três culturas que mais cresceram em relação à variável selecionada, assim como o ranking da cultura de mandioca na região selecionada.",

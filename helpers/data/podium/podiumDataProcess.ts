@@ -16,6 +16,12 @@ const rankArr = [
 
 const getRankObj = (ranking: number) => ranking <= 4 ? rankArr[ranking-1] : rankArr[3];
 
+const reFactorData = (data: RankingData[]) => {
+    const newData = Array(0)
+    data.forEach((elem:any)=> {if(elem !== undefined) newData.push(elem)})
+    return newData
+}
+
 export const podiumDataProcess = (predata: RankingData[]) => {
 
     const data = Array(predata.length);
@@ -46,7 +52,7 @@ export const podiumDataProcess = (predata: RankingData[]) => {
     return data;
 }
 export const podiumDataProcessTrans = (predata: RankingData[], locale: string) => {
-
+    /*
     const data = Array(predata.length);
     predata.forEach( (entry: RankingData) => {
         const { pos, heightBar, heightTransparentBar } = getRankObj(entry.ranking);
@@ -72,9 +78,25 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
                 color:  'rgb(181, 181, 181)'
             };
         }
-        
+      */ 
+        const data = Array(0);
+        predata.forEach( (entry: RankingData, idx: number) => {
+            const { pos, heightBar, heightTransparentBar } = getRankObj(entry.ranking);
+            data.push({
+                rank: entry.ranking,
+                cropName: locale=='en' ? entry.crop_name : locale=='es' ? (entry.crop_name_es ?? 'Sin traducción') : (entry.crop_name_pt ?? 'Sem tradução'),
+                keyName: entry.crop_name,
+                urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                heightBar,
+                heightTransparentBar,
+                color:  'rgb(181, 181, 181)'
+            })
+            if (idx === 1){
+                data.push(data.splice(0,1)[0]) 
+            }
+             
     });
-    return data;
+    return reFactorData(data);
 }
 
 export const getColorByDataProcessed = ( data: any[] ) => {

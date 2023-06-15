@@ -12,7 +12,7 @@ import styles from './data.module.css';
 import { MapContext } from '../../context/map';
 import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, MapSelect, MapSelectCityInt } from '../../components/ui/map/filters';
-import { SelectOptions, CitiesData } from '../../interfaces/data';
+import { SelectOptions, CitiesData, CitiesDataInt } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateCitiesOptionsInt } from '../../helpers/data';
 import { BackButtonPricesInt } from '../../components/data/back-button';
 import { useTour } from '@reactour/tour';
@@ -27,7 +27,7 @@ import { useWindowSize } from '../../hooks';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { SidebarComponent } from '../../components/ui/sidebar';
-import data from '../api/international-prices';
+import axios from 'axios';
 
 
 //let clickId: string | number | null = null;
@@ -39,12 +39,11 @@ interface locationNameOptions {
     clickId: number | null | string;
 }
 interface sectionState {
-    idCountry: number
+    idCountry: string
     locationName: string
-
 }
 interface CitiesState {
-    citiesObj: Record<string, CitiesData>
+    citiesObj: Record<string, CitiesDataInt>
     citiesOptions: SelectOptions
 }
 
@@ -73,6 +72,7 @@ interface OtherTexts {
     element_locale: string
 }
 let clickId: string | number | null = null;
+const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 
 const ProductionPage: NextPage = () => {
     const { t: dataTranslate } = useTranslation('data-prices');
@@ -80,8 +80,8 @@ const ProductionPage: NextPage = () => {
     const[priceData, setPriceData] = useState<Feature>();
     const [countryProperty, setCountryProperty] = useState<{ [name: string]: any } | undefined>();
     const [ sectionState, setSectionState ] = useState<sectionState>({
-        idCountry: 0,
-        locationName: 'World'
+        idCountry: '',
+        locationName: 'World',
     });
     const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
         en: 'World',
@@ -183,12 +183,12 @@ const ProductionPage: NextPage = () => {
                             setLocationNameOptions(( prevState ) => ({
                                 ...prevState,
                                 en: properties!.country_name,
-                                es: properties!.spanish_name,
-                                pt: properties!.spanish_name,
+                                es: properties!.country_name_es,
+                                pt: properties!.country_name_pt,
                                 isoLabel: iso,
                                 clickId: id
                             })); 
-                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.spanish_name : e.features![0].properties!.spanish_name) )
+                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
                             setClickId(e.features![0].id ?? null);
                         }
                     }
@@ -264,38 +264,26 @@ const ProductionPage: NextPage = () => {
     // }, [dataTranslate, locationName, map]);
     
 //Filter for district elements
-    const fetchJson = () => {
-        fetch('/api/international-prices')
-        .then(response => {
-          return response.json();
-        }).then(priceData => {
-            setPriceData(priceData);
-            console.log(priceData.features);
-            let countries = priceData.features
-            let cityName = (countries.map((c: { properties: { id_country: number; country_name: string; spanish_name: string;  } }) => {return {id_country: c.properties.id_country, country_name: c.properties.country_name, spanish_name: c.properties.spanish_name}}))
-            let cityValue = (countries.map((c: { properties: { id_country: any; }; }) => c.properties.id_country))
-            const cityObj: Record<string, CitiesData> = {};
-            setCityData(cityName)
-            setCityName({
-                citiesObj: cityObj,
-                citiesOptions: generateCitiesOptionsInt(cityName, 'country_name')
-            })
-            console.log(cityObj)
-        }).catch((e: Error) => {
-          console.log(e.message);
-        });
-      }
-      useEffect(() => {
-        fetchJson()
-      },[])
- 
-    // const getPriceData = (locationName: SetStateAction<string>) =>{
-    //     setPriceData( data.country_name)
-    // }
 
-    // useEffect(()=>{
-    //     getPriceData(locationName, );
-    // },[locationName])
+    const getPriceData = () => {
+        axios.get(`${baseURL}/api/v1/data/adminIdsInter/region/CAM/4`)
+            .then(res=>{
+                setPriceData( res.data.data)
+                console.log(res.data.features)
+                let countries = res.data.data.features;
+                let cityName = (countries.map((c: { properties: { country_name: string; country_name_es: string; country_name_pt: string; iso3: string} }) => {return {country_name: c.properties.country_name, country_name_es: c.properties.country_name_es, country_name_pt: c.properties.country_name_pt, iso3: c.properties.iso3 }}))
+                let cityValue = (countries.map((c: { properties: { point: any; }; }) => c.properties.point))
+                const cityObj: Record<string, CitiesDataInt> = {};
+                setCityData(cityName)
+                setCityName({
+                    citiesObj: cityObj,
+                    citiesOptions: generateCitiesOptionsInt(cityName, 'country_name')
+                })
+            })
+    }
+    useEffect(() => {
+            getPriceData()
+    },[]) 
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
@@ -488,7 +476,7 @@ const ProductionPage: NextPage = () => {
                                             <Row style={{ paddingLeft: '12px' }}>
                                                 <LeftSideMenuContainer/>
                                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                                    <MapViewPricesInt setCountryName={setCountryName} setIdCountry={setIdCountry}/>
+                                                    <MapViewPricesInt  geoJsonURL={`${baseURL}/api/v1/data/adminIdsInter/region/CAM/4`} setCountryName={setCountryName} setIdCountry={setIdCountry}/>
                                                 </Col>
                                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                     {
@@ -501,8 +489,8 @@ const ProductionPage: NextPage = () => {
                                                         :
                                                             <></>
                                                         }
-                                                            <PlotlyChartBoxInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
-                                                            <PlotlyChartLineInternational  dataURL={`https://riceobservatory.org/api/v1/charts/comercico/precios/internacionales/grafico/lineas${idCountry==0?'':'?id_country='+idCountry}`} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
+                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4`} title={chartTitle} description='Grafico de precios' /> 
+                                                            <PlotlyChartLineInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4`} title={chartTitleLine} description='Grafico de precios'/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                             </Row>

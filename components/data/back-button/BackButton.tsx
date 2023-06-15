@@ -89,6 +89,17 @@ const changeAdmin = (regionCode: string, countryCode: string, setSectionState: F
                 }))
             }
             if ( setCountryCode2 ) setCountryCode2( regionCode )
+            if( setClickId ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
+                }
+            }
             break;
         default:
             setSectionState( (prevState: Record<string, any>) => ({
@@ -123,15 +134,17 @@ export const BackButton: FC<Props> = ({ regionCode, countryCode, setCountryCode2
     const { map } = useContext(MapContext);
     useEffect(() => {
         if ( !(regionCode === countryCode && countryCode === worldCode) && !getCookie('back_button_tour') ) {
-            if (setSteps) {
-                if( locale == 'en' ) setSteps(back_button_step);
-                else if ( locale == 'es' ) setSteps(back_button_step_es);
-                else if ( locale == 'pt' ) setSteps(back_button_step_pt);
-                setCookie('back_button_tour', true);
-                setIsOpen(true);
-            }
+            setTimeout( () => {
+                if (setSteps) {
+                    if( locale == 'en' ) setSteps(back_button_step);
+                    else if ( locale == 'es' ) setSteps(back_button_step_es);
+                    else if ( locale == 'pt' ) setSteps(back_button_step_pt);
+                    setCookie('back_button_tour', true);
+                    setIsOpen(true);
+                }
+            }, 1000);
         }
-    }, [regionCode, countryCode, locale]);
+    }, [regionCode, countryCode, locale, setIsOpen, setSteps, worldCode]);
 
     const onClickTradeBack = ( setSectionState: Function ) => {
         setSectionState( (prevState: Record<string, any>) => ({

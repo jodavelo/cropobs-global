@@ -38,6 +38,7 @@ import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { LoadingComponent } from '../../components/ui/loading-component';
 import { TradeApiResponse, TradeObservation } from '../../interfaces/data/trade/trade-helpers';
 
+
 const legendTitleObject = {
     en: {
         quantity: 'Quantity (kg)',
@@ -189,8 +190,8 @@ interface sectionState {
     flowId: number
 }
 
-const baseUrl = 'http://cropobscentral.test';
-// const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+// const baseUrl = 'http://cropobscentral.test';
+const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
 // const baseUrl = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 
 const tradeFlowSelectValues = [1,2];
@@ -229,7 +230,7 @@ const DataPage: NextPage = () => {
     });
     const [countryCode2, setCountryCode2] = useState('WLRD');
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
-    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/WLRD/${ elementId }/713999/${ year }`, dataFetcher);
+    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/BEANS_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/713999/${ year }`, dataFetcher);
     const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/BEANS_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher);
     // const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`${ baseUrl }/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
 
@@ -1029,8 +1030,8 @@ const DataPage: NextPage = () => {
                                         
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        {/*(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels.length>0) ?
-                                           */ <>
+                                        {(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
+                                            <>
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
                                                     <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName2 : ( locale == 'pt' ? locationName2 : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName2 : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
@@ -1052,9 +1053,9 @@ const DataPage: NextPage = () => {
                                                 </ChartFrame>
                                                 <div> Source: <i>Data source</i> </div>
                                             </>
-                                        /*:
+                                        :
                                         <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
-                                        */}
+                                        }
                                         </Col>
                                         
                                     </Row>

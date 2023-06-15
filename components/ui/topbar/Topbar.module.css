@@ -53,8 +53,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px; /* Ajusta este valor como quieras */
-    height: auto;
+    width: 70px; /* Ajusta este valor como quieras */
+    height: 70px;
     z-index: 1; /* Asegúrate de que la imagen esté encima de otros elementos */
 }
 
