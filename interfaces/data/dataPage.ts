@@ -70,3 +70,14 @@ export interface TradeFlowState {
 export interface TradeElementState { 
     tradeElementOptions: SelectOptions
 }
+
+export interface Region {
+    id_macro_region: number;
+    region_name: string;
+    region_name_es: string;
+    region_name_pt: string;
+}
+
+export type RegionMap = {
+    [key: string]: Region;
+};
