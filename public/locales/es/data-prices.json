@@ -7,8 +7,8 @@
 
     "section-name": "Precios Nacionales",
     "section-text": "Precios Nacionales - #{}",
-    "section-int-name": " Precios Internacionales",
-    "section-int-text": "Precios Internacionales - #{}",
+    "section-int-name": "Precios Internacionales de referencia",
+    "section-int-text": "Precios Internacionales de referencia - #{}",
 
     "country-select-alert": "Por favor, seleccione un país y un tipo de precio",
 

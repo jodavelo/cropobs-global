@@ -23,6 +23,10 @@ interface ContextProps {
     setIsDatabases: (settingIsDatabases: boolean) => void;
     isDataTrade: boolean;
     setIsDataTrade: (settingIsDataTrade: boolean) => void;
+    isDataPests: boolean;
+    setIsDataPests: (settingIsDataPests: boolean) => void;
+    isDataDiseases: boolean;
+    setIsDataDiseases: (settingIsDataDiseases: boolean) => void;
 }
 
 export const LayoutContext = createContext({} as ContextProps);
