@@ -23,6 +23,8 @@ interface ContextProps {
     setIsDatabases: (settingIsDatabases: boolean) => void;
     isDataTrade: boolean;
     setIsDataTrade: (settingIsDataTrade: boolean) => void;
+    isContact: boolean;
+    setIsContact: (settingIsContact: boolean) => void;
 }
 
 export const LayoutContext = createContext({} as ContextProps);

@@ -13,6 +13,7 @@ export interface LayoutState {
     isDataPrices: boolean;
     isDataPricesInt: boolean;
     isDataTrade: boolean;
+    isContact: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
@@ -26,7 +27,8 @@ const LAYOUT_INITIAL_STATE: LayoutState = {
     isDatabases: false,
     isDataPrices: false,
     isDataPricesInt: false,
-    isDataTrade: false
+    isDataTrade: false,
+    isContact: false
 }
 
 interface Props {
@@ -81,6 +83,10 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Data - Trade', payload: settingIsDataTrade });
     }
 
+    const setIsContact = ( settingIsContact: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Contact Page', payload: settingIsContact });
+    }
+
     return (
         <LayoutContext.Provider value={{
             ...state,
@@ -96,7 +102,8 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             setIsDatabases,
             setIsDataPrices,
             setIsDataPricesInt,
-            setIsDataTrade
+            setIsDataTrade,
+            setIsContact
         }}>
             { children }
         </LayoutContext.Provider>

@@ -9,6 +9,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapProvider } from '../context/map';
 import { LeftSideMenuProvider } from '../context/map/leftsidemenu';
 import { TourProvider } from '@reactour/tour';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
  
 // TO MAKE THE MAP APPEAR YOU MUST
 // ADD YOUR ACCESS TOKEN FROM
@@ -29,12 +31,16 @@ function App({ Component, pageProps }: AppProps) {
         <LayoutProvider>
           <MapProvider>
             <LeftSideMenuProvider>  
-              <Component {...pageProps} />
+              <>
+                <Component {...pageProps} />
+                <ToastContainer />
+              </>
             </LeftSideMenuProvider>
           </MapProvider>
         </LayoutProvider>
       </ProSidebarProvider>
     </TourProvider>
+    
   )
 }
 

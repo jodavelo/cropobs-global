@@ -14,6 +14,7 @@ type LayoutActionType =
     | { type: '[Layout] - Set is setIsDataPrices', payload: boolean}
     | { type: '[Layout] - Set is Data Prices', payload: boolean}
     | { type: '[Layout] - Set is Data Prices Int', payload: boolean}
+    | { type: '[Layout] - Set is Contact Page', payload: boolean}
     // | { type: '[Layout] - Unenable is Home',  }
 
 export const layoutReducer = (state: LayoutState, action: LayoutActionType): LayoutState => {
@@ -74,6 +75,11 @@ export const layoutReducer = (state: LayoutState, action: LayoutActionType): Lay
                 return {
                     ...state,
                     isDataTrade: action.payload
+                }
+            case '[Layout] - Set is Contact Page':
+                return {
+                    ...state,
+                    isContact: action.payload
                 }
         // case '[Layout] - Unenable is Home':
         //     return {
