@@ -12,7 +12,7 @@
     "title-page": "Pagina de Valor de Producción",
     "label-cropland-area": "",
 
-    "podium-title": "`<span class=${styles['podium-text-description']}>Los <span class='${styles['year-text-bold']}'>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> cultivo más importante en relación con el valor de la producción en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
+    "podium-title": "`<span class=${styles['podium-text-description']}>En <span class=${styles['year-text-bold']}>#{2}</span>, los <span class='${styles['year-text-bold']}'>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> cultivo más importante en relación con el valor de la producción</span>`",
     "podium-title1":"Los fríjoles fueron el ",
     "podium-title2":" cultivo más importante en relación con el valor de la producción en ",
     "podium-info": "El podio clasifica los cultivos de acuerdo a su producción anual.",

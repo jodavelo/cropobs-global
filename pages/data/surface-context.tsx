@@ -556,28 +556,28 @@ const SurfaceContextPage: NextPage = () => {
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
-                setContentColumn( '80%' );
+                setContentColumn( '78%' );
             }else {
                 setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setContentColumn( '88%' );
             }
         }else if (width! > 1200 && width! < 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '15%' );
-                setContentColumn( '85%' );
+                setContentColumn( '83.1%' );
             }else {
                 setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setContentColumn( '88.1%' );
             }
             
         }
         else if (width! > 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
-                setContentColumn( '87%' );
+                setContentColumn( '85.2%' );
             }else {
                 setSideBarColumn( '8%' );
-                setContentColumn( '92%' );
+                setContentColumn( '90.2%' );
             }
             
         }
@@ -588,39 +588,39 @@ const SurfaceContextPage: NextPage = () => {
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
-                setContentColumn( '80%' );
+                setContentColumn( '78%' );
             }else {
                 setSideBarColumn( '8%' );
-                setContentColumn( '92%' );
+                setContentColumn( '90%' );
             }
         }
         else if (width! > 1200 && width! < 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '15%' );
-                setContentColumn( '85%' );
+                setContentColumn( '83.1%' );
             }else {
                 setSideBarColumn( '7%' );
-                setContentColumn( '93%' );
+                setContentColumn( '91.1%' );
             }
             
         }
         else if (width! > 1400 && width! < 1600){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
-                setContentColumn( '87%' );
+                setContentColumn( '85.2%' );
             }else {
                 setSideBarColumn( '6%' );
-                setContentColumn( '94%' );
+                setContentColumn( '92.2%' );
             }
             
         }
         else if ( width! > 1600 ){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
-                setContentColumn( '87%' );
+                setContentColumn( '85.2%' );
             }else {
                 setSideBarColumn( '5%' );
-                setContentColumn( '95%' );
+                setContentColumn( '93.2%' );
             }
         }
         // if( width! < 991 ) setContentColumn('100%');
@@ -776,7 +776,7 @@ const SurfaceContextPage: NextPage = () => {
                         </div>
                     </div>
                     {/* modificar el width abajo */}
-                    <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
+                    <div className={ styles['main-content-container'] } style={{ width: contentColumn, marginLeft: "0px" }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
                                 <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName2}`} >

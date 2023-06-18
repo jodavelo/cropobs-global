@@ -2,7 +2,7 @@
 
 .container {
     height: 100px;
-    width: 100%;
+    width: 101%;
     background-color: rgb(163, 163, 163);
     display: flex;
     align-items: center;

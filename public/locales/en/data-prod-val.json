@@ -12,7 +12,7 @@
     "title-page": "Production Value page",
     "label-cropland-area": "",
 
-    "podium-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important crop in relation to the value of production in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
+    "podium-title": "`<span class=${styles['podium-text-description']}>In <span class=${styles['year-text-bold']}>#{2}</span>, <span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important crop in relation to the value of production</span>`",
     "podium-title1":"Beans were the ",
     "podium-title2":" most important crop in relation to the value of production in ",
     "podium-info": "The podium ranks crops according to their yearly production value.",

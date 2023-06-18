@@ -646,21 +646,25 @@ const PVPage: NextPage = () => {
         //console.log(isCollapsed)
     }
     useEffect(() => {
+        if( width! < 992 ) {
+            setSideBarColumn( '0%' );
+            setContentColumn( '100%' );
+        }
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
-                setContentColumn( '80%' );
+                setContentColumn( '79.8%' );
             }else {
                 setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setContentColumn( '89.8%' );
             }
         }else if (width! > 1200 && width! < 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '15%' );
-                setContentColumn( '85%' );
+                setContentColumn( '84.9%' );
             }else {
                 setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setContentColumn( '89.9%' );
             }
             
         }
@@ -681,19 +685,19 @@ const PVPage: NextPage = () => {
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
-                setContentColumn( '80%' );
+                setContentColumn( '79.8%' );
             }else {
                 setSideBarColumn( '8%' );
-                setContentColumn( '92%' );
+                setContentColumn( '91.8%' );
             }
         }
         else if (width! > 1200 && width! < 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '15%' );
-                setContentColumn( '85%' );
+                setContentColumn( '84.9%' );
             }else {
                 setSideBarColumn( '7%' );
-                setContentColumn( '93%' );
+                setContentColumn( '92.9%' );
             }
             
         }
