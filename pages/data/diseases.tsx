@@ -147,7 +147,7 @@ const DiseasesPage: NextPage = () => {
                             </Col>
                         </Row>
                         <Row className={ styles['padding-left-subcontainers'] }>
-                            <Col xs={ 12 } style={{ height: '590px', padding: '0', overflow: 'scroll' }}>
+                            <Col xs={ 12 } style={{ height: '590px', padding: '0' }}>
                                     <div className="canvas-row hide-item" id="pests_section">
                                         <object type="text/html" data="https://pestdisplace.org/diseases/embed/cassava" width="100%" height="900"></object>
                                     </div>

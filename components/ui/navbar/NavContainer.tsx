@@ -23,6 +23,9 @@ export const NavContainer: FC<Props> = ({ expand }) => {
     const [pricesText, setPricesText] = useState('');
     const [domesticPricesText, setDomesticPricesText] = useState('');
     const [internationalPricesText, setInternationalPricesText] = useState('');
+    const [pestAndDiseasesSectionText, setPestAndDiseasesSectionText] = useState('')
+    const [pestSectionText, setPestSectionText] = useState('')
+    const [diseaseSectionTexts, setDiseaseSectionText] = useState('')
     useLayoutEffect(() => {
         switch ( locale ) {
             case 'en':
@@ -32,7 +35,10 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setConsumptionText('Consumption');
                 setPricesText('Prices');
                 setDomesticPricesText('Domestic Prices');
-                setInternationalPricesText('International Prices');
+                setInternationalPricesText('International Benchmark Prices');
+                setPestAndDiseasesSectionText('Pests & Diseases');
+                setPestSectionText('Pests');
+                setDiseaseSectionText('Diseases');
                 break;
             case 'es':
                 setSurfaceContextText('Contexto de la superficie');
@@ -41,7 +47,10 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setConsumptionText('Consumo');
                 setPricesText('Precios');
                 setDomesticPricesText('Precios Nacionales');
-                setInternationalPricesText('Precios Internacionales');
+                setInternationalPricesText('Precios Internacionales de referencia');
+                setPestAndDiseasesSectionText('Plagas & Enfermedades');
+                setPestSectionText('Plagas');
+                setDiseaseSectionText('Enfermedades');
                 break;
             default:
                 setSurfaceContextText('Contexto da área');
@@ -50,7 +59,10 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 setConsumptionText('Consumo');
                 setPricesText('Preços');
                 setDomesticPricesText('Preços domésticos');
-                setInternationalPricesText('Preços internacionais');
+                setInternationalPricesText('Preços internacionais de referência');
+                setPestAndDiseasesSectionText('Pragas & Doenças');
+                setPestSectionText('Pragas');
+                setDiseaseSectionText('Doenças');
                 break;
         }
     }, )
@@ -106,6 +118,19 @@ export const NavContainer: FC<Props> = ({ expand }) => {
                 //     menuLabel: 'Any',
                 //     href: '/data/prices-international'
                 // },
+            ]
+        },
+        {
+            titleCategory: pestAndDiseasesSectionText,
+            menuOptions: [
+                {
+                    menuLabel: pestSectionText,
+                    href: '/data/prices'
+                },
+                {
+                    menuLabel: diseaseSectionTexts,
+                    href: '/data/diseases'
+                },
             ]
         },
         

@@ -65,7 +65,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setConsumptionText('Consumption');
                 setPricesText('Prices');
                 setDomesticPricesText('Domestic Prices');
-                setInternationalPricesText('International Prices');
+                setInternationalPricesText('International Benchmark Prices');
                 setTradeText('Trade');
                 setExportImportsText('Imports/Exports');
                 setPestAndDiseasesSectionText('Pests & Diseases')
@@ -79,7 +79,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setConsumptionText('Consumo');
                 setPricesText('Precios');
                 setDomesticPricesText('Precios Nacionales');
-                setInternationalPricesText('Precios Internacionales');
+                setInternationalPricesText('Precios Internacionales de referencia');
                 setTradeText('Comercio');
                 setExportImportsText('Importaciones/Exportaciones');
                 setPestAndDiseasesSectionText('Plagas & Enfermedades')
@@ -93,7 +93,7 @@ export const SidebarComponent = ({ isCollapsedProp }: Props) => {
                 setConsumptionText('Consumo');
                 setPricesText('Preços');
                 setDomesticPricesText('Preços domésticos');
-                setInternationalPricesText('Preços internacionais');
+                setInternationalPricesText('Preços internacionais de referência');
                 setTradeText('Comercio');
                 setExportImportsText('Importaciones/Exportaciones');
                 setPestAndDiseasesSectionText('Pragas & Doenças')

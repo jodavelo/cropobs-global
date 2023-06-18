@@ -7,8 +7,8 @@
 
     "section-name": "Domestic Prices",
     "section-text": "Domestic Prices - #{}",
-    "section-int-name": "International Prices",
-    "section-int-text": "International Prices - #{}",
+    "section-int-name": "International Benchmark Prices ",
+    "section-int-text": "International Benchmark Prices  - #{}",
 
     "country-select-alert": "Please, select a country and type of price",
 

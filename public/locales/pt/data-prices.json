@@ -7,8 +7,8 @@
 
     "section-name": "Preços domésticos",
     "section-text": "Preços domésticos - #{}",
-    "section-int-name": "Preços internacionais",
-    "section-int-text": "Preços internacionais - #{}",
+    "section-int-name": "Preços internacionais de referência",
+    "section-int-text": "Preços internacionais de referência - #{}",
 
     "country-select-alert": "Por favor, selecione um país e um tipo de preço",
 

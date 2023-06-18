@@ -27,13 +27,17 @@ export const Layout: FC<Props> = ({ children, title }) => {
         isDataPricesInt,
         isDatabases, 
         isDataTrade,
+        isDataPests,
+        isDataDiseases,
         setIsHome, 
         setIsDataSurfaceContext,
         setIsDataProduction, 
         setIsDataProductionValue,
         setIsAboutUs, 
         setIsDatabases,
-        setIsDataTrade
+        setIsDataTrade,
+        setIsDataPests,
+        setIsDataDiseases
     } = useContext( LayoutContext );
     //console.log({ isHome, isData, isAboutUs, isDataSurfaceContext, isDatabases })
     useEffect(() => {
@@ -48,6 +52,8 @@ export const Layout: FC<Props> = ({ children, title }) => {
         else if ( isAboutUs ) setLayoutClassName( styles['about-us'] );
         else if ( isDatabases ) setLayoutClassName( styles.databases );
         else if ( isDataTrade ) setLayoutClassName( styles['data-trade'] );
+        else if ( isDataPests ) setLayoutClassName( styles['data-pests'] );
+        else if ( isDataDiseases ) setLayoutClassName( styles['data-diseases'] );
     }, [])
     
     useEffect(() => {
@@ -96,6 +102,12 @@ export const Layout: FC<Props> = ({ children, title }) => {
         }
         else if ( asPath == '/data/trade'  )  {
             setLayoutClassName( styles['data-trade'] );
+        }
+        else if ( asPath == '/data/pests'  )  {
+            setLayoutClassName( styles['data-pests'] );
+        }
+        else if ( asPath == '/data/diseases'  )  {
+            setLayoutClassName( styles['data-diseases'] );
         }
             
     }, [ asPath ])

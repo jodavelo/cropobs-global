@@ -14,6 +14,8 @@ type LayoutActionType =
     | { type: '[Layout] - Set is setIsDataPrices', payload: boolean}
     | { type: '[Layout] - Set is Data Prices', payload: boolean}
     | { type: '[Layout] - Set is Data Prices Int', payload: boolean}
+    | { type: '[Layout] - Set is Data Pests', payload: boolean}
+    | { type: '[Layout] - Set is Data Diseases', payload: boolean}
     // | { type: '[Layout] - Unenable is Home',  }
 
 export const layoutReducer = (state: LayoutState, action: LayoutActionType): LayoutState => {
@@ -74,6 +76,16 @@ export const layoutReducer = (state: LayoutState, action: LayoutActionType): Lay
                 return {
                     ...state,
                     isDataTrade: action.payload
+                }
+            case '[Layout] - Set is Data Pests':
+                return {
+                    ...state,
+                    isDataPests: action.payload
+                }
+            case '[Layout] - Set is Data Diseases':
+                return {
+                    ...state,
+                    isDataDiseases: action.payload
                 }
         // case '[Layout] - Unenable is Home':
         //     return {
