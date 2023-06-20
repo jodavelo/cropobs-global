@@ -1,3 +1,4 @@
+import { RegionMap } from "../interfaces/data";
 
 
 export const removeCommasFromString = (text: string): string => {
@@ -43,3 +44,33 @@ export const commarize = (value: number): string | number => {
     // return formatted original number
     return decimalAdjust('round', value, -2);
 };
+
+export const getRegionNameByRegionCode = (data: RegionMap, locale: string, regionSelected: string) => {
+    if(data){
+        const region = data[regionSelected];
+
+        if ( regionSelected === 'WLRD' ){
+            switch (locale) {
+                case 'es':
+                    return 'Mundo';
+                case 'pt':
+                    return 'Mundo';
+                default:
+                    return 'World';
+            }
+        }
+        if (!region && region !== 'WLRD') {
+            throw new Error(`No region found with code: ${regionSelected}`);
+        }
+
+        switch (locale) {
+            case 'es':
+                return region.region_name_es;
+            case 'pt':
+                return region.region_name_pt;
+            default:
+                return region.region_name;
+        }
+    }
+    return '';
+}

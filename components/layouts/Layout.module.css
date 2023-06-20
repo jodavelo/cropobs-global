@@ -65,6 +65,10 @@
     height: 170vh;
 }
 
+.contact {
+    height: 200vh;
+}
+
 @media (max-width: 500px) and (min-width: 300px){
     .home {
         /*height: 530vh;*/   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
@@ -120,6 +124,9 @@
     .databases {
         height: 160vh;
     }
+    .contact {
+        height: 200vh;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
@@ -128,6 +135,24 @@
     }
     .databases {
         height: 140vh;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 800px){
+    .contact {
+        height: 200vh;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 991px){
+    .about-us {
+        /*height: 210vh;*/        
+    }
+    .databases {
+        height: 140vh;
+    }
+    .contact {
+        height: 120vh;
     }
 }
 
@@ -145,6 +170,9 @@
     .databases {
         height: 120vh;
     }
+    .contact {
+        height: 120vh;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -157,5 +185,8 @@
     }
     .databases {
         height: 100vh;
+    }
+    .contact {
+        height: 125vh;
     }
 }

@@ -15,6 +15,7 @@ export interface LayoutState {
     isDataTrade: boolean;
     isDataPests: boolean;
     isDataDiseases: boolean;
+    isContact: boolean;
 }
 
 const LAYOUT_INITIAL_STATE: LayoutState = {
@@ -30,7 +31,8 @@ const LAYOUT_INITIAL_STATE: LayoutState = {
     isDataPricesInt: false,
     isDataTrade: false,
     isDataPests: false,
-    isDataDiseases: false
+    isDataDiseases: false,
+    isContact: false
 }
 
 interface Props {
@@ -91,6 +93,10 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
         dispatch({ type: '[Layout] - Set is Data Diseases', payload: settingIsDataDiseases });
     }
 
+    const setIsContact = ( settingIsContact: boolean ) => {
+        dispatch({ type: '[Layout] - Set is Contact Page', payload: settingIsContact });
+    }
+
     return (
         <LayoutContext.Provider value={{
             ...state,
@@ -108,7 +114,8 @@ export const LayoutProvider: FC<Props> = ({ children }) => {
             setIsDataPricesInt,
             setIsDataTrade,
             setIsDataPests,
-            setIsDataDiseases
+            setIsDataDiseases,
+            setIsContact
         }}>
             { children }
         </LayoutContext.Provider>
