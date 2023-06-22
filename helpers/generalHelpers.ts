@@ -1,3 +1,4 @@
+import { RegionMap } from "../interfaces/data";
 
 
 export const removeCommasFromString = (text: string): string => {
@@ -43,3 +44,60 @@ export const commarize = (value: number): string | number => {
     // return formatted original number
     return decimalAdjust('round', value, -2);
 };
+
+export const getRegionNameByRegionCode = (data: RegionMap, locale: string, regionSelected: string) => {
+    if(data){
+        const region = data[regionSelected];
+
+        if ( regionSelected === 'WLRD' ){
+            switch (locale) {
+                case 'es':
+                    return 'Mundo';
+                case 'pt':
+                    return 'Mundo';
+                default:
+                    return 'World';
+            }
+        }
+        if (!region && region !== 'WLRD') {
+            throw new Error(`No region found with code: ${regionSelected}`);
+        }
+
+        switch (locale) {
+            case 'es':
+                return region.region_name_es;
+            case 'pt':
+                return region.region_name_pt;
+            default:
+                return region.region_name;
+        }
+    }
+    return '';
+}
+
+export const formatTextForPlotly = (width: number, text: string, substring?: number): string => {
+
+    if (text.length > substring! ) {
+      return text.slice(0, substring!)+"- " + '<br>' + text.slice(substring!);
+    }
+    // if (width > 991) {
+    //   return text;
+    // }
+    return text;
+  };
+
+// export const formatTextForPlotly = (substringNumber: number, text: string, wordsToFind: string[]): string => {
+//     for (let word of wordsToFind) {
+//         const index = text.indexOf(word);
+
+//         if (index !== -1 && index < substringNumber) {
+//         return text.slice(0, index) + '<br>' + text.slice(index);
+//         }
+//     }
+
+//     if (text.length > substringNumber) {
+//         return text.slice(0, substringNumber) + '<br>' + text.slice(substringNumber);
+//     }
+
+//     return text;
+// };

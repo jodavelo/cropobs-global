@@ -184,7 +184,7 @@
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 991px) {
     .main-content-container {
         margin-left: 1%;
         width: 96%!important;

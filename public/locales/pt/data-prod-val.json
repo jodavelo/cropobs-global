@@ -12,7 +12,7 @@
     "title-page": "Pagina do Valor da produção",
     "label-cropland-area": "",
 
-    "podium-title": "`<span class=${styles['podium-text-description']}><span class='${styles['year-text-bold']}'>Feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> cultivo mais importante em relação ao valor da produção no <span class=${styles['year-text-bold']}>#{2}</span></span>`",
+    "podium-title": "`<span class=${styles['podium-text-description']}>Em <span class=${styles['year-text-bold']}>#{2}</span>, <span class='${styles['year-text-bold']}'>Feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> cultivo mais importante em relação ao valor da produção </span>`",
     "podium-title1":"Feijão foi o ",
     "podium-title2":" cultivo mais importante em relação ao valor da produção im ",
     "podium-info": "o pódio classifica as culturas de acordo com seu valor de produção anual",
@@ -31,7 +31,7 @@
     "chart2-opt1": "Crescimento anual",
     "chart2-opt2": "Média móvel de 10 anos",
 
-    "chart21-title":"Crescimento Anual do valor da produção - #{}",
+    "chart21-title":"Crescimento relativo do valor da produção - #{}",
     "chart21-dataset1":"Feijão, seco",
     "chart21-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
     "chart21-dataset3":"Produto Interno Bruto",

@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { v4 as uuidv4 } from 'uuid';
 import { useWindowSize } from '../../../hooks';
 import { PlotlyChartButtons } from './PlotlyChartButtons';
+import { formatTextForPlotly } from '../../../helpers';
 
 // import Plot from 'react-plotly.js';
 
@@ -39,55 +40,67 @@ export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataT
     const [chartHeight, setChartHeight] = useState(0);
     const [positionLegend, setPositionLegend] = useState(0);
     const [chartFontSize, setChartFontSize] = useState(0);
+    const [fontSizeTitle, setFontSizeTitle] = useState(0);
     //console.log({ dataTraces })
     
     useEffect(() => {
-      if( width < 300 ) {
-        setChartHeight(700);
-        setPositionLegend(-0.6);
-        setChartFontSize(8);
+      if (width){
+        if( width < 300 ) {
+          setChartHeight(700);
+          setPositionLegend(-0.6);
+          setChartFontSize(8);
+          setFontSizeTitle(8);
+        }
+        else if( width > 300 && width < 400) {
+          setChartHeight(500);
+          setPositionLegend(-1);
+          setChartFontSize(10);
+          setFontSizeTitle(10);
+        }
+        else if( width > 400 && width < 500) {
+          // setChartHeight(500);
+          setPositionLegend(-0.6);
+          setChartFontSize(11);
+          setFontSizeTitle(10);
+        }
+        else if( width > 500 && width < 700) {
+          // setChartHeight(500);
+          setPositionLegend(-0.4);
+          setChartFontSize(12);
+          setFontSizeTitle(13);
+        }
+        else if( width > 700 && width < 1000) {
+          setChartHeight(500);
+          setPositionLegend(-0.4);
+          setChartFontSize(13);
+          setFontSizeTitle(15);
+        }
+        else if( width > 1000 && width < 1200) {
+          // setChartHeight(500);
+          setPositionLegend(-0.38);
+          setChartFontSize(9);
+          setFontSizeTitle(9);
+        }
+        else if( width > 1200 && width < 1400) {
+          // setChartHeight(500);
+          setPositionLegend(-0.6);
+          // setChartFontSize(14);
+          setChartFontSize(11);
+          setFontSizeTitle(11);
+        }
+        else if( width > 1400 && width < 1600 ) {
+          setChartHeight(450);
+          setPositionLegend(-0.62);
+          setChartFontSize(12);
+          setFontSizeTitle(12);
+        }
+        else if( width > 1600 && width < 3000){
+          setChartHeight(450);
+          setPositionLegend(-0.60);
+          setChartFontSize(14);
+          setFontSizeTitle(14);
+        }
       }
-      else if( width > 300 && width < 400) {
-        setChartHeight(500);
-        setPositionLegend(-1);
-        setChartFontSize(10);
-      }
-      else if( width > 400 && width < 500) {
-        // setChartHeight(500);
-        setPositionLegend(-0.6);
-        setChartFontSize(11);
-      }
-      else if( width > 500 && width < 700) {
-        // setChartHeight(500);
-        setPositionLegend(-0.4);
-        setChartFontSize(12);
-      }
-      else if( width > 700 && width < 1000) {
-        // setChartHeight(500);
-        setPositionLegend(-0.4);
-        setChartFontSize(13);
-      }
-      else if( width > 1000 && width < 1200) {
-        // setChartHeight(500);
-        setPositionLegend(-0.38);
-        setChartFontSize(14);
-      }
-      else if( width > 1200 && width < 1400) {
-        // setChartHeight(500);
-        setPositionLegend(-0.6);
-        // setChartFontSize(14);
-      }
-      else if( width > 1400 && width < 1600 ) {
-        setChartHeight(450);
-        setPositionLegend(-0.62);
-        setChartFontSize(14);
-      }
-      else if( width > 1600 && width < 3000){
-        setChartHeight(450);
-        setPositionLegend(-0.60);
-        setChartFontSize(15);
-      }
-      
     }, [width])
     
     
@@ -98,7 +111,7 @@ export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataT
             color: '#54667a'
         },
         title: {
-            text: title,
+            text: formatTextForPlotly(width!, title, 20),
             font: {
                 size: 14
             }
@@ -138,12 +151,15 @@ export const PlotlyChartStackedAreaNormalized: FC<Props> = ({ plotlyDivId, dataT
         //     size: 15,
         //     color: '#666'
         // },
-        margin: {r: 10},
+        margin: {l: 55,
+          r: 0,
+          b: -30,
+          t: 25},
         legend: {
             //borderwidth: 5,
             orientation: "h",
             yanchor: 'center',
-            y: -0.5,
+            y: -0.25,
             xanchor: 'center',
             x: 0.5,
             itemsizing: 'constant',

@@ -27,6 +27,8 @@ interface ContextProps {
     setIsDataPests: (settingIsDataPests: boolean) => void;
     isDataDiseases: boolean;
     setIsDataDiseases: (settingIsDataDiseases: boolean) => void;
+    isContact: boolean;
+    setIsContact: (settingIsContact: boolean) => void;
 }
 
 export const LayoutContext = createContext({} as ContextProps);
