@@ -31,7 +31,7 @@
     "chart2-opt1": "Annual growth",
     "chart2-opt2": "10-year moving average",
 
-    "chart21-title":"Annual value growth of production value - #{}",
+    "chart21-title":"Relative growth of production value - #{}",
     "chart21-dataset1":"Beans, dry",
     "chart21-dataset2":"Value Added (Agriculture, Forestry and Fishing)",
     "chart21-dataset3":"Gross Domestic Product",
