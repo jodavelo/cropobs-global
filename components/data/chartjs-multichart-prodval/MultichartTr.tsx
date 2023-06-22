@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Chart as ChartComponent } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 Chart.register(...registerables);
 
 interface ChartTexts {
@@ -18,10 +19,25 @@ interface Props {
     data3: number[],
     data4: number[],
     chartTexts: ChartTexts
+    setMultiChartTrElementId: Function,
 };
 
-export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts}) => {
+
+
+export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts, setMultiChartTrElementId}) => {
   const { locale } = useRouter();
+  const { t: dataTranslate } = useTranslation('data-trades');
+  const [selected2, setSelected2] = useState('');
+  
+
+  const [filterOptionValue, setFilterOptionValue] = useState('');
+  const [filterOptionQuantity, setFilterOptionQuantity] = useState('');
+
+  useEffect(() => {
+    setFilterOptionValue(dataTranslate('value-option-filter')!);
+    setFilterOptionQuantity(dataTranslate('quantity-option-filter')!);
+  }, [])
+
   const data = {
         labels: xLabels,
         datasets: [
@@ -31,7 +47,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: '#4F0614', //Color area bajo la curva
+            backgroundColor: 'rgba(79, 6, 20, 1)', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -55,7 +71,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: '#F89A21', //Color area bajo la curva
+            backgroundColor: 'rgba(248, 154, 33, 1)', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -79,7 +95,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: '#bd7071', //Color area bajo la curva
+            backgroundColor: 'rgba(189, 112, 113, 1)', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -103,7 +119,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             fill: true, //rellenar area debajo de la curva
             lineTension: 0.3, // recta 0 -  curva 
             showLine: false, //mostrar linea
-            backgroundColor: '#6BAA75', //Color area bajo la curva
+            backgroundColor: 'rgba(107, 170, 117, 1)', //Color area bajo la curva
             //borderColor: 'rgba(75,192,192,1)', //color curva
             //borderCapStyle: 'butt', //final de curva (recta, redondeada, cuadrada)
             //borderDash: [],//punteo de linea
@@ -179,8 +195,22 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
           */
         },
       };
+
+    
+    const handleSelectChange = (event) =>{
+      const newValue = event.target.value
+      console.log('cambio' + newValue)
+      setSelected2(newValue)
+      setMultiChartTrElementId(newValue)
+    }
+
     return (
+      
       <div style={{position: 'relative', height: '400px', maxWidth: '800px'}}>
+        <select value={selected2} onChange={handleSelectChange} style={{marginTop: '10px'}}>
+            <option value={3002}>{filterOptionValue}</option>
+            <option value={3001}>{filterOptionQuantity}</option>
+        </select>
         <ChartComponent type='line' data={data} options={options as Object}/>
       </div>
     )

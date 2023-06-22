@@ -344,28 +344,28 @@ const DataPage: NextPage = () => {
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
-                setContentColumn( '80%' );
+                setContentColumn( '78%' );
             }else {
                 setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setContentColumn( '88%' );
             }
         }else if (width! > 1200 && width! < 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '15%' );
-                setContentColumn( '85%' );
+                setContentColumn( '83.1%' );
             }else {
                 setSideBarColumn( '10%' );
-                setContentColumn( '90%' );
+                setContentColumn( '88.1%' );
             }
             
         }
         else if (width! > 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
-                setContentColumn( '87%' );
+                setContentColumn( '85.2%' );
             }else {
                 setSideBarColumn( '8%' );
-                setContentColumn( '92%' );
+                setContentColumn( '90.2%' );
             }
             
         }
@@ -378,39 +378,39 @@ const DataPage: NextPage = () => {
         if ( width! > 992 && width! < 1200 ) {
             if ( !isCollapsed ) {
                 setSideBarColumn( '20%' );
-                setContentColumn( '80%' );
+                setContentColumn( '78%' );
             }else {
                 setSideBarColumn( '8%' );
-                setContentColumn( '92%' );
+                setContentColumn( '90%' );
             }
         }
         else if (width! > 1200 && width! < 1400){
             if ( !isCollapsed ) {
                 setSideBarColumn( '15%' );
-                setContentColumn( '85%' );
+                setContentColumn( '83.1%' );
             }else {
                 setSideBarColumn( '7%' );
-                setContentColumn( '93%' );
+                setContentColumn( '91.1%' );
             }
             
         }
         else if (width! > 1400 && width! < 1600){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
-                setContentColumn( '87%' );
+                setContentColumn( '85.2%' );
             }else {
                 setSideBarColumn( '6%' );
-                setContentColumn( '94%' );
+                setContentColumn( '92.2%' );
             }
             
         }
         else if ( width! > 1600 ){
             if ( !isCollapsed ) {
                 setSideBarColumn( '13%' );
-                setContentColumn( '87%' );
+                setContentColumn( '85.2%' );
             }else {
                 setSideBarColumn( '5%' );
-                setContentColumn( '95%' );
+                setContentColumn( '93.2%' );
             }
         }
         if( buttonBoth ) {
@@ -720,6 +720,36 @@ const DataPage: NextPage = () => {
             });
         }
     }, [map, dataTranslate, locale]);
+
+    const [multiChartTrElementId, setMultiChartTrElementId] = useState(3002);
+
+    useEffect(() =>{
+        axios.get(`${ baseUrl }/api/v1/chart/trade/default/BEANS_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[${multiChartTrElementId}]`)
+        .then(res => {
+            const valuesAux1_1 = Array<number>(0)
+            const valuesAux2_1 = Array<number>(0)
+            const valuesAux3_1 = Array<number>(0)
+            const valuesAux4_1 = Array<number>(0)
+            const namesAux = Array<string>(0)
+            res.data.data.observations.map((elem:any) =>{
+                if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
+                if(elem.id_crop == 71331) {valuesAux1_1.push(elem.value) }
+                else if(elem.id_crop == 71332) valuesAux2_1.push(elem.value)
+                else if(elem.id_crop == 71333) valuesAux3_1.push(elem.value)
+                else if(elem.id_crop == 71339) valuesAux4_1.push(elem.value)
+            })
+            setChartValues21(valuesAux3_1)
+            setChartValues22(valuesAux1_1)
+            setChartValues23(valuesAux4_1)
+            setChartValues24(valuesAux2_1)
+            setChartLabels2(res.data.data.labels)
+            setChartDataNms2(namesAux)
+            setChartLoading2(false)
+            console.log('value quantity' + multiChartTrElementId)
+            console.log(res);
+
+        })
+    }, [multiChartTrElementId])
 
     useEffect(() => {
         setTreeLoading(true);
@@ -1043,7 +1073,7 @@ const DataPage: NextPage = () => {
                                                     {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
                                                 </ChartFrame>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                                    {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
+                                                    {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
                                                 </ChartFrame>
                                                 <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
                                                     data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />
