@@ -31,7 +31,7 @@
     "chart2-opt1": "Crecimiento anual",
     "chart2-opt2": "Media movil de 10 años",
 
-    "chart21-title":"Crecimiento anual del valor de la producción - #{}",
+    "chart21-title":"Crecimiento relativo del valor de la producción - #{}",
     "chart21-dataset1":"Frijoles, secos",
     "chart21-dataset2":"Valor agregado (Agricultura, Silvicultura y Pesca)",
     "chart21-dataset3":"Producto Interno Bruto",
