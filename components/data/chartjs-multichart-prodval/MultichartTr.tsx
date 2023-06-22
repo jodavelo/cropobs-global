@@ -197,7 +197,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
       };
 
     
-    const handleSelectChange = (event) =>{
+    const handleSelectChange = (event: { target: { value: any; }; }) =>{
       const newValue = event.target.value
       console.log('cambio' + newValue)
       setSelected2(newValue)
