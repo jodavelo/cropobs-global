@@ -74,3 +74,30 @@ export const getRegionNameByRegionCode = (data: RegionMap, locale: string, regio
     }
     return '';
 }
+
+export const formatTextForPlotly = (width: number, text: string, substring?: number): string => {
+
+    if (text.length > substring! ) {
+      return text.slice(0, substring!)+"- " + '<br>' + text.slice(substring!);
+    }
+    // if (width > 991) {
+    //   return text;
+    // }
+    return text;
+  };
+
+// export const formatTextForPlotly = (substringNumber: number, text: string, wordsToFind: string[]): string => {
+//     for (let word of wordsToFind) {
+//         const index = text.indexOf(word);
+
+//         if (index !== -1 && index < substringNumber) {
+//         return text.slice(0, index) + '<br>' + text.slice(index);
+//         }
+//     }
+
+//     if (text.length > substringNumber) {
+//         return text.slice(0, substringNumber) + '<br>' + text.slice(substringNumber);
+//     }
+
+//     return text;
+// };
