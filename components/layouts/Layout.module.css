@@ -117,17 +117,22 @@
 } */
 
 
-@media (min-width: 576px) and (max-width: 767px){
+@media (min-width: 576px) and (max-width: 767px) {
     .about-us {
         /*height: 165vh;*/        
     }
     .databases {
         height: 160vh;
     }
+}
+
+@media (min-width: 0px) and (max-width: 576px) and (min-height: 0px) and (max-height: 600px) {
     .contact {
-        height: 200vh;
+        /* background-color: aquamarine; */
+        height: 270vh;
     }
 }
+
 
 @media (min-width: 768px) and (max-width: 991px){
     .about-us {
@@ -135,6 +140,13 @@
     }
     .databases {
         height: 140vh;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 991px) and (min-height: 600px) and (max-height: 800px) {
+    .contact {
+        /* background-color: aquamarine; */
+        height: 220vh;
     }
 }
 
@@ -171,6 +183,7 @@
         height: 120vh;
     }
     .contact {
+        
         height: 120vh;
     }
 }
@@ -188,5 +201,29 @@
     }
     .contact {
         height: 125vh;
+    }
+}
+
+/* For 1366 pixels of width by 768 pixels of height. */
+@media (min-width: 1365px) and (max-width: 1366px) and (min-height: 767px) and (max-height: 768px) {
+    .contact {
+        /* background-color: rgb(127, 148, 255); */
+        height: 150vh !important;
+    }
+}
+
+/* For 1920 pixels of width by 1080 pixels of height. */
+@media (min-width: 1919px) and (max-width: 1920px) and (min-height: 1079px) and (max-height: 1080px) {
+    .contact {
+        /* background-color: rgb(127, 148, 255); */
+        height: 120vh !important;
+    }
+}
+
+/* For 1920 pixels of width by 1080 pixels of height. */
+@media (min-width: 2559px) and (max-width: 2560px) and (min-height: 1439px) and (max-height: 1440px) {
+    .contact {
+        /* background-color: rgb(127, 148, 255); */
+        height: 90vh !important;
     }
 }
