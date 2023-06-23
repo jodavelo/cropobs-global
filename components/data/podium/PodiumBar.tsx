@@ -32,6 +32,9 @@ export const PodiumBar: FC<Props> = ({ data }) => {
         if( textLength < 12 )  setCropNameContainer( '35%' );
         else setCropNameContainer( '50%' );
     }, [ data ])
+    useEffect(() => {
+       console.log(data)
+    }, [])
     
     return (
         <>
@@ -52,7 +55,7 @@ export const PodiumBar: FC<Props> = ({ data }) => {
                                 </span>
                             </div>
                             <div style={{ height: cropImageContainer, width: '100%', maxWidth: '90px' }} className={ styles['bar-description-content'] }>
-                                <Image src={ o.urlIcon } key={ o.urlIcon } width={ 30 } height={ 30 } alt={ `Icon ${ o.cropName }` }></Image>
+                                <Image src={ `/icons/podium/icon-crops-${ o.urlIcon }.png` } key={ o.urlIcon } width={ 30 } height={ 30 } alt={ `Icon ${ o.cropName }` }></Image>
                             </div>
                         </div>
                     </div>

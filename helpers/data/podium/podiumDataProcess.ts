@@ -93,7 +93,9 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
                 rank: entry.ranking,
                 cropName: locale=='en' ? entry.crop_name : locale=='es' ? (entry.crop_name_es ?? 'Sin traducción') : (entry.crop_name_pt ?? 'Sem tradução'),
                 keyName: entry.crop_name,
-                urlIcon: `${ baseURL }/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                //urlIcon: `${ baseURL }/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                urlIcon: entry.logo_id, //TODO: Set here for to change url of podium icons
+                // urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`, //TODO: Set here for to change url of podium icons
                 heightBar,
                 heightTransparentBar,
                 color:  'rgb(181, 181, 181)'

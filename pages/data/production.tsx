@@ -45,7 +45,8 @@ interface locationNameOptions {
 
 const mapFilterElements = [1000, 5312, 5510];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+// const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 //let clickId: string | number | null = null;
 
 interface OtherTexts {
@@ -66,7 +67,7 @@ const ProductionPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2021,
+        year: 2020,
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
