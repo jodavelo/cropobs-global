@@ -493,8 +493,8 @@ const ProductionPage: NextPage = () => {
                                                         :
                                                             <></>
                                                         }
-                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4`} title={chartTitle} description='Grafico de precios' /> 
-                                                            <PlotlyChartLineInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4`} title={chartTitleLine} description='Grafico de precios'/>
+                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4`} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
+                                                            <PlotlyChartLineInternational dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4`} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                             </Row>

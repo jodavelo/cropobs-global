@@ -13,7 +13,7 @@ import { ModalForm } from "../modal-form";
 interface Props {
     dataURL: string;
     title: string;
-    description: string
+    description: string,
 };
 
 interface typePrice {
@@ -21,27 +21,46 @@ interface typePrice {
 }
 
 const chartColors = {
-    dark_red: '#4F0614',
-    bean_orange2: '#F89A21',
-    dark_pink: '#bd7071',
-    //bean_orange: '#F57914',
-    fair_green: '#6BAA75',
-    purple: '#4D5382',
-    dark_blue: '#1F7A8C',
-    bean_red: '#A82F31',
-    water_green: '#94E8B4',
-    dark_green: '#679436',
-    light_pink: '#E5D0E3',
-    bright_brown: '#BD4F28',
-    golden_brown: '#A86F0C',
-    dark_salmon: '#F77E45',
-    green_gray: '#8C9977',
-    color_brown: '#85350B',
-    rustic_green: '#73682C',
-    marine_blue: '#79bcff',
-    white: '#FFFFFF',
-    gray: '#e3e3e3',
-    light_yellow_bean: '#ffc985',
+  musa_yellow: '#F5D226',
+  musa_green: '#00954C',
+  charcoal_blue: '#233D4D',
+  rose_dust: '#AA6373',
+  pumpkin_orange: '#FE7F2D',
+  dark_green: '#679436',
+  golden_brown: '#A86F0C',
+  red_orange: '#B82602',
+  tufts_blue: '#3E92CC',
+  fire_opal: '#DD614A',
+  fair_green: '#6BAA75',
+  purple: '#4D5382',
+  light_pink: '#E5D0E3',
+  color_brown: '#85350B',
+  light_blue: '#0F798A',
+  rustic_green: '#73682C',
+  marine_blue: '#79bcff',
+  blue_bell: '#9097C0',
+  tyran_purple: '#700548',
+  light_yellow: '#fbeca2',
+  english_violet: '#654F6F',
+  dark_blue_gray: '#5C5D8D',
+  cadet_gray: '#99A1A6',
+  opal: '#B7CECE',
+  celeste: '#BDFFFD',
+  black_coffee: '#32292F',
+  iceberg: '#84ACCE',
+  rhythm: '#827191',
+  claret: '#7D1D3F',
+  seal_brown: '#512500',
+  cobalt_blue: '#1446A0',
+  razzmatazz: '#DB3069',
+  onyx: '#3C3C3B',
+  black_chocolate: '#1F1300',
+  violet_ryb: '#791E94',
+  red_pigment: '#ED1C24',
+  mandarin: '#EF8354',
+  black_coral: '#4F5D75',
+  shiny_green: '#73A580',
+  bistre_green: '#6F732F'
 };
 //const predata = [{"id_group":714119,"group":"Vacuum shelled cassava","source":[{"source":"Conab (2022)"}],"minAndMax":[{"year":2020,"min_nominal":"3.000","max_nominal":"3.500","min_ipc":"0.0539511","max_ipc":"0.0649140","min_usd":"0.5688889","max_usd":"0.6543495"},{"year":2021,"min_nominal":"3.100","max_nominal":"3.500","min_ipc":"0.0522872","max_ipc":"0.0591982","min_usd":"0.5573535","max_usd":"0.6758100"},{"year":2022,"min_nominal":"3.400","max_nominal":"3.500","min_ipc":"0.0530183","max_ipc":"0.0554154","min_usd":"0.6143838","max_usd":"0.7346767"}],"medians":[{"nominal":"3.30","ipc":"0.06","usd":"0.61"},{"nominal":"3.35","ipc":"0.06","usd":"0.63"},{"nominal":"3.45","ipc":"0.05","usd":"0.68"}]}];
 
@@ -65,37 +84,37 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
     const [positionLegend, setPositionLegend] = useState(0);
     const [chartFontSize, setChartFontSize] = useState(0);
     const id = uuidv4();
-    useEffect(() => {
+   useEffect(() => {
         if (width){
           if( width < 300 ) {
             setChartHeight(700);
             setPositionLegend(-0.6);
-            setChartFontSize(8);
+            setChartFontSize(7);
           }
           else if( width > 300 && width < 400) {
             setChartHeight(500);
             setPositionLegend(-1);
-            setChartFontSize(10);
+            setChartFontSize(8.5);
           }
           else if( width > 400 && width < 500) {
             // setChartHeight(500);
             setPositionLegend(-0.6);
-            setChartFontSize(11);
+            setChartFontSize(9);
           }
           else if( width > 500 && width < 700) {
             // setChartHeight(500);
             setPositionLegend(-0.4);
-            setChartFontSize(12);
+            setChartFontSize(9.5);
           }
           else if( width > 700 && width < 1000) {
             // setChartHeight(500);
             setPositionLegend(-0.4);
-            setChartFontSize(13);
+            setChartFontSize(10);
           }
           else if( width > 1000 && width < 1200) {
             // setChartHeight(500);
             setPositionLegend(-0.38);
-            setChartFontSize(14);
+            setChartFontSize(10.5);
           }
           else if( width > 1200 && width < 1400) {
             // setChartHeight(500);
@@ -105,12 +124,12 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
           else if( width > 1400 && width < 1600 ) {
             setChartHeight(450);
             setPositionLegend(-0.62);
-            setChartFontSize(14);
+            setChartFontSize(13);
           }
           else if( width > 1600 && width < 3000){
             setChartHeight(450);
             setPositionLegend(-0.60);
-            setChartFontSize(15);
+            setChartFontSize(14);
           }
         }
       }, [width])
@@ -150,6 +169,7 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
             <Plot 
                 /*  @ts-ignore// */
                 id={ id }
+                key={ uuidv4() }
                 data={ data }
                 layout={ layout }
             />
