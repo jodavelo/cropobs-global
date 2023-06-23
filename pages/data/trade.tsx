@@ -191,8 +191,8 @@ interface sectionState {
 }
 
 // const baseUrl = 'http://cropobscentral.test';
-// const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
-const baseUrl = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+ const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+//const baseUrl = 'https://commonbeanobservatorytst.ciat.cgiar.org';
 
 const tradeFlowSelectValues = [1,2];
 const tradeElementSelectValues = [3001, 3002];
