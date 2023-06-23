@@ -19,7 +19,7 @@ import { LeftSideMenuContext } from '../../context/map/leftsidemenu';
 import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
 import { ElementsData, ElementsState, MacroRegionsData, MacroRegionsState, PercentInfoProps, RegionsData, RegionsState, YearsData, YearsState } from '../../interfaces/data';
 import { dataFetcher, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions } from '../../helpers/data';
-import { beansApi } from '../../apis';
+import { beansApi, centralApi } from '../../apis';
 import { toFindCropOfInterest } from '../../helpers/data/podium/podiumHelpers';
 import { removeCommasFromString } from '../../helpers';
 import { PodiumDataStructureFetchApi } from '../../interfaces/data/podium';
@@ -67,7 +67,7 @@ interface sectionState {
 
 const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui 
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 
 
 const SurfaceContextPage: NextPage = () => {
@@ -79,7 +79,7 @@ const SurfaceContextPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2021,
+        year: 2020,
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
@@ -437,7 +437,8 @@ const SurfaceContextPage: NextPage = () => {
     useEffect(() => {
         const dataPodiumFetch = async() => {
             // const response = await beansApi.get(`api/v1/data/podium/${ countryCode }/5412/27/${ year }`);
-            const response = await beansApi.get(`api/v1/data/podium/${ countryCode2 }/5412/176/${ year }`);
+            // const response = await beansApi.get(`api/v1/data/podium/${ countryCode2 }/5412/176/${ year }`);
+            const response = await centralApi.get(`api/v1/data/podium/${ countryCode2 }/5412/176/${ year }`);
             const { data } = response;
             const dataFetch: PodiumDataStructureFetchApi = { data }
             const rank = toFindCropOfInterest( dataFetch, 'Beans, dry' )
@@ -758,6 +759,7 @@ const SurfaceContextPage: NextPage = () => {
     // console.log(sideBarColumn, contentColumn)  
 
     //console.log(elementsOptions)
+    console.log(`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`)
     return (
         <Layout title={ titlePage }>
             <Container fluid className={ styles['custom-container-fluid'] }>
