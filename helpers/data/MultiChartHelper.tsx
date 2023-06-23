@@ -1,52 +1,58 @@
 import axios from 'axios';
 
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const idCrop = process.env.NEXT_PUBLIC_ID_CROP;
+const cropName = process.env.NEXT_PUBLIC_CROP_NAME;
+const idGroup = process.env.NEXT_PUBLIC_ID_GROUP;
+const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS;
+
 const config_prod = {
   url: process.env.NEXT_PUBLIC_CENTRAL_URL + 'WLRD',
   params: {
     "elementIds": JSON.stringify([5510]),
-    "cropIds": JSON.stringify([176]),
+    "cropIds": JSON.stringify([idCrop]),
   }
 }
 const config_harv = {
   url: process.env.NEXT_PUBLIC_CENTRAL_URL + 'WLRD',
   params: {
     "elementIds": JSON.stringify([5312]),
-    "cropIds": JSON.stringify([176]),
+    "cropIds": JSON.stringify([idCrop]),
   }
 }
 const config_yield = {
   url: process.env.NEXT_PUBLIC_CENTRAL_URL + 'WLRD',
   params: {
     "elementIds": JSON.stringify([1000]),
-    "cropIds": JSON.stringify([176]),
+    "cropIds": JSON.stringify([idCrop]),
   }
 }
 
 const setConfigData = (countryCode: string, elementId: string) => {
   return [
     {
-      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode}`,
       params: {
         "elementIds": JSON.stringify([elementId]),
-        "cropIds": JSON.stringify([176]),//beans
+        "cropIds": JSON.stringify([idCrop]),//crop
       }
     },
     {
-      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode}`,
       params: {
         "elementIds": JSON.stringify([elementId]),
-        "cropIds": JSON.stringify([96001]),//pulses
+        "cropIds": JSON.stringify([idGroup]),//group
       }
     },
     {
-      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode}`,
       params: {
         "elementIds": JSON.stringify([elementId]),
         "cropIds": JSON.stringify([998]),//crops
       }
     },
     {
-      url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode}`,
+      url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode}`,
       params: {
         "elementIds": JSON.stringify([elementId]),
         "cropIds": JSON.stringify([2051]),//agric

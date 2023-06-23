@@ -21,9 +21,9 @@ export const LeftSideMenuContainer = () => {
 
     return (
         <div className={ styles['left-side-menu-container'] }>
-            <LeftSideButton id='graphs-button' buttonId={1} isActiveButton={ buttonGraphs } toolTipText={words[0]} urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-10.png'/>
-            <LeftSideButton id='graphs-map-button' buttonId={2} isActiveButton={ buttonBoth } toolTipText={words[1]} urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-09.png'/>
-            <LeftSideButton id='map-button' buttonId={3} isActiveButton={ buttonMap } toolTipText={words[2]} urlImage='https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/iconosmap-08.png'/>
+            <LeftSideButton id='graphs-button' buttonId={1} isActiveButton={ buttonGraphs } toolTipText={words[0]} urlImage='/icons/iconosmap-10.png'/>
+            <LeftSideButton id='graphs-map-button' buttonId={2} isActiveButton={ buttonBoth } toolTipText={words[1]} urlImage='/icons/iconosmap-09.png'/>
+            <LeftSideButton id='map-button' buttonId={3} isActiveButton={ buttonMap } toolTipText={words[2]} urlImage='/icons/iconosmap-08.png'/>
         </div>
     )
 }

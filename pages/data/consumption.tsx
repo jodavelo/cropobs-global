@@ -38,7 +38,11 @@ import { LoadingComponent } from '../../components/ui/loading-component';
 var styles = style;
 const mapFilterElements = [6, 7, 645];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const idCrop = process.env.NEXT_PUBLIC_ID_CROP;
+const cropName = process.env.NEXT_PUBLIC_CROP_NAME;
+const idGroup = process.env.NEXT_PUBLIC_ID_GROUP;
+const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS;
 
 interface locationNameOptions {
     en: string;
@@ -108,13 +112,13 @@ const DataPage: NextPage = () => {
     // Data translation states
     // const [podiumConfig, setPodiumConfig] = useState<PodiumConfig[] | undefined>(undefined);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/4`, dataFetcher);
+    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/4`, dataFetcher); //EP
 
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
+    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher); //EP
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/2546/${year}`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idIndicators }/${year}`, dataFetcher); //EP
     const [isMapView, setIsMapView] = useState(false);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -468,19 +472,19 @@ const DataPage: NextPage = () => {
 
     const podiumConfig = [
         {
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode2}/${clickId ? '1' : '4'}/2546/${year}`,
+            url: `${ baseURL }/api/v1/data/podium/${countryCode2}/${clickId ? '1' : '4'}/${ idIndicators }/${year}`, //EP
             text:  dataTranslate('podium1-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option1'),
             description: dataTranslate('podium1-info'),
         },
         {
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode2}/${clickId ? '16' : '20'}/2546/${year}`,
+            url: `${ baseURL }/api/v1/data/podium/${countryCode2}/${clickId ? '16' : '20'}/${ idIndicators }/${year}`, //EP
             text:  dataTranslate('podium2-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option2'),
             description: dataTranslate('podium2-info'),
         },
         {
-            url: `https://commonbeanobservatory.org/api/v1/data/podium/${countryCode2}/${clickId ? '2' : '5'}/2546/${year}`,
+            url: `${ baseURL }/api/v1/data/podium/${countryCode2}/${clickId ? '2' : '5'}/${ idIndicators }/${year}`, //EP
             text:  dataTranslate('podium3-title').replace('#{2}', year.toString()),
             name: dataTranslate('podium-option3'),
             description: dataTranslate('podium3-info'),
@@ -520,52 +524,52 @@ const DataPage: NextPage = () => {
 
     useEffect(() => {
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/${clickId ? '645' : '14'}/2546/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/${clickId ? '645' : '14'}/${ idIndicators }/${year}` }) //EP
             .then(response => {
                 setPerCapConsup(response.data)
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/12/2546/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/12/${ idIndicators }/${year}` }) //EP
             .then(response => {
                 setSelfSuff(response.data)
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/664/1/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/664/1/${year}` }) //EP
             .then(response => {
                 setDataComplmnt1(response.data)
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/664/2/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/664/2/${year}` }) //EP
             .then(response => {
                 setDataComplmnt2(response.data)
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/674/1/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/674/1/${year}` }) //EP
             .then(response => {
                 setDataComplmnt3(response.data)
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/674/2/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/674/2/${year}` }) //EP
             .then(response => {
                 setDataComplmnt4(response.data)
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/6/2546/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/6/${ idIndicators }/${year}` }) //EP
             .then(response => {
                 setPorc1({ value: response.data, text: `` })
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/7/2546/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/7/${ idIndicators }/${year}` }) //EP
             .then(response => {
                 setPorc2({ value: response.data, text: `` })
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/${clickId ? '6' : '23'}/2546/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/${clickId ? '6' : '23'}/${ idIndicators }/${year}` }) //EP
             .then(response => {
                 setPorc3({ value: response.data, text: `` })
             })
 
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_consumption/VALUE/${countryCode2}/24/2546/${year}` })
+        axios({ url: `${ baseURL }/api/v1/data/value/${ cropName }_consumption/VALUE/${countryCode2}/24/${ idIndicators }/${year}` }) //EP
             .then(response => {
                 setPorc4({ value: response.data, text: `` })
             })
@@ -587,7 +591,7 @@ const DataPage: NextPage = () => {
     let [databar23, setdatabar23] = useState(Array(0))
 
     useEffect(() => {
-        axios({ url: `https://commonbeanobservatory.org/api/v1/chart/default/beans_consumption/${countryCode2}?elementIds=[5142,5527,5521,5131,5123,95154,${clickId ? '645' : '14'}]&cropIds=[2546]` })
+        axios({ url: `${ baseURL }/api/v1/chart/default/${ cropName }_consumption/${countryCode2}?elementIds=[5142,5527,5521,5131,5123,95154,${clickId ? '645' : '14'}]&cropIds=[${ idIndicators }]` }) //EP
             .then(response => {
                 const data = datasetGeneratorPV(response.data.data.observations, response.data.data.labels, 'id_element', 'crop_name')
                 const chartjsData = { labels: response.data.data.labels, data };
@@ -599,8 +603,8 @@ const DataPage: NextPage = () => {
                 setdatabar14(data[3].data.map((datum: number) => datum > 0 ? datum : null))
                 setdatabar15(data[5].data.map((datum: number) => datum > 0 ? datum : null))
             })
-        console.log(`https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_consumption/${countryCode2}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[2546]`);
-        axios({ url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_consumption/${countryCode2}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[2546]` })
+        console.log(`${ baseURL }/api/v1/chart/default/${ cropName }_consumption/${countryCode2}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[${ idIndicators }]`); //EP
+        axios({ url: `${ baseURL }/api/v1/chart/default/${ cropName }_consumption/${countryCode2}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[${ idIndicators }]` }) //EP
             .then(response => {
                 const data = datasetGeneratorPV(response.data.data.observations, response.data.data.labels, 'id_element', 'crop_name')
                 const chartjsData = { labels: response.data.data.labels, data };
@@ -772,7 +776,7 @@ const DataPage: NextPage = () => {
                                                         <SearchCountryButton btnText={dataTranslate('search-country')} setShowCountries={setShowCountries} />
                                                     </Row>
                                                 </Row>
-                                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_consumption/ISO3/2546`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/2546/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
+                                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${ cropName }_consumption/ISO3/${ idIndicators }`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${ cropName }_consumption/${admin}/${regionCode}/${ idIndicators }/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${ idIndicators }/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } /> {/* //EP */}
                                             </Col>
                                             <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                 {
@@ -838,7 +842,7 @@ const DataPage: NextPage = () => {
                     </div>
                 </div>
             </Container>
-            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_consumption/${admin}/${regionCode}/2546/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/${ cropName }_consumption/${admin}/${regionCode}/${ idIndicators }/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } /> {/* //EP */}
         </Layout>
     )
 }

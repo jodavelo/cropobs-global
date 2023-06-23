@@ -1,3 +1,10 @@
+//const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const baseURL = 'https://oeactest.ciat.cgiar.org';
+const idCrop = process.env.NEXT_PUBLIC_ID_CROP;
+const cropName = process.env.NEXT_PUBLIC_CROP_NAME;
+const idGroup = process.env.NEXT_PUBLIC_ID_GROUP;
+const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS;
+
 interface RankingData {
     ranking: number,
     crop_name: string,
@@ -31,7 +38,7 @@ export const podiumDataProcess = (predata: RankingData[]) => {
             data[pos+2]= {
                 rank: entry.ranking+1,
                 cropName: entry.crop_name,
-                urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                urlIcon: `${ baseURL }/images/icons/100px/icon-crops-${entry.logo_id}.png`,
                 heightBar,
                 heightTransparentBar,
                 color:  'rgb(181, 181, 181)'
@@ -41,7 +48,7 @@ export const podiumDataProcess = (predata: RankingData[]) => {
             data[pos]= {
                 rank: entry.ranking,
                 cropName: entry.crop_name,
-                urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                urlIcon: `${ baseURL }/images/icons/100px/icon-crops-${entry.logo_id}.png`,
                 heightBar,
                 heightTransparentBar,
                 color:  'rgb(181, 181, 181)'
@@ -86,7 +93,7 @@ export const podiumDataProcessTrans = (predata: RankingData[], locale: string) =
                 rank: entry.ranking,
                 cropName: locale=='en' ? entry.crop_name : locale=='es' ? (entry.crop_name_es ?? 'Sin traducción') : (entry.crop_name_pt ?? 'Sem tradução'),
                 keyName: entry.crop_name,
-                urlIcon: `https://commonbeanobservatorytst.ciat.cgiar.org/images/icons/100px/icon-crops-${entry.logo_id}.png`,
+                urlIcon: `${ baseURL }/images/icons/100px/icon-crops-${entry.logo_id}.png`,
                 heightBar,
                 heightTransparentBar,
                 color:  'rgb(181, 181, 181)'

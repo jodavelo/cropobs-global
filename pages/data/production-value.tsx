@@ -37,7 +37,11 @@ import { LoadingComponent } from '../../components/ui/loading-component';
 
 const mapFilterElements = [58, 1059, 1060];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const idCrop = process.env.NEXT_PUBLIC_ID_CROP;
+const cropName = process.env.NEXT_PUBLIC_CROP_NAME;
+const idGroup = process.env.NEXT_PUBLIC_ID_GROUP;
+const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS;
 
 interface locationNameOptions {
     en: string;
@@ -139,13 +143,13 @@ const PVPage: NextPage = () => {
     const [chartTxts, setChartTxts] = useState<ChartTxts | undefined>(undefined);
     const [chartConfig, setChartConfig] = useState<ChartConfig[] | undefined>(undefined);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/3`, dataFetcher);
+    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/3`, dataFetcher); //EP
 
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
+    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher); // EP
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idCrop }/${year}`, dataFetcher); //EP
     const [isMapView, setIsMapView] = useState(false);
 
     const optionsTranslated = (options: any,index:number) => {
@@ -511,12 +515,12 @@ const PVPage: NextPage = () => {
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
 
     useEffect( () => {
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode2}/${clickId ? '1059' : '1153'}/176/${year}`})
+        axios({url: `${ baseURL }/api/v1/data/value/${ cropName }_production_value/VALUE/${countryCode2}/${clickId ? '1059' : '1153'}/${ idCrop }/${year}`}) //EP
         .then(response => {
             setValuePorc1(response.data)
         })
 
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/value/beans_production_value/VALUE/${countryCode2}/${clickId ? '1060' : '1154'}/176/${year}`})
+        axios({url: `${ baseURL }/api/v1/data/value/${ cropName }_production_value/VALUE/${countryCode2}/${clickId ? '1060' : '1154'}/${ idCrop }/${year}`}) //EP
         .then(response => {
             setValuePorc2(response.data)
         })
@@ -524,14 +528,14 @@ const PVPage: NextPage = () => {
     },[clickId, year, regionCode]);
 
     useEffect(() => {
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode2}?elementIds=[1058,7184]&cropIds=[176,22008,22016]`})
+        axios({url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode2}?elementIds=[1058,7184]&cropIds=[${ idCrop },22008,22016]`}) //EP
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
                 const chartjsData = {labels: data.labels, datasets};
                 setanualdata(chartjsData)
             })
-        axios({url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/chart/default/beans_production_value/${countryCode2}?elementIds=[2058,8184]&cropIds=[176,22008,22016]`})
+        axios({url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode2}?elementIds=[2058,8184]&cropIds=[${ idCrop },22008,22016]`}) //EP
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
@@ -588,7 +592,7 @@ const PVPage: NextPage = () => {
         })
     
         setPodiumConfig({
-            url: `https://commonbeanobservatorytst.ciat.cgiar.org/api/v1/data/podium/${countryCode2}/${clickId ? '158' : '252'}/176/${year}`,
+            url: `${ baseURL }/api/v1/data/podium/${countryCode2}/${clickId ? '158' : '252'}/${ idCrop }/${year}`,
             text: dataTranslate('podium-title').replace('#{2}', year.toString()),
             description: dataTranslate('podium-info'),
         })
@@ -802,7 +806,7 @@ const PVPage: NextPage = () => {
                                                         <SearchCountryButton btnText={dataTranslate('search-country')} setShowCountries={setShowCountries} />
                                                     </Row>
                                                 </Row>
-                                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production_value/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
+                                                <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${ cropName }_production_value/ISO3/${ idCrop }`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${ cropName }_production_value/${admin}/${regionCode}/${ idCrop }/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${ idCrop }/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } /> {/* //EP */}
                                             </Col>
                                             <Col xs={ 12 } lg={ graphsCol } className={styles['col-right-prodval']} style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px', width: '98%' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', width: '48%' } : { display: 'none' } }>
                                                 {
@@ -875,7 +879,7 @@ const PVPage: NextPage = () => {
                 {/* -------------- */}
                 
             </Container>
-            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production_value/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/${ cropName }_production_value/${admin}/${regionCode}/${ idCrop }/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }
