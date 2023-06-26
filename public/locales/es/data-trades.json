@@ -19,6 +19,9 @@
     "label-perc3": "del valor total de las ",
     "label-perc3_3": " de legumbre",
 
+    "value-option-filter": "Por valor",
+    "quantity-option-filter": "Por cantidad",
+
     "tree-toggle" : "Toggle tree Espanol",
 
     "chart1-title": "de common beans - ",
@@ -36,10 +39,12 @@
     "chart2-dataset3":"",
     "chart2-toggle" : "Toggle chart 2 espanol",
 
+    "chart2-1-axis-y":"Cantidad (kg)",
+
     "chart3-opt1": "Crecimiento anual",
     "chart3-opt2": "Media movil de 10 años",
 
-    "chart31-title":"Crecimiento anual de las ",
+    "chart31-title":"Crecimiento anual de las importaciones de frijoles comunes",
     "chart31-title_1":" de common beans - ",
     "chart31-dataset1":"Crecimiento de la cantidad (anual)",
     "chart31-dataset2":"Crecimiento del precio (anual)",
