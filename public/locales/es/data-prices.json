@@ -26,8 +26,8 @@
     "chart-title-producer-monthly": "Precios al productor mensuales",
     "chart1-title": "anuales",
     "chart1-title2": "mensuales",
-    "chart2-title": "Precios internacionales de referencia anuales por tipo de arroz - #{}",
-    "chart3-title": "Precios internacionales de referencia mensuales por tipo de arroz - #{}",
+    "chart2-title": "Precios internacionales de referencia anuales por tipo de arroz",
+    "chart3-title": "Precios internacionales de referencia mensuales por tipo de arroz",
     "chart1-info": "El diagrama de caja muestra la evolución anual de los precios nacionales dividida por precios al por mayor, precios al productor y precios al consumidor por kilogramo. <br><br> El filtro de la esquina superior derecha permite cambiar la visualización entre precios corrientes y constantes ya sean en moneda local (SLC) o en dólares (USD). Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
     "chart2-info":"Este gráfico presenta la evolución mensual de los precios nacionales por país y según el nivel de comercialización como precios al productor, precios al por mayor y precios al consumidor por kilogramo. <br><br> El filtro en la esquina superior derecha permite cambiar la visualización entre precios actuales y constantes, ya sea en moneda local (SLC) o dólares (USD). Puede seleccionar en la leyenda aquellas variables que desea excluir de la visualización.", 
 

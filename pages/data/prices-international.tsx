@@ -414,8 +414,8 @@ const ProductionPage: NextPage = () => {
     }, [dataTranslate, locationName])
     useEffect(() => {
 
-        const chartTitle = dataTranslate('chart2-title').replace('#{}',locationName)
-        const chartTitleLine = dataTranslate('chart3-title').replace('#{}',locationName)
+        const chartTitle = dataTranslate('chart2-title')
+        const chartTitleLine = dataTranslate('chart3-title')
         setChartTitle(chartTitle)
         setChartTitleLine(chartTitleLine)
         setOtherTexts({section_name: dataTranslate('section-int-name'), section_text: dataTranslate('section-int-text').replace('#{}',locationName), chart1_info: dataTranslate('chart-int-info'), chart2_info: dataTranslate('chart-int-info2'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
