@@ -12,19 +12,22 @@ interface ChartTexts {
   datasets: string[]
 }
 
+
 interface Props {
     xLabels: any[],
     data1: number[],
     data2: number[],
     data3: number[],
     data4: number[],
-    chartTexts: ChartTexts
+    chartTexts: ChartTexts,
     setMultiChartTrElementId: Function,
+    multichartElmId: number
+    chartTitle: ChartTexts[]
 };
 
 
 
-export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts, setMultiChartTrElementId}) => {
+export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, chartTexts, setMultiChartTrElementId, multichartElmId, chartTitle}) => {
   const { locale } = useRouter();
   const { t: dataTranslate } = useTranslation('data-trades');
   const [selected2, setSelected2] = useState('');
@@ -152,7 +155,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
         plugins: {
           title: {
             display: true,
-            text: chartTexts.title,
+            text: multichartElmId == 3002 ? chartTitle[0].title :  chartTitle[1].title,
           },
           legend : {
             position : 'bottom'
@@ -173,7 +176,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
             },
             title: {
               display: true,
-              text: chartTexts.axis_y
+              text: multichartElmId == 3002 ? chartTitle[0].axis_y :  chartTitle[1].axis_y
             },
           },/*
           y: {
@@ -196,7 +199,7 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
         },
       };
 
-    
+    console.log(multichartElmId + "multichartElmId")
     const handleSelectChange = (event: { target: { value: any; }; }) =>{
       const newValue = event.target.value
       console.log('cambio' + newValue)

@@ -19,6 +19,9 @@
     "label-perc3": "del valor total de las ",
     "label-perc3_3": " de legumbre",
 
+    "value-option-filter": "Por valor",
+    "quantity-option-filter": "Por cantidad",
+
     "tree-toggle" : "Toggle tree Portugues",
 
     "chart1-title": "do common beans - ",
@@ -36,10 +39,12 @@
     "chart2-dataset3":"",
     "chart2-toggle" : "Toggle chart 2 Portugues",
 
+    "chart2-1-axis-y":"Quantidade (kg)",
+
     "chart3-opt1": "Crescimento anual",
     "chart3-opt2": "Média móvel de 10 anos",
 
-    "chart31-title":"Crescimento Anual do ",
+    "chart31-title":"Crescimento anual das importações de feijão comum",
     "chart31-title_1":" de common beans - ",
     "chart31-dataset1":"Crescimento quantitativo (Anual)",
     "chart31-dataset2":"Crescimento do preço (Anual)",
