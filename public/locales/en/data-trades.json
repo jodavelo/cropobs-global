@@ -51,7 +51,7 @@
     "chart31-dataset3":"Value growth (Annual)",
     "chart3-toggle":"Toggle chart 3 english",
 
-    "chart32-title":"10-year moving average <common beans> <imports> value - <World>",
+    "chart32-title":"10-year moving average  <imports> value",
     "chart32-dataset1":"Quantity growth (10-yr moving avg)",
     "chart32-dataset2":"Value growth (10-yr moving avg)",
     "chart32-dataset3":"Price growth (10-yr moving avg)",
