@@ -277,6 +277,20 @@ const PVPage: NextPage = () => {
                 location = locationNameOptions.pt;           
                 break;
         }
+        const { isoLabel } = locationNameOptions;
+        if( isoLabel === 'WLRD' ) {
+            switch (locale) {
+                case 'en':
+                    location = 'World';
+                    break;
+                case 'es':
+                    location = 'Mundo';
+                    break;
+                default:
+                    location = 'Mundo';           
+                    break;
+            }
+        }
         setLocationName2( location );
         setLocationText( location );
         setSectionState( (prevState) => ({
