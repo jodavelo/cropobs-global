@@ -254,6 +254,7 @@ const SurfaceContextPage: NextPage = () => {
     }, [ locationNameOptions.macroRegionCode, locationNameOptions.regionCode ])
 
     useEffect(() => {
+        console.log('======================+++++++++++++++++++++++++++++++++++++++++', {locationNameOptions})
         console.log(locationNameOptions)
         let location = '';
         switch (locale) {
@@ -266,6 +267,20 @@ const SurfaceContextPage: NextPage = () => {
             default:
                 location = locationNameOptions.pt;           
                 break;
+        }
+        const { isoLabel } = locationNameOptions;
+        if( isoLabel === 'WLRD' ) {
+            switch (locale) {
+                case 'en':
+                    location = 'World';
+                    break;
+                case 'es':
+                    location = 'Mundo';
+                    break;
+                default:
+                    location = 'Mundo';           
+                    break;
+            }
         }
         setLocationName2( location );
         setLocationText( location );
