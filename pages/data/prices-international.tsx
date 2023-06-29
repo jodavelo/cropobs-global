@@ -173,6 +173,7 @@ const ProductionPage: NextPage = () => {
                             const { properties } = e.features[0]; 
                             let id = e.features![0].id ?? null;
                             const iso = properties!.id_country
+                            console.log(iso + 'ISO')
                             setSectionState( (prevState) => ({
                                 ...prevState,
                                 idCountry: iso,
@@ -381,6 +382,7 @@ const ProductionPage: NextPage = () => {
 
     const [locationText, setLocationText] = useState('');
     const [titleSection, setTitleSection] = useState('');
+    const [titleSection2, setTitleSection2] = useState('');
     const [mapGraphsText, setMapGraphsText] = useState('');
     const [metadataText, setMetadataText] = useState('');
     const [metadataText1, setMetadataText1] = useState('');
@@ -397,6 +399,7 @@ const ProductionPage: NextPage = () => {
     const [metadataText12, setMetadataText12] = useState('');
     useEffect(() => {
         setTitleSection(dataTranslate('section-int-name')!);
+        setTitleSection2(dataTranslate('section-int-text').replace('#{}', locationName2)!);
         setMapGraphsText(dataTranslate('graphs_maps')!);
         setMetadataText(dataTranslate('metadata')!);
         setMetadataText1(dataTranslate('metadata_text1_beans')!);
@@ -411,7 +414,7 @@ const ProductionPage: NextPage = () => {
         setMetadataText10(dataTranslate('faotext')!);
         setLocationText(locationName);
 
-    }, [dataTranslate, locationName])
+    }, [dataTranslate, locationName, locationName2])
     useEffect(() => {
 
         const chartTitle = dataTranslate('chart2-title')
@@ -465,7 +468,7 @@ const ProductionPage: NextPage = () => {
                         <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                             <Row className={ styles['padding-left-subcontainers'] }>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={` ${ titleSection } - ${locationName}`} >
+                                    <MainBar key={ uuidv4() } section={idCountry == '' ? titleSection : titleSection2} >
                                         <BackButtonPricesInt  idCountry={idCountry} locationName={locationName} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
