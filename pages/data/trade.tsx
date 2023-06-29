@@ -307,6 +307,8 @@ const DataPage: NextPage = () => {
     const [tradeFlowText2, settradeFlowText2] = useState('');
     const [tradeFlowText3, settradeFlowText3] = useState('');
     const [showCountries, setShowCountries] = useState(false);
+    const [ chartTitleValue, setChartTitleValue] = useState({});
+    const [ chartTitleQuantity, setChartTitleQuantity] = useState({});
 
     // --------------------------------
     const [locationName2, setLocationName2] = useState('');
@@ -633,25 +635,32 @@ const DataPage: NextPage = () => {
         return result
     }
 
-    const optionsTranslated = (options: any,index:number) => {
-        const result = {} as any
+    const optionsTranslated = (options: any, index: number, selectedOption: string) => {
+        const result = {} as any;
         for (let key in options) {
-            result[key] = options[key]
-            if(key == "plugins") result[key]['title']['text'] = dataTranslate('chart3'+index+'-title')
+          result[key] = options[key];
+          if (key === "plugins") {
+            // Update the title based on the selected option
+            if (selectedOption === '0') {
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName2;
+            } else if (selectedOption === '1') {
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName2;
+            }
+          }
         }
-        return result
-    }
+        return result;
+    };
 
     const chartConfig = [
         {
             dataURL: {labels:anualdata.labels,datasets:datasetsTranslated(anualdata.datasets,1)},
-            options: optionsTranslated(annual_growth_optionsPV,1),
+            options: optionsTranslated(annual_growth_optionsPV,1, '0'),
             config: {key: 'id_element', name: 'crop_name'},
             name: dataTranslate('chart3-opt1')
         },
         {
             dataURL: {labels:tenyearsdata.labels_1,datasets:datasetsTranslated(tenyearsdata.datasets_1,2)},
-            options: optionsTranslated(ten_year_moving_average_optionsPV,1),
+            options: optionsTranslated(ten_year_moving_average_optionsPV,2, '1'),
             config: {key: 'id_element', name: 'crop_name'},
             name: dataTranslate('chart3-opt2')
         }
@@ -670,6 +679,17 @@ const DataPage: NextPage = () => {
         axis_y : dataTranslate('chart2-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
     }
+
+    const chartTxts2_1 = {
+        title: tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName2,
+        axis_x : "",
+        axis_y : dataTranslate('chart2-1-axis-y'),
+        datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
+    }
+
+    const chartTitles = [
+        chartTxts2, chartTxts2_1
+    ]
 
     useEffect(() => {
         const { selectElementsOptionsObject, selectOptionsObject } = textByLocale( locale! );
@@ -1078,7 +1098,7 @@ const DataPage: NextPage = () => {
                                                     {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
                                                 </ChartFrame>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                                    {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={chartTxts2}/>) )} 
+                                                    {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={multiChartTrElementId == 3002 ? chartTxts2 : chartTxts2_1}/>) )} 
                                                 </ChartFrame>
                                                 <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
                                                     data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />

@@ -12,13 +12,14 @@ interface ChartTexts {
   datasets: string[]
 }
 
+
 interface Props {
     xLabels: any[],
     data1: number[],
     data2: number[],
     data3: number[],
     data4: number[],
-    chartTexts: ChartTexts
+    chartTexts: ChartTexts,
     setMultiChartTrElementId: Function,
 };
 
@@ -196,7 +197,6 @@ export const MultichartTr: FC<Props> = ({xLabels, data1, data2, data3, data4, ch
         },
       };
 
-    
     const handleSelectChange = (event: { target: { value: any; }; }) =>{
       const newValue = event.target.value
       console.log('cambio' + newValue)

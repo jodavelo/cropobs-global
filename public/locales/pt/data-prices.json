@@ -26,8 +26,8 @@
     "chart-title-producer-monthly": "Preços mensais ao produtor",
     "chart1-title": "anuais",
     "chart1-title2": "mensais",
-    "chart2-title": "Preços de referência internacionais anuais por tipo de arroz - #{}",
-    "chart3-title": "Preços de referência mensais internacionais por  tipo de arroz - #{}",
+    "chart2-title": "Preços de referência internacionais anuais por tipo de arroz",
+    "chart3-title": "Preços de referência mensais internacionais por  tipo de arroz",
     "chart1-info": "O box plot mostra a evolução anual dos preços nacionais divididos pelos preços no atacado, preços ao produtor e preços ao consumidor por quilograma.<br><br> O filtro no canto superior direito permite alternar a visualização entre os preços actuais e os preços correntes, quer em moeda local (SLC) quer em dólares (USD). Pode seleccionar na legenda as variáveis que deseja excluir da visualização.",
     "chart2-info":"Este gráfico apresenta a evolução mensal dos preços nacionais por país e de acordo com o nível de comercialização como preços ao produtor, preços no atacado e preços ao consumidor por quilo. <br><br> O filtro no canto superior direito permite alternar a exibição entre preços atuais e constantes, seja em moeda local (SLC) ou dólares (USD). Você pode selecionar na legenda as variáveis que deseja excluir da exibição.", 
 

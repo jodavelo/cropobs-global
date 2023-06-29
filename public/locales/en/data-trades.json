@@ -19,6 +19,9 @@
     "label-perc3": "of total pulses ",
     "label-perc3_3": " value",
 
+    "value-option-filter": "By value",
+    "quantity-option-filter": "By quantity",
+
     "tree-toggle" : "Toggle tree English",
 
     "chart1-title": "of common beans - ",
@@ -36,17 +39,19 @@
     "chart2-dataset3":"",
     "chart2-toggle":"Toggle chart 2 english",
 
+    "chart2-1-axis-y":"Quantity (kg)",
+
     "chart3-opt1": "Annual growth",
     "chart3-opt2": "10-year moving average",
 
-    "chart31-title":"Annual value growth of ",
+    "chart31-title":"Annual common beans imports growth",
     "chart31-title_1":" of common beans - ",
     "chart31-dataset1":"Quantity growth (Annual)",
     "chart31-dataset2":"Price growth (Annual)",
     "chart31-dataset3":"Value growth (Annual)",
     "chart3-toggle":"Toggle chart 3 english",
 
-    "chart32-title":"10-year moving average <common beans> <imports> value - <World>",
+    "chart32-title":"10-year moving average  <imports> value",
     "chart32-dataset1":"Quantity growth (10-yr moving avg)",
     "chart32-dataset2":"Value growth (10-yr moving avg)",
     "chart32-dataset3":"Price growth (10-yr moving avg)",

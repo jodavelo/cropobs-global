@@ -244,6 +244,20 @@ const DataPage: NextPage = () => {
                 location = locationNameOptions.pt;           
                 break;
         }
+        const { isoLabel } = locationNameOptions;
+        if( isoLabel === 'WLRD' ) {
+            switch (locale) {
+                case 'en':
+                    location = 'World';
+                    break;
+                case 'es':
+                    location = 'Mundo';
+                    break;
+                default:
+                    location = 'Mundo';           
+                    break;
+            }
+        }
         setLocationName2( location );
         setLocationText( location );
         setSectionState( (prevState) => ({
@@ -305,6 +319,7 @@ const DataPage: NextPage = () => {
     }, [isLoadingMacroRegions, dataTranslate]);
 
     useEffect(() => {
+        
         if (macroRegionsObj && regionsData && !isLoadingRegions) {
             let variableByLocale = ''
             if( locale == 'en' ) variableByLocale = 'region_name';

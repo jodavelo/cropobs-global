@@ -26,8 +26,8 @@
     "chart-title-producer-monthly": "Monthly Producer Prices",
     "chart1-title": " Yearly",
     "chart1-title2": "Monthly",
-    "chart2-title": "Yearly International Benchmark Prices by type of rice - #{}",
-    "chart3-title": "Monthly International Benchmark Prices by type of rice - #{}",
+    "chart2-title": "Yearly International Benchmark Prices by type of rice",
+    "chart3-title": "Monthly International Benchmark Prices by type of rice",
     "chart1-info": "The box plot shows the annual evolution of national prices divided by wholesale prices, producer prices and consumer prices per kilogram. <br><br>The filter in the upper right corner allows switching the display between current and constand prices, whether in local currency (SLC)  or  dollars (USD). You may select in the legend those variables you wish to exclude from the display",
     "chart2-info":"This graph presents the monthly evolution of national prices by country and according to the level of commercialization such as producer prices, wholesale prices and consumer prices per kilogram. <br><br>The filter in the upper right corner allows switching the display between current and constand prices, whether in local currency (SLC)  or  dollars (USD). You may select in the legend those variables you wish to exclude from the display.", 
 
