@@ -16,7 +16,8 @@ export const getYearsPlotlyChart = (years: number[]): Years => {
 }
 
 
-export const buildPlotStackedAreaObject = (observationsApi: Observation[], labels: number[], crop: string, cropAux?: string): traceObject[] => {
+export const buildPlotStackedAreaObject = (observationsApi: Observation[], labels: number[], crop: string, cropAux?: string, locale?: string): traceObject[] => {
+    console.log(observationsApi)
     let it: number = 2;
     let datasets: any[] = [];
     let dataArr: any = {};
@@ -28,7 +29,7 @@ export const buildPlotStackedAreaObject = (observationsApi: Observation[], label
         idx = observation.id_crop;
         if( dataArr[`${ idx }`] === undefined) dataArr[`${ idx }`] = Array( labels.length ).fill( null );
         dataArr[`${ idx }`][ labels.indexOf( observation.year ) ] = observation.value;
-        names[`${ idx }`] = observation.crop_name;
+        names[`${ idx }`] = locale! == 'en' ? observation.crop_name : ( locale! == 'es' ? observation.crop_name_es : observation.crop_name_pt );
         units[ observation.crop_name  ] = observation.unit;
     })
     for( const key in names ) {
