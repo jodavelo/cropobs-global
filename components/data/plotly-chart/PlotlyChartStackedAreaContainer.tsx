@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { beansApi } from '../../../apis';
+import { beansApi, centralApi } from '../../../apis';
 import { buildPlotStackedAreaObject, getYearsPlotlyChart } from '../../../helpers/data';
 import { PlotlyChartStackedArea, PlotlyChartStackedAreaNormalized, traceObject } from './';
 
@@ -18,6 +18,7 @@ interface Props {
     moreInfoTextStackedAreaNormalized2?: string;
     yLabelStackedArea?: string;
     yLabelShare?: string;
+    locale?: string;
 }
 
 export const PlotlyChartStackedAreaContainer: FC<Props> = ({ 
@@ -34,7 +35,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     moreInfoTextStackedAreaNormalized,
     moreInfoTextStackedAreaNormalized2,
     yLabelStackedArea,
-    yLabelShare
+    yLabelShare,
+    locale
 }) => {
 
     const [traces, setTraces] = useState([]);
@@ -44,11 +46,13 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     const [dataJson, setDataJson] = useState<Object[]>([]);
 
     useEffect(() => {
+        console.log('====================================================================', { locale })
         const algo = async() => {
-        const response = await beansApi.get(fetchDataUrl);
+        const response = await centralApi.get(fetchDataUrl);
         const { labels, observations } = response.data.data;
         setDataJson( response.data.data.observations );
-        const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName);
+        const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName, locale);
+        console.log( datasets )
         const { ticks } = getYearsPlotlyChart( labels );
         setTicks(ticks);
         let dataArr: any = [];
@@ -87,7 +91,7 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
         }
         algo();
         
-    }, [fetchDataUrl])
+    }, [fetchDataUrl, locale])
     ///console.log({ selected })
     return (
         <div style={{maxWidth:'800px',margin:'auto'}}>

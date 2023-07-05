@@ -18,7 +18,7 @@ export const GenericCard = ({ imageUrl, title, description, btntext, link }: Pro
         <>
             <Card border="light" style={{ width: '100%' }}>
                 <Card.Header style={{ background: '#000' }}>
-                    <Image src={ imageUrl } alt="" width={ 200 } height={100} />
+                    <Image src={ imageUrl } alt="" width={ 220 } height={50} />
                 </Card.Header>
                 <Card.Body>
                     <Card.Title className={ styles['center-text'] }>

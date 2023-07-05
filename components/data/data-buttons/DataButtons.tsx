@@ -8,6 +8,7 @@ import { FC, useState } from 'react';
 import { saveAs } from 'file-saver';
 import domtoimage from 'dom-to-image';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import html2canvas from 'html2canvas';
 
 interface Props {
     text: string
@@ -16,8 +17,20 @@ interface Props {
 }
 
 const saveCanvas = (elementId: string) => {
-    domtoimage.toBlob( document.getElementById(elementId) as HTMLElement)
-        .then( (blob: Blob) => saveAs(blob, `${elementId}.png`) );
+    const element = document.getElementById(elementId) as HTMLElement;
+    
+    html2canvas(element).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');  
+        let blobData;
+        
+        // Convertimos los datos de la imagen a blob
+        fetch(imgData)
+        .then(res => res.blob())
+        .then(blob => {
+            blobData = blob;
+            saveAs(blobData, `${elementId}.png`);
+        })
+    });
 }
 
 export const DataButtons: FC<Props> = ({ text, elementID, setShowModal }) => {
