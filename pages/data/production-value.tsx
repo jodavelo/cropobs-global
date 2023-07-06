@@ -321,7 +321,7 @@ const PVPage: NextPage = () => {
             }
         }
         setTitleSection(dataTranslate('section-name')!);
-    }, [locale])
+    }, [locale,dataTranslate])
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
