@@ -248,14 +248,24 @@ const SurfaceContextPage: NextPage = () => {
         }
     }, [ clickId, countryCode ])
     
+    // useEffect(() => {
+    //     console.log('11111111111111111111111111111111111111111111111111111111111', locationNameOptions)
+    //     setCountryCode2( locationNameOptions.regionCode! )
+    // }, [ locationNameOptions.macroRegionCode, locationNameOptions.regionCode ])
+
+
+    // This for to fix in filters
     useEffect(() => {
-        console.log('11111111111111111111111111111111111111111111111111111111111', locationNameOptions)
-        setCountryCode2( locationNameOptions.regionCode! )
-    }, [ locationNameOptions.macroRegionCode, locationNameOptions.regionCode ])
+        //console.log('vaaaaaaa', locationNameOptions.isoLabel)
+        // console.log('Valor de locationNameOptions.macroRegionCode:', locationNameOptions.macroRegionCode);
+        // console.log('Valor de locationNameOptions.regionCode:', locationNameOptions.regionCode);
+        setCountryCode2(locationNameOptions.isoLabel);
+    }, [locationNameOptions.isoLabel]);
+    
 
     useEffect(() => {
-        console.log('======================+++++++++++++++++++++++++++++++++++++++++', {locationNameOptions})
-        console.log(locationNameOptions)
+        // console.log('======================+++++++++++++++++++++++++++++++++++++++++', {locationNameOptions})
+        // console.log(locationNameOptions)
         let location = '';
         switch (locale) {
             case 'en':
@@ -312,8 +322,9 @@ const SurfaceContextPage: NextPage = () => {
             }
         }
         //else setClickId( null );
-        console.log(clickId)
-        console.log({ map })
+        // console.log(clickId)
+        // console.log({ map })
+        // console.log(locationNameOptions)
     }, [locale]);
 
     useEffect(() => {
@@ -444,7 +455,7 @@ const SurfaceContextPage: NextPage = () => {
             }
             setClickId(null);
         }
-    }, [regionCode])
+    }, [regionCode])    
 
     // ------------------------------------------------------------------------------------------------------------------------
     // To change podium data, when is changing years select value or any admin Level (region, macro region or country)
@@ -743,32 +754,56 @@ const SurfaceContextPage: NextPage = () => {
         setLocationText(locationName);
     }, [dataTranslate, locationName])
 
-    useEffect(() => {
-        setIndicators( [] );
-        if (indicatorTotalCropLandArea && !isLoadingIndicatorTotalCropLandArea) {
-            const totalCropLandArea = Number(indicatorTotalCropLandArea * 100).toFixed(2);
-            const indicatorTotalCropLand: PercentInfoProps = {
-                label: totalAreaText1,
-                percent: totalCropLandArea
-            }
-            setOnAverageIndicator(indicatorTotalCropLandArea);
-            setIndicators( indicators => [...indicators, indicatorTotalCropLand] );
-        }
-    }, [isLoadingIndicatorTotalCropLandArea, totalAreaText1]);
+    // useEffect(() => {
+    //     setIndicators( [] );
+    //     if (indicatorTotalCropLandArea && !isLoadingIndicatorTotalCropLandArea) {
+    //         const totalCropLandArea = Number(indicatorTotalCropLandArea * 100).toFixed(2);
+    //         const indicatorTotalCropLand: PercentInfoProps = {
+    //             label: totalAreaText1,
+    //             percent: totalCropLandArea
+    //         }
+    //         setOnAverageIndicator(indicatorTotalCropLandArea);
+    //         setIndicators( indicators => [...indicators, indicatorTotalCropLand] );
+    //     }
+    // }, [isLoadingIndicatorTotalCropLandArea, totalAreaText1]);
     
-    useEffect(() => {
-        // setIndicators( [] );
-        if (indicatorTotalCerealArea && !isLoadingIndicatorTotalCerealArea) {
-            const totalCerealArea = Number(indicatorTotalCerealArea * 100).toFixed(2);
-            const indicatorTotalCereal: PercentInfoProps = {
-                label: totalAreaText2,
-                percent: totalCerealArea
-            }
-            setOnAverageIndicator(indicatorTotalCerealArea);
-            setIndicators( indicators => [...indicators, indicatorTotalCereal] );
-        }
-    }, [isLoadingIndicatorTotalCerealArea,totalAreaText2]);
+    // useEffect(() => {
+    //     // setIndicators( [] );
+    //     if (indicatorTotalCerealArea && !isLoadingIndicatorTotalCerealArea) {
+    //         const totalCerealArea = Number(indicatorTotalCerealArea * 100).toFixed(2);
+    //         const indicatorTotalCereal: PercentInfoProps = {
+    //             label: totalAreaText2,
+    //             percent: totalCerealArea
+    //         }
+    //         setOnAverageIndicator(indicatorTotalCerealArea);
+    //         setIndicators( indicators => [...indicators, indicatorTotalCereal] );
+    //     }
+    // }, [isLoadingIndicatorTotalCerealArea,totalAreaText2]);
 
+    useEffect(() => {
+        if (!isLoadingIndicatorTotalCropLandArea && !isLoadingIndicatorTotalCerealArea) {
+            setIndicators([]);
+    
+            if (indicatorTotalCropLandArea) {
+                const totalCropLandArea = Number(indicatorTotalCropLandArea * 100).toFixed(2);
+                const indicatorTotalCropLand: PercentInfoProps = {
+                    label: totalAreaText1,
+                    percent: totalCropLandArea,
+                };
+                setOnAverageIndicator(indicatorTotalCropLandArea);
+                setIndicators((indicators) => [...indicators, indicatorTotalCropLand]);
+            }   
+            if (indicatorTotalCerealArea) {
+                const totalCerealArea = Number(indicatorTotalCerealArea * 100).toFixed(2);
+                const indicatorTotalCereal: PercentInfoProps = {
+                    label: totalAreaText2,
+                    percent: totalCerealArea,
+                };
+                setOnAverageIndicator(indicatorTotalCerealArea);
+                setIndicators((indicators) => [...indicators, indicatorTotalCereal]);
+            }
+        }
+    }, [isLoadingIndicatorTotalCropLandArea, isLoadingIndicatorTotalCerealArea, totalAreaText1, totalAreaText2]);
     
 
     // console.log(sideBarColumn, contentColumn)  
@@ -832,8 +867,8 @@ const SurfaceContextPage: NextPage = () => {
                                                     <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
                                                         <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
                                                             <MapSelect id='year-filter' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> }
+                                                            <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={locationNameOptions.macroRegionCode!} setSelected={setSectionState} setLocationNames={ setLocationNameOptions } atrName='macroRegionCode'/>
+                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={locationNameOptions.regionCode!} setSelected={setSectionState} setLocationNames={ setLocationNameOptions } atrName='regionCode'/> }
                                                             <Button
                                                                 className={`${styles['search-country-button']}`}
                                                                 style={{width: '145px', lineHeight: '12px'}}
