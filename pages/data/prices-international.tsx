@@ -500,12 +500,12 @@ const ProductionPage: NextPage = () => {
                                                         }
                                                             <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4/${priceTypeId}`} setPriceTypeId={setPriceTypeId} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
                                                             <PlotlyChartLineInternational dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4/${priceTypeId}`} setPriceTypeId={setPriceTypeId} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
-                                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
+                                                    <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2023' completeName='FPMA Tool' url='https://fpma.fao.org/giews/fpmat4/#/dashboard/tool/international' />
                                                 </Col>
                                             </Row>
                                         </Tab>
                                         <Tab eventKey="profile" title={metadataText} tabClassName={styles.coloredTab}>
-                                           <p>
+                                           {/* <p>
                                                { metadataText1 }         
                                            </p>
                                            <p>{ metadataText2 }</p>
@@ -515,7 +515,7 @@ const ProductionPage: NextPage = () => {
                                                 <li><span className={ styles['text-strong'] }>{ metadataText7 }</span>: { metadataText8 }</li>
                                            </ol>
                                            <p className={ styles['text-strong'] }>{ metadataText9 }:</p>
-                                           <ul><li>{ metadataText10 } <span><a href="http://www.fao.org/faostat/en/#data">http://www.fao.org/faostat/en/#data</a></span></li></ul>
+                                           <ul><li>{ metadataText10 } <span><a href="http://www.fao.org/faostat/en/#data">http://www.fao.org/faostat/en/#data</a></span></li></ul> */}
                                         </Tab>
                                         
                                     </Tabs>
