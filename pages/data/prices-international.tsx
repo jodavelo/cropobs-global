@@ -40,6 +40,7 @@ interface locationNameOptions {
 }
 interface sectionState {
     idCountry: string
+    elementId: number
     locationName: string
 }
 interface CitiesState {
@@ -81,6 +82,7 @@ const ProductionPage: NextPage = () => {
     const [countryProperty, setCountryProperty] = useState<{ [name: string]: any } | undefined>();
     const [ sectionState, setSectionState ] = useState<sectionState>({
         idCountry: '',
+        elementId: 99000,
         locationName: 'World',
     });
     const [locationNameOptions, setLocationNameOptions] = useState<locationNameOptions>({
@@ -114,7 +116,7 @@ const ProductionPage: NextPage = () => {
     const [clickIdd, setClickId] = useState<string | number | null>(null);
     const [isMapView, setIsMapView] = useState(false);
 
-
+    const [priceTypeId, setPriceTypeId] = useState(99000);
     
     useEffect(() => {
         if( buttonBoth ) {
@@ -496,8 +498,8 @@ const ProductionPage: NextPage = () => {
                                                         :
                                                             <></>
                                                         }
-                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4`} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
-                                                            <PlotlyChartLineInternational dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4`} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
+                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4/${priceTypeId}`} setPriceTypeId={setPriceTypeId} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
+                                                            <PlotlyChartLineInternational dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4/${priceTypeId}`} setPriceTypeId={setPriceTypeId} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </Col>
                                             </Row>

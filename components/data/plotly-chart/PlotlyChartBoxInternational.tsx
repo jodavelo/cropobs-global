@@ -9,11 +9,13 @@ import { boxInternationalDataGenerator, dataFetcher, treeMapDataGenerator, boxDa
 import { use } from 'i18next';
 import { DataButtons } from '../data-buttons';
 import { ModalForm } from "../modal-form";
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     dataURL: string;
     title: string;
     description: string,
+    setPriceTypeId: Function
 };
 
 interface typePrice {
@@ -75,9 +77,11 @@ const data = [
     }
 ]
 
-export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, description }) => {
+export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, description, setPriceTypeId }) => {
     const Plot = dynamic(() => import("react-plotlyjs-ts"), { ssr: false, });
-    const [priceType, setPriceType] = useState('nominal');
+    const { t: dataTranslate } = useTranslation('data-prices');
+    const [priceType, setPriceType] = useState('');
+    const [selected2, setSelected2] = useState('');
     const [showModal, setShowModal] = useState(false);
     const { width } = useWindowSize();
     const [chartHeight, setChartHeight] = useState(0);
@@ -135,6 +139,13 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
       }, [width])
 
     const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
+    const [filterOptioCurrent, setFilterOptionCurrent] = useState('');
+    const [filterOptionConstant, setFilterOptionConstant] = useState('');
+
+    useEffect(() => {
+      setFilterOptionCurrent(dataTranslate('current-option-filter')!);
+      setFilterOptionConstant(dataTranslate('constant-option-filter')!);
+  }, )
 
     if (error) return <div>Failed to load {error.message}</div>
     if (isLoading) return <div>Loading...</div>
@@ -161,11 +172,21 @@ export const PlotlyChartBoxInternational: FC<Props> = ({ dataURL, title, descrip
 
     const data = boxInternationalDataGenerator(predata,  priceType);
 
+    const handleSelectChange = (event: { target: { value: any; }; }) =>{
+      const newValue = event.target.value
+      console.log('cambio' + newValue)
+      setSelected2(newValue)
+      setPriceTypeId(newValue)
+    }
+    
     console.log(data);
     return (
     <>
         <div style={{ position: 'relative', height: '490px', margin: 'auto', maxWidth: '800px'}}>
-    
+            <select value={selected2} onChange={handleSelectChange} style={{marginTop: '10px'}}>
+                <option value={99000}>{filterOptioCurrent}</option>
+                <option value={99001}>{filterOptionConstant}</option>
+            </select>
             <Plot 
                 /*  @ts-ignore// */
                 id={ id }
