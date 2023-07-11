@@ -279,6 +279,7 @@ const ProductionPage: NextPage = () => {
             }
         }
         setTitleSection(dataTranslate('section-name')!);
+        console.log({countryCode2})
     }, [locale])
 
     useEffect(() => {
@@ -401,6 +402,8 @@ const ProductionPage: NextPage = () => {
             }
             setClickId(null);
         }
+        // console.log("cambiando-------------------------------------------------------------------------", {regionCode})
+        setCountryCode2( regionCode )
     }, [regionCode])
 
     // This useEffect is used when the back button is clicked
