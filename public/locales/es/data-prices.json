@@ -18,6 +18,8 @@
     "nominal-option-filter": "Precios corrientes - SLC",
     "real-option-filter": "Precios constantes - SLC",
     "usd-option-filter": "Precios corrientes - USD",
+    "current-option-filter": "Precios corrientes - USD",
+    "constant-option-filter": "Precios constantes - USD",
     "chart-title-whole-yearly": "Precios mayoristas anuales",
     "chart-title-consumer-yearly": "Precios al consumidor anuales",
     "chart-title-producer-yearly": "Precios al productor anuales",

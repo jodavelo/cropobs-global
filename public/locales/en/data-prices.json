@@ -18,6 +18,8 @@
     "nominal-option-filter": "Current prices - SLC",
     "real-option-filter": "Constant prices - SLC",
     "usd-option-filter": "Current prices - USD",
+    "current-option-filter": "Current prices - USD",
+    "constant-option-filter": "Constant prices - USD",
     "chart-title-whole-yearly": "Yearly Wholesale Prices",
     "chart-title-consumer-yearly": "Yearly Consumer Prices",
     "chart-title-producer-yearly": "Yearly Producer prices",

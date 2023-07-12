@@ -278,20 +278,8 @@ const ProductionPage: NextPage = () => {
                 setClickId( clickId );
             }
         }
-        let section = ''
-        switch (locale) {
-            case 'en':
-                section = 'Production';
-                break;
-            case 'es':
-                section = 'Producción';
-                break;
-            default:
-                section = 'Produção';           
-                break;
-        }
-        // setTitleSection(dataTranslate('section-name')!);
-        setTitleSection(section);
+        setTitleSection(dataTranslate('section-name')!);
+        console.log({countryCode2})
     }, [locale])
 
     useEffect(() => {
@@ -414,6 +402,8 @@ const ProductionPage: NextPage = () => {
             }
             setClickId(null);
         }
+        // console.log("cambiando-------------------------------------------------------------------------", {regionCode})
+        setCountryCode2( regionCode )
     }, [regionCode])
 
     // This useEffect is used when the back button is clicked

@@ -396,6 +396,8 @@ const DataPage: NextPage = () => {
             }
             setClickId(null);
         }
+        console.log("cambiando-------------------------------------------------------------------------", {regionCode})
+        setCountryCode2( regionCode )
     }, [regionCode])
 
     // This useEffect is used when the back button is clicked
@@ -589,7 +591,7 @@ const DataPage: NextPage = () => {
                 setPorc4({ value: response.data, text: `` })
             })
 
-    }, [clickId, year])
+    }, [countryCode2, year]) // change this in case of it don´t work [clickId, year]
 
     let [xlabels1, setxlabels1] = useState(Array(0))
     let [datapoints1, setdatapoints1] = useState(Array(0))
