@@ -278,7 +278,20 @@ const ProductionPage: NextPage = () => {
                 setClickId( clickId );
             }
         }
-        setTitleSection(dataTranslate('section-name')!);
+        let section = ''
+        switch (locale) {
+            case 'en':
+                section = 'Production';
+                break;
+            case 'es':
+                section = 'Producción';
+                break;
+            default:
+                section = 'Produção';           
+                break;
+        }
+        // setTitleSection(dataTranslate('section-name')!);
+        setTitleSection(section);
     }, [locale])
 
     useEffect(() => {
