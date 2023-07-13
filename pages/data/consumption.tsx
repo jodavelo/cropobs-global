@@ -746,6 +746,18 @@ const DataPage: NextPage = () => {
         setMetadataText(dataTranslate('metadata')!);
     }, )
 
+    useEffect(() => {
+        let title = '';
+        if( locationName2 == "" ) {
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+        }
+        // console.log('mmm///////////////////////////////////////////////////////////', {title})
+        setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', title));
+        setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', title))
+    }, [])
+
     return (
         <Layout title={dataTranslate('section-name')}>
             <Container fluid className={ styles['custom-container-fluid'] }>
