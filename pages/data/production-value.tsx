@@ -427,8 +427,15 @@ const PVPage: NextPage = () => {
             setClickId(null);
         }
         // console.log("cambiando-------------------------------------------------------------------------", {regionCode})
+        console.log("cambiando-------------------------------------------------------------------------", {sectionState})
         setCountryCode2( regionCode )
     }, [regionCode])
+
+    useEffect(() => {
+        console.log('=======================================================================================', sectionState.regionCode)
+        setCountryCode2( sectionState.regionCode )
+    }, [sectionState.regionCode])
+    
 
     // This useEffect is used when the back button is clicked
     useEffect(() => {
