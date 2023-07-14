@@ -295,7 +295,7 @@ const DataPage: NextPage = () => {
         setTitleSection(dataTranslate('section-name')!);
         setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', locationName2));
         setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', locationName2))
-    }, [locale, dataTranslate])
+    }, [locale, dataTranslate, locationName2])
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
