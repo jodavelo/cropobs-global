@@ -245,7 +245,7 @@ const DataPage: NextPage = () => {
         }
         setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', title));
         setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', title))  
-        console.log("-------------------====================--------------------=================", {locationName2, clickId, locationNameOptions})
+        // console.log("-------------------====================--------------------=================", {locationName2, clickId, locationNameOptions})
         // if( clickId !== null ) {
         //     let title = '';
         //     if( locale == 'en' ) title = 'World';
