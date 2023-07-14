@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import useSWR from 'swr';
 import { Line } from 'react-chartjs-2';
-import { dataFetcher, GenerateDataJson } from "../../../helpers/data";
+import { dataFetcher, GenerateDataJsonGeneric } from "../../../helpers/data";
 import { datasetGenerator } from "../../../helpers/data";
 import { DataButtons } from "../data-buttons/DataButtons";
 import { v4 as uuidv4 } from 'uuid';
@@ -52,6 +52,15 @@ export const LineChartjs: FC<{dataURL: string, elementsURL: string, options: Rec
   const datasets = datasetGenerator(data.observations, data.labels, config.key, config.name, orderList, chartID, chartConf, elements);
   const chartjsData = {labels: data.labels, datasets};
   const id = uuidv4();
+  const dataFrame = [
+    {
+      label: "years",
+      values: data.labels,
+    },
+  ]
+  datasets.map((elem)=>{
+    dataFrame.push({label: elem.label,values: elem.data})
+  })
 
   return (
     <>
@@ -60,7 +69,7 @@ export const LineChartjs: FC<{dataURL: string, elementsURL: string, options: Rec
       </div>
       <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
       {showModal ? (
-        <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+        <ModalForm dataJson={GenerateDataJsonGeneric(dataFrame)} setShowModal={setShowModal}/>
       ) : null
       }
     </>

@@ -11,6 +11,7 @@ import { ModalForm } from '../modal-form';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import DOMPurify from 'isomorphic-dompurify';
+import { GenerateDataJsonGeneric } from "../../../helpers/data";
 
 
 interface Props {
@@ -44,6 +45,38 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     const data = podiumDataProcessTrans(predata,locale as string);
     const dataProcessed = getColorByDataProcessed( data );
     console.log(data);
+    
+    const posAux = Array(0)
+    const nameAux = Array(0)
+    if(data.length > 3){
+        posAux.push(data[1].rank)
+        posAux.push(data[0].rank)
+        posAux.push(data[2].rank)
+        posAux.push(data[3].rank)
+        nameAux.push(data[1].cropName)
+        nameAux.push(data[0].cropName)
+        nameAux.push(data[2].cropName)
+        nameAux.push(data[3].cropName)
+    }
+    else{
+        posAux.push(data[1].rank)
+        posAux.push(data[0].rank)
+        posAux.push(data[2].rank)
+        posAux.push(data[3].rank)
+        nameAux.push(data[1].cropName)
+        nameAux.push(data[0].cropName)
+        nameAux.push(data[2].cropName)
+    }
+    const dataJson= [
+        {
+            label:"Position",
+            values: posAux ?? [],
+        },
+        {
+            label:"Crop-Name",
+            values: nameAux ?? [],
+        },
+    ]
 
     const getCropRank= (data: any[], cropNames : string[]): number => {
         for (const elem of data){
@@ -68,7 +101,7 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
             </div>
             <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
             {showModal ? (
-                <ModalForm dataJson={[]} setShowModal={setShowModal}/>
+                <ModalForm dataJson={GenerateDataJsonGeneric(dataJson)} setShowModal={setShowModal}/>
             ) : null
             }
         </>
