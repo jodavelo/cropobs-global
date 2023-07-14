@@ -283,6 +283,11 @@ const ProductionPage: NextPage = () => {
     }, [locale])
 
     useEffect(() => {
+        setTitleSection(dataTranslate('section-name') ?? '');
+    })
+    
+
+    useEffect(() => {
         if( clickId === null ) {
             let title = '';
             if( locale == 'en' ) title = 'World';
