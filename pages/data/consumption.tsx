@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import style from './data.module.css';
 import { PodiumProductVal as Podium, PorcentagesBox, MultichartPV, ChartFrame, MultiBar1, MultiBar2, MapCON, ChartFrame1Btn } from '../../components/data';
-import { dataFetcher, datasetGeneratorPV, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions, generateYearsOptionsConsumption } from '../../helpers/data';
+import { dataFetcher, datasetGeneratorPV, generateElementsOptions, generateOptionsFromObj, generateRegionOptions, generateYearsOptions, GenerateDataJsonGeneric ,generateYearsOptionsConsumption } from '../../helpers/data';
 
 import axios from 'axios';
 import { LeftSideMenuContainer, MapSelect } from '../../components/ui/map/filters';
@@ -57,6 +57,11 @@ interface PodiumConfig {
     text: string[]
     name: string
     description: string
+}
+
+interface DataDocument {
+    label : string,
+    values: number[]
 }
 
 const DataPage: NextPage = () => {
@@ -316,7 +321,7 @@ const DataPage: NextPage = () => {
         setTitleSection(dataTranslate('section-name')!);
         setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', locationName2));
         setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', locationName2))
-    }, [locale, dataTranslate])
+    }, [locale, dataTranslate, locationName2])
 
     useEffect(() => {
         if (elementsData && !isLoadingElements) {
@@ -772,6 +777,66 @@ const DataPage: NextPage = () => {
         setMetadataText(dataTranslate('metadata')!);
     }, )
 
+    const [dataFrame1, setDataFrame1 ] = useState<DataDocument[] | undefined>(undefined);
+    useEffect(()=>{
+        setDataFrame1([
+            {
+                label: locale == "es" ? "Años" : locale == "en" ? "Years" : locale == "pt" ? "Anos" : "",
+                values: xlabels1 ?? []
+            },
+            {
+                label: chartTxts1.datasets[0],
+                values: datapoints1 ?? []
+            },
+            {
+                label: chartTxts1.datasets[1],
+                values: databar11 ?? []
+            },
+            {
+                label: chartTxts1.datasets[2],
+                values: databar12 ?? []
+            },
+            {
+                label: chartTxts1.datasets[3],
+                values: databar13 ?? []
+            },
+            {
+                label: chartTxts1.datasets[4],
+                values: databar14 ?? []
+            },
+            {
+                label: chartTxts1.datasets[5],
+                values: databar15 ?? []
+            },
+        ])
+    },[xlabels1,datapoints1,databar11,databar12,databar13,databar14,databar15,locale])
+    
+    //xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23}
+    const [dataFrame2, setDataFrame2 ] = useState<DataDocument[] | undefined>(undefined);
+    useEffect(()=>{
+        setDataFrame2([
+            {
+                label: locale == "es" ? "Años" : locale == "en" ? "Years" : locale == "pt" ? "Anos" : "",
+                values: xlabels2 ?? []
+            },
+            {
+                label: chartTxts2.datasets[0],
+                values: datapoints2 ?? []
+            },
+            {
+                label: chartTxts2.datasets[1],
+                values: databar21 ?? []
+            },
+            {
+                label: chartTxts2.datasets[2],
+                values: databar22 ?? []
+            },
+            {
+                label: chartTxts2.datasets[3],
+                values: databar23 ?? []
+            },
+        ])
+    },[xlabels2,datapoints2,databar21,databar22,databar23,locale])
     useEffect(() => {
         let title = '';
         if( locationName2 == "" ) {
@@ -865,7 +930,7 @@ const DataPage: NextPage = () => {
                                                 <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
                                                     data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
                                                 <br></br>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                <ChartFrame data={dataFrame1 as any} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                                     { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
                                                 </ChartFrame>
                                                 <br></br>
@@ -873,7 +938,7 @@ const DataPage: NextPage = () => {
                                                     <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
                                                 </ChartFrame1Btn>
                                                 <br></br>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                                <ChartFrame data={dataFrame2 as any} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                                     { xlabels2.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                                 </ChartFrame>
                                                 <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
