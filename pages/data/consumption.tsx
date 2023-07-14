@@ -232,6 +232,32 @@ const DataPage: NextPage = () => {
     }, [ clickId, countryCode ])
 
     useEffect(() => {
+        const { isoLabel, en, es, pt } = locationNameOptions;
+        let title = '';
+        if( isoLabel == 'WLRD' ) {
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+        }else {
+            if( locale == 'en' ) title = en;
+            if( locale == 'es' ) title = es;
+            if( locale == 'pt' ) title = pt;
+        }
+        setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', title));
+        setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', title))  
+        console.log("-------------------====================--------------------=================", {locationName2, clickId, locationNameOptions})
+        // if( clickId !== null ) {
+        //     let title = '';
+        //     if( locale == 'en' ) title = 'World';
+        //     if( locale == 'es' ) title = 'Mundo';
+        //     if( locale == 'pt' ) title = 'Mundo';
+        //     setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', title));
+        //     setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', title))      
+        // }
+    }, [ locationName2 ])
+    
+
+    useEffect(() => {
         let location = '';
         switch (locale) {
             case 'en':
@@ -639,17 +665,17 @@ const DataPage: NextPage = () => {
     const chartTxts1 = {
         title: chartTxts1Label,
         axis_x : "",
-        axis_y : dataTranslate('chart1-axis-y'),
-        axis_y2 : dataTranslate('chart1-axis-y2'),
-        datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2'),dataTranslate('chart1-dataset4'),dataTranslate('chart1-dataset5'),dataTranslate('chart1-dataset6'),dataTranslate('chart1-dataset3')]
+        axis_y : dataTranslate('chart1-axis-y')?? '',
+        axis_y2 : dataTranslate('chart1-axis-y2')??'',
+        datasets: [dataTranslate('chart1-dataset1')?? '',dataTranslate('chart1-dataset2')??'',dataTranslate('chart1-dataset4')??'',dataTranslate('chart1-dataset5')??'',dataTranslate('chart1-dataset6')??'',dataTranslate('chart1-dataset3')??'']
     }
 
     const chartTxts2 = {
         title: chartTxts2Label,
         axis_x : "",
-        axis_y : dataTranslate('chart2-axis-y'),
-        axis_y2 : dataTranslate('chart2-axis-y2'),
-        datasets: [dataTranslate('chart2-dataset1'),dataTranslate('chart2-dataset2'),dataTranslate('chart2-dataset3'),dataTranslate('chart2-dataset4')]
+        axis_y : dataTranslate('chart2-axis-y') ?? '',
+        axis_y2 : dataTranslate('chart2-axis-y2') ?? '',
+        datasets: [dataTranslate('chart2-dataset1') ?? '',dataTranslate('chart2-dataset2')?? '',dataTranslate('chart2-dataset3')?? '',dataTranslate('chart2-dataset4')?? '']
     }
 
     
@@ -757,7 +783,7 @@ const DataPage: NextPage = () => {
         setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', title));
         setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', title))
     }, [])
-
+    
     return (
         <Layout title={dataTranslate('section-name')}>
             <Container fluid className={ styles['custom-container-fluid'] }>
