@@ -811,6 +811,17 @@ const DataPage: NextPage = () => {
             },
         ])
     },[xlabels2,datapoints2,databar21,databar22,databar23,locale])
+    useEffect(() => {
+        let title = '';
+        if( locationName2 == "" ) {
+            if( locale == 'en' ) title = 'World';
+            if( locale == 'es' ) title = 'Mundo';
+            if( locale == 'pt' ) title = 'Mundo';
+        }
+        // console.log('mmm///////////////////////////////////////////////////////////', {title})
+        setChartTxts1Label(dataTranslate('chart1-title').replace('#{}', title));
+        setChartTxts2Label(dataTranslate('chart2-title').replace('#{}', title))
+    }, [])
 
     return (
         <Layout title={dataTranslate('section-name')}>
