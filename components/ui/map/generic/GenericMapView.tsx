@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl';
 interface Props {
     divContainer: string;
     geoJsonUrl: string;
-    onMapClick: (id: string, iso3: string, countryName: string, countryNameEs: string) => void; 
+    onMapClick: (id: string, iso3: string, countryName: string, countryNameEs: string, countryNamePt: string) => void; 
     polygonColors: { fill: string, outline: string };
     onReset: boolean;
     // selectedCountry: string | null;
@@ -64,8 +64,9 @@ export const GenericMapView = ({ divContainer, geoJsonUrl, onMapClick, polygonCo
                 const id = properties.id; // Supongamos que 'id' es el nombre de la propiedad
                 const iso3 = properties.iso3; // Supongamos que 'iso3' es el nombre de la propiedad
                 const countryName = properties.country_name;
-                const countryNameEs = properties.esp_name;
-                onMapClick(id, iso3, countryName, countryNameEs ); // Llama a la función con el id y el iso3  
+                const countryNameEs = properties.country_name_es;
+                const countryNamePt = properties.country_name_pt;
+                onMapClick(id, iso3, countryName, countryNameEs, countryNamePt ); // Llama a la función con el id y el iso3  
                 // if (selectedCountry) {
                 //     map.setPaintProperty('states-layer', 'fill-color', ['match', ['get', 'iso3'], selectedCountry, '#FF0000', '#00FF00']);
                 //     map.setPaintProperty('states-layer', 'fill-outline-color', ['match', ['get', 'iso3'], selectedCountry, '#000000', '#FFFFFF']);

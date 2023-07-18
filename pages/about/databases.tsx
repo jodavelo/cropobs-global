@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '../../components/layouts'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 
 import styles from './databases.module.css';
 import { useWindowSize } from '../../hooks';
@@ -75,8 +75,14 @@ const items = [
 interface SectionState {
     countryName: string;
     countryNameEs: string;
+    countryNamePt: string;
     iso3: string;
 }
+const messages = {
+    en: "No information available for the selected country.",
+    es: "No hay información para el país seleccionado.",
+    pt: "Não há informações para o país selecionado."
+};
 
 const DatabasesPage: NextPage = () => {
 
@@ -100,8 +106,11 @@ const DatabasesPage: NextPage = () => {
     const [sectionState, setsectionState] = useState<SectionState>({
         countryName: "World",
         countryNameEs: "Mundo",
+        countryNamePt: 'Mundo',
         iso3: "WLRD"
     })
+
+    const [infoText, setInfoText] = useState('');
 
     const handleResetMap = () => {
         //("Back button clicked!"); // Esta línea es solo para depuración
@@ -111,17 +120,19 @@ const DatabasesPage: NextPage = () => {
         setsectionState({
             countryName: "World",
             countryNameEs: "Mundo",
+            countryNamePt: 'Mundo',
             iso3: "WLRD"
         });
     };
 
-    const handleMapClick = (id: string, iso3: string, countryName: string, countryNameEs: string) => {
-        ////(`Polígono clickeado: id=${id}, iso3=${iso3}, countryName = ${ countryName }, countryNameEs = ${ countryNameEs }`);
+    const handleMapClick = (id: string, iso3: string, countryName: string, countryNameEs: string, countryNamePt: string) => {
+        //console.log(`Polígono clickeado: id=${id}, iso3=${iso3}, countryName = ${ countryName }, countryNameEs = ${ countryNameEs }`);
         setSelectedCountry(iso3);
         setIso3Selected( iso3 );
         setsectionState({
             countryName: countryName,
             countryNameEs: countryNameEs,
+            countryNamePt: countryNamePt,
             iso3: iso3
         });
         setResetMap( false );
@@ -145,14 +156,16 @@ const DatabasesPage: NextPage = () => {
     
             setDataCards(newDataCards);
         }
+        // console.log('================================', sectionState)
         if( locale == 'en' ) setLocationName( sectionState.countryName );
-        else if( locale == 'es' )setLocationName( sectionState.countryNameEs );
-        else if( locale == 'pt' )setLocationName( sectionState.countryNameEs );
+        else if( locale == 'es' )setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
+        else if( locale == 'pt' )setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
+        // console.log(dataCards)
     }, [isLoadingDataBases, iso3Selected]);
 
     useEffect(() => {
         if (!isLoadingDataBases && databases) {
-            console.log( {databases, dataCards} )
+            // console.log( {databases, dataCards} )
             const newDataCards = databases.map((database: any) => ({
                 imageUrl: database.URL_LOGO,
                 title: database.SOURCE,
@@ -163,9 +176,18 @@ const DatabasesPage: NextPage = () => {
     
             setDataCards(newDataCards);
         }
-        if( locale == 'en' ) setLocationName( sectionState.countryName );
-        else if( locale == 'es' )setLocationName( sectionState.countryNameEs );
-        else if( locale == 'pt' )setLocationName( sectionState.countryNameEs );
+        if( locale == 'en' ){
+            setLocationName( sectionState.countryName );
+            setInfoText( messages.en )
+        } 
+        else if( locale == 'es' ){
+            setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
+            setInfoText( messages.es )
+        }
+        else if( locale == 'pt' ){
+            setLocationName( sectionState.countryNameEs );
+            setInfoText( messages.pt )
+        }
     }, [locale, resetMap])    
 
     // useEffect(() => {
@@ -228,7 +250,7 @@ const DatabasesPage: NextPage = () => {
                             <Col xs={ 12 } lg={ 7 } className={ styles['map-container'] }>
                                 <GenericMapView 
                                     divContainer='databases-map' 
-                                    geoJsonUrl='https://oeactest.ciat.cgiar.org/api/v1/geojson/countries'
+                                    geoJsonUrl='https://cropobs-central.ciat.cgiar.org/api/v1/geojson/getCountriesByIdCrop/125'
                                     onMapClick={handleMapClick} 
                                     polygonColors={polygonColors}
                                     onReset={ resetMap }
@@ -236,7 +258,13 @@ const DatabasesPage: NextPage = () => {
                             </Col>
                             <Col xs={ 12 } lg={ 5 } className={ styles['grid-layout-cards'] }>
                                 <Row>
+                                    <br />
                                     { 
+                                        dataCards.length === 0 ? 
+                                        <Alert variant="info">
+                                            { infoText }
+                                        </Alert>
+                                    : 
                                         dataCards.map(item => (
                                             <Col xs={ 12 } lg={ 6 } key={ uuidv4() }>
                                                 <GenericCard 
@@ -244,7 +272,7 @@ const DatabasesPage: NextPage = () => {
                                                     description={ item.description } 
                                                     btntext={ item.btntext }  
                                                     link={ item.link }
-                                                    title={ item.title }
+                                                    title={ item.title } 
                                                     key={ uuidv4() }
                                                 />
                                                 <br />
