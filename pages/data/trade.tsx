@@ -191,8 +191,8 @@ interface sectionState {
 }
 
 // const baseUrl = 'http://cropobscentral.test';
- const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
-//const baseUrl = 'https://commonbeanobservatory.org';
+//const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+const baseUrl = 'https://commonbeanobservatory.org';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
 const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
@@ -449,7 +449,61 @@ const DataPage: NextPage = () => {
     )
     const [treeMapData, setTreeMapData] = useState<ITreeMap[]>([])
 
+    const idxCountry = (arr1:string[], arr2:string[]) => {
+        let idx1=0
+        for (const elem1 of arr1) {
+            let idx2=0
+            for (const elem2 of arr2) {
+                if (elem1 == elem2) {
+                    return idx2   
+                }
+                idx2=idx2+1
+            }
+            idx1=idx1+1
+        }
+        return -1
+    }
+    
+    const objToArray = (obj: any) => {
+        const arr: string[] = []
+        if(countryCode2 == "WLRD"){
+            if (Array.isArray(obj)){
+                for(const elem of obj){
+                arr.push(elem.iso3_reporter)  
+                }
+            }
+            else {
+                for(const elem in obj){
+                    arr.push(obj[elem].iso3)   
+                }
+            }
+            console.log("obtoarray1")
+        }
+        else {
+            if (Array.isArray(obj)){
+                for(const elem of obj){
+                arr.push(elem.iso3_partner)  
+                }
+            }
+            else {
+                for(const elem in obj){
+                    arr.push(obj[elem].iso3)   
+                }
+            }
+            console.log("obtoarray2")
+        }
+        console.log("objtoarray ",arr)
+        return arr
+    }
+    useEffect(()=>{
+        setCountryCode2(sectionState.countryCode)
+    },[sectionState])
+
     useEffect(() => {
+        setTreeLoading(true);
+        setChartLoading1(true);
+        setChartLoading2(true);
+        console.log("effect sin []")
         axios.all([
             axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/713999/${ year }`), //EP
             axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
@@ -475,13 +529,22 @@ const DataPage: NextPage = () => {
             const labelsAux = Array<string>(0)
             const labelsAuxES = Array<string>(0)
             const labelsAuxPT = Array<string>(0)
-
+            const idxAux = idxCountry(objToArray(responseOne.data.data.country_index),objToArray(responseOne.data.data.observations))
+            console.log("idxcoutry ",idxAux)
             responseOne.data.data.observations.map((elem : any, idx : number)=>{
-                if (idx > 79){
+                if(countryCode2=="WLRD"){
+                    if (idx >= idxAux){
+                        valuesAux.push(elem.value)
+                        labelsAux.push(responseOne.data.data.country_index[elem.iso3_reporter].country_name)
+                        labelsAuxES.push(responseOne.data.data.country_index[elem.iso3_reporter].esp_name)
+                        labelsAuxPT.push(responseOne.data.data.country_index[elem.iso3_reporter].pt_name)
+                    }
+                }
+                else{
                     valuesAux.push(elem.value)
-                    labelsAux.push(responseOne.data.data.country_index[elem.iso3_reporter].country_name)
-                    labelsAuxES.push(responseOne.data.data.country_index[elem.iso3_reporter].esp_name)
-                    labelsAuxPT.push(responseOne.data.data.country_index[elem.iso3_reporter].pt_name)
+                    labelsAux.push(responseOne.data.data.country_index[elem.iso3_partner].country_name)
+                    labelsAuxES.push(responseOne.data.data.country_index[elem.iso3_partner].esp_name)
+                    labelsAuxPT.push(responseOne.data.data.country_index[elem.iso3_partner].pt_name)
                 }
             })
             setTreeLabels(labelsAux)
@@ -570,37 +633,7 @@ const DataPage: NextPage = () => {
             if( locale == 'pt' ) title = 'Mundo';
             setLocationName2( title );
         }
-    }, [])
-
-    useEffect(() => {  
-
-        axios({ url: `${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3101/713999/${ year }` }) //EP
-        .then(response => {
-            setpercent1( Math.round(response.data * 1000)/1000)
-        })
-        .catch(error => {
-            console.log(error)
-            setpercent1(0)
-        })
-        axios({ url: `${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/713999/${ year }` }) //EP
-        .then(response => {
-            setpercent2( Math.round(response.data * 100)/100)
-        })
-        .catch(error => {
-            console.log(error)
-            setpercent2(0)
-        })
-        axios({ url: `${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3103/713999/${ year }` }) //EP
-        .then(response => {
-            setpercent3( Math.round(response.data * 100)/100)
-        })
-        .catch(error => {
-            console.log(error)
-            setpercent3(0)
-        })
-            
-
-    }, [countryCode2, flowId, year])
+    }, [flowId,countryCode2,year,sectionState])
 
     let data = [
         {
@@ -775,132 +808,6 @@ const DataPage: NextPage = () => {
 
         })
     }, [multiChartTrElementId])
-
-    useEffect(() => {
-        setTreeLoading(true);
-        setChartLoading1(true);
-        setChartLoading2(true);
-        axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/713999/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`), //EP
-        ]).then(axios.spread((...responses) => {
-
-            const response1 = responses[0];
-            const response2 = responses[1];
-            const response3 = responses[2];
-            const response4 = responses[3];
-            const response5 = responses[4];
-            // Tree Map
-            // ---------------------------------------------------------------------------------------------
-            const valuesAux = Array<number>(0)
-            const labelsAux = Array<string>(0)
-            const labelsAuxES = Array<string>(0)
-            const labelsAuxPT = Array<string>(0)
-
-            if( flowId == 1 ){
-                response1.data.data.observations.map((elem : any, idx : number)=>{
-                    console.log(response1)
-                    console.log(response1.data.data.country_index[elem.iso3_partner])
-                    valuesAux.push(elem.value)
-                    labelsAux.push(response1.data.data.country_index[elem.iso3_reporter].country_name)
-                    labelsAuxES.push(response1.data.data.country_index[elem.iso3_reporter].esp_name)
-                    labelsAuxPT.push(response1.data.data.country_index[elem.iso3_reporter].pt_name)
-                })
-                setTreeLabels(labelsAux)
-                setTreeLabelsES(labelsAuxES)
-                setTreeLabelsPT(labelsAuxPT)
-                setTreeValues(valuesAux)
-            }
-            if( flowId == 2 ) {
-                response1.data.data.observations.map((elem : any, idx : number)=>{
-                    console.log(response1)
-                    console.log(response1.data.data.country_index[elem.iso3_partner])
-                    valuesAux.push(elem.value)
-                    labelsAux.push(response1.data.data.country_index[elem.iso3_partner].country_name)
-                    labelsAuxES.push(response1.data.data.country_index[elem.iso3_partner].esp_name)
-                    labelsAuxPT.push(response1.data.data.country_index[elem.iso3_partner].pt_name)
-                })
-                setTreeLabels(labelsAux)
-                setTreeLabelsES(labelsAuxES)
-                setTreeLabelsPT(labelsAuxPT)
-                setTreeValues(valuesAux)
-            }
-            
-            //console.log('llenando :', {labelsAux, labelsAuxES, labelsAuxPT, valuesAux})
-            const newTreeMapObject = {
-                type: "treemap",
-                labels: locale == "en" ? labelsAux : locale == "es" ? labelsAuxES : labelsAuxPT,
-                parents: labelsAux.map(() => ""),
-                values: valuesAux,
-                texttemplate: "%{label}<br>%{percentParent:.2%}",
-                hovertemplate: "<b>%{label}<br><br>%{percentParent:.2%}</b> <br><br>Value: %{value:$,.0f}<extra></extra>"
-              };
-            setTreeMapData([newTreeMapObject]);   
-            setTreeLoading(false)
-
-            // another chart
-            const valuesAux1 = Array<number>(0)
-            const valuesAux2 = Array<number>(0)
-            response2.data.data.observations.map((elem:any) =>{
-                if(elem.id_element == 3002) valuesAux1.push(elem.value)
-                else if(elem.id_element == 3001) valuesAux2.push(elem.value)
-            })
-            setChartValues11(valuesAux1)
-            setChartValues12(valuesAux2)
-            setChartLabels1(response2.data.data.labels)
-            setChartLoading1(false)
-
-            // ---------------------------------------------------------------------------------------------
-
-            // another chart
-            const valuesAux1_1 = Array<number>(0)
-            const valuesAux2_1 = Array<number>(0)
-            const valuesAux3_1 = Array<number>(0)
-            const valuesAux4_1 = Array<number>(0)
-            const namesAux = Array<string>(0)
-            response3.data.data.observations.map((elem:any) =>{
-                if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
-                if(elem.id_crop == 71331) {valuesAux1_1.push(elem.value) }
-                else if(elem.id_crop == 71332) valuesAux2_1.push(elem.value)
-                else if(elem.id_crop == 71333) valuesAux3_1.push(elem.value)
-                else if(elem.id_crop == 71339) valuesAux4_1.push(elem.value)
-            })
-            setChartValues21(valuesAux3_1)
-            setChartValues22(valuesAux1_1)
-            setChartValues23(valuesAux4_1)
-            setChartValues24(valuesAux2_1)
-            setChartLabels2(response3.data.data.labels)
-            setChartDataNms2(namesAux)
-            setChartLoading2(false)
-
-            // another chart
-            const data = response4.data.data;
-            const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
-            const chartjsData = {labels: data.labels, datasets};
-            setanualdata(chartjsData)
-        
-            const data_1 = response5.data.data;
-            const datasets_1 = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
-            const chartjsData_1 = {labels_1: data_1.labels, datasets_1};
-            settenyearsdata(chartjsData_1)
-
-        // ---------------------------------------------------------------------------------------------
-              
-        })).catch(errors => {
-            console.error(errors)
-        })
-    }, [flowId, countryCode2])
-
-    // Hook for to test only
-    // useEffect(() => {
-    //     if(treeMapData) {
-    //         console.log(treeMapData);
-    //     }
-    // }, [treeMapData])
-    
 
     useEffect(() => {
         let title = '';
@@ -1085,7 +992,7 @@ const DataPage: NextPage = () => {
                                         
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        {(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
+                                        {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
                                                     <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName2 : ( locale == 'pt' ? locationName2 : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName2 : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
@@ -1108,8 +1015,8 @@ const DataPage: NextPage = () => {
                                                 </ChartFrame>
                                                 <div> Source: <i>Data source</i> </div>
                                             </>
-                                        :
-                                        <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
+                                        //:
+                                        //<div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
                                         }
                                         </Col>
                                         
