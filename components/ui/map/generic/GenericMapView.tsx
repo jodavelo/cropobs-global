@@ -23,12 +23,13 @@ export const GenericMapView = ({ divContainer, geoJsonUrl, onMapClick, polygonCo
             container: divContainer,
             // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91',
-            zoom: 1,
+            zoom: 0.4,
             center: [-10.707019, -61.616079]
         });
 
         setMapInstance(map);
-
+        map.dragRotate.disable();
+        map.touchZoomRotate.disableRotation();
         map.on('load', () => {
             // Add a source for the state polygons.
             map.addSource('countries', {
