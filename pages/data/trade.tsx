@@ -220,7 +220,7 @@ const DataPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2021,
+        year: 2020,
         admin: 'World',
         locationName: dataTranslate('world-locale'),
         flowId: 1        
@@ -288,6 +288,8 @@ const DataPage: NextPage = () => {
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels_1: Array(0), datasets_1: Array<any>(0)});
     let [annualOptions, setAnualOptions] = useState({})
+    let [chartLoading3, setChartLoading3] = useState(true)
+    let [chartFailed3, setChartFailed3] = useState(false)
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     
@@ -499,29 +501,79 @@ const DataPage: NextPage = () => {
         setCountryCode2(sectionState.countryCode)
     },[sectionState])
 
+    useEffect(()=>{
+        setChartLoading1(true);
+        setChartLoading3(true)
+        axios.all([
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
+        ])
+        .then(axios.spread((...responses) => {
+            const responseTwo = responses[0]
+            const response7 = responses[1]
+            const response8 = responses[2]
+            // ---------------------------------------------------------------------------------------------
+            //chart2
+            const valuesAux1 = Array<number>(0)
+            const valuesAux2 = Array<number>(0)
+            responseTwo.data.data.observations.map((elem:any) =>{
+                if(elem.id_element == 3002) valuesAux1.push(elem.value)
+                else if(elem.id_element == 3001) valuesAux2.push(elem.value)
+            })
+            setChartValues11(valuesAux1)
+            setChartValues12(valuesAux2)
+            setChartLabels1(responseTwo.data.data.labels)
+            setChartLoading1(false)
+            // ---------------------------------------------------------------------------------------------
+            //chart3
+            const data = response7.data.data;
+            const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
+            const chartjsData = {labels: data.labels, datasets};
+            console.log(chartjsData)
+            setanualdata(chartjsData)
+        
+            const data_1 = response8.data.data;
+            const datasets_1 = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
+            const chartjsData_1 = {labels_1: data_1.labels, datasets_1};
+            settenyearsdata(chartjsData_1)
+
+        }))
+        .catch(errors => {
+            // reaccionar apropiadamente dependiendo del error.
+            console.log(errors)
+        })
+
+    },[flowId,countryCode2])
+
     useEffect(() => {
         setTreeLoading(true);
-        setChartLoading1(true);
-        setChartLoading2(true);
+        //setChartLoading1(true);
+        //setChartLoading2(true);
         console.log("effect sin []")
         axios.all([
             axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/713999/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
+            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
+            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3101/713999/${ year }`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/713999/${ year }`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3103/713999/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
+            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
+            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
         ]).then(axios.spread((...responses) => {
-            const responseOne = responses[0];
+            /*const responseOne = responses[0];
             const responseTwo = responses[1];
             const response3 = responses[2];
             const response4 = responses[3];
             const response5 = responses[4];
             const response6 = responses[5];
             const response7 = responses[6];
-            const response8 = responses[7];
+            const response8 = responses[7];*/
+
+            const responseOne = responses[0];
+            const response4 = responses[1];
+            const response5 = responses[2];
+            const response6 = responses[3];
 
             // Tree Map
             // ---------------------------------------------------------------------------------------------
@@ -568,7 +620,7 @@ const DataPage: NextPage = () => {
             // ---------------------------------------------------------------------------------------------
 
             // another chart
-            const valuesAux1 = Array<number>(0)
+            /*const valuesAux1 = Array<number>(0)
             const valuesAux2 = Array<number>(0)
             responseTwo.data.data.observations.map((elem:any) =>{
                 if(elem.id_element == 3002) valuesAux1.push(elem.value)
@@ -577,12 +629,12 @@ const DataPage: NextPage = () => {
             setChartValues11(valuesAux1)
             setChartValues12(valuesAux2)
             setChartLabels1(responseTwo.data.data.labels)
-            setChartLoading1(false)
+            setChartLoading1(false)*/
 
             // ---------------------------------------------------------------------------------------------
 
             // another chart
-            const valuesAux1_1 = Array<number>(0)
+            /*const valuesAux1_1 = Array<number>(0)
             const valuesAux2_1 = Array<number>(0)
             const valuesAux3_1 = Array<number>(0)
             const valuesAux4_1 = Array<number>(0)
@@ -600,7 +652,7 @@ const DataPage: NextPage = () => {
             setChartValues24(valuesAux2_1)
             setChartLabels2(response3.data.data.labels)
             setChartDataNms2(namesAux)
-            setChartLoading2(false)
+            setChartLoading2(false)*/
 
             // ---------------------------------------------------------------------------------------------
 
@@ -610,7 +662,7 @@ const DataPage: NextPage = () => {
             setpercent3( Math.round(response6.data * 100)/100)
 
             // another chart
-            const data = response7.data.data;
+            /*const data = response7.data.data;
             const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
             const chartjsData = {labels: data.labels, datasets};
             console.log(chartjsData)
@@ -619,7 +671,7 @@ const DataPage: NextPage = () => {
             const data_1 = response8.data.data;
             const datasets_1 = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
             const chartjsData_1 = {labels_1: data_1.labels, datasets_1};
-            settenyearsdata(chartjsData_1)
+            settenyearsdata(chartjsData_1)*/
 
         }))
         .catch(errors => {
@@ -633,7 +685,7 @@ const DataPage: NextPage = () => {
             if( locale == 'pt' ) title = 'Mundo';
             setLocationName2( title );
         }
-    }, [flowId,countryCode2,year,sectionState])
+    }, [flowId,countryCode2,year])
 
     let data = [
         {
@@ -782,6 +834,7 @@ const DataPage: NextPage = () => {
     const [multiChartTrElementId, setMultiChartTrElementId] = useState(3002);
 
     useEffect(() =>{
+        setChartLoading2(true)
         axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[${multiChartTrElementId}]`) //EP
         .then(res => {
             const valuesAux1_1 = Array<number>(0)
@@ -807,7 +860,7 @@ const DataPage: NextPage = () => {
             console.log(res);
 
         })
-    }, [multiChartTrElementId])
+    }, [multiChartTrElementId,flowId,countryCode2])
 
     useEffect(() => {
         let title = '';
