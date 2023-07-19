@@ -191,7 +191,7 @@ interface sectionState {
 }
 
 // const baseUrl = 'http://cropobscentral.test';
-//const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+// const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
 const baseUrl = 'https://commonbeanobservatory.org';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
@@ -497,6 +497,7 @@ const DataPage: NextPage = () => {
     }
     useEffect(()=>{
         setCountryCode2(sectionState.countryCode)
+        console.log('==========================================================sjssjb', {sectionState})
     },[sectionState])
 
     useEffect(() => {
@@ -675,9 +676,9 @@ const DataPage: NextPage = () => {
           if (key === "plugins") {
             // Update the title based on the selected option
             if (selectedOption === '0') {
-              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName2;
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
             } else if (selectedOption === '1') {
-              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName2;
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
             }
           }
         }
@@ -700,21 +701,21 @@ const DataPage: NextPage = () => {
     ]
 
     const chartTxts1 = {
-        title:  tradeFlowText3 + ' ' + dataTranslate('chart1-title') + locationName2,
+        title:  tradeFlowText3 + ' ' + dataTranslate('chart1-title') + locationName,
         axis_x : "",
         axis_y : dataTranslate('chart1-axis-y'),
         datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2')]
     }
     
     const chartTxts2 = {
-        title: dataTranslate('chart2-title')+tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName2,
+        title: dataTranslate('chart2-title')+tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName,
         axis_x : "",
         axis_y : dataTranslate('chart2-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
     }
 
     const chartTxts2_1 = {
-        title: tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName2,
+        title: tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName,
         axis_x : "",
         axis_y : dataTranslate('chart2-1-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
@@ -754,6 +755,7 @@ const DataPage: NextPage = () => {
                             console.log(e.features![0].properties!.iso3)
                             const iso = e.features![0].properties!.iso3;
                             //console.log( e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')])
+                            console.log( properties )
                             setSectionState( (prevState) => ({
                                 ...prevState,
                                 countryCode: iso,
@@ -951,7 +953,7 @@ const DataPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={  `${dataTranslate('trade')} -  ${locationName2}` } >
+                                <MainBar key={ uuidv4() } section={  `${dataTranslate('trade')} -  ${locationName}` } >
                                         <BackButton locale={ locale! } regionCode={regionCode} countryCode={countryCode} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } clickId={ clickId } setSectionState={setSectionState} isForTrade={ true } />
                                         {/* <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/> */}
                                 </MainBar>
@@ -995,7 +997,7 @@ const DataPage: NextPage = () => {
                                         {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
-                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName2 : ( locale == 'pt' ? locationName2 : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName2 : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName : ( locale == 'pt' ? locationName : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
                                                 </div>
                                                 <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
