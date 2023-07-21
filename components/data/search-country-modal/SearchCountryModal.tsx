@@ -7,6 +7,7 @@ import { MapContext } from "../../../context/map";
 import { GridEventListener, GridRowsProp } from "@mui/x-data-grid";
 import { sectionState } from "../../../interfaces/data/section-states";
 import { useRouter } from "next/router";
+import { findCountryInArray } from "../../../helpers";
 
 interface Props {
     show: boolean
@@ -34,7 +35,18 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
     const [ rows, setRows ] = useState<CountryRow[]>([]);
     const { locale } = useRouter();
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-        console.log(params)
+        console.log({params, rows})
+        const targetCountry = {
+            id: params.row.id,
+            country: params.row.country,
+            iso3: params.row.iso3
+        };
+        let matchingCountry = findCountryInArray(rows, targetCountry);
+        if (matchingCountry) {
+            console.log("País encontrado: ", matchingCountry);
+        } else {
+            console.log("No se encontró el país en la lista.");
+        }
         if (map){
             if (clickId !== null) {
                 map.setFeatureState(
@@ -55,13 +67,13 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
                 let countryName = '';
                 switch (locale) {
                     case 'en':
-                        countryName = params.row.country
+                        countryName = matchingCountry?.country ?? ''
                         break;
                     case 'es':
-                        countryName = params.row.country_es
+                        countryName = matchingCountry?.country_es ?? ''
                         break;
                     default:
-                        countryName = params.row.country_pt
+                        countryName = matchingCountry?.country_pt ?? ''
                         break;
                 }
                 setLocationName2(countryName)
@@ -69,9 +81,9 @@ export const SearchCountryModal: FC<Props> = ({ show, handleClose, adminIdsUrl, 
             if( setLocationNames ) {
                 setLocationNames( (prevState: sectionState) => ({
                     ...prevState,
-                    en: params.row.country,
-                    es: params.row.country_es,
-                    pt: params.row.country_pt,
+                    en: matchingCountry?.country ?? '',
+                    es: matchingCountry?.country_es ?? '',
+                    pt: matchingCountry?.country_pt ?? '',
                     isoLabel: params.row.iso3,
                     clickId: params.row.id
                 }));

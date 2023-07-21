@@ -875,22 +875,41 @@ const DataPage: NextPage = () => {
             if( locale == 'en' ) title = locationNameOptions.en;
             if( locale == 'es' ) title = locationNameOptions.es;
             if( locale == 'pt' ) title = locationNameOptions.pt;
+            if( locationNameOptions.isoLabel !== 'WLRD'){
+                setSectionState( (prevState) => ({
+                    ...prevState,
+                    locationName: title
+                }));
+            }
             setLocationName2( title );
         }
     }, [ locale ])
 
     useEffect(() => {
+        // console.log("nkankajjddjjdj???????????????????????????????", {sectionState, locationNameOptions} )
         let title = '';
         if( clickId === null ) {
             if( locale == 'en' ) title = 'World';
             if( locale == 'es' ) title = 'Mundo';
             if( locale == 'pt' ) title = 'Mundo';
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: title
+            }));
             setLocationName2( title );
         }else {
             if( locale == 'en' ) title = locationNameOptions.en;
             if( locale == 'es' ) title = locationNameOptions.es;
             if( locale == 'pt' ) title = locationNameOptions.pt;
             setLocationName2( title );
+            if( locationNameOptions.isoLabel !== 'WLRD'){
+                setSectionState( (prevState) => ({
+                    ...prevState,
+                    locationName: locale == 'en' ? locationNameOptions.en 
+                                    : locale == 'es' ? locationNameOptions.es
+                                    : locationNameOptions.pt
+                }));
+            }
         }
     }, [ clickId ])
     
@@ -911,6 +930,23 @@ const DataPage: NextPage = () => {
                 }
                 setClickId(null);
             }
+        }
+        // console.log("7777777777777777777777777777777777777777777777 ",{locationNameOptions, sectionState})
+        if( countryCode === 'WLRD' ){
+            let title = '';
+            // setLocationNameOptions(( prevState ) => ({
+            //     ...prevState,
+            //     en: 'World',
+            //     es: 'Mundo',
+            //     pt: 'Mundo',
+            //     isoLabel: "WLRD"
+            // })); 
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: locale == 'en' ? 'World' 
+                                : locale == 'es' ? 'Mundo'
+                                : 'Mundo'
+            }));
         }
     }, [countryCode, dataTranslate]);
 
@@ -1089,7 +1125,7 @@ const DataPage: NextPage = () => {
                     </div>
                 </div> 
             </Container>
-            <SearchCountryModal adminIdsUrl={baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+            <SearchCountryModal adminIdsUrl={baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }

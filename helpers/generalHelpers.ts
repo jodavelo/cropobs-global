@@ -117,3 +117,7 @@ export const createCountryArrays = (countries: Country[]) => {
 
     return [englishCountries, spanishCountries, portugueseCountries];
 }
+
+export const findCountryInArray = (countryList: Country[], targetCountry: {id: number | string | undefined, country: string, iso3: string}): Country | undefined => {
+    return countryList.find(country => country.iso3 === targetCountry.iso3);
+}
