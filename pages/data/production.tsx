@@ -33,6 +33,7 @@ import { positionPodiumReplacer } from '../../helpers/data/podium/positionPodium
 import { SearchCountryButton } from '../../components/data/search-country-button/SearchCountryButton';
 import { useRouter } from 'next/router';
 import { LoadingComponent } from '../../components/ui/loading-component';
+import { PodiumSelectionCon } from '../../components/data/podium/PodiumSelectionCon';
 
 
 interface locationNameOptions {
@@ -741,7 +742,7 @@ const ProductionPage: NextPage = () => {
                                                     <br/>
                                                         {
                                                             podiumConfig ? 
-                                                        <PodiumSelectionTranslations podiumsList={podiumConfig} />
+                                                        <PodiumSelectionCon podiumsList={podiumConfig} />
                                                             : 'Loading...'
                                                         }
                                                     <br/>
