@@ -246,6 +246,7 @@ const DataPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+    const [showFiltersOnlyCharts, setShowFiltersOnlyCharts] = useState(false);
     
     const [yearsState, setYears] = useState<YearsState>({ yearsOptions: {values: [], names: []}});
     const { yearsOptions } = yearsState;
@@ -321,7 +322,7 @@ const DataPage: NextPage = () => {
             setGraphsCol(6)
             setShowMap(true)
             setShowGraphs(true)
-
+            setShowFiltersOnlyCharts( false );
             
         }
         if (buttonGraphs) {
@@ -329,6 +330,7 @@ const DataPage: NextPage = () => {
             setGraphsCol(12)
             setShowMap(false)
             setShowGraphs(true)
+            setShowFiltersOnlyCharts( true );
             if (map) map.resize(); 
         }
         if (buttonMap) {
@@ -1073,7 +1075,7 @@ const DataPage: NextPage = () => {
                                                         style={{width: '145px', height: 'inherit'}}
                                                         onClick={() => setShowCountries(true)}
                                                     >
-                                                        search country
+                                                         { dataTranslate("search-country") }
                                                     </Button>
                                                 </Row>
                                                 
@@ -1085,6 +1087,25 @@ const DataPage: NextPage = () => {
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                         {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
+                                                {
+                                                    showFiltersOnlyCharts ? (
+                                                        <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px', marginTop: '10px'}}>
+                                                            {/* <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
+                                                            <MapSelect id='trade-flow-filter-onlycharts' options={tradeFlowOptions} selected={flowId} setSelected={setSectionState} atrName='flowId'/>
+                                                            <MapSelect id='element-filter-onlycharts' options={tradeElementOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                            <MapSelect id='year-filter-onlycharts' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                            <Button
+                                                                className={`${styles['search-country-button']}`}
+                                                                style={{width: '145px', height: 'inherit'}}
+                                                                onClick={() => setShowCountries(true)}
+                                                            >
+                                                                { dataTranslate("search-country") }
+                                                            </Button>
+                                                            {/* <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> } */}
+                                                        </Row>
+                                                    ) : <></>
+                                                }
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
                                                     <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName : ( locale == 'pt' ? locationName : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
