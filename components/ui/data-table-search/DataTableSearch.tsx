@@ -28,33 +28,39 @@ export const DataTableSearch: FC<Props> = ({ rows, handleRowClick }) => {
     const { locale } = useRouter();
     const [rowsDataGrid, setRowsDataGrid] = useState<Country[]>([]);
 
-    const countries = rows.map(row => ({
-        id: row.id,
-        country: row.country,
-        iso3: row.iso3,
-        country_es: row.country_es,
-        country_pt: row.country_pt
-    })) as Country[];
-    const [englishCountries, spanishCountries, portugueseCountries] = createCountryArrays(countries);
-    // TODO: To do at here in this use effect!
-    // useEffect(() => {
-    //     switch (locale) {
-    //         case 'en':
-    //             setRowsDataGrid(englishCountries);
-    //             break;
-    //         case 'es':
-    //             // Aquí deberías asignar `spanishCountries` o lo que corresponda
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }, [])
+    useEffect(() => {
+        const countries = rows.map(row => ({
+            id: row.id,
+            country: row.country,
+            iso3: row.iso3,
+            country_es: row.country_es,
+            country_pt: row.country_pt
+        })) as Country[];
+    
+        let [englishCountries, spanishCountries, portugueseCountries] = createCountryArrays(countries);
+    
+        switch (locale) {
+            case 'en':
+                setRowsDataGrid(englishCountries);
+                break;
+            case 'es':
+                setRowsDataGrid(spanishCountries);
+                break;
+            case 'pt':
+                setRowsDataGrid(portugueseCountries);
+                break;
+            default:
+                break;
+        }
+    }, [rows, locale]);
+    
+    
     
     
     return (
         <Box sx={{ height: '50vh', width: '100%' }}>
             <DataGrid
-                rows={spanishCountries}
+                rows={rowsDataGrid}
                 onRowClick={handleRowClick}
                 columns={columns}
                 localeText={{

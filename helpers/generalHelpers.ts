@@ -112,8 +112,8 @@ export type Country = {
 
 export const createCountryArrays = (countries: Country[]) => {
     const englishCountries = countries.map(({id, country, iso3}) => ({id, country, iso3}));
-    const spanishCountries = countries.map(({id, country_es, iso3}) => ({id, country: country_es, iso3}));
-    const portugueseCountries = countries.map(({id, country_pt, iso3}) => ({id, country: country_pt, iso3}));
+    const spanishCountries = countries.map(({id, country_es, iso3}) => ({id, country: country_es || '', iso3}));
+    const portugueseCountries = countries.map(({id, country_pt, iso3}) => ({id, country: country_pt || '', iso3}));
 
     return [englishCountries, spanishCountries, portugueseCountries];
 }
