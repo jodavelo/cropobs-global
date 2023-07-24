@@ -500,35 +500,64 @@ const PVPage: NextPage = () => {
         }
     }, []);
 
+    const [yearName, setYearName] = useState('');
+    const[ beansName, setBeansName] = useState('');
+    const[ pulsesName, setPulsesName] = useState('');
+    const[ agricultureName, setAgricultureName] = useState('');
+    const[ cropsName, setCropsName] = useState('');
 
     useEffect(() => {
+        if( locale == 'es') {
+            setYearName('Años');
+            setBeansName('Frijol');
+            setPulsesName('Legumbres');
+            setAgricultureName('Agricultura');
+            setCropsName('Cultivos');
+        }
+        else if( locale == 'pt'){
+            setYearName('Anos');
+            setBeansName('Feijão');
+            setPulsesName('Leguminosas');
+            setAgricultureName('Agricultura');
+            setCropsName('Culturas');
+        }
+        else{
+            setYearName('Years');
+            setBeansName('Beans');
+            setPulsesName('Pulses');
+            setAgricultureName('Agriculture');
+            setCropsName('Crops');
+        }
+    }, [ locale ])
+    
+    useEffect(() => {
         GetChartData2(setXLabels,setData1,setData2,setData3,setData4,countryCode, clickId ? '58' : '152');
-    }, [clickId, regionCode]);
+    }, [clickId, regionCode, locale]);
 
     useEffect(() => {
         setDataFrame1([
             {
-                label:"Years", 
+                label: yearName, 
                 values : x_labels ?? []
             },
             {
-                label:"Beans", 
+                label: beansName, 
                 values : data1 ?? []
             },
             {
-                label:"Pulses", 
+                label: pulsesName, 
                 values : data2 ?? []
             },
             {
-                label:"Agriculture", 
+                label: agricultureName, 
                 values : data3 ?? []
             },
             {
-                label:"Crops", 
+                label: cropsName, 
                 values : data4 ?? []
             },
         ]);
-    }, [x_labels, data1, data2, data3, data4]);
+    }, [x_labels, data1, data2, data3, data4, locale]);
 
     let [valuePorc1, setValuePorc1] = useState(0)
 
