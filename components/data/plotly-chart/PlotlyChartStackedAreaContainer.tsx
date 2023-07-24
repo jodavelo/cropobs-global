@@ -44,13 +44,27 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     const [ticks, setTicks] = useState<number[]>([]);
     const [selected, setSelected] = useState('0');
     const [dataJson, setDataJson] = useState<Object[]>([]);
+    //const cropNameLocale = ;
+    
+    const generateJsonStackedAreaLocale = (observationsJson: { value: any; year: any; crop_name: any; unit: any; }[]) => {
+        return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
+            {
+                value: observation.value, 
+                year: observation.year,
+                //TODO: Find a way to get dynamic property
+                //@ts-ignore
+                crop_name: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                unit: observation.unit
+            }))  
+    }
 
     useEffect(() => {
         console.log('====================================================================', { locale })
         const algo = async() => {
         const response = await centralApi.get(fetchDataUrl);
         const { labels, observations } = response.data.data;
-        setDataJson( response.data.data.observations );
+        let localeObservations = generateJsonStackedAreaLocale(response.data.data.observations)
+        setDataJson(localeObservations);
         const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName, locale);
         console.log( datasets )
         const { ticks } = getYearsPlotlyChart( labels );
