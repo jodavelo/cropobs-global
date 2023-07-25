@@ -927,8 +927,8 @@ const DataPage: NextPage = () => {
                                                 <br></br>
                                                 <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
                                                     data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
-                                                <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }}
-                                                    data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
+                                                <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt3 * 100) / 100).toString()) }}
+                                                    data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt4 * 100) / 100).toString()) }} />
                                                 <br></br>
                                                 <ChartFrame data={dataFrame1 as any} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                                     { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 

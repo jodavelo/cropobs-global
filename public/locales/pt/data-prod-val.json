@@ -15,7 +15,7 @@
     "podium-title": "`<span class=${styles['podium-text-description']}>Em <span class=${styles['year-text-bold']}>#{2}</span>, <span class='${styles['year-text-bold']}'>Feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> cultivo mais importante em relação ao valor da produção </span>`",
     "podium-title1":"Feijão foi o ",
     "podium-title2":" cultivo mais importante em relação ao valor da produção im ",
-    "podium-info": "o pódio classifica as culturas de acordo com seu valor de produção anual",
+    "podium-info": "o pódio classifica as culturas de acordo com seu valor de produção anual.",
 
     "porc1-label":"do valor da produção agrícola",
     "porc2-label":"do valor da produção de legumbres",

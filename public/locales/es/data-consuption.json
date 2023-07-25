@@ -15,7 +15,7 @@
     "podium1-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución calórica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"Los frijoles fueron el ",
     "podium1-title2":" alimento más importante en cuanto a su contribución calórica a la dieta en ",
-    "podium1-info": "El podio ordena los alimentos según su contribución calórica por hectárea. Este indicador se estima utilizando el rendimiento promedio del alimento en su forma de cultivo y el aporte calórico promedio del alimento por unidad de masa. ",
+    "podium1-info": "El podio ordena los alimentos según su contribución calórica por unidad de masa. Este indicador se estima a partir del número de kilocalorías contenidos en un 1 kilogramo de alimento.",
     "podium2-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en cuanto a su contribución proteica a la dieta en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Los frijoles fueron el ",
     "podium2-title2":" alimento más importante en cuanto a su contribución proteica a la dieta en ",
@@ -23,7 +23,7 @@
     "podium3-title": "`<span class=${styles['podium-text-description']}>Los <span class=${styles['year-text-bold']}>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> alimento más importante en número de calorías producidas por hectárea en <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Los frijoles fueron el ",
     "podium3-title2":" cultivo más importante en número de calorías producidas por hectárea en ",
-    "podium3-info": "El podio ordena los alimentos según su contribución calórica por unidad de masa. Este indicador se estima a partir del número de kilocalorías contenidos en un 1 kilogramo de alimento.",
+    "podium3-info": "El podio ordena los alimentos según su contribución calórica por hectárea. Este indicador se estima utilizando el rendimiento promedio del alimento en su forma de cultivo y el aporte calórico promedio del alimento por unidad de masa. ",
     
     "podium-option1":"Aporte calórico",
     "podium-option2":"Aporte protéico",

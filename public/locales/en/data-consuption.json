@@ -15,7 +15,7 @@
     "podium1-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important food in terms of its caloric contribution to the diet in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium1-title1":"Beans were the ",
     "podium1-title2":" most important food in terms of its caloric contribution to the diet in ",
-    "podium1-info": "The podium ranks crops according to their caloric contribution per hectare. This indicator is estimated using the average yield of the crop and the average caloric contribution of the crop per unit mass.",
+    "podium1-info": "The podium ranks crops according to their caloric contribution per unit mass. This indicator is estimated from the number of kilocalories contained in 1 kilogram of food.",
     "podium2-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> most important food in terms of its proteic contribution to the diet in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium2-title1":"Beans were the ",
     "podium2-title2":" most important food in terms of its proteic contribution to the diet in ",
@@ -23,7 +23,7 @@
     "podium3-title": "`<span class=${styles['podium-text-description']}><span class=${styles['year-text-bold']}>Beans</span> were the <span class=${styles['text-bold']}>#{1}</span> ranked crop in number of calories produced per hectare in <span class=${styles['year-text-bold']}>#{2}</span></span>`",
     "podium3-title1":"Beans were the ",
     "podium3-title2":" ranked crop in number of calories produced per hectare in ",
-    "podium3-info": "The podium ranks crops according to their caloric contribution per unit mass. This indicator is estimated from the number of kilocalories contained in 1 kilogram of food.",
+    "podium3-info": "The podium ranks crops according to their caloric contribution per hectare. This indicator is estimated using the average yield of the crop and the average caloric contribution of the crop per unit mass.",
     
     "podium-option1":"Caloric contribution",
     "podium-option2":"Proteic contribution",
