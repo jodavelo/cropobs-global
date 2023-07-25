@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { PodiumWithLinkTranslations } from './PodiumWithLinkTranslations';
 import { PodiumConfig } from '../../../interfaces/data/section-states';
 import { PodiumWithLinkCon } from './PodiumWithLinkCon';
+import { PodiumWithLinkConProdu } from './PodiumWithLinkConProdu';
 
 
 interface Props {
@@ -23,7 +24,7 @@ export const PodiumSelectionTranslations: FC<Props> = ({ podiumsList, showSelect
             >
                 { podiumsList.map( (podiumInfo, index) => <option key={index} value={index}>{podiumInfo.name}</option>)}
             </select>
-            <PodiumWithLinkCon dataURL={podiumsList[Number(selected)].url} text={podiumsList[Number(selected)].text} description={podiumsList[Number(selected)].description} />
+            <PodiumWithLinkConProdu dataURL={podiumsList[Number(selected)].url} text={podiumsList[Number(selected)].text} description={podiumsList[Number(selected)].description} />
         </>
     )
 }

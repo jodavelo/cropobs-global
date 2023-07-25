@@ -742,7 +742,7 @@ const ProductionPage: NextPage = () => {
                                                     <br/>
                                                         {
                                                             podiumConfig ? 
-                                                        <PodiumSelectionCon podiumsList={podiumConfig} />
+                                                        <PodiumSelectionTranslations podiumsList={podiumConfig} />
                                                             : 'Loading...'
                                                         }
                                                     <br/>
