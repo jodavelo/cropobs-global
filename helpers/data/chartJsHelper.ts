@@ -70,7 +70,7 @@ export const datasetGenerator = (entries: any[], labels: Number[], key_attr: str
     entries.forEach( (entry: any, i: number) => {
         const key = entry[key_attr];
         if (!dataArr[`${key}`]){
-            dataArr[`${key}`] = Array(labels.length).fill(0);
+            dataArr[`${key}`] = Array(labels.length).fill(null);
             const item = {id: key, name: key_attr === 'id_element' ? elements[key][locale_attr]: entry[locale_attr]};
             if (orderList[key] !== undefined) items[orderList[key]] = item;
             else items.push(item)
@@ -125,7 +125,7 @@ export const datasetGeneratorPV = (entries: any[], labels: Number[], key_attr: s
     entries.forEach( (entry: any, i: number) => {
         const key = entry[key_attr];
         if (!dataArr[`${key}`]){
-            dataArr[`${key}`] = Array(labels.length).fill(0);
+            dataArr[`${key}`] = Array(labels.length).fill(null);
             const item = {id: key, name: locale_attr === 'id_element' ? elements[key].ELEMENT_EN : entry[locale_attr]};
             if (orderList[key] !== undefined) items[orderList[key]] = item;
             else items.push(item)
@@ -180,7 +180,7 @@ export const datasetGeneratorTr = (entries: any[], labels: Number[], key_attr: s
     entries.forEach( (entry: any, i: number) => {
         const key = entry[key_attr];
         if (!dataArr[`${key}`]){
-            dataArr[`${key}`] = Array(labels.length).fill(0);
+            dataArr[`${key}`] = Array(labels.length).fill(null);
             const item = {id: key, name: ''};
             if (orderList[key] !== undefined) items[orderList[key]] = item;
             else items.push(item)
