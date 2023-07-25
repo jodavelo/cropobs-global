@@ -101,3 +101,23 @@ export const formatTextForPlotly = (width: number, text: string, substring?: num
 
 //     return text;
 // };
+
+export type Country = {
+    id: number | string | undefined,
+    country: string,
+    iso3: string,
+    country_es?: string | null | undefined,
+    country_pt?: string | null | undefined
+};
+
+export const createCountryArrays = (countries: Country[]) => {
+    const englishCountries = countries.map(({id, country, iso3}) => ({id, country, iso3}));
+    const spanishCountries = countries.map(({id, country_es, iso3}) => ({id, country: country_es || '', iso3}));
+    const portugueseCountries = countries.map(({id, country_pt, iso3}) => ({id, country: country_pt || '', iso3}));
+
+    return [englishCountries, spanishCountries, portugueseCountries];
+}
+
+export const findCountryInArray = (countryList: Country[], targetCountry: {id: number | string | undefined, country: string, iso3: string}): Country | undefined => {
+    return countryList.find(country => country.iso3 === targetCountry.iso3);
+}

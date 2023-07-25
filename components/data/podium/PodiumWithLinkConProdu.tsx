@@ -22,7 +22,7 @@ interface Props {
 
 var styles = style;
 
-export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) => {
+export const PodiumWithLinkConProdu: FC<Props> = ({ dataURL, text, description='' }) => {
     const { locale } = useRouter();
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
@@ -109,7 +109,7 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     return (
         <>
             <div ref={ htmlRef } id={id} className={ styles['podium-container'] }>
-                <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval((text.replace('#{1}', getCropRank(data,["Beans, dry", "Beans"]).toString()))))}} className={ styles['podium-description'] }>
+                <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval((text.replace('#{2}', getCropRank(data,["Beans, dry", "Beans"]).toString()))))}} className={ styles['podium-description'] }>
                 </div>
                 <div className={ styles['podium-body'] }>
                     <PodiumBarContainer data={ dataProcessed } />

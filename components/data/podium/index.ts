@@ -7,3 +7,4 @@ export * from './PodiumBar';
 export * from './PodiumProductVal';
 export * from './PodiumSelectionTranslations';
 export * from './PodiumWithLinkTranslations';
+export * from './PodiumWithLinkConProdu';

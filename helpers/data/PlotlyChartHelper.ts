@@ -17,7 +17,6 @@ export const getYearsPlotlyChart = (years: number[]): Years => {
 
 
 export const buildPlotStackedAreaObject = (observationsApi: Observation[], labels: number[], crop: string, cropAux?: string, locale?: string): traceObject[] => {
-    console.log(observationsApi)
     let it: number = 2;
     let datasets: any[] = [];
     let dataArr: any = {};

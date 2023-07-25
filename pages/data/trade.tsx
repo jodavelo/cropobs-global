@@ -11,7 +11,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { PodiumProductVal as Podium, PorcentagesBoxTr, ChartFrame,  MultichartTr, MultichartTr2 } from '../../components/data';
+import { PodiumProductVal as Podium, PorcentagesBoxTr, ChartFrame,  MultichartTr, MultichartTr2, ChartFrame2Btn } from '../../components/data';
 import { commarize, dataFetcher, datasetGeneratorPV, generateYearsOptions} from '../../helpers/data';
 
 import { annual_growth_optionsPV, ten_year_moving_average_optionsPV } from '../../helpers/data/chartjs-options';
@@ -191,7 +191,7 @@ interface sectionState {
 }
 
 // const baseUrl = 'http://cropobscentral.test';
-//const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+// const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
 const baseUrl = 'https://commonbeanobservatory.org';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
@@ -246,6 +246,7 @@ const DataPage: NextPage = () => {
     const [graphsCol, setGraphsCol] = useState(0);
     const [showMap, setShowMap] = useState(false);
     const [showGraphs, setShowGraphs] = useState(false);
+    const [showFiltersOnlyCharts, setShowFiltersOnlyCharts] = useState(false);
     
     const [yearsState, setYears] = useState<YearsState>({ yearsOptions: {values: [], names: []}});
     const { yearsOptions } = yearsState;
@@ -321,7 +322,7 @@ const DataPage: NextPage = () => {
             setGraphsCol(6)
             setShowMap(true)
             setShowGraphs(true)
-
+            setShowFiltersOnlyCharts( false );
             
         }
         if (buttonGraphs) {
@@ -329,6 +330,7 @@ const DataPage: NextPage = () => {
             setGraphsCol(12)
             setShowMap(false)
             setShowGraphs(true)
+            setShowFiltersOnlyCharts( true );
             if (map) map.resize(); 
         }
         if (buttonMap) {
@@ -499,6 +501,7 @@ const DataPage: NextPage = () => {
     }
     useEffect(()=>{
         setCountryCode2(sectionState.countryCode)
+        console.log('==========================================================sjssjb', {sectionState})
     },[sectionState])
 
     useEffect(()=>{
@@ -727,9 +730,9 @@ const DataPage: NextPage = () => {
           if (key === "plugins") {
             // Update the title based on the selected option
             if (selectedOption === '0') {
-              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName2;
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
             } else if (selectedOption === '1') {
-              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName2;
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
             }
           }
         }
@@ -752,21 +755,21 @@ const DataPage: NextPage = () => {
     ]
 
     const chartTxts1 = {
-        title:  tradeFlowText3 + ' ' + dataTranslate('chart1-title') + locationName2,
+        title:  tradeFlowText3 + ' ' + dataTranslate('chart1-title') + locationName,
         axis_x : "",
         axis_y : dataTranslate('chart1-axis-y'),
         datasets: [dataTranslate('chart1-dataset1'),dataTranslate('chart1-dataset2')]
     }
     
     const chartTxts2 = {
-        title: dataTranslate('chart2-title')+tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName2,
+        title: dataTranslate('chart2-title')+tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName,
         axis_x : "",
         axis_y : dataTranslate('chart2-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
     }
 
     const chartTxts2_1 = {
-        title: tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName2,
+        title: tradeFlowText3+" "+dataTranslate('chart2-title_1')+" "+locationName,
         axis_x : "",
         axis_y : dataTranslate('chart2-1-axis-y'),
         datasets: [chartDataNms2[2],chartDataNms2[0],chartDataNms2[3],chartDataNms2[1]]
@@ -806,6 +809,7 @@ const DataPage: NextPage = () => {
                             console.log(e.features![0].properties!.iso3)
                             const iso = e.features![0].properties!.iso3;
                             //console.log( e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')])
+                            console.log( properties )
                             setSectionState( (prevState) => ({
                                 ...prevState,
                                 countryCode: iso,
@@ -873,22 +877,41 @@ const DataPage: NextPage = () => {
             if( locale == 'en' ) title = locationNameOptions.en;
             if( locale == 'es' ) title = locationNameOptions.es;
             if( locale == 'pt' ) title = locationNameOptions.pt;
+            if( locationNameOptions.isoLabel !== 'WLRD'){
+                setSectionState( (prevState) => ({
+                    ...prevState,
+                    locationName: title
+                }));
+            }
             setLocationName2( title );
         }
     }, [ locale ])
 
     useEffect(() => {
+        // console.log("nkankajjddjjdj???????????????????????????????", {sectionState, locationNameOptions} )
         let title = '';
         if( clickId === null ) {
             if( locale == 'en' ) title = 'World';
             if( locale == 'es' ) title = 'Mundo';
             if( locale == 'pt' ) title = 'Mundo';
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: title
+            }));
             setLocationName2( title );
         }else {
             if( locale == 'en' ) title = locationNameOptions.en;
             if( locale == 'es' ) title = locationNameOptions.es;
             if( locale == 'pt' ) title = locationNameOptions.pt;
             setLocationName2( title );
+            if( locationNameOptions.isoLabel !== 'WLRD'){
+                setSectionState( (prevState) => ({
+                    ...prevState,
+                    locationName: locale == 'en' ? locationNameOptions.en 
+                                    : locale == 'es' ? locationNameOptions.es
+                                    : locationNameOptions.pt
+                }));
+            }
         }
     }, [ clickId ])
     
@@ -909,6 +932,23 @@ const DataPage: NextPage = () => {
                 }
                 setClickId(null);
             }
+        }
+        // console.log("7777777777777777777777777777777777777777777777 ",{locationNameOptions, sectionState})
+        if( countryCode === 'WLRD' ){
+            let title = '';
+            // setLocationNameOptions(( prevState ) => ({
+            //     ...prevState,
+            //     en: 'World',
+            //     es: 'Mundo',
+            //     pt: 'Mundo',
+            //     isoLabel: "WLRD"
+            // })); 
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: locale == 'en' ? 'World' 
+                                : locale == 'es' ? 'Mundo'
+                                : 'Mundo'
+            }));
         }
     }, [countryCode, dataTranslate]);
 
@@ -1004,7 +1044,7 @@ const DataPage: NextPage = () => {
                     <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                         <Row className={ styles['padding-left-subcontainers'] }>
                             <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                <MainBar key={ uuidv4() } section={  `${dataTranslate('trade')} -  ${locationName2}` } >
+                                <MainBar key={ uuidv4() } section={  `${dataTranslate('trade')} -  ${locationName}` } >
                                         <BackButton locale={ locale! } regionCode={regionCode} countryCode={countryCode} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } clickId={ clickId } setSectionState={setSectionState} isForTrade={ true } />
                                         {/* <BackButton regionCode={regionCode} countryCode={ locationNameOptions.isoLabel } setSectionState={setSectionState} setCountryCode2={ setCountryCode2 } setClickId={ setClickId } setLocationNames={ setLocationNameOptions } clickId={ clickId } locale={ locale ?? 'en'}/> */}
                                 </MainBar>
@@ -1035,7 +1075,7 @@ const DataPage: NextPage = () => {
                                                         style={{width: '145px', height: 'inherit'}}
                                                         onClick={() => setShowCountries(true)}
                                                     >
-                                                        search country
+                                                         { dataTranslate("search-country") }
                                                     </Button>
                                                 </Row>
                                                 
@@ -1047,25 +1087,44 @@ const DataPage: NextPage = () => {
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                         {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
+                                                {
+                                                    showFiltersOnlyCharts ? (
+                                                        <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px', marginTop: '10px'}}>
+                                                            {/* <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
+                                                            <MapSelect id='trade-flow-filter-onlycharts' options={tradeFlowOptions} selected={flowId} setSelected={setSectionState} atrName='flowId'/>
+                                                            <MapSelect id='element-filter-onlycharts' options={tradeElementOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                            <MapSelect id='year-filter-onlycharts' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                            <Button
+                                                                className={`${styles['search-country-button']}`}
+                                                                style={{width: '145px', height: 'inherit'}}
+                                                                onClick={() => setShowCountries(true)}
+                                                            >
+                                                                { dataTranslate("search-country") }
+                                                            </Button>
+                                                            {/* <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> } */}
+                                                        </Row>
+                                                    ) : <></>
+                                                }
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
-                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName2 : ( locale == 'pt' ? locationName2 : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName2 : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
+                                                    <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName : ( locale == 'pt' ? locationName : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
                                                 </div>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
                                                     {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot key={revision} data={treeMapData} layout={layout} config={config} />) )}
-                                                </ChartFrame>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                </ChartFrame2Btn>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                                     {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
-                                                </ChartFrame>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                                </ChartFrame2Btn>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                                     {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={multiChartTrElementId == 3002 ? chartTxts2 : chartTxts2_1}/>) )} 
-                                                </ChartFrame>
+                                                </ChartFrame2Btn>
                                                 <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
                                                     data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />
                                                 <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')+ tradeFlowText3 + dataTranslate('label-perc3_3') }}/>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
                                                     <ChartSelectionPV chartConfigList={chartConfig} />
-                                                </ChartFrame>
+                                                </ChartFrame2Btn>
                                                 <div> Source: <i>Data source</i> </div>
                                             </>
                                         //:
@@ -1087,7 +1146,7 @@ const DataPage: NextPage = () => {
                     </div>
                 </div> 
             </Container>
-            <SearchCountryModal adminIdsUrl={baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} />
+            <SearchCountryModal adminIdsUrl={baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }

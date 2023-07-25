@@ -57,5 +57,7 @@
     "chart32-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)",
     "trade": "Comercio",
     "graphs_map": "Gráficos y mapa",
-    "metadata": "Metadatos"
+    "metadata": "Metadatos",
+    "world-locale": "Mundo",
+    "search-country": "Buscar País"
 }
