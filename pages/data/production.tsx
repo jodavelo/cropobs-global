@@ -46,8 +46,13 @@ interface locationNameOptions {
 const mapFilterElements = [1000, 5312, 5510];
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 // const baseURL = 'https://commonbeanobservatorytst.ciat.cgiar.org';
-const baseURL = 'https://cropobs-central.ciat.cgiar.org';
+//const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 //let clickId: string | number | null = null;
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
+const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
+const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
+const idGroup = process.env.NEXT_PUBLIC_ID_GROUP; //96001
+const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS; //2546
 
 interface OtherTexts {
     section_name: string
@@ -119,7 +124,7 @@ const ProductionPage: NextPage = () => {
 
     const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idCrop }/${year}`, dataFetcher);
     const [isMapView, setIsMapView] = useState(false);
 
     useEffect(() => {
@@ -477,21 +482,21 @@ const ProductionPage: NextPage = () => {
     useEffect(() => {
         setPodiumConfig([
             {
-                url: `${baseURL}/api/v1/data/podium/${countryCode2}/1103/176/${year}`,
+                url: `${baseURL}/api/v1/data/podium/${countryCode2}/1103/${idCrop}/${year}`,
                 text: dataTranslate('podium1-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
                 name: dataTranslate('podium1-selector-text'),
                 description: dataTranslate('podiums-info'),
                 textFormatter: positionPodiumReplacer
             },
             {
-                url: `${baseURL}/api/v1/data/podium/${countryCode2}/1101/176/${year}`,
+                url: `${baseURL}/api/v1/data/podium/${countryCode2}/1101/${idCrop}/${year}`,
                 text: dataTranslate('podium2-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
                 name: dataTranslate('podium2-selector-text'),
                 description: dataTranslate('podiums-info'),
                 textFormatter: positionPodiumReplacer
             },
             {
-                url: `${baseURL}/api/v1/data/podium/${countryCode2}/1102/176/${year}`,
+                url: `${baseURL}/api/v1/data/podium/${countryCode2}/1102/${idCrop}/${year}`,
                 text: dataTranslate('podium3-description').replace('#{1}',year.toString()).replace('#{3}',(year-1).toString()),
                 name: dataTranslate('podium3-selector-text'),
                 description: dataTranslate('podiums-info'),
@@ -501,7 +506,7 @@ const ProductionPage: NextPage = () => {
     
         setChartConfig([
             {
-                dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode2}?elementIds=[1001,1002,1003]&cropIds=[176]`,
+                dataURL: `${baseURL}/api/v1/chart/default/${cropName}_production/${countryCode2}?elementIds=[1001,1002,1003]&cropIds=[${idCrop}]`,
                 options: annual_growth_options,
                 config: {key: 'id_element', name: dataTranslate('LOCALE_NAME')},
                 name: dataTranslate('chart2_1-selector-text'),
@@ -509,7 +514,7 @@ const ProductionPage: NextPage = () => {
                 description: dataTranslate('chart2_1-info')
             },
             {
-                dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode2}?elementIds=[1007,1008,1009]&cropIds=[176]`,
+                dataURL: `${baseURL}/api/v1/chart/default/${cropName}_production/${countryCode2}?elementIds=[1007,1008,1009]&cropIds=[${idCrop}]`,
                 options: ten_year_moving_average_options,
                 config: {key: 'id_element', name: dataTranslate('LOCALE_NAME')},
                 name: dataTranslate('chart2_2-selector-text'),
@@ -709,7 +714,7 @@ const ProductionPage: NextPage = () => {
                                                             <SearchCountryButton btnText={otherTexts?.search_country ?? 'Loading...'} setShowCountries={setShowCountries} />
                                                         </Row>
                                                     </Row>
-                                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_production/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ (otherTexts && elementsObj[elementId] ? elementsObj[elementId][otherTexts?.element_locale as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
+                                                    <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${cropName}_production/ISO3/${idCrop}`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${cropName}_production/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${idCrop}/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ (otherTexts && elementsObj[elementId] ? elementsObj[elementId][otherTexts?.element_locale as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
                                                 </Col>
                                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                     {
@@ -735,7 +740,7 @@ const ProductionPage: NextPage = () => {
                                                         <>
                                                         {
                                                             lineChartConfig ? 
-                                                            <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode2}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                                            <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/${cropName}_production/${countryCode2}?elementIds=[5510,5312,1000]&cropIds=[${idCrop}]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={lineChartConfig} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
                                                             : 'Loading...'
                                                         }
                                                     <br/>
@@ -781,7 +786,7 @@ const ProductionPage: NextPage = () => {
                         {/* -------------- */}
                     
                 </Container>
-                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_production/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
+                <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/${cropName}_production/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
             </Layout>
     )
 }
