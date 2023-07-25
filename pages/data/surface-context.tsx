@@ -67,7 +67,12 @@ interface sectionState {
 
 const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui 
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
-const baseURL = 'https://cropobs-central.ciat.cgiar.org';
+//const baseURL = 'https://cropobs-central.ciat.cgiar.org';
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
+const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
+const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
+const idGroup = process.env.NEXT_PUBLIC_ID_GROUP; //96001
+const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS; //2546
 
 
 const SurfaceContextPage: NextPage = () => {
@@ -130,10 +135,10 @@ const SurfaceContextPage: NextPage = () => {
 
     const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/176/${year}`, dataFetcher);
-    const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode2 }/1101/176/${ year }`, dataFetcher);
-    const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode2 }/1201/176/${ year }`, dataFetcher);
-    const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/beans_surface_context/VALUE/${ countryCode2 }/1202/176/${ year }`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${idCrop}/${year}`, dataFetcher);
+    const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1101/${idCrop}/${ year }`, dataFetcher);
+    const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1201/${idCrop}/${ year }`, dataFetcher);
+    const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1202/${idCrop}/${ year }`, dataFetcher);
     // const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/27/${year}`, dataFetcher);
     // const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1101/27/${ year }`, dataFetcher);
     // const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1201/27/${ year }`, dataFetcher);
@@ -147,7 +152,7 @@ const SurfaceContextPage: NextPage = () => {
     }, []);
 
     useEffect(() => {
-        // console.log(`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`)
+        // console.log(`${baseURL}/api/v1/geojson/countries/${cropName}_surface_context/ISO3/${idCrop}`)
         if( buttonBoth ) {
             setMapCol(6)
             setGraphsCol(6)
@@ -463,8 +468,8 @@ const SurfaceContextPage: NextPage = () => {
     useEffect(() => {
         const dataPodiumFetch = async() => {
             // const response = await beansApi.get(`api/v1/data/podium/${ countryCode }/5412/27/${ year }`);
-            // const response = await beansApi.get(`api/v1/data/podium/${ countryCode2 }/5412/176/${ year }`);
-            const response = await centralApi.get(`api/v1/data/podium/${ countryCode2 }/5412/176/${ year }`);
+            // const response = await beansApi.get(`api/v1/data/podium/${ countryCode2 }/5412/${idCrop}/${ year }`);
+            const response = await centralApi.get(`api/v1/data/podium/${ countryCode2 }/5412/${idCrop}/${ year }`);
             const { data } = response;
             const dataFetch: PodiumDataStructureFetchApi = { data }
             const rank = toFindCropOfInterest( dataFetch, 'Beans, dry' )
@@ -482,7 +487,7 @@ const SurfaceContextPage: NextPage = () => {
 
     // const chartConfig = [
     //     {
-    //         dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1001,1002,1003]&cropIds=[176]`,
+    //         dataURL: `${baseURL}/api/v1/chart/default/${cropName}_production/${countryCode}?elementIds=[1001,1002,1003]&cropIds=[${idCrop}]`,
     //         options: annual_growth_options,
     //         config: {key: 'id_element', name:'id_element'},
     //         name: 'Annual growth',
@@ -490,7 +495,7 @@ const SurfaceContextPage: NextPage = () => {
     //         description: 'gráfico 2 de producción'
     //     },
     //     {
-    //         dataURL: `${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[1007,1008,1009]&cropIds=[176]`,
+    //         dataURL: `${baseURL}/api/v1/chart/default/${cropName}_production/${countryCode}?elementIds=[1007,1008,1009]&cropIds=[${idCrop}]`,
     //         options: ten_year_moving_average_options,
     //         config: {key: 'id_element', name:'id_element'},
     //         name: '10-year moving average',
@@ -809,7 +814,7 @@ const SurfaceContextPage: NextPage = () => {
     // console.log(sideBarColumn, contentColumn)  
 
     //console.log(elementsOptions)
-    console.log(`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`)
+    console.log(`${baseURL}/api/v1/data/adminIds/${cropName}_surface_context/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`)
     return (
         <Layout title={ titlePage }>
             <Container fluid className={ styles['custom-container-fluid'] }>
@@ -857,7 +862,7 @@ const SurfaceContextPage: NextPage = () => {
                                                     <SearchCountryButton btnText={searchCountryTextButton} setShowCountries={setShowCountries} />
                                                 </Row>
                                             </Row>
-                                            <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/beans_surface_context/ISO3/176`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/176/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( (localeFilterElement !== '') && elementsObj[elementId] ? elementsObj[elementId][localeFilterElement as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
+                                            <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${cropName}_surface_context/ISO3/${idCrop}`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${cropName}_surface_context/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${idCrop}/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( (localeFilterElement !== '') && elementsObj[elementId] ? elementsObj[elementId][localeFilterElement as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
                                             {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
                                         
                                         </Col>
@@ -884,7 +889,7 @@ const SurfaceContextPage: NextPage = () => {
                                             {(!isLoadingElements && !isLoadingYears && !isLoadingMacroRegions && !isLoadingRegions)?
                                             <>
                                             <PodiumWithLink 
-                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode2 }/5412/176/${ year }` } 
+                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode2 }/5412/${idCrop}/${ year }` } 
                                                 text1={ text1Podium } 
                                                 text2={ `${ podiumRank }°` }
                                                 text3={ text2Podium }
@@ -899,11 +904,11 @@ const SurfaceContextPage: NextPage = () => {
                                             {/* <p style={{ textAlign: 'center' }}>In {year}, harvested rice area accounted for:</p> */} 
                                             <PercentContainer data={ indicators } percentAlone={ false } />
                                             <br /> 
-                                            <PlotlyChartStackedAreaContainer locale={ locale } stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1_1 } moreInfoTextStackedArea2={moreInfoChart1_2} stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1_1 } moreInfoTextStackedAreaNormalized2={moreInfoChart1_2} fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode2 }?elementIds=[5312]&cropIds=[176,96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
-                                            <PlotlyChartStackedAreaContainer locale={ locale } stackedAreaID='chart-container3' moreInfoTextStackedArea={ moreInfoChart2_1 } moreInfoTextStackedArea2={ moreInfoChart2_2 } stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized={ moreInfoChart2_1 } moreInfoTextStackedAreaNormalized2={ moreInfoChart2_2 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/beans_surface_context/${ countryCode2 }?elementIds=[5312]&cropIds=[176,181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
+                                            <PlotlyChartStackedAreaContainer locale={ locale } stackedAreaID='chart-container1' moreInfoTextStackedArea={ moreInfoChart1_1 } moreInfoTextStackedArea2={moreInfoChart1_2} stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized={ moreInfoChart1_1 } moreInfoTextStackedAreaNormalized2={moreInfoChart1_2} fetchDataUrl={ `${ baseURL }/api/v1/chart/default/${cropName}_surface_context/${ countryCode2 }?elementIds=[5312]&cropIds=[${idCrop},96002,98001,97001,95001,94001,93001,99001]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly1TitleByValue } stackedAreaNormalizedTitle={ plotly1TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly1YLabelByValue} yLabelShare={ plotly1YLabelByShare } />
+                                            <PlotlyChartStackedAreaContainer locale={ locale } stackedAreaID='chart-container3' moreInfoTextStackedArea={ moreInfoChart2_1 } moreInfoTextStackedArea2={ moreInfoChart2_2 } stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized={ moreInfoChart2_1 } moreInfoTextStackedAreaNormalized2={ moreInfoChart2_2 } fetchDataUrl={ `${ baseURL }/api/v1/chart/default/${cropName}_surface_context/${ countryCode2 }?elementIds=[5312]&cropIds=[${idCrop},181,187,191,195,197,201,203,205,210,211]` } cropNameToFind='Beans, dry' secondCropName='Peas, dry' stackedAreaTitle={ plotly2TitleByValue } stackedAreaNormalizedTitle={ plotly2TitleByShare } namesArr={[byValueText, byShareText]} yLabelStackedArea={plotly2YLabelByValue} yLabelShare={ plotly2YLabelByShare }  />
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container1' moreInfoTextStackedArea='Lorem ipsum 1' stackedAreaNormalizedID='chart-container2' moreInfoTextStackedAreaNormalized='Lorem ipsum 2' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,98002,97001,96001,95001,94001,93001,99001]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
                                             {/* <PlotlyChartStackedAreaContainer  stackedAreaID='chart-container3' moreInfoTextStackedArea='Lorem ipsum 3' stackedAreaNormalizedID='chart-container4' moreInfoTextStackedAreaNormalized='Lorem ipsum 4' fetchDataUrl={ `${ baseURL }/api/v1/chart/default/rice_surface_context/${ countryCode }?elementIds=[5312]&cropIds=[27,15,44,56,71,75,79,83,89,92,94,97,101,103,108]` } cropNameToFind='Rice, paddy' secondCropName='Cereals excl.rice' stackedAreaTitle='Stacked area' stackedAreaNormalizedTitle='Stacked area normalized' namesArr={['By value', 'By share']} /> */}
-                                            {/* <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/beans_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[176]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
+                                            {/* <LineChartjs dataURL={`${baseURL}/api/v1/chart/default/${cropName}_production/${countryCode}?elementIds=[5510,5312,1000]&cropIds=[${idCrop}]`} elementsURL={`${baseURL}/api/v1/data/elements/2`} options={harvested_production_yield} config={{key: 'id_element', name:'id_element'}} description={'gráfico 1 de producción'} chartID='prod1' chartConf={{fill: true, pointRadius: 1, yAxisID: 'y'}} orderList={{1000:0, 5312:1, 5510:2}}/>
                                             <br/>
                                             <PodiumSelection podiumsList={podiumConfig} /> beans_su
                                             <br/>
@@ -947,7 +952,7 @@ const SurfaceContextPage: NextPage = () => {
                     </div>
                 </div> 
             </Container>
-            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/beans_surface_context/${admin}/${regionCode}/176/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
+            <SearchCountryModal adminIdsUrl={`${baseURL}/api/v1/data/adminIds/${cropName}_surface_context/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationName2={ setLocationName2 } setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }
