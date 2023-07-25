@@ -11,7 +11,7 @@ import { MainBar, MapView, SidebarComponent } from '../../components/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './data.module.css';
-import { PodiumProductVal as Podium, PorcentagesBoxTr, ChartFrame,  MultichartTr, MultichartTr2 } from '../../components/data';
+import { PodiumProductVal as Podium, PorcentagesBoxTr, ChartFrame,  MultichartTr, MultichartTr2, ChartFrame2Btn } from '../../components/data';
 import { commarize, dataFetcher, datasetGeneratorPV, generateYearsOptions} from '../../helpers/data';
 
 import { annual_growth_optionsPV, ten_year_moving_average_optionsPV } from '../../helpers/data/chartjs-options';
@@ -1110,21 +1110,21 @@ const DataPage: NextPage = () => {
                                                     <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName : ( locale == 'pt' ? locationName : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
                                                 </div>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('tree-toggle')} excludedClasses={[]}>
                                                     {treeFailed ? (<div>Failed to load</div>) : (treeLoading ? (<div>Loading...</div>) : (<Plot key={revision} data={treeMapData} layout={layout} config={config} />) )}
-                                                </ChartFrame>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                </ChartFrame2Btn>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                                     {chartFailed1 ? (<div>Failed to load</div>) : (chartLoading1 ? (<div>Loading...</div>) : (<MultichartTr2 xLabels={chartLabels1} data1={chartValues11} data2={chartValues12} chartTexts={chartTxts1} />) )} 
-                                                </ChartFrame>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                                </ChartFrame2Btn>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                                     {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={multiChartTrElementId == 3002 ? chartTxts2 : chartTxts2_1}/>) )} 
-                                                </ChartFrame>
+                                                </ChartFrame2Btn>
                                                 <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
                                                     data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />
                                                 <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')+ tradeFlowText3 + dataTranslate('label-perc3_3') }}/>
-                                                <ChartFrame data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
+                                                <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
                                                     <ChartSelectionPV chartConfigList={chartConfig} />
-                                                </ChartFrame>
+                                                </ChartFrame2Btn>
                                                 <div> Source: <i>Data source</i> </div>
                                             </>
                                         //:

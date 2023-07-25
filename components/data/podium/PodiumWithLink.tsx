@@ -1,6 +1,6 @@
-import { useRef, useCallback, FC, useState } from 'react';
+import { useRef, useEffect, useCallback, FC, useState } from 'react';
 import useSWR from 'swr';
-import { dataFetcher } from "../../../helpers/data";
+import { GenerateDataJsonGeneric, dataFetcher } from "../../../helpers/data";
 import download from 'downloadjs';
 import { toPng } from "html-to-image";
 import styles from './podium.module.css';
@@ -27,7 +27,24 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
     const { locale } = useRouter();
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
+    const [ labelName, setLabelName] = useState('');
+    const [ positionName, setPositionName] = useState('');
 
+    useEffect(() => {
+        if(locale == 'en'){
+            setPositionName('Position')
+            setLabelName('Crop-Name')
+        }
+        else if(locale == 'es'){
+            setPositionName('Posicion')
+            setLabelName('Nombre del cultivo')
+        }
+        else{
+            setPositionName('Posição')
+            setLabelName('Nome da colheida')
+        }
+    }, [locale])
+    
     const podumDownload = useCallback(async() => {
         if( htmlRef.current ){
             download( await toPng( htmlRef.current, { filter: filter } ), "test.png" );
@@ -45,7 +62,40 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
 
     const data = podiumDataProcessTrans(predata, locale ?? 'en');
     const dataProcessed = getColorByDataProcessed( data );
-    const dataToDownload = podiumDataProcessDownload( predata, currentYearSelected );
+    // const dataToDownload = podiumDataProcessDownload( predata, currentYearSelected );
+
+    const posAux = Array(0)
+    const nameAux = Array(0)
+    if(data.length > 3){
+        posAux.push(data[1].rank)
+        posAux.push(data[0].rank)
+        posAux.push(data[2].rank)
+        posAux.push(data[3].rank)
+        nameAux.push(data[1].cropName)
+        nameAux.push(data[0].cropName)
+        nameAux.push(data[2].cropName)
+        nameAux.push(data[3].cropName)
+    }
+    else{
+        posAux.push(data[1].rank)
+        posAux.push(data[0].rank)
+        posAux.push(data[2].rank)
+        posAux.push(data[3].rank)
+        nameAux.push(data[1].cropName)
+        nameAux.push(data[0].cropName)
+        nameAux.push(data[2].cropName)
+    }
+    const dataJson= [
+        {
+            label: positionName,
+            values: posAux ?? [],
+        },
+        {
+            label: labelName,
+            values: nameAux ?? [],
+        },
+    ]
+    
     const id = uuidv4();
     // data.map(e => {
     //     console.log(e)
@@ -62,7 +112,7 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
             </div>
             <DataButtons text={description} elementID={id} setShowModal={setShowModal}/>
             {showModal ? (
-                <ModalForm dataJson={ dataToDownload } setShowModal={setShowModal}/>
+                <ModalForm dataJson={GenerateDataJsonGeneric(dataJson) } setShowModal={setShowModal}/>
             ) : null
             }
         </>

@@ -145,7 +145,7 @@ export const GenerateDataJson2 = (xLabels : number[], data1 : number[], data2 : 
 
 interface DataDocument {
   label : string,
-  values: number[]
+  values: number[] 
 }
 
 export const GenerateDataJsonGeneric = (data : DataDocument[]) => {
@@ -155,7 +155,14 @@ export const GenerateDataJsonGeneric = (data : DataDocument[]) => {
   if(data.length > 0) {
     data[0].values.forEach((elem, idxValue)=>{
       const row = Object();
-      labels.forEach((label,idxCol) => row[label] = data[idxCol].values[idxValue])
+      labels.forEach((label,idxCol) => { 
+        if(data[idxCol].values.hasOwnProperty("data")) {
+          //TODO: find a way that a property can be an object or array   
+          //@ts-ignore 
+          return row[label] = data[idxCol].values.data[idxValue]
+        }
+        return row[label] = data[idxCol].values[idxValue]      
+      })
       dataJson.push(row)
     })
   }

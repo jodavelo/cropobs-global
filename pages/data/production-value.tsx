@@ -500,35 +500,64 @@ const PVPage: NextPage = () => {
         }
     }, []);
 
+    const [yearName, setYearName] = useState('');
+    const[ beansName, setBeansName] = useState('');
+    const[ pulsesName, setPulsesName] = useState('');
+    const[ agricultureName, setAgricultureName] = useState('');
+    const[ cropsName, setCropsName] = useState('');
 
     useEffect(() => {
+        if( locale == 'es') {
+            setYearName('Años');
+            setBeansName('Frijol');
+            setPulsesName('Legumbres');
+            setAgricultureName('Agricultura');
+            setCropsName('Cultivos');
+        }
+        else if( locale == 'pt'){
+            setYearName('Anos');
+            setBeansName('Feijão');
+            setPulsesName('Leguminosas');
+            setAgricultureName('Agricultura');
+            setCropsName('Culturas');
+        }
+        else{
+            setYearName('Years');
+            setBeansName('Beans');
+            setPulsesName('Pulses');
+            setAgricultureName('Agriculture');
+            setCropsName('Crops');
+        }
+    }, [ locale ])
+    
+    useEffect(() => {
         GetChartData2(setXLabels,setData1,setData2,setData3,setData4,countryCode, clickId ? '58' : '152');
-    }, [clickId, regionCode]);
+    }, [clickId, regionCode, locale]);
 
     useEffect(() => {
         setDataFrame1([
             {
-                label:"Years", 
+                label: yearName, 
                 values : x_labels ?? []
             },
             {
-                label:"Beans", 
+                label: beansName, 
                 values : data1 ?? []
             },
             {
-                label:"Pulses", 
+                label: pulsesName, 
                 values : data2 ?? []
             },
             {
-                label:"Agriculture", 
+                label: agricultureName, 
                 values : data3 ?? []
             },
             {
-                label:"Crops", 
+                label: cropsName, 
                 values : data4 ?? []
             },
         ]);
-    }, [x_labels, data1, data2, data3, data4]);
+    }, [x_labels, data1, data2, data3, data4, locale]);
 
     let [valuePorc1, setValuePorc1] = useState(0)
 
@@ -567,37 +596,72 @@ const PVPage: NextPage = () => {
             })
     }, [clickId, regionCode]);
 
+    const [yearAnnualGrowth, setYearAnnualGrowth] = useState('');
+    const [annualGrowthName, setAnnualGrowthName] = useState('');
+    const [beansAnnualGrowthName, setBeansAnnualGrowthName] = useState('');
+    const [valueAddedName, setValueAddedName] = useState('');
+    const [ grossDomesticName, setGrossDomesticName] = useState('');
+    const [yearTenMovingName, setYearTenMovingName] = useState('');
+
+    useEffect(() => {
+        if( locale == 'es') {
+            setYearAnnualGrowth('Años - crecimiento anual');
+            setAnnualGrowthName('Crecimiento anual');
+            setBeansAnnualGrowthName('Frijoles - crecimiento anual');
+            setValueAddedName('Valor agregado - crecimiento anual ');
+            setGrossDomesticName('Producto interno bruto - crecimiento anual');
+            setYearTenMovingName('Años - Media movil de 10 años');
+
+        }
+        else if( locale == 'pt'){
+            setYearAnnualGrowth('Anos - crescimento anual');
+            setAnnualGrowthName('Crescimento anual');
+            setBeansAnnualGrowthName('Feijão - crescimento anual');
+            setValueAddedName('Valor acrescentado - crescimento anual ');
+            setGrossDomesticName('Produto interno bruto - crescimento anual');
+            setYearTenMovingName('Anos - Média móvel de 10 anos');
+        }
+        else{
+            setYearAnnualGrowth('Years - Annual Growth');
+            setAnnualGrowthName('Annual Growth');
+            setBeansAnnualGrowthName('Beans - Annual Growth');
+            setValueAddedName('Value Added - Annual Growth');
+            setGrossDomesticName('Gross Domestic Product - Annual Growth');
+            setYearTenMovingName('Years - 10 Year Moving Average');
+        }
+    }, [ locale ])
+
     const dataFrame2 = [
         {
-            label:"Years - Annual Growth", 
+            label: yearAnnualGrowth, 
             values : anualdata.labels
         },
         {
-            label:"Beans - Annual Growth", 
+            label: beansAnnualGrowthName, 
             values : anualdata.datasets[0]
         },
         {
-            label:"Value Added - Annual Growth", 
+            label: valueAddedName, 
             values : anualdata.datasets[2]
         },
         {
-            label:"Gross Domestic Product - Annual Growth", 
+            label: grossDomesticName, 
             values : anualdata.datasets[1]
         },
         {
-            label:"Years - 10 Year Moving Average", 
+            label: yearTenMovingName, 
             values : tenyearsdata.labels
         },
         {
-            label:"Crops", 
+            label: cropsName, 
             values : tenyearsdata.datasets[0]
         },
         {
-            label:"Pulses", 
+            label: pulsesName, 
             values : tenyearsdata.datasets[2]
         },
         {
-            label:"Agriculture", 
+            label: agricultureName, 
             values : tenyearsdata.datasets[1]
         },
     ]

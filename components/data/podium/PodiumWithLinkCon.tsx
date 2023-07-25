@@ -1,4 +1,4 @@
-import { useRef, useCallback, FC, useState } from 'react';
+import { useRef, useCallback, FC, useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { dataFetcher } from "../../../helpers/data";
 import download from 'downloadjs';
@@ -26,6 +26,23 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     const { locale } = useRouter();
     const htmlRef = useRef<HTMLDivElement>(null);
     const [showModal, setShowModal] = useState(false);
+    const [ labelName, setLabelName] = useState('');
+    const [ positionName, setPositionName] = useState('');
+
+    useEffect(() => {
+        if(locale == 'en'){
+            setPositionName('Position')
+            setLabelName('Crop-Name')
+        }
+        else if(locale == 'es'){
+            setPositionName('Posicion')
+            setLabelName('Nombre del cultivo')
+        }
+        else{
+            setPositionName('Posição')
+            setLabelName('Nome da colheida')
+        }
+    }, [locale])
 
     const podumDownload = useCallback(async() => {
         if( htmlRef.current ){
@@ -68,11 +85,11 @@ export const PodiumWithLinkCon: FC<Props> = ({ dataURL, text, description='' }) 
     }
     const dataJson= [
         {
-            label:"Position",
+            label: positionName,
             values: posAux ?? [],
         },
         {
-            label:"Crop-Name",
+            label: labelName,
             values: nameAux ?? [],
         },
     ]
