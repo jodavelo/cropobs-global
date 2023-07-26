@@ -80,7 +80,6 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
         posAux.push(data[1].rank)
         posAux.push(data[0].rank)
         posAux.push(data[2].rank)
-        posAux.push(data[3].rank)
         nameAux.push(data[1].cropName)
         nameAux.push(data[0].cropName)
         nameAux.push(data[2].cropName)
