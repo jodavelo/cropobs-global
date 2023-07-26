@@ -1092,7 +1092,7 @@ const DataPage: NextPage = () => {
                                                         <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px', marginTop: '10px'}}>
                                                             {/* <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
                                                             <MapSelect id='trade-flow-filter-onlycharts' options={tradeFlowOptions} selected={flowId} setSelected={setSectionState} atrName='flowId'/>
-                                                            <MapSelect id='element-filter-onlycharts' options={tradeElementOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
+                                                            {/* <MapSelect id='element-filter-onlycharts' options={tradeElementOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
                                                             <MapSelect id='year-filter-onlycharts' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
                                                             <Button
                                                                 className={`${styles['search-country-button']}`}
