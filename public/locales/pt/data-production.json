@@ -15,7 +15,7 @@
 
     "podium1-selector-text": "Produção",
     "podium2-selector-text": "Área",
-    "podium3-selector-text": "Redimento",
+    "podium3-selector-text": "Rendimento",
 
     "podium1-description": "`<span class=${styles['podium-text-description']}>Em <span class=${styles['year-text-bold']}>#{1}</span>, o <span class=${styles['year-text-bold']}>feijão</span> foi a <span class=${styles['text-bold']}>#{2}</span> cultura de crescimento mais rápido em produção em relação a <span class=${styles['year-text-bold']}>#{3}</span></span>`",
     "podium2-description": "`<span class=${styles['podium-text-description']}>Em <span class=${styles['year-text-bold']}>#{1}</span>, o <span class=${styles['year-text-bold']}>feijão</span> foi a <span class=${styles['text-bold']}>#{2}</span> cultura de crescimento mais rápido em área em relação a <span class=${styles['year-text-bold']}>#{3}</span></span>`",
