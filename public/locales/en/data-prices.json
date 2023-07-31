@@ -3,6 +3,8 @@
     "LOCALE_COUNTRY_NAME": "country_name",
     "LOCALE_FILTER_REGION": "region_name",
 
+    "country_name": "Central America",
+
     "world-locale": "World",
 
     "section-name": "Domestic Prices",

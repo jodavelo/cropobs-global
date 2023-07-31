@@ -37,9 +37,10 @@ interface locationNameOptions {
     pt: string;
     isoLabel: string;
     clickId: number | null | string;
+    countryCode: null | string;
 }
 interface sectionState {
-    idCountry: string
+    countryCode: string
     elementId: number
     locationName: string
 }
@@ -81,7 +82,7 @@ const ProductionPage: NextPage = () => {
     const[priceData, setPriceData] = useState<Feature>();
     const [countryProperty, setCountryProperty] = useState<{ [name: string]: any } | undefined>();
     const [ sectionState, setSectionState ] = useState<sectionState>({
-        idCountry: '',
+        countryCode: 'INTL',
         elementId: 99000,
         locationName: 'World',
     });
@@ -89,12 +90,22 @@ const ProductionPage: NextPage = () => {
         en: 'World',
         es: 'Mundo',
         pt: 'Mundo',
-        isoLabel: 'WLRD',
-        clickId: 0
+        isoLabel: 'INTL',
+        clickId: 0,
+        countryCode: 'INTL',
+
+    });
+    const [locationNameOptions2, setLocationNameOptions2] = useState<locationNameOptions>({
+        en: 'Central America',
+        es: 'Centroamérica',
+        pt: 'América Central',
+        isoLabel: 'INTL',
+        clickId: 0,
+        countryCode: 'INTL',
     });
     const [locationName2, setLocationName2] = useState('');
     const [countryCode2, setCountryCode2] = useState('WLRD');
-    const {idCountry, locationName } = sectionState;
+    const {countryCode, locationName } = sectionState;
     const [citiesName, setCityName] = useState<CitiesState>({
         citiesObj: {},
         citiesOptions: { values: [], names: []}
@@ -169,29 +180,28 @@ const ProductionPage: NextPage = () => {
         if (map){
             map.on('load', () => {
                 map.on('click', 'country_layer', (e) => {
-                    
                     if( e.features ){
                         if( e.features[0] ){
                             const { properties } = e.features[0]; 
                             let id = e.features![0].id ?? null;
-                            const iso = properties!.id_country
+                            const iso = 'CAM'
                             console.log(iso + 'ISO')
                             setSectionState( (prevState) => ({
                                 ...prevState,
-                                idCountry: iso,
-                                locationName: properties![dataTranslate('LOCALE_COUNTRY_NAME')]
+                                countryCode: iso,
+                                locationName: dataTranslate('country_name')
                             }));
                             setCountryCode2(iso);
-                            console.log(properties!.id_country)
+                            // console.log(properties!.id_country)
                             setLocationNameOptions(( prevState ) => ({
                                 ...prevState,
-                                en: properties!.country_name,
-                                es: properties!.country_name_es,
-                                pt: properties!.country_name_pt,
+                                en: dataTranslate('country_name'),
+                                es: dataTranslate('country_name'),
+                                pt: dataTranslate('country_name'),
                                 isoLabel: iso,
                                 clickId: id
                             })); 
-                            setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
+                            // setLocationName2( locale == 'en' ? e.features![0].properties!.country_name : ( locale == 'es' ? e.features![0].properties!.country_name_es : e.features![0].properties!.country_name_pt) )
                             setClickId(e.features![0].id ?? null);
                         }
                     }
@@ -217,56 +227,38 @@ const ProductionPage: NextPage = () => {
         }
         setLocationName2( location );
         setLocationText( location );
-        setSectionState( (prevState) => ({
-            ...prevState,
-            countryCode: locationNameOptions.isoLabel,
-            locationName: location,
-        }));
-        setCountryCode2( locationNameOptions.isoLabel )
-        if( locationNameOptions.isoLabel === 'WLRD' ) {
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: false }
-                    );
-                }
-                setClickId(null);
-            }
-        }else {
-            if(map){
-                if (clickId !== null){
-                    map.setFeatureState(
-                        { source: 'geo_countries', id: clickId },
-                        { clicked: true }
-                    );
-                }
-                setClickId( clickId );
-            }
-        }
+        // setSectionState( (prevState) => ({
+        //     ...prevState,
+        //     countryCode: locationNameOptions.isoLabel,
+        //     locationName: location,
+        // }));
+        // setCountryCode2( locationNameOptions.isoLabel )
+        // if( locationNameOptions.isoLabel === 'WLRD' ) {
+        //     if(map){
+        //         if (clickId !== null){
+        //             map.setFeatureState(
+        //                 { source: 'geo_countries', id: clickId },
+        //                 { clicked: false }
+        //             );
+        //         }
+        //         setClickId(null);
+        //     }
+        // }else {
+        //     if(map){
+        //         if (clickId !== null){
+        //             map.setFeatureState(
+        //                 { source: 'geo_countries', id: clickId },
+        //                 { clicked: true }
+        //             );
+        //         }
+        //         setClickId( clickId );
+        //     }
+        // }
         //else setClickId( null );
         console.log(clickId)
         console.log({ map })
     }, [locale]);
 
-    // useEffect(() => {
-    //     if (map){
-    //         map.on('load', () => {
-    //             map.on('click', 'country_layer', (e) => {
-    //                 let temCountryCode = e.features![0].properties?.id_country;
-    //                 let tempLocationNameI = e.features![0].properties![dataTranslate('LOCALE_COUNTRY_NAME')]
-    //                 setSectionState( (prevState) => ({
-    //                     ...prevState,
-    //                     idCountry: temCountryCode,
-    //                     locationName: tempLocationNameI,
-    //                 }));
-    //                 setClickId(e.features![0].id ?? null);
-    //             });
-    //         });
-    //     }
-    // }, [dataTranslate, locationName, map]);
-    
-//Filter for district elements
 
     const getPriceData = () => {
         axios.get(`${baseURL}/api/v1/data/adminIdsInter/region/CAM/4`)
@@ -401,7 +393,7 @@ const ProductionPage: NextPage = () => {
     const [metadataText12, setMetadataText12] = useState('');
     useEffect(() => {
         setTitleSection(dataTranslate('section-int-name')!);
-        setTitleSection2(dataTranslate('section-int-text').replace('#{}', locationName2)!);
+        setTitleSection2(dataTranslate('section-int-text').replace('#{}', locationName)!);
         setMapGraphsText(dataTranslate('graphs_maps')!);
         setMetadataText(dataTranslate('metadata')!);
         setMetadataText1(dataTranslate('metadata_text1_beans')!);
@@ -423,7 +415,7 @@ const ProductionPage: NextPage = () => {
         const chartTitleLine = dataTranslate('chart3-title')
         setChartTitle(chartTitle)
         setChartTitleLine(chartTitleLine)
-        setOtherTexts({section_name: dataTranslate('section-int-name'), section_text: dataTranslate('section-int-text').replace('#{}',locationName), chart1_info: dataTranslate('chart-int-info'), chart2_info: dataTranslate('chart-int-info2'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
+        setOtherTexts({section_name: dataTranslate('section-int-name'), section_text: dataTranslate('section-int-text').replace('#{}',locationName), chart1_info: dataTranslate('chart1-int-info'), chart2_info: dataTranslate('chart2-int-info'), sources_text: dataTranslate('sources-text'), search_country: dataTranslate('search-country'), element_locale: dataTranslate('LOCALE_FILTER_ELEMENT')});
         
     }, [dataTranslate, locationName]);
 
@@ -436,20 +428,52 @@ const ProductionPage: NextPage = () => {
                 else if ( locale == 'es' ) setSteps(general_data_steps_prices_int_es);
                 else if ( locale == 'pt' ) setSteps(general_data_steps_prices_int_pt);
                 setCookie('prices_tour', true);
-    /*useEffect(() => {
-        if ( !getCookie('prices_tour') ) {
-            if (setSteps) {
-                if( locale == 'en' ) setSteps(general_data_steps_prices);
-                else if ( locale == 'es' ) setSteps(general_data_steps_prices_es);
-                else if ( locale == 'pt' ) setSteps(general_data_steps_prices_pt);
-                setCookie('production_tour', true);
-            }
-        }
-    }*/
+
                 setIsOpen(true);
             }
         }
     }, 4000, []);
+
+    // This useEffect is used when the back button is clicked
+    useEffect(() => {
+        if (countryCode == 'INTL'){
+            setSectionState( (prevState) => ({
+                ...prevState,
+                locationName: countryCode == 'INTL' ? dataTranslate('world-locale') : citiesObj[locationName][dataTranslate('LOCALE_COUNTRY_NAME') as keyof typeof citiesObj[typeof locationName]].toString()
+            }));
+            setLocationName2( (countryCode == 'INTL' ? dataTranslate('world-locale') : citiesObj[locationName][dataTranslate('LOCALE_COUNTRY_NAME') as keyof typeof citiesObj[typeof locationName]].toString()) ?? '...' );
+            setLocationNameOptions(( prevState ) => ({
+                ...prevState,
+                en: citiesObj[locationName]?.country_name,
+                es: citiesObj[locationName]?.country_name_es,
+                pt: citiesObj[locationName]?.country_name_pt,
+                isoLabel: countryCode,
+                clickId: null
+            })); 
+
+            if( locationNameOptions.isoLabel === 'INTL' ) {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: false }
+                        );
+                    }
+                    setClickId(null);
+                }
+            }else {
+                if(map){
+                    if (clickId !== null){
+                        map.setFeatureState(
+                            { source: 'geo_countries', id: clickId },
+                            { clicked: true }
+                        );
+                    }
+                    setClickId( clickId );
+                }
+            }
+        }
+    }, [countryCode, locationName]);
 
     return (
             <Layout title={ otherTexts ? otherTexts.section_name : 'Loading...' }>
@@ -470,8 +494,8 @@ const ProductionPage: NextPage = () => {
                         <div className={ styles['main-content-container'] } style={{ width: contentColumn }} >
                             <Row className={ styles['padding-left-subcontainers'] }>
                                 <Col xs={ 12 } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
-                                    <MainBar key={ uuidv4() } section={idCountry == '' ? titleSection : titleSection2} >
-                                        <BackButtonPricesInt  idCountry={idCountry} locationName={locationName} setSectionState={setSectionState}/>
+                                    <MainBar key={ uuidv4() } section={countryCode == 'INTL' ? titleSection : titleSection2} >
+                                        <BackButtonPricesInt  countryCode={ countryCode } locationName={locationName} setSectionState={setSectionState}/>
                                     </MainBar>
                                 </Col>
                             </Row>
@@ -492,14 +516,14 @@ const ProductionPage: NextPage = () => {
                                                         buttonGraphs ?
                                                         <Row style={{ zIndex: '3', width: '100%', justifyContent: 'flex-end', gap: '5px', marginTop: '20px', marginBottom: '20px'}}>
                                                             <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px'}}>
-                                                                <MapSelectCityInt id='city-filter'  options={citiesOptions} selected={idCountry} setSelected={setSectionState} dataCity={cityData}  atrName='selectCity'/> 
+                                                                <MapSelectCityInt id='city-filter'  options={citiesOptions} selected={countryCode} setSelected={setSectionState} dataCity={cityData}  atrName='selectCity'/> 
                                                             </Row>
                                                         </Row>
                                                         :
                                                             <></>
                                                         }
-                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4/${priceTypeId}`} setPriceTypeId={setPriceTypeId} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
-                                                            <PlotlyChartLineInternational dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4/${priceTypeId}`} setPriceTypeId={setPriceTypeId} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
+                                                            <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4/${priceTypeId}?ISO3=${countryCode}`} setPriceTypeId={setPriceTypeId} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
+                                                            <PlotlyChartLineInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4/${priceTypeId}?ISO3=${countryCode}`} setPriceTypeId={setPriceTypeId} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2023' completeName='FPMA Tool' url='https://fpma.fao.org/giews/fpmat4/#/dashboard/tool/international' />
                                                 </Col>
                                             </Row>
