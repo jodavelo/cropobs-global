@@ -20,7 +20,7 @@
     "porc1-label":"do valor da produção agrícola",
     "porc2-label":"do valor da produção de legumbres",
 
-    "chart1-title":"Valor bruto do valor da produção - #{}",
+    "chart1-title":"Valor bruto da produção - #{}",
     "chart1-dataset1":"Feijão",
     "chart1-dataset2":"Leguminosas",
     "chart1-dataset3":"Culturas",
