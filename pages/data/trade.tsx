@@ -236,7 +236,7 @@ const DataPage: NextPage = () => {
     const [countryCode2, setCountryCode2] = useState('WLRD');
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
     const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/713999/${ year }`, dataFetcher); //EP
-    const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher); //EP
+    //const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher); //EP
     // const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`${ baseUrl }/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
 
     const { width } = useWindowSize();
@@ -730,9 +730,9 @@ const DataPage: NextPage = () => {
           if (key === "plugins") {
             // Update the title based on the selected option
             if (selectedOption === '0') {
-              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<flowID>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
             } else if (selectedOption === '1') {
-              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<imports>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
+              result[key]['title']['text'] = dataTranslate('chart3' + index + '-title').replace("<flowID>", tradeFlowText3).replace("<Word>", sectionState.admin) + " " + "-" + " " + locationName;
             }
           }
         }

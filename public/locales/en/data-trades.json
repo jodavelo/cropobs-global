@@ -44,14 +44,14 @@
     "chart3-opt1": "Annual growth",
     "chart3-opt2": "10-year moving average",
 
-    "chart31-title":"Annual common beans imports growth",
+    "chart31-title":"Annual common beans <flowID> growth",
     "chart31-title_1":" of common beans - ",
     "chart31-dataset1":"Quantity growth (Annual)",
     "chart31-dataset2":"Price growth (Annual)",
     "chart31-dataset3":"Value growth (Annual)",
     "chart3-toggle":"Toggle chart 3 english",
 
-    "chart32-title":"10-year moving average  <imports> value",
+    "chart32-title":"10-year moving average <flowID> value",
     "chart32-dataset1":"Quantity growth (10-yr moving avg)",
     "chart32-dataset2":"Value growth (10-yr moving avg)",
     "chart32-dataset3":"Price growth (10-yr moving avg)",
