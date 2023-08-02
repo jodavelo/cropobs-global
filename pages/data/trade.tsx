@@ -199,6 +199,12 @@ const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
 const idGroup = process.env.NEXT_PUBLIC_ID_GROUP; //96001
 const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS; //2546
 
+const cropIdTrade = process.env.NEXT_PUBLIC_CROP_ID_TRADE; // 71333
+const cropTableName = process.env.NEXT_PUBLIC_CROP_ID_TRADE; // BEANS
+const cropIdTradeByProducts1 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_1; // 803
+const cropIdTradeByProducts2 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_2; // 80310
+const cropIdTradeByProducts3 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_3; // 80390
+
 const tradeFlowSelectValues = [1,2];
 const tradeElementSelectValues = [3001, 3002];
 
@@ -235,8 +241,8 @@ const DataPage: NextPage = () => {
     });
     const [countryCode2, setCountryCode2] = useState('WLRD');
     const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
-    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/713999/${ year }`, dataFetcher); //EP
-    const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher); //EP
+    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/${cropIdTrade}/${ year }`, dataFetcher); //EP
+    const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/1/${ countryCode }?cropIds=[${cropIdTrade}]&elementIds=[3001,3002]`, dataFetcher); //EP
     // const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`${ baseUrl }/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
 
     const { width } = useWindowSize();
@@ -501,16 +507,16 @@ const DataPage: NextPage = () => {
     }
     useEffect(()=>{
         setCountryCode2(sectionState.countryCode)
-        console.log('==========================================================sjssjb', {sectionState})
+        // console.log('==========================================================sjssjb', {sectionState})
     },[sectionState])
 
     useEffect(()=>{
         setChartLoading1(true);
         setChartLoading3(true)
         axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3001,3002]`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3301,3303,300001]`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3302,3304,300003]`) //EP
         ])
         .then(axios.spread((...responses) => {
             const responseTwo = responses[0]
@@ -555,12 +561,12 @@ const DataPage: NextPage = () => {
         //setChartLoading2(true);
         console.log("effect sin []")
         axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/713999/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year }`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3101/713999/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/713999/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3103/713999/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
         ]).then(axios.spread((...responses) => {
@@ -839,7 +845,7 @@ const DataPage: NextPage = () => {
 
     useEffect(() =>{
         setChartLoading2(true)
-        axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[${multiChartTrElementId}]`) //EP
+        axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTradeByProducts1},${cropIdTrade},${cropIdTradeByProducts2},${cropIdTradeByProducts3}]&elementIds=[${multiChartTrElementId}]`) //EP
         .then(res => {
             const valuesAux1_1 = Array<number>(0)
             const valuesAux2_1 = Array<number>(0)
@@ -1080,7 +1086,7 @@ const DataPage: NextPage = () => {
                                                 </Row>
                                                 
                                             </Row>
-                                            <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ cropName?.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/713999` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/713999/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> {/* //EP */}
+                                            <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ cropName?.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/${cropIdTrade}` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/${cropIdTrade}/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/${cropIdTrade}/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> {/* //EP */}
                                             {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
                                         
                                         </Col>
