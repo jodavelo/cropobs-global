@@ -84,7 +84,7 @@ const SurfaceContextPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2020,
+        year: 2021,
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
