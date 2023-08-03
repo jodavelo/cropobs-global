@@ -191,8 +191,8 @@ interface sectionState {
 }
 
 // const baseUrl = 'http://cropobscentral.test';
-// const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
-const baseUrl = 'https://commonbeanobservatory.org';
+const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+// const baseUrl = 'https://commonbeanobservatory.org';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
 const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
@@ -854,10 +854,10 @@ const DataPage: NextPage = () => {
             const namesAux = Array<string>(0)
             res.data.data.observations.map((elem:any) =>{
                 if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
-                if(elem.id_crop == 71331) {valuesAux1_1.push(elem.value) }
-                else if(elem.id_crop == 71332) valuesAux2_1.push(elem.value)
-                else if(elem.id_crop == 71333) valuesAux3_1.push(elem.value)
-                else if(elem.id_crop == 71339) valuesAux4_1.push(elem.value)
+                if(elem.id_crop == cropIdTrade) {valuesAux1_1.push(elem.value) }
+                else if(elem.id_crop == cropIdTradeByProducts1) valuesAux2_1.push(elem.value)
+                else if(elem.id_crop == cropIdTradeByProducts2) valuesAux3_1.push(elem.value)
+                else if(elem.id_crop == cropIdTradeByProducts3) valuesAux4_1.push(elem.value)
             })
             setChartValues21(valuesAux3_1)
             setChartValues22(valuesAux1_1)
@@ -1086,7 +1086,8 @@ const DataPage: NextPage = () => {
                                                 </Row>
                                                 
                                             </Row>
-                                            <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ cropName?.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/${cropIdTrade}` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/${cropIdTrade}/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/${cropIdTrade}/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> {/* //EP */}
+                                            {/* <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ cropName?.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/${cropIdTrade}` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/${cropIdTrade}/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/${cropIdTrade}/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> //EP */}
+                                            <MapView admin={ admin } geoJsonURL={ 'https://commonbeanobservatory.org' + `/api/v1/geojson/countries/${ 'beans'.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/71333` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ 'beans'.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/71333/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/71333/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> {/* //EP */}
                                             {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
                                         
                                         </Col>
