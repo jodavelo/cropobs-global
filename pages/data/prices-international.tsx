@@ -128,6 +128,7 @@ const ProductionPage: NextPage = () => {
     const [isMapView, setIsMapView] = useState(false);
 
     const [priceTypeId, setPriceTypeId] = useState(99000);
+    const [priceTypeIdLine, setPriceTypeIdLine] = useState(99000);
     
     useEffect(() => {
         if( buttonBoth ) {
@@ -523,7 +524,7 @@ const ProductionPage: NextPage = () => {
                                                             <></>
                                                         }
                                                             <PlotlyChartBoxInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/4/${priceTypeId}?ISO3=${countryCode}`} setPriceTypeId={setPriceTypeId} title={chartTitle} description={otherTexts ? otherTexts.chart1_info : 'Loading...'} /> 
-                                                            <PlotlyChartLineInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4/${priceTypeId}?ISO3=${countryCode}`} setPriceTypeId={setPriceTypeId} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
+                                                            <PlotlyChartLineInternational  dataURL={`https://cropobs-central.ciat.cgiar.org/api/v1/chart/prices/comercico/precios/internacionales/grafico/lineas/4/${priceTypeIdLine}?ISO3=${countryCode}`} setPriceTypeId={setPriceTypeIdLine} title={chartTitleLine} description={otherTexts ? otherTexts.chart2_info : 'Loading...'}/>
                                                     <SourcesComponent sourcesText={otherTexts ? otherTexts.sources_text : 'Loading...'} shortName='FAO' year='2023' completeName='FPMA Tool' url='https://fpma.fao.org/giews/fpmat4/#/dashboard/tool/international' />
                                                 </Col>
                                             </Row>
