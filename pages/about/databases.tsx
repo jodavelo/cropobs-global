@@ -18,6 +18,7 @@ import { dataFetcher } from '../../helpers/data';
 import { useRouter } from 'next/router';
 import { IconButton } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
+import axios from 'axios';
 
 export interface DatabaseInfo {
     imageUrl: string;
@@ -86,7 +87,8 @@ const messages = {
 
 const DatabasesPage: NextPage = () => {
 
-    const baseURL = 'http://cropobscentral.test';
+    // const baseURL = 'http://cropobscentral.test';
+    const baseURL = 'https://cropobs-central.ciat.cgiar.org';
     const { locale } = useRouter();
 
     const { t: dataTranslate } = useTranslation('about');
@@ -95,12 +97,12 @@ const DatabasesPage: NextPage = () => {
     const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
     const [resetMap, setResetMap] = useState(false);
 
-    const [iso3Selected, setIso3Selected] = useState<string | null>('WLRD');
+    const [iso3Selected, setIso3Selected] = useState<string | null>('WRLD');
     const [idCrop1, setIdCrop1] = useState('2');
 
     const [dataCards, setDataCards] = useState<DatabaseInfo[]>([])
 
-    const { data: databases, isLoading: isLoadingDataBases } = useSWR(`${baseURL}/api/v1/external_databases/${ idCrop1 }/${ iso3Selected }`, dataFetcher);
+    // const { data: databases, isLoading: isLoadingDataBases } = useSWR(`${baseURL}/api/v1/external_databases/${ idCrop1 }/${ iso3Selected }`, dataFetcher);
 
     const [locationName, setLocationName] = useState('');
     const [sectionState, setsectionState] = useState<SectionState>({
@@ -110,18 +112,21 @@ const DatabasesPage: NextPage = () => {
         iso3: "WLRD"
     })
 
+    const { iso3 } = sectionState;
+
     const [infoText, setInfoText] = useState('');
 
     const handleResetMap = () => {
         //("Back button clicked!"); // Esta línea es solo para depuración
         setSelectedCountry(null);
-        setResetMap( true );
-        setIso3Selected('WLRD');
+        setResetMap( false );
+        setIso3Selected('WRLD');
+        setIdCrop1( '2' );
         setsectionState({
             countryName: "World",
             countryNameEs: "Mundo",
             countryNamePt: 'Mundo',
-            iso3: "WLRD"
+            iso3: "WRLD"
         });
     };
 
@@ -129,53 +134,59 @@ const DatabasesPage: NextPage = () => {
         //console.log(`Polígono clickeado: id=${id}, iso3=${iso3}, countryName = ${ countryName }, countryNameEs = ${ countryNameEs }`);
         setSelectedCountry(iso3);
         setIso3Selected( iso3 );
+        setIdCrop1( '27' );
         setsectionState({
             countryName: countryName,
             countryNameEs: countryNameEs,
             countryNamePt: countryNamePt,
             iso3: iso3
         });
-        setResetMap( false );
+        setResetMap( true );
         // setIso3Selected( 'WLRD' ); 
     };
 
-    useEffect(() => {
-        if( iso3Selected === 'WLRD' ) {
+    const fetchData = async () => {
+        try {
+            await axios.get(`${baseURL}/api/v1/external_databases/${idCrop1}/${iso3Selected}`)
+                .then(response => {
+                    // console.log( response )
+                    const newDataCards = response.data.map((database: any) => ({
+                        imageUrl: database.URL_LOGO,
+                        title: database.SOURCE,
+                        link: database.URL_SOURCE,
+                        description: locale === 'es' ? database.DESCRIPTION_ES : locale === 'pt' ? database.DESCRIPTION_PT : database.DESCRIPTION_EN,
+                        btntext: 'Url'
+                    }));
+            
+                    setDataCards(newDataCards);
+                })
+            .catch(error => console.error('Error:', error));
+        } catch (error) {
+          console.error('Error:', error);
+        }
+    };
+
+    const setUpCropId1 = () => {
+        if( iso3 === 'WRLD' ) {
             setIdCrop1( '2' );
         }
         else setIdCrop1( '27' );
-        // //({databases, sectionState})
-        if (!isLoadingDataBases && databases) {
-            const newDataCards = databases.map((database: any) => ({
-                imageUrl: database.URL_LOGO,
-                title: database.SOURCE,
-                link: database.URL_SOURCE,
-                description: locale === 'es' ? database.DESCRIPTION_ES : locale === 'pt' ? database.DESCRIPTION_PT : database.DESCRIPTION_EN,
-                btntext: 'Url'
-            }));
-    
-            setDataCards(newDataCards);
-        }
-        // console.log('================================', sectionState)
-        if( locale == 'en' ) setLocationName( sectionState.countryName );
-        else if( locale == 'es' )setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
-        else if( locale == 'pt' )setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
-        // console.log(dataCards)
-    }, [isLoadingDataBases, iso3Selected]);
+    }
 
     useEffect(() => {
-        if (!isLoadingDataBases && databases) {
-            // console.log( {databases, dataCards} )
-            const newDataCards = databases.map((database: any) => ({
-                imageUrl: database.URL_LOGO,
-                title: database.SOURCE,
-                link: database.URL_SOURCE,
-                description: locale === 'es' ? database.DESCRIPTION_ES : locale === 'pt' ? database.DESCRIPTION_PT : database.DESCRIPTION_EN,
-                btntext: 'Url'
-            }));
+        // if (!isLoadingDataBases && databases) {
+        //     // console.log( {databases, dataCards} )
+        //     const newDataCards = databases.map((database: any) => ({
+        //         imageUrl: database.URL_LOGO,
+        //         title: database.SOURCE,
+        //         link: database.URL_SOURCE,
+        //         description: locale === 'es' ? database.DESCRIPTION_ES : locale === 'pt' ? database.DESCRIPTION_PT : database.DESCRIPTION_EN,
+        //         btntext: 'Url'
+        //     }));
     
-            setDataCards(newDataCards);
-        }
+        //     setDataCards(newDataCards);
+        // }
+        fetchData();
         if( locale == 'en' ){
             setLocationName( sectionState.countryName );
             setInfoText( messages.en )
@@ -190,20 +201,20 @@ const DatabasesPage: NextPage = () => {
         }
     }, [locale, resetMap])    
 
-    // useEffect(() => {
-    //     //('==============================', {iso3Selected})
-    //     if (!isLoadingDataBases && databases) {
-    //         const newDataCards = databases.map((database: any) => ({
-    //             imageUrl: database.URL_LOGO,
-    //             title: database.SOURCE,
-    //             link: database.URL_SOURCE,
-    //             description: locale === 'es' ? database.DESCRIPTION_ES : locale === 'pt' ? database.DESCRIPTION_PT : database.DESCRIPTION_EN,
-    //             btntext: 'Url'
-    //         }));
+    useEffect(() => {
+        fetchData();
+        if( locale == 'en' ) setLocationName( sectionState.countryName );
+        else if( locale == 'es' )setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
+        else if( locale == 'pt' )setLocationName( sectionState.countryNameEs ?? sectionState.countryName );
+    }, []);
     
-    //         setDataCards(newDataCards);
-    //     }
-    // }, [iso3Selected])
+
+    useEffect(() => {
+        // setUpCropId1();
+        // console.log('-------------------------------------------------',iso3Selected, `${baseURL}/api/v1/external_databases/${idCrop1}/${iso3Selected}`, sectionState)
+        fetchData();
+
+    }, [iso3Selected])
     
     const [titleText, setTitleText] = useState('');
     const [text1, setText1] = useState('');
@@ -235,7 +246,7 @@ const DatabasesPage: NextPage = () => {
                                 <MainBar key={ uuidv4() } section={` ${ locationName } `} >
                                     {/* <Button onClick={handleResetMap}>Back</Button> */}
                                     {
-                                        !resetMap ? (
+                                        resetMap ? (
                                             <IconButton id='back-button' style={{color: 'white'}} onClick={handleResetMap} >
                                                 <ReplayIcon/>
                                             </IconButton>
@@ -250,7 +261,7 @@ const DatabasesPage: NextPage = () => {
                             <Col xs={ 12 } lg={ 7 } className={ styles['map-container'] }>
                                 <GenericMapView 
                                     divContainer='databases-map' 
-                                    geoJsonUrl='https://cropobs-central.ciat.cgiar.org/api/v1/geojson/getCountriesByIdCrop/125'
+                                    geoJsonUrl='https://cropobs-central.ciat.cgiar.org/api/v1/geojson/getCountriesByIdCrop/176'
                                     onMapClick={handleMapClick} 
                                     polygonColors={polygonColors}
                                     onReset={ resetMap }

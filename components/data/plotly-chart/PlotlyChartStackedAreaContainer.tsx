@@ -48,18 +48,32 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     const [dataJson, setDataJson] = useState<Object[]>([]);
     const [loadingPL, setLoadingPL] = useState(false);
     const [errorPL, setErrorPL] = useState(false);
+    const [dataJsonNormalizaed, setDataJsonNormalized] = useState<Object[]>([]);
+
     //const cropNameLocale = ;
-    
+
     const generateJsonStackedAreaLocale = (observationsJson: { value: any; year: any; crop_name: any; unit: any; }[]) => {
         return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
             {
-                value: observation.value, 
+                valueAreaHa: observation.value,
                 year: observation.year,
                 //TODO: Find a way to get dynamic property
                 //@ts-ignore
                 crop_name: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
                 unit: observation.unit
-            }))  
+            }))
+    }
+
+    const generateJsonStackedAreaNormalizedLocale = (observationsJson: { value: any; year: any; crop_name: any; unit: any; }[]) => {
+        return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
+            {
+                shareOfTotalArea: observation.value,
+                year: observation.year,
+                //TODO: Find a way to get dynamic property
+                //@ts-ignore
+                crop_name: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                unit: observation.unit
+            }))
     }
 
     useEffect(() => {
@@ -76,7 +90,9 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
             if(response.data.data!== -1){
                 const { labels, observations } = response.data.data;
                 let localeObservations = generateJsonStackedAreaLocale(response.data.data.observations)
+                let localeObservationsNormalized = generateJsonStackedAreaNormalizedLocale(response.data.data.observations)
                 setDataJson(localeObservations);
+                setDataJsonNormalized(localeObservationsNormalized)
                 const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName, locale);
                 console.log( datasets )
                 const { ticks } = getYearsPlotlyChart( labels );
@@ -114,7 +130,7 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
                 });
                     setTraces(dataArr);
                     setStackedAreaTraces(dataArrStckedArea)
-                }
+            }
         }
         algo();
         setLoadingPL(false)    
@@ -141,9 +157,13 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
                 {
                     selected == '0' 
                         ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } moreInfoText2={ moreInfoTextStackedArea2 } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! } plotlyDataJson={ dataJson } />
-                        : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare}  />
+                        : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare} plotlyDataJson={ dataJsonNormalizaed } />
                 }
+                
+                
             </div>
         : <div>Error</div> }</>
+
+        
     )
 }

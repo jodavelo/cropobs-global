@@ -73,7 +73,7 @@ const DataPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2019,
+        year: 2020,
         admin: 'World',
         locationName: dataTranslate('world-locale')
     });
@@ -119,7 +119,7 @@ const DataPage: NextPage = () => {
 
     const { data: elementsData, isLoading: isLoadingElements, error: errorElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/4`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
+    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS?remove2=true`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
     const { data: macroRegionsData, isLoading: isLoadingMacroRegions, error:errorMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 

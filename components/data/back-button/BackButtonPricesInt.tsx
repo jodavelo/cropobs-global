@@ -5,37 +5,38 @@ import React, { FC, useContext, useEffect } from 'react';
 
 interface Props {
     locationName: string
-    idCountry: string
+    countryCode: string
     setSectionState: Function
     worldCode?: string
+    isoCode?: string
 }
 
 
 
-export const BackButtonPricesInt: FC<Props> = ({ locationName, idCountry,  setSectionState, worldCode='World' }) => {
-    const changeAdmin = ( locationName: string, idCountry:string, setSectionState: Function, worldCode: string) => {
+export const BackButtonPricesInt: FC<Props> = ({ locationName, countryCode,  setSectionState, worldCode='World', isoCode='INTL' }) => {
+    const changeAdmin = ( locationName: string, countryCode:string, setSectionState: Function, worldCode: string, isoCode: string) => {
    
 
         switch (true) {
-            // When in World region and a country is already selected
-            case (locationName != worldCode):
+            // When  country is already selected
+            case (locationName != worldCode && countryCode != isoCode):
                 setSectionState( (prevState: Record<string, any>) => ({
                     ...prevState,
-                    ["idCountry"]: '',
+                    countryCode: isoCode,
                     locationName: worldCode
                 }));
                 break;
             default:
                 setSectionState( (prevState: Record<string, any>) => ({
                     ...prevState,
-                    ["idCountry"]: '',
+                    ['countryCode']: 'INTL',
                     ["locationName"]: 'World'
                 }));
         }
     }
     if ( locationName === worldCode) return <></>
     return (
-    <IconButton style={{color: 'white'}} onClick={() => changeAdmin( locationName,idCountry, setSectionState, worldCode)}>
+    <IconButton style={{color: 'white'}} onClick={() => changeAdmin( locationName, countryCode, setSectionState, worldCode, isoCode)}>
         <ReplayIcon/>
     </IconButton>
     )
