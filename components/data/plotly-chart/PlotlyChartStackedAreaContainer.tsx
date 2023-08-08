@@ -19,6 +19,7 @@ interface Props {
     yLabelStackedArea?: string;
     yLabelShare?: string;
     locale?: string;
+    errorSetter?: Function;
 }
 
 export const PlotlyChartStackedAreaContainer: FC<Props> = ({ 
@@ -36,7 +37,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     moreInfoTextStackedAreaNormalized2,
     yLabelStackedArea,
     yLabelShare,
-    locale
+    locale,
+    errorSetter = (error:boolean)=>{}
 }) => {
 
     const [traces, setTraces] = useState([]);
@@ -44,6 +46,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     const [ticks, setTicks] = useState<number[]>([]);
     const [selected, setSelected] = useState('0');
     const [dataJson, setDataJson] = useState<Object[]>([]);
+    const [loadingPL, setLoadingPL] = useState(false);
+    const [errorPL, setErrorPL] = useState(false);
     const [dataJsonNormalizaed, setDataJsonNormalized] = useState<Object[]>([]);
 
     //const cropNameLocale = ;
@@ -166,26 +170,37 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
             setStackedAreaTraces(dataArrStckedArea)
         }
         algo();
+        setLoadingPL(false)    
         
     }, [fetchDataUrl, locale])
+
+     useEffect(() => {
+        
+        
+    }, [fetchDataUrl])
+
     ///console.log({ selected })
     return (
-        <div style={{maxWidth:'800px',margin:'auto'}}>
-            <select
-                value={selected}
-                onChange={(e) => {
-                    setSelected(e.target.value);
-                }}
-            >
-                { namesArr.map( (value, index) => <option key={index} value={index}>{value}</option>)}
-            </select>
-            {
-                selected == '0' 
-                    ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } moreInfoText2={ moreInfoTextStackedArea2 } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! } plotlyDataJson={ dataJson } />
-                    : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare} plotlyDataJson={ dataJsonNormalizaed } />
-            }
-            
-            
-        </div>
+        <>{!errorPL && !loadingPL ? 
+            <div style={{maxWidth:'800px',margin:'auto'}}>
+                <select
+                    value={selected}
+                    onChange={(e) => {
+                        setSelected(e.target.value);
+                    }}
+                >
+                    { namesArr.map( (value, index) => <option key={index} value={index}>{value}</option>)}
+                </select>
+                {
+                    selected == '0' 
+                        ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } moreInfoText2={ moreInfoTextStackedArea2 } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! } plotlyDataJson={ dataJson } />
+                        : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare} plotlyDataJson={ dataJsonNormalizaed } />
+                }
+                
+                
+            </div>
+        : <div>Error</div> }</>
+
+        
     )
 }

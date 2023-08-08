@@ -69,6 +69,7 @@ const mapFilterElements = [1201, 1202]; // ! No olvidar modificar aqui
 const regionsElementId = {1201:1201, 1202:1202, 1060:1154, 1059:1153, 58:152, 5510:5510, 1000:1000, 5312:5312, 645:14, 6:6, 7:7};
 //const baseURL = 'https://cropobs-central.ciat.cgiar.org';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
+//const baseURL = 'A.COM';
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
 const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
 const idGroup = process.env.NEXT_PUBLIC_ID_GROUP; //96001
@@ -129,16 +130,16 @@ const SurfaceContextPage: NextPage = () => {
     const [showCountries, setShowCountries] = useState(false);
     const [clickId, setClickId] = useState<string | number | null>(null);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher);
+    const { data: elementsData, isLoading: isLoadingElements, error: errorElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/1`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
     // alert(`${baseURL}/api/v1/data/elements/1`);
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
+    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions, error: errorMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${idCrop}/${year}`, dataFetcher);
-    const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1101/${idCrop}/${ year }`, dataFetcher);
-    const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1201/${idCrop}/${ year }`, dataFetcher);
-    const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1202/${idCrop}/${ year }`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions, error: errorRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${idCrop}/${year}`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
+    const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage, error: errorIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1101/${idCrop}/${ year }`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
+    const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea, error: errorIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1201/${idCrop}/${ year }`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
+    const { data: indicatorTotalCerealArea, isLoading: isLoadingIndicatorTotalCerealArea, error: errorIndicatorTotalCerealArea } = useSWR<number>(`${baseURL}/api/v1/data/value/${cropName}_surface_context/VALUE/${ countryCode2 }/1202/${idCrop}/${ year }`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
     // const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/27/${year}`, dataFetcher);
     // const { data: indicatorOnAverage, isLoading: isLoadingIndicatorOnAverage } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1101/27/${ year }`, dataFetcher);
     // const { data: indicatorTotalCropLandArea, isLoading: isLoadingIndicatorTotalCropLandArea } = useSWR<number>(`${baseURL}/api/v1/data/value/rice_surface_context/VALUE/${ countryCode }/1201/27/${ year }`, dataFetcher);
@@ -810,6 +811,9 @@ const SurfaceContextPage: NextPage = () => {
         }
     }, [isLoadingIndicatorTotalCropLandArea, isLoadingIndicatorTotalCerealArea, totalAreaText1, totalAreaText2]);
     
+    const [errorPodium, setErrorPodium] = useState(false);
+    const [errorPlotly1, setErrorPlotly1] = useState(false);
+
 
     // console.log(sideBarColumn, contentColumn)  
 
@@ -851,6 +855,7 @@ const SurfaceContextPage: NextPage = () => {
                                     <Row style={{ paddingLeft: '12px' }}>
                                         <LeftSideMenuContainer/>
                                         <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                            {!errorElements && !errorMacroRegions && !errorYears && !errorRegions ? <>
                                             <Row className={ styles['row-map-selects-filter'] } style={ isMapView ? { marginRight: '20px' } : undefined }>
                                                 <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
                                                     <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
@@ -865,6 +870,11 @@ const SurfaceContextPage: NextPage = () => {
                                             {/* <MapView admin={admin} geoJsonURL={`http://cropobscentral.test/api/v1/geojson/getAllAdmin1`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${cropName}_surface_context/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${idCrop}/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( (localeFilterElement !== '') && elementsObj[elementId] ? elementsObj[elementId][localeFilterElement as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } /> */}
                                             <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${cropName}_surface_context/ISO3/${idCrop}`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${cropName}_surface_context/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${idCrop}/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( (localeFilterElement !== '') && elementsObj[elementId] ? elementsObj[elementId][localeFilterElement as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
                                             {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
+                                            </> 
+                                            :
+                                            <>NO INFO</>
+                                            }
+                                            
                                         
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
@@ -887,16 +897,22 @@ const SurfaceContextPage: NextPage = () => {
                                                 :
                                                     <></>
                                             }
-                                            {(!isLoadingElements && !isLoadingYears && !isLoadingMacroRegions && !isLoadingRegions)?
+                                            {(errorPodium && errorPlotly1)?
+                                            <>
+                                                {locale == 'en'? "Oops something went wrong! Please reload" : locale == 'es'? "Ups algo salió mal! Por favor recarga": locale=='pt'? "Ops, algo deu errado! Por favor recarregue": "Oops something went wrong!"}
+                                            </>
+                                            :
+                                            (!isLoadingElements && !isLoadingYears && !isLoadingMacroRegions && !isLoadingRegions)?
                                             <>
                                             <PodiumWithLink 
-                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode2 }/5412/${idCrop}/${ year }` } 
+                                                dataURL={ `${ baseURL }/api/v1/data/podium/${ countryCode2 }/5412/${idCrop}/${ year }` } //EP
                                                 text1={ text1Podium } 
                                                 text2={ `${ podiumRank }°` }
                                                 text3={ text2Podium }
                                                 text4={ `${year}` }
                                                 description={ podiumMoreInfoText }
                                                 currentYearSelected={ year }
+                                                errorSetter={ setErrorPodium }
                                                 />
                                             <p style={{ textAlign: 'center', padding: '20px 0px' }}> { indicatorText1 } <span style={ textBold } >{ indicatorOnAverage }°</span> { indicatorText2 } <span style={ textBold }>{ indicatorText3 }</span> </p>
                                             <p style={{ textAlign: 'center' }}>{ harvestedAreaText1 } <span style={ textBold }>{year}</span>{ harvestedAreaText2 }</p>

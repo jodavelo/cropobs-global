@@ -54,7 +54,7 @@ export const PodiumWithLinkConProdu: FC<Props> = ({ dataURL, text, description='
         return !exclusionClasses.some((classname) => node.classList?.contains(classname));
     }
     console.log(dataURL);
-    const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
+    const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
 
     if (error) return <div>Failed to load</div>
     if (isLoading) return <div>Loading...</div>

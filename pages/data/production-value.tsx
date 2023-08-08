@@ -136,6 +136,7 @@ const PVPage: NextPage = () => {
     const [data4, setData4] = useState<number[] | undefined>(undefined);
     const [x_labels, setXLabels] = useState<number[] | undefined>(undefined);
     const [dataFrame1, setDataFrame1] = useState<DataDocument[] | undefined>(undefined);
+    const [errorChart, setErrorChart] = useState(false)
     // Data translation states
     const [percentConfig1, setPercentConfig1] = useState<PercentConfig | undefined>(undefined);
     const [percentConfig2, setPercentConfig2] = useState<PercentConfig | undefined>(undefined);
@@ -143,13 +144,13 @@ const PVPage: NextPage = () => {
     const [chartTxts, setChartTxts] = useState<ChartTxts | undefined>(undefined);
     const [chartConfig, setChartConfig] = useState<ChartConfig[] | undefined>(undefined);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/3`, dataFetcher); //EP
+    const { data: elementsData, isLoading: isLoadingElements, error: errorElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/3`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
+    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false} ); //EP
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher); // EP
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions, error: errorMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher); // EP
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idCrop }/${year}`, dataFetcher); //EP
+    const { data: regionsData, isLoading: isLoadingRegions, error: errorRegions} = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idCrop }/${year}`, dataFetcher); //EP
     const [isMapView, setIsMapView] = useState(false);
 
     const optionsTranslated = (options: any,index:number) => {
@@ -531,7 +532,7 @@ const PVPage: NextPage = () => {
     }, [ locale ])
     
     useEffect(() => {
-        GetChartData2(setXLabels,setData1,setData2,setData3,setData4,countryCode, clickId ? '58' : '152');
+        GetChartData2(setXLabels,setData1,setData2,setData3,setData4,countryCode, clickId ? '58' : '152',setErrorChart);
     }, [clickId, regionCode, locale]);
 
     useEffect(() => {
@@ -565,16 +566,24 @@ const PVPage: NextPage = () => {
 
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
-
+    const [errorChart2, setErrorChart2] = useState(false)
     useEffect( () => {
         axios({url: `${ baseURL }/api/v1/data/value/${ cropName }_production_value/VALUE/${countryCode2}/${clickId ? '1059' : '1153'}/${ idCrop }/${year}`}) //EP
         .then(response => {
             setValuePorc1(response.data)
+            setErrorChart2(false)
+        })
+        .catch( error => {
+            setErrorChart2(true)
         })
 
         axios({url: `${ baseURL }/api/v1/data/value/${ cropName }_production_value/VALUE/${countryCode2}/${clickId ? '1060' : '1154'}/${ idCrop }/${year}`}) //EP
         .then(response => {
             setValuePorc2(response.data)
+            setErrorChart2(false)
+        })
+        .catch( error => {
+            setErrorChart2(true)
         })
 
     },[clickId, year, regionCode]);
@@ -882,6 +891,7 @@ const PVPage: NextPage = () => {
                                         <Row style={{ paddingLeft: '12px' }}>
                                             <LeftSideMenuContainer/>
                                             <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                            {!errorElements && !errorMacroRegions && !errorYears && !errorRegions ? <>
                                                 <Row className={ styles['row-map-selects-filter'] } style={ isMapView ? { marginRight: '20px' } : undefined }>
                                                     <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
                                                         <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
@@ -894,6 +904,10 @@ const PVPage: NextPage = () => {
                                                     </Row>
                                                 </Row>
                                                 <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${ cropName }_production_value/ISO3/${ idCrop }`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${ cropName }_production_value/${admin}/${regionCode}/${ idCrop }/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${ idCrop }/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } /> {/* //EP */}
+                                                </> 
+                                            :
+                                            <>NO INFO</>
+                                            }
                                             </Col>
                                             <Col xs={ 12 } lg={ graphsCol } className={styles['col-right-prodval']} style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px', width: '98%' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto', width: '48%' } : { display: 'none' } }>
                                                 {
@@ -921,15 +935,23 @@ const PVPage: NextPage = () => {
                                                         <br></br>
                                                         <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
                                                         <br></br>
-                                                        <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                        {!errorChart?
+                                                            <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
                                                             
                                                                 <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
                                                             
-                                                        </ChartFrame>
+                                                            </ChartFrame>
+                                                        :
+                                                        <div>Error</div>
+                                                        }
                                                         <br></br>
+                                                        {!errorChart2?
                                                         <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
                                                             <ChartSelectionPV chartConfigList={chartConfig} />
                                                         </ChartFrame>
+                                                        :
+                                                        <div>Error</div>
+                                                        }
                                                     </>
                                                     :
                                                     <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
