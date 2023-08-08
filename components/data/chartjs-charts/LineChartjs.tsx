@@ -37,7 +37,7 @@ interface ChartjsConfig {
 
 export const LineChartjs: FC<{dataURL: string, elementsURL: string, options: Record<string, any>, config: Record<string, any>, description: string, orderList?: Record<number, number> , chartID?: string, chartConf?: ChartjsConfig}> = ({ dataURL, elementsURL, options, config, description, orderList = [], chartID = '', chartConf = {fill: false, pointRadius: 1, yAxisID: 'y'}}) => {
   const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
-  const { data: preElements, error: elem_error, isLoading: elem_isLoading } = useSWR(elementsURL, dataFetcher);
+  const { data: preElements, error: elem_error, isLoading: elem_isLoading } = useSWR(elementsURL, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
   const [showModal, setShowModal] = useState(false);
 
   if (error) return <div>Failed to load</div>

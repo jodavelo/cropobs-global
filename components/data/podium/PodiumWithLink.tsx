@@ -20,9 +20,10 @@ interface Props {
     text4?: string;
     description: string;
     currentYearSelected?: number;
+    errorSetter?: Function;
 }
 
-export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4, description='', currentYearSelected = 0 }) => {
+export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4, description='', currentYearSelected = 0, errorSetter=(error:boolean)=>{}}) => {
 
     const { locale } = useRouter();
     const htmlRef = useRef<HTMLDivElement>(null);
@@ -55,8 +56,8 @@ export const PodiumWithLink: FC<Props> = ({ dataURL, text1, text2, text3, text4,
         return !exclusionClasses.some((classname) => node.classList?.contains(classname));
     }
 
-    const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher);
-
+    const { data: predata, error, isLoading } = useSWR(dataURL, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
+    errorSetter(error)
     if (error) return <div>Failed to load</div>
     if (isLoading) return <div>Loading...</div>
 

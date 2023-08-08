@@ -19,6 +19,7 @@ interface Props {
     yLabelStackedArea?: string;
     yLabelShare?: string;
     locale?: string;
+    errorSetter?: Function;
 }
 
 export const PlotlyChartStackedAreaContainer: FC<Props> = ({ 
@@ -36,7 +37,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     moreInfoTextStackedAreaNormalized2,
     yLabelStackedArea,
     yLabelShare,
-    locale
+    locale,
+    errorSetter = (error:boolean)=>{}
 }) => {
 
     const [traces, setTraces] = useState([]);
@@ -44,6 +46,8 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     const [ticks, setTicks] = useState<number[]>([]);
     const [selected, setSelected] = useState('0');
     const [dataJson, setDataJson] = useState<Object[]>([]);
+    const [loadingPL, setLoadingPL] = useState(false);
+    const [errorPL, setErrorPL] = useState(false);
     //const cropNameLocale = ;
     
     const generateJsonStackedAreaLocale = (observationsJson: { value: any; year: any; crop_name: any; unit: any; }[]) => {
@@ -61,69 +65,85 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     useEffect(() => {
         console.log('====================================================================', { locale })
         const algo = async() => {
-        const response = await centralApi.get(fetchDataUrl);
-        const { labels, observations } = response.data.data;
-        let localeObservations = generateJsonStackedAreaLocale(response.data.data.observations)
-        setDataJson(localeObservations);
-        const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName, locale);
-        console.log( datasets )
-        const { ticks } = getYearsPlotlyChart( labels );
-        setTicks(ticks);
-        let dataArr: any = [];
-        let dataArrStckedArea: any = [];
-        datasets.map(dataset => {
-            //console.log(dataset.data)
-            const { y , fillcolor, marker, name, stackgroup, groupnorm } = dataset;
-            const trace: traceObject = {
-                x: labels,
-                y,
-                fillcolor, 
-                marker: {
-                    color: marker.color
-                },
-                name, 
-                stackgroup, 
-                groupnorm,
-                hovertemplate: '%{y:,.2f}'
-            }
-            const stackedArea: traceObject = {
-                x: labels,
-                y,
-                fillcolor, 
-                marker: {
-                    color: marker.color
-                },
-                name, 
-                stackgroup, 
-                hovertemplate: '%{y:,.2f}'
-            }
-            dataArr.push(trace)
-            dataArrStckedArea.push(stackedArea)
-          });
-            setTraces(dataArr);
-            setStackedAreaTraces(dataArrStckedArea)
+            setLoadingPL(true)
+            const response = await centralApi
+                .get(fetchDataUrl)
+                .catch((error) => {
+                    setErrorPL(true)
+                    return {data:{data:-1}}
+                } );
+            errorSetter(errorPL)
+            if(response.data.data!== -1){
+                const { labels, observations } = response.data.data;
+                let localeObservations = generateJsonStackedAreaLocale(response.data.data.observations)
+                setDataJson(localeObservations);
+                const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName, locale);
+                console.log( datasets )
+                const { ticks } = getYearsPlotlyChart( labels );
+                setTicks(ticks);
+                let dataArr: any = [];
+                let dataArrStckedArea: any = [];
+                datasets.map(dataset => {
+                    //console.log(dataset.data)
+                    const { y , fillcolor, marker, name, stackgroup, groupnorm } = dataset;
+                    const trace: traceObject = {
+                        x: labels,
+                        y,
+                        fillcolor, 
+                        marker: {
+                            color: marker.color
+                        },
+                        name, 
+                        stackgroup, 
+                        groupnorm,
+                        hovertemplate: '%{y:,.2f}'
+                    }
+                    const stackedArea: traceObject = {
+                        x: labels,
+                        y,
+                        fillcolor, 
+                        marker: {
+                            color: marker.color
+                        },
+                        name, 
+                        stackgroup, 
+                        hovertemplate: '%{y:,.2f}'
+                    }
+                    dataArr.push(trace)
+                    dataArrStckedArea.push(stackedArea)
+                });
+                    setTraces(dataArr);
+                    setStackedAreaTraces(dataArrStckedArea)
+                }
         }
         algo();
+        setLoadingPL(false)    
         
     }, [fetchDataUrl, locale])
+
+     useEffect(() => {
+        
+        
+    }, [fetchDataUrl])
+
     ///console.log({ selected })
     return (
-        <div style={{maxWidth:'800px',margin:'auto'}}>
-            <select
-                value={selected}
-                onChange={(e) => {
-                    setSelected(e.target.value);
-                }}
-            >
-                { namesArr.map( (value, index) => <option key={index} value={index}>{value}</option>)}
-            </select>
-            {
-                selected == '0' 
-                    ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } moreInfoText2={ moreInfoTextStackedArea2 } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! } plotlyDataJson={ dataJson } />
-                    : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare}  />
-            }
-            
-            
-        </div>
+        <>{!errorPL && !loadingPL ? 
+            <div style={{maxWidth:'800px',margin:'auto'}}>
+                <select
+                    value={selected}
+                    onChange={(e) => {
+                        setSelected(e.target.value);
+                    }}
+                >
+                    { namesArr.map( (value, index) => <option key={index} value={index}>{value}</option>)}
+                </select>
+                {
+                    selected == '0' 
+                        ? <PlotlyChartStackedArea plotlyDivId={ stackedAreaID } moreInfoText={ moreInfoTextStackedArea } moreInfoText2={ moreInfoTextStackedArea2 } dataTraces={ stackedAreaTraces } ticks={ ticks } title={ stackedAreaTitle! } yAxisLabel={ yLabelStackedArea! } plotlyDataJson={ dataJson } />
+                        : <PlotlyChartStackedAreaNormalized  plotlyDivId={ stackedAreaNormalizedID } moreInfoText={ moreInfoTextStackedAreaNormalized } moreInfoText2={ moreInfoTextStackedAreaNormalized2 }  title={ stackedAreaNormalizedTitle! } ticks={ ticks } dataTraces={ traces } yLabel={yLabelShare}  />
+                }
+            </div>
+        : <div>Error</div> }</>
     )
 }

@@ -79,11 +79,11 @@ export const MapView = ({ geoJsonURL, adminIdsURL, percentileURL, quintilURL, ad
     let hoveredStateId: number | string | null = null;
     let clickedStateId: number | string | null = null;
 
-    const { data: predata, isLoading: isLoadingGeo, error: errorGeo } = useSWR<GeoJSONData>(geoJsonURL, dataFetcher);
+    const { data: predata, isLoading: isLoadingGeo, error: errorGeo } = useSWR<GeoJSONData>(geoJsonURL, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
 
-    const { data: adminIds } = useSWR<String[]>(adminIdsURL, dataFetcher);
-    const { data: adminJsonValues } = useSWR<AdminJsonData>( () => percentileURL + `&adminIds=${JSON.stringify( adminIds )}`, dataFetcher);
-    const { data: quintilArray, isLoading: isLoadingQuintil } = useSWR<Number[]>( () => quintilURL + `?valuesArray=${JSON.stringify(adminJsonValues?.values)}`, dataFetcher);
+    const { data: adminIds } = useSWR<String[]>(adminIdsURL, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
+    const { data: adminJsonValues } = useSWR<AdminJsonData>( () => percentileURL + `&adminIds=${JSON.stringify( adminIds )}`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
+    const { data: quintilArray, isLoading: isLoadingQuintil } = useSWR<Number[]>( () => quintilURL + `?valuesArray=${JSON.stringify(adminJsonValues?.values)}`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false});
 
     if (errorGeo) console.log('error')
 

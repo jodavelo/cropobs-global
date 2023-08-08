@@ -84,18 +84,26 @@ export const GetChartData = (setterLabels: Function,setterProd: Function,setterH
       })
 }
 
-export const GetChartData2 = (setterLabels: Function,setterdata1: Function,setterdata2: Function,setterdata3: Function, setterdata4: Function, countryCode: string, elementId: string) => {
+export const GetChartData2 = (setterLabels: Function,setterdata1: Function,setterdata2: Function,setterdata3: Function, setterdata4: Function, countryCode: string, elementId: string, setterError = (error:boolean)=>{}) => {
   const configData = setConfigData(countryCode, elementId);
   axios(configData[0])
     .then(response => {
       setterLabels(response.data.data.labels)
       setterdata1(response.data.data.observations.map((datum: any) => datum.value))
     })
+    .catch(error => {
+      setterLabels([0])
+      setterdata1([0])
+      setterError(true)
+      console.log(error)
+    })
     axios(configData[1])
     .then(response => {
       setterdata2(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
+      setterdata2([0])
+      setterError(true)
       console.log(error)
     })
   axios(configData[2])
@@ -103,6 +111,8 @@ export const GetChartData2 = (setterLabels: Function,setterdata1: Function,sette
       setterdata3(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
+      setterdata3([0])
+      setterError(true)
       console.log(error)
     })
   axios(configData[3])
@@ -110,6 +120,8 @@ export const GetChartData2 = (setterLabels: Function,setterdata1: Function,sette
       setterdata4(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
+      setterdata4([0])
+      setterError(true)
       console.log(error)
     })
 }

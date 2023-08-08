@@ -117,13 +117,13 @@ const DataPage: NextPage = () => {
     // Data translation states
     // const [podiumConfig, setPodiumConfig] = useState<PodiumConfig[] | undefined>(undefined);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/4`, dataFetcher); //EP
+    const { data: elementsData, isLoading: isLoadingElements, error: errorElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/4`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
+    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher); //EP
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions, error:errorMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idIndicators }/${year}`, dataFetcher); //EP
+    const { data: regionsData, isLoading: isLoadingRegions, error: errorRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idIndicators }/${year}`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
     const [isMapView, setIsMapView] = useState(false);
 
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -631,16 +631,19 @@ const DataPage: NextPage = () => {
     let [databar13, setdatabar13] = useState(Array(0))
     let [databar14, setdatabar14] = useState(Array(0))
     let [databar15, setdatabar15] = useState(Array(0))
+    const [errorChart1, setErrorChart1] = useState(false)
 
     let [xlabels2, setxlabels2] = useState(Array(0))
     let [datapoints2, setdatapoints2] = useState(Array(0))
     let [databar21, setdatabar21] = useState(Array(0))
     let [databar22, setdatabar22] = useState(Array(0))
     let [databar23, setdatabar23] = useState(Array(0))
+    const [errorChart2, setErrorChart2] = useState(false)
 
     useEffect(() => {
         axios({ url: `${ baseURL }/api/v1/chart/default/${ cropName }_consumption/${countryCode2}?elementIds=[5142,5527,5521,5131,5123,95154,${clickId ? '645' : '14'}]&cropIds=[${ idIndicators }]` }) //EP
             .then(response => {
+                setErrorChart1(false)
                 const data = datasetGeneratorPV(response.data.data.observations, response.data.data.labels, 'id_element', 'crop_name')
                 const chartjsData = { labels: response.data.data.labels, data };
                 setxlabels1(response.data.data.labels)
@@ -651,9 +654,12 @@ const DataPage: NextPage = () => {
                 setdatabar14(data[3].data.map((datum: number) => datum > 0 ? datum : null))
                 setdatabar15(data[5].data.map((datum: number) => datum > 0 ? datum : null))
             })
-        console.log(`${ baseURL }/api/v1/chart/default/${ cropName }_consumption/${countryCode2}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[${ idIndicators }]`); //EP
+            .catch(error => {
+                setErrorChart1(true)
+            })
         axios({ url: `${ baseURL }/api/v1/chart/default/${ cropName }_consumption/${countryCode2}?elementIds=[${clickId ? '8' : '10'},5611,${clickId ? '9' : '5911'},12]&cropIds=[${ idIndicators }]` }) //EP
             .then(response => {
+                setErrorChart2(false)
                 const data = datasetGeneratorPV(response.data.data.observations, response.data.data.labels, 'id_element', 'crop_name')
                 const chartjsData = { labels: response.data.data.labels, data };
                 setxlabels2(response.data.data.labels)
@@ -661,6 +667,9 @@ const DataPage: NextPage = () => {
                 setdatabar21(data[0].data)
                 setdatabar22(data[2].data.map((datum: number) => -datum))
                 setdatabar23(data[3].data)
+            })
+            .catch(error => {
+                setErrorChart2(true)
             })
 
     }, [clickId])
@@ -885,6 +894,7 @@ const DataPage: NextPage = () => {
                                         <Row style={{ paddingLeft: '12px' }}>
                                             <LeftSideMenuContainer />
                                             <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                                {!errorElements && !errorMacroRegions && !errorYears && !errorRegions ? <>
                                                 <Row className={ styles['row-map-selects-filter'] } style={ isMapView ? { marginRight: '20px' } : undefined }>
                                                     <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
                                                         <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
@@ -897,6 +907,10 @@ const DataPage: NextPage = () => {
                                                     </Row>
                                                 </Row>
                                                 <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${ cropName }_consumption/ISO3/${ idIndicators }`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${ cropName }_consumption/${admin}/${regionCode}/${ idIndicators }/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${ idIndicators }/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ ( elementsObj[elementId] ? elementsObj[elementId][dataTranslate('LOCALE_FILTER_ELEMENT') as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } /> {/* //EP */}
+                                                </> 
+                                            :
+                                            <>NO INFO</>
+                                            }
                                             </Col>
                                             <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                 {
@@ -920,7 +934,7 @@ const DataPage: NextPage = () => {
                                                 }
                                                 {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
                                                     <br></br>
-                                                {(podiumConfig && perCapConsup!==-1000 && dataPorcentage1.value!==-1000 && dataComplmnt1!==-1000 && dataPorcentage2.value!==-1000 && dataComplmnt2!==-1000 && dataPorcentage3.value!==-1000 && dataComplmnt3!==-1000 && dataPorcentage4.value!==-1000  && dataComplmnt4!==-1000 && xlabels1.length!==0 && selfSuff!==-1000 && xlabels2.length!==0) ?
+                                                {(podiumConfig && perCapConsup!==-1000 && dataPorcentage1.value!==-1000 && dataComplmnt1!==-1000 && dataPorcentage2.value!==-1000 && dataComplmnt2!==-1000 && dataPorcentage3.value!==-1000 && dataComplmnt3!==-1000 && dataPorcentage4.value!==-1000  && dataComplmnt4!==-1000 && xlabels1.length!==0 && selfSuff!==-1000 && xlabels2.length!==0) || errorChart1 && errorChart2 ?
                                                 <>
                                                 <PodiumSelectionCon podiumsList={podiumConfig} />
                                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
@@ -931,7 +945,7 @@ const DataPage: NextPage = () => {
                                                     data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt4 * 100) / 100).toString()) }} />
                                                 <br></br>
                                                 <ChartFrame data={dataFrame1 as any} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                    { xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
+                                                    { errorChart1 ? (<div>Error</div>) : xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
                                                 </ChartFrame>
                                                 <br></br>
                                                 <ChartFrame1Btn toggleText={dataTranslate('porc5-toggle')}>
@@ -939,7 +953,7 @@ const DataPage: NextPage = () => {
                                                 </ChartFrame1Btn>
                                                 <br></br>
                                                 <ChartFrame data={dataFrame2 as any} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                                    { xlabels2.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
+                                                    { errorChart2 ? (<div>Error</div>) : xlabels2.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
                                                 </ChartFrame>
                                                 <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </>

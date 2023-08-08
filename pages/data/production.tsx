@@ -119,13 +119,13 @@ const ProductionPage: NextPage = () => {
     const [lineChartConfig, setLineChartConfig] = useState<ConfigChart | undefined>(undefined);
     const [otherTexts, setOtherTexts] = useState<OtherTexts | undefined>(undefined);
 
-    const { data: elementsData, isLoading: isLoadingElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher);
+    const { data: elementsData, isLoading: isLoadingElements, error:errorElements } = useSWR<ElementsData[]>(`${baseURL}/api/v1/data/elements/2`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher);
+    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseURL}/api/v1/data/years/OBSERVATIONS`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: macroRegionsData, isLoading: isLoadingMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher);
+    const { data: macroRegionsData, isLoading: isLoadingMacroRegions, error:errorMacroRegions } = useSWR<Record<string, MacroRegionsData>>(`${baseURL}/api/v1/data/macroRegions`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
 
-    const { data: regionsData, isLoading: isLoadingRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idCrop }/${year}`, dataFetcher);
+    const { data: regionsData, isLoading: isLoadingRegions, error: errorRegions } = useSWR<Record<string, RegionsData>>(`${baseURL}/api/v1/data/regions/${regionsElementId[elementId as keyof typeof regionsElementId]}/${ idCrop }/${year}`, dataFetcher,{errorRetryCount:2,revalidateOnFocus:false}); //EP
     const [isMapView, setIsMapView] = useState(false);
 
     useEffect(() => {
@@ -704,6 +704,7 @@ const ProductionPage: NextPage = () => {
                                             <Row style={{ paddingLeft: '12px' }}>
                                                 <LeftSideMenuContainer/>
                                                 <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                                {!errorElements && !errorMacroRegions && !errorYears && !errorRegions ? <>
                                                     <Row className={ styles['row-map-selects-filter'] } style={ isMapView ? { marginRight: '20px' } : undefined }>
                                                         <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
                                                             <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/>
@@ -716,6 +717,10 @@ const ProductionPage: NextPage = () => {
                                                         </Row>
                                                     </Row>
                                                     <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/${cropName}_production/ISO3/${idCrop}`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/${cropName}_production/${admin}/${regionCode}/${idCrop}/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/${idCrop}/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ (otherTexts && elementsObj[elementId] ? elementsObj[elementId][otherTexts?.element_locale as keyof typeof elementsObj[typeof elementId]].toString() : 'Loading...') } elementUnit={elementsObj[elementId]?.UNIT} isMapView={ isMapView } />
+                                                    </> 
+                                            :
+                                            <>NO INFO</>
+                                            }
                                                 </Col>
                                                 <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                                     {

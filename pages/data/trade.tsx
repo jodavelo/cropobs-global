@@ -234,8 +234,8 @@ const DataPage: NextPage = () => {
         clickId: 0
     });
     const [countryCode2, setCountryCode2] = useState('WLRD');
-    const { data: yearsData, isLoading: isLoadingYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher); //EP
-    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/713999/${ year }`, dataFetcher); //EP
+    const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
+    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData, error: errorTradeTD } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/713999/${ year }`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
     //const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/1/${ countryCode }?cropIds=[71333]&elementIds=[3001,3002]`, dataFetcher); //EP
     // const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`${ baseUrl }/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
 
@@ -506,7 +506,9 @@ const DataPage: NextPage = () => {
 
     useEffect(()=>{
         setChartLoading1(true);
-        setChartLoading3(true)
+        setChartFailed1(false);
+        setChartLoading3(true);
+        setChartFailed3(false);
         axios.all([
             axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
             axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
@@ -544,6 +546,8 @@ const DataPage: NextPage = () => {
         }))
         .catch(errors => {
             // reaccionar apropiadamente dependiendo del error.
+            setChartFailed1(true);
+            setChartFailed3(true);
             console.log(errors)
         })
 
@@ -551,6 +555,7 @@ const DataPage: NextPage = () => {
 
     useEffect(() => {
         setTreeLoading(true);
+        setTreeFailed(false)
         //setChartLoading1(true);
         //setChartLoading2(true);
         console.log("effect sin []")
@@ -679,6 +684,7 @@ const DataPage: NextPage = () => {
         }))
         .catch(errors => {
             // reaccionar apropiadamente dependiendo del error.
+            setTreeFailed(true)
             console.log(errors)
         })
         if( clickId === null ) {
@@ -839,6 +845,7 @@ const DataPage: NextPage = () => {
 
     useEffect(() =>{
         setChartLoading2(true)
+        setChartFailed2(false)
         axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[${multiChartTrElementId}]`) //EP
         .then(res => {
             const valuesAux1_1 = Array<number>(0)
@@ -864,6 +871,10 @@ const DataPage: NextPage = () => {
             console.log(res);
 
         })
+        .catch(error => {
+            setChartFailed2(true)
+        })
+        
     }, [multiChartTrElementId,flowId,countryCode2])
 
     useEffect(() => {
@@ -981,7 +992,7 @@ const DataPage: NextPage = () => {
     // ---------------------------------------------------------------------------------------
     const [tradeTotal, setTradeTotal] = useState<number | string>('');
     useEffect(() => {
-        if( !isLoadingTradeTotalData ) {
+        if( !isLoadingTradeTotalData && !errorTradeTD ) {
             setTradeTotal( commarize(tradeTotalData!) )
             console.log(tradeTotalData)
             console.log( commarize(tradeTotalData!) )
@@ -1060,6 +1071,7 @@ const DataPage: NextPage = () => {
                                     <Row style={{ paddingLeft: '12px' }}>
                                         <LeftSideMenuContainer/>
                                         <Col xs={ 12 }  lg={ mapCol } style={ showMap ? { display: 'block', height: '80vh', position: 'relative' } : { display: 'none' } } className={ `${ styles['no-margin'] } ${ styles['no-padding'] }` }>
+                                            {!errorYears ? <>
                                             <Row className={ styles['row-map-selects-filter'] } style={ isMapView ? { marginRight: '20px' } : undefined }>
                                                 <Row style={{justifyContent: 'flex-end', flexWrap: 'wrap', gap: '5px'}}>
                                                     {/* <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
@@ -1082,7 +1094,10 @@ const DataPage: NextPage = () => {
                                             </Row>
                                             <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ cropName?.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/713999` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/713999/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> {/* //EP */}
                                             {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
-                                        
+                                            </>
+                                            :
+                                            <>NO INFO</>
+                                            }
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
                                         {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
