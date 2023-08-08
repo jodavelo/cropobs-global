@@ -49,28 +49,74 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
     //const cropNameLocale = ;
 
     const generateJsonStackedAreaLocale = (observationsJson: { value: any; year: any; crop_name: any; unit: any; }[]) => {
+        if(locale == 'en'){
         return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
             {
                 valueAreaHa: observation.value,
                 year: observation.year,
                 //TODO: Find a way to get dynamic property
                 //@ts-ignore
-                crop_name: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                crop_name: observation, 
                 unit: observation.unit
             }))
+        }else if(locale == 'es'){
+            return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
+                {
+                    valorAreaHa: observation.value,
+                    año: observation.year,
+                    //TODO: Find a way to get dynamic property
+                    //@ts-ignore
+                    nombreCultivo: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                    unidad: observation.unit
+                }))
+        }else{
+            return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
+                {
+                    valorAreaHa: observation.value,
+                    ano: observation.year,
+                    //TODO: Find a way to get dynamic property
+                    //@ts-ignore
+                    nomeDaCulturas: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                    unidad: observation.unit
+                }))
+        }
     }
 
     const generateJsonStackedAreaNormalizedLocale = (observationsJson: { value: any; year: any; crop_name: any; unit: any; }[]) => {
+        if(locale == 'en'){
         return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
             {
                 shareOfTotalArea: observation.value,
                 year: observation.year,
                 //TODO: Find a way to get dynamic property
                 //@ts-ignore
-                crop_name: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                cropName: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
                 unit: observation.unit
             }))
+        }else if(locale == 'es'){
+            return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
+                {
+                    porcentajeDelTotal: observation.value,
+                    año: observation.year,
+                    //TODO: Find a way to get dynamic property
+                    //@ts-ignore
+                    nombreCultivo: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                    unidad: observation.unit
+                }))
+        }
+        else{
+            return observationsJson.map((observation: { value: any; year: any, crop_name: any, unit: any }) => (
+                {
+                    porPercentagemDoTotal: observation.value,
+                    ano: observation.year,
+                    //TODO: Find a way to get dynamic property
+                    //@ts-ignore
+                    nombrenomeDaCulturas: observation[locale == 'en' ? `crop_name` : `crop_name_${locale}` ], 
+                    unidad: observation.unit
+                }))
+        }
     }
+
 
     useEffect(() => {
         console.log('====================================================================', { locale })
@@ -82,7 +128,7 @@ export const PlotlyChartStackedAreaContainer: FC<Props> = ({
         setDataJson(localeObservations);
         setDataJsonNormalized(localeObservationsNormalized)
         const datasets = buildPlotStackedAreaObject(observations, labels, cropNameToFind, secondCropName, locale);
-        console.log( datasets )
+        const plotyJson = { labels: labels, datasets };
         const { ticks } = getYearsPlotlyChart( labels );
         setTicks(ticks);
         let dataArr: any = [];
