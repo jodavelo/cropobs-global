@@ -24,7 +24,7 @@ const Index: NextPage = () => {
             </div> */}
             <>
                 <MainHome/>
-                <SubmainHome/>
+                {/* <SubmainHome/> */}
                 <Indicators/>
                 <NewsContainer/>
                 <CarouselComponent/>
