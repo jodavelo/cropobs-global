@@ -127,7 +127,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Topbar/>
-            <NavbarComponent/>
+            {/* <NavbarComponent/> */}
             <main className={ layoutClassName }>
                 { children }
             </main>

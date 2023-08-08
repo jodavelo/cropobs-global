@@ -5,7 +5,7 @@ import styles from './indicators.module.css';
 
 const items = [
     {
-        imgUrl: '/home/rHOME-11.png',
+        imgUrl: '/home/home-indicator1.png',
         indicator: 120,
         label: 'lorem ipsum',
         prefix: '',
@@ -13,7 +13,7 @@ const items = [
         decimals: 0,
     },
     {
-        imgUrl: '/home/rHOME-11.png',
+        imgUrl: '/home/home-indicator3.png',
         indicator: 120,
         label: 'lorem ipsum',
         prefix: '',
@@ -21,7 +21,7 @@ const items = [
         decimals: 0,
     },
     {
-        imgUrl: '/home/rHOME-11.png',
+        imgUrl: '/home/home-indicator5.png',
         indicator: 120,
         label: 'lorem ipsum',
         prefix: '',
@@ -29,7 +29,15 @@ const items = [
         decimals: 0,
     },
     {
-        imgUrl: '/home/rHOME-11.png',
+        imgUrl: '/home/home-indicator2.png',
+        indicator: 120,
+        label: 'lorem ipsum',
+        prefix: '',
+        sufix: '',
+        decimals: 0,
+    },
+    {
+        imgUrl: '/home/home-indicator4.webp',
         indicator: 120,
         label: 'lorem ipsum',
         prefix: '',

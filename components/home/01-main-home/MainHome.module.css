@@ -18,7 +18,7 @@
     width: 100%;
     background-color: #000;
     height: 36vh;
-    opacity: .5;
+    opacity: .3;
     position: absolute;
     /* top: 'calc(100vh - 40vh)'; */
     left: 0;
@@ -35,6 +35,8 @@
 }
 
 .main-text-content {
+    width: 1200px;
+    text-align: justify;
     white-space: pre-wrap;
     color: #fff;
     font-weight: 700;

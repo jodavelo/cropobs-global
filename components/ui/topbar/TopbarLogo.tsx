@@ -6,7 +6,7 @@ export const TopbarLogo = () => {
         <div
             className={ `${ styles['topbar-logo'] }` }
         >
-            <img src="/logo.png" className={ styles['img-logo-topbar'] } alt="Logo" />
+            <img src="/global-logo.jpg" className={ styles['img-logo-topbar'] } alt="Logo" />
             <img src="/Login_test.png" className={styles['banner']} alt="Banner" />
         </div>
     )
