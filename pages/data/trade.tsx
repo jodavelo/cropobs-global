@@ -201,7 +201,7 @@ const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS; //2546
 const tradeTableName = 'TRADE';
 
 //const cropIdTrade = process.env.NEXT_PUBLIC_CROP_ID_TRADE; // 71333
-const cropIdTrade = 71333
+const cropIdTrade = 803
 const cropTableName = process.env.NEXT_PUBLIC_CROP_ID_TRADE; // BEANS
 //const cropIdTradeByProducts1 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_1; // 803
 //const cropIdTradeByProducts2 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_2; // 80310
@@ -231,7 +231,7 @@ const DataPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2020,
+        year: 2021,
         admin: 'World',
         locationName: dataTranslate('world-locale'),
         flowId: 1        
