@@ -30,13 +30,10 @@ import { BackButton } from '../../components/data/back-button';
 import { GenericMapView } from '../../components/ui/map/generic';
 import { GenericMapContext, GenericMapProvider } from '../../context/map/generic';
 
-import gif from '../../public/Spinner-0.5s-98px.gif';
-// 
 import { RegionsState, SelectOptions, TradeElementState, TradeFlowState, YearsData, YearsState } from '../../interfaces/data';
 import useSWR from 'swr';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { LoadingComponent } from '../../components/ui/loading-component';
-import { TradeApiResponse, TradeObservation } from '../../interfaces/data/trade/trade-helpers';
 
 
 const legendTitleObject = {
@@ -247,9 +244,7 @@ const DataPage: NextPage = () => {
     const [countryCode2, setCountryCode2] = useState('WLRD');
     const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
     const { data: tradeTotalData, isLoading: isLoadingTradeTotalData, error: errorTradeTD } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ tradeTableName }/${ flowId }/${ countryCode }/${ elementId }/${cropIdTrade}/${ year }`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
-    //const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ tradeTableName }/1/${ countryCode }?cropIds=[${cropIdTrade}]&elementIds=[3001,3002]`, dataFetcher); //EP
-    //const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`${ baseUrl }/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
-
+    
     const { width } = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext(LeftSideMenuContext);
     const { map } = useContext(MapContext);
@@ -444,7 +439,7 @@ const DataPage: NextPage = () => {
         if (map)  { 
             map.resize(); 
         }
-        // if( width! < 991 ) setContentColumn('100%');
+
 
         
     })
@@ -567,28 +562,16 @@ const DataPage: NextPage = () => {
     useEffect(() => {
         setTreeLoading(true);
         setTreeFailed(false)
-        //setChartLoading1(true);
-        //setChartLoading2(true);
         console.log("effect sin []")
         axios.all([
             axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ tradeTableName }/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year }`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
+            
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year }`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
+            
         ]).then(axios.spread((...responses) => {
-            /*const responseOne = responses[0];
-            const responseTwo = responses[1];
-            const response3 = responses[2];
-            const response4 = responses[3];
-            const response5 = responses[4];
-            const response6 = responses[5];
-            const response7 = responses[6];
-            const response8 = responses[7];*/
-
+            
             const responseOne = responses[0];
             const response4 = responses[1];
             const response5 = responses[2];
@@ -635,63 +618,12 @@ const DataPage: NextPage = () => {
             // en esta línea, por eso usamos newTreeMapObject directamente.
             setTreeMapData([newTreeMapObject]);    
             setTreeLoading(false)
-
-            // ---------------------------------------------------------------------------------------------
-
-            // another chart
-            /*const valuesAux1 = Array<number>(0)
-            const valuesAux2 = Array<number>(0)
-            responseTwo.data.data.observations.map((elem:any) =>{
-                if(elem.id_element == 3002) valuesAux1.push(elem.value)
-                else if(elem.id_element == 3001) valuesAux2.push(elem.value)
-            })
-            setChartValues11(valuesAux1)
-            setChartValues12(valuesAux2)
-            setChartLabels1(responseTwo.data.data.labels)
-            setChartLoading1(false)*/
-
-            // ---------------------------------------------------------------------------------------------
-
-            // another chart
-            /*const valuesAux1_1 = Array<number>(0)
-            const valuesAux2_1 = Array<number>(0)
-            const valuesAux3_1 = Array<number>(0)
-            const valuesAux4_1 = Array<number>(0)
-            const namesAux = Array<string>(0)
-            response3.data.data.observations.map((elem:any) =>{
-                if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
-                if(elem.id_crop == 71331) {valuesAux1_1.push(elem.value) }
-                else if(elem.id_crop == 71332) valuesAux2_1.push(elem.value)
-                else if(elem.id_crop == 71333) valuesAux3_1.push(elem.value)
-                else if(elem.id_crop == 71339) valuesAux4_1.push(elem.value)
-            })
-            setChartValues21(valuesAux3_1)
-            setChartValues22(valuesAux1_1)
-            setChartValues23(valuesAux4_1)
-            setChartValues24(valuesAux2_1)
-            setChartLabels2(response3.data.data.labels)
-            setChartDataNms2(namesAux)
-            setChartLoading2(false)*/
-
             // ---------------------------------------------------------------------------------------------
 
             // indicators
             setpercent1( Math.round(response4.data * 1000)/1000)
             setpercent2( Math.round(response5.data * 100)/100)
             setpercent3( Math.round(response6.data * 100)/100)
-
-            // another chart
-            /*const data = response7.data.data;
-            const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
-            const chartjsData = {labels: data.labels, datasets};
-            console.log(chartjsData)
-            setanualdata(chartjsData)
-        
-            const data_1 = response8.data.data;
-            const datasets_1 = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
-            const chartjsData_1 = {labels_1: data_1.labels, datasets_1};
-            settenyearsdata(chartjsData_1)*/
-
         }))
         .catch(errors => {
             // reaccionar apropiadamente dependiendo del error.
@@ -1103,8 +1035,8 @@ const DataPage: NextPage = () => {
                                                 </Row>
                                                 
                                             </Row>
-                                            <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ tradeTableName }/ISO3_REPORTER/${cropIdTrade}` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ tradeTableName }/${ regionCode }/${ countryCode }/${cropIdTrade}/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/${cropIdTrade}/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> //EP
-                                            {/* <MapView admin={ admin } geoJsonURL={ 'https://commonbeanobservatory.org' + `/api/v1/geojson/countries/${ 'beans'.toUpperCase() }/ISO3_REPORTER/71333` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ 'beans'.toUpperCase() }/${ regionCode }/${ countryCode }/71333/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/71333/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> //EP */}
+                                            {/* <MapView admin={ admin } geoJsonURL={ baseUrl + `/api/v1/geojson/countries/${ cropName?.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/${cropIdTrade}` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/${cropIdTrade}/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/${cropIdTrade}/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> //EP */}
+                                            <MapView admin={ admin } geoJsonURL={ 'https://commonbeanobservatory.org' + `/api/v1/geojson/countries/${ 'beans'.toUpperCase() }_TRADE_AUX/ISO3_REPORTER/71333` } adminIdsURL={ baseUrl + `/api/v1/data/adminIds/${ 'beans'.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/71333/${ year }?id_elements=["${ elementId }"]` } percentileURL={ baseUrl + `/api/v1/percentile/values/${ countryCode }/data_avg_trade/${ elementId }/71333/${ year }?tradeFlow=${ flowId }`  } quintilURL={ baseUrl + '/api/v1/percentile/heatmap' } legendTitle={ legendTitle } elementUnit={'kg'} isMapView={ false } /> {/* //EP */}
                                             {/* <MapView admin={admin} geoJsonURL={`${baseURL}/api/v1/geojson/countries/rice_surface_context/ISO3/27`} adminIdsURL={`${baseURL}/api/v1/data/adminIds/rice_surface_context/${admin}/${regionCode}/27/${year}?id_elements=[${elementId}]`} percentileURL={`${baseURL}/api/v1/percentile/values/undefined/data_production_surface_context/${elementId}/27/${year}?tradeFlow=undefined`} quintilURL={`${baseURL}/api/v1/percentile/heatmap`} legendTitle={ elementsObj[elementId]?.ELEMENT_EN ?? 'Loading...'} /> */}
                                             </>
                                             :
@@ -1112,7 +1044,7 @@ const DataPage: NextPage = () => {
                                             }
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
+                                        {(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
                                                 {
                                                     showFiltersOnlyCharts ? (
@@ -1154,8 +1086,8 @@ const DataPage: NextPage = () => {
                                                 </ChartFrame2Btn>
                                                 <div> Source: <i>Data source</i> </div>
                                             </>
-                                        //:
-                                        //<div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
+                                        :
+                                        <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>
                                         }
                                         </Col>
                                         
@@ -1173,7 +1105,7 @@ const DataPage: NextPage = () => {
                     </div>
                 </div> 
             </Container>
-            <SearchCountryModal adminIdsUrl={baseUrl + `/api/v1/data/adminIds/${ tradeTableName }/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationNames={ setLocationNameOptions } />
+            <SearchCountryModal adminIdsUrl={baseUrl + `/api/v1/data/adminIds/${ cropName?.toUpperCase() }_TRADE_AUX/${ regionCode }/${ countryCode }/713999/${ year }?id_elements=["${ elementId }"]`} show={showCountries} handleClose={setShowCountries} clickId={clickId} setSectionState={setSectionState} setClickId={setClickId} setLocationNames={ setLocationNameOptions } />
         </Layout>
     )
 }
