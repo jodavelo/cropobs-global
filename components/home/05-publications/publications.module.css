@@ -7,7 +7,7 @@
 }
 
 .publications-section-title {
-    color:#009933;
+    color:#444;
     font-size: 1.7rem;
     margin-bottom: 12px;
     font-weight: bold;
@@ -53,7 +53,7 @@
 
 .view-resource {
     text-decoration: none;
-    color: #009933;
+    color: #444;
     font-weight: bold;
 }
 
