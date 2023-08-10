@@ -18,7 +18,7 @@
     width: 100%;
     background-color: #000;
     height: 36vh;
-    opacity: .5;
+    opacity: .4;
     position: absolute;
     /* top: 'calc(100vh - 40vh)'; */
     left: 0;
@@ -43,6 +43,7 @@
     text-shadow: 0 0 5px #000;
     margin-bottom: 2px;
     width: 80%;
+    text-align: center;
 }
 
 .submain-text-content {
