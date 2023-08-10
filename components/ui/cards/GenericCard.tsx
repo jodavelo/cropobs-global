@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Image from 'next/image';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -14,11 +15,16 @@ interface Props {
 }
 
 export const GenericCard = ({ imageUrl, title, description, btntext, link }: Props ) => {
+    const [imageError, setImageError] = useState(false);
+    const handleImageError = () => {
+        setImageError(true);
+    };
+
     return (
         <>
             <Card border="light" style={{ width: '100%' }}>
                 <Card.Header style={{ background: '#000' }}>
-                    <Image src={ imageUrl } alt="" width={ 220 } height={50} />
+                { !imageError && <Image src={imageUrl} alt="" width={220} height={50} onError={handleImageError} /> }
                 </Card.Header>
                 <Card.Body>
                     <Card.Title className={ styles['center-text'] }>

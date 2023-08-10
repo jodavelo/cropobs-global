@@ -23,8 +23,9 @@ export const GenericMapView = ({ divContainer, geoJsonUrl, onMapClick, polygonCo
             container: divContainer,
             // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
             style: 'mapbox://styles/ciatkm/ckhgfstwq018818o06dqero91',
-            zoom: 0.8,
-            center: [0.707019, -61.616079]
+            zoom: 1,
+            // center: [0.707019, -41.616079]
+            center: [11.698407, 42.616608]
         });
 
         setMapInstance(map);
