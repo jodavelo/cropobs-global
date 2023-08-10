@@ -80,7 +80,7 @@ export const NavLink: FC<Props> = ({ text, href, hasMoreOptions, bigMenu }) => {
         return (
             <div className={styles.dropdown} key={ uuidv4() } >
                 {/* <button className={ styles.dropbtn } style={{ padding: 0, border:'none', background: 'none',  }} >About  */}
-                <div className={ styles.dropbtn } style={ asPath.includes(href) ? style : undefined } >About 
+                <div className={ styles.dropbtn } style={ asPath.includes(href) ? style : undefined } >{locale == 'en' ? 'About' : locale == 'es' ? 'Acerca de' : locale == 'pt' ? 'Sobre nos' : ''}
                     <i className="fa fa-caret-down"></i>
                 </div>
                 <div className={ styles['dropdown-content'] }>
