@@ -1,0 +1,101 @@
+.container {
+    top: 0;
+    width: 100vw;
+    height: 100px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.topbar-logo{
+    width: 100%;
+    height: 120px;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-start;
+    padding: 30px 90px;
+}
+
+.topbar-options{
+    width: 100%;
+    height: 100px;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px 90px 0px 0px;
+}
+
+.img-logo-topbar {
+    width: auto;
+    height: auto;
+}
+
+.container-options{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.options-language{
+    margin: 0px 20px;
+}
+
+.link-options {
+    text-decoration: none;
+    font-weight: bold;
+    color: #b8b8b8
+}
+
+.banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px; /* Ajusta este valor como quieras */
+    height: 70px;
+    z-index: 1; /* Asegúrate de que la imagen esté encima de otros elementos */
+}
+
+@media (max-width: 500px) {
+    .container{
+        height: 150px;
+    }
+    .container{
+        flex-direction: column;
+    }
+    .topbar-logo, .topbar-options{
+        height: 75px;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+    .img-logo-topbar {
+        height: 50px;
+        /*width: auto;*/
+    }
+}
+
+/*@media (min-width: 500px) and (max-width: 700px){
+    .img-logo-topbar{
+        width: 70%;
+    }
+}/*
+/* @media (min-width: 250px) and (max-width: 500px){
+    .container{
+        height: 150px;
+    }
+    .container{
+        flex-direction: column;
+    }
+    .topbar-logo, .topbar-options{
+        height: 75px;
+        justify-content: center;
+    }
+    .img-logo-topbar {
+        height: 80px;
+        width: 100px;
+    }
+} */
+

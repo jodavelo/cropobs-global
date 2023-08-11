@@ -1,0 +1,40 @@
+
+.sidebar-column {
+    min-width: 50px !important;
+    width: 50px !important;
+}
+
+.menu-items {
+    width: 50px !important;
+}
+
+.menu-items > a {
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-items-show > a > span {
+    font-size: 0.6rem;
+}
+
+.submenu-items > a > span {
+    font-size: 0.6rem;
+}
+
+@media (max-width: 1200px) and (min-width: 1100px) {
+    .menu-items-show > a > span {
+        font-size: 0.5rem !important;
+    }
+    .submenu-items > a > span {
+        font-size: 0.7rem;
+    }
+}
+
+@media (min-width: 1500px) {
+    .menu-items-show > a > span {
+        font-size: 0.8rem !important;
+    }
+    .submenu-items > a > span {
+        font-size: 0.8rem;
+    }
+}

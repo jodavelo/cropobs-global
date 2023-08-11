@@ -1,0 +1,139 @@
+
+
+.submain-container {
+    width: 100%;
+    /*height: 40vh;*/
+    background-color: rgb(195, 195, 195);
+    /*padding: 10px 0px;*/
+}
+
+.submain-subcontainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding: 30px 70px;
+
+}
+
+.img-container {
+    /*width: 100%;
+    height: 50%;*/
+    display: flex;
+}
+
+.plate-img {
+    /*width: 100%;
+    height: 100%;*/
+    object-fit: cover;
+    margin-right:5px;
+    width: 270px;
+    height: 120px;
+}
+
+.description-container {
+    width: 110vh;
+    height: 100%;
+    font-style: italic;
+    font-size: 1.4rem;
+    font-weight: 200;
+    text-align: justify!important;
+    display: flex;
+    align-items: flex-start;
+    text-align: center;
+    color: #54667a;
+    align-self: center;
+}
+
+.custom-color {
+    color: #101a24;
+
+}
+
+@media (max-width: 500px){
+    .description-container{
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        /*height: 20%;*/
+    }
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .submain-subcontainer{
+        /*padding: 50px 10px;*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .img-container {
+        /*height: 70%;*/
+        display: flex;
+        justify-content: center;
+    }
+    .description-container{
+        align-items: center;
+        /*height: 30%;*/
+    }
+    .plate-img {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 500px){
+    .submain-subcontainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /*padding: 80px 10px;*/
+    }
+    .description-container{
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        /*height: 20%;*/
+    }
+    .img-container {
+        /*width: 100%;
+        height: 80%;*/
+        display: flex;
+        justify-content: center;
+    }
+    .plate-img {
+        /*width: 60%;
+        height: 100%;*/
+        margin-right: 0;
+    }
+    
+}
+
+@media (min-width: 1000px){ 
+    .submain-container{
+        /*height: 30vh;*/
+        /*padding: 40px 0px;*/
+    }
+    .submain-subcontainer{
+        display: flex;
+        justify-content: center;
+        padding: 24px 40px;
+        /*padding: 0px 0px;*/
+    }
+    .img-container {
+        /* width: 100%;
+        height: 80%;*/
+        display: flex;
+        justify-content: center;
+    }
+    .plate-img {
+        /*width: 20%;
+        height: 90%;*/
+        width: 20vw;
+    }
+    .description-container {
+        /*height: 20%;*/
+        justify-content: center;
+        align-items: center;
+    }
+}

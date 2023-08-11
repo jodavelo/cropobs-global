@@ -1,0 +1,13 @@
+.search-country-button {
+    color: white;
+    background-color: rgb(168, 47, 49);
+    font-weight: 800;
+    border-color: rgb(80, 0, 0) !important;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+}
+
+.search-country-button:hover {
+    background-color: rgb(111, 31, 33) !important;
+}

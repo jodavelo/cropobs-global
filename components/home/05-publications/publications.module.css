@@ -1,0 +1,152 @@
+
+.publications-container {
+    padding: 30px 1px;
+    background-color: rgb(218, 218, 218);
+    display: flex;
+    flex-direction: column;
+}
+
+.publications-section-title {
+    color:#444;
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.publication-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 33vh;
+    padding-top: 10px;
+}   
+
+.publication-img-container {
+    width: 100%;
+    /*height: 80%;*/
+    height: 15vh;
+}
+
+.publication-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    height: auto;
+    /*padding: 30px 0px;*/
+}
+
+.title-card {
+    font-size: 0.7rem;
+    height: 7vh;
+    overflow: hidden;
+    color: #54667a
+}
+
+.view-resource {
+    text-decoration: none;
+    color: #444;
+    font-weight: bold;
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .publication-container{
+        justify-content: flex-start;
+    }
+    .publication-img {
+        object-fit: contain;
+    }
+    .title-card{
+        margin-top: 10px;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+    .card-body {
+        height: auto;
+        width: 60%;
+    }
+}
+
+@media (max-width: 800px) and (min-width: 500px){
+    .publication-container{
+        justify-content: flex-start;
+    }
+
+    .publication-img {
+        object-fit: contain;
+    }
+
+    .title-card{
+        margin-top: 10px;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+    .card-body {
+        height: auto;
+        width: 60%;
+    }
+    
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .publications-container{
+        height: auto;
+    }
+    .publication-container{
+        justify-content: flex-start;
+    }
+    .publication-img {
+        object-fit: contain;
+    }
+
+    .title-card{
+        margin-top: 10px;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+    .publications-section-title {
+        position: relative;
+        left: calc(100vw - 89vw);
+    }
+    .card-body {
+        height: auto;
+        width: 60%;
+    }
+}
+
+@media (min-width: 1000px){
+    .publications-section-title {
+        position: relative;
+        left: calc(100vw - 90vw);
+    }
+    
+    .publications-container{
+        height: auto;
+    }
+    .publication-img {
+        object-fit: contain;
+    }
+
+    .title-card{
+        margin-top: 10px;
+        font-size: 0.8rem;
+        text-align: center;
+        padding: 0px 10px;
+        height: 10vh;
+    }
+    .publication-img-container{
+        height: 15vh;
+    }
+    .card-body {
+        height: auto;
+    }
+    
+}

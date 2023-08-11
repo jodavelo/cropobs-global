@@ -1,0 +1,61 @@
+{
+    "section-name": "Valor da produção",
+    "section-text": "Valor da produção - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_PT",
+    "LOCALE_FILTER_REGION": "region_name_pt",
+    "LOCALE_NAME": "ELEMENT_PT",
+    "LOCALE_COUNTRY_NAME": "country_name_pt",
+    "search-country": "Pesquiçar País",
+    "world-locale": "Mundo",
+
+    "title-header": "Datos-Valor da produção",
+    "title-page": "Pagina do Valor da produção",
+    "label-cropland-area": "",
+
+    "podium-title": "`<span class=${styles['podium-text-description']}>Em <span class=${styles['year-text-bold']}>#{2}</span>, <span class='${styles['year-text-bold']}'>Feijão</span> foi o <span class=${styles['text-bold']}>#{1}</span> cultivo mais importante em relação ao valor da produção </span>`",
+    "podium-title1":"Feijão foi o ",
+    "podium-title2":" cultivo mais importante em relação ao valor da produção im ",
+    "podium-info": "o pódio classifica as culturas de acordo com seu valor de produção anual.",
+
+    "porc1-label":"do valor da produção agrícola",
+    "porc2-label":"do valor da produção de legumbres",
+
+    "chart1-title":"Valor bruto da produção - #{}",
+    "chart1-dataset1":"Feijão",
+    "chart1-dataset2":"Leguminosas",
+    "chart1-dataset3":"Culturas",
+    "chart1-dataset4":"Agricultura",
+    "chart1-axis-y":"Milhares de dólares (USD)",
+    "chart1-toggle":"Este gráfico apresenta a evolução histórica do valor da produção do feijão em milhares de dólares, em relação ao valor agregado da produção de leguminosas, culturas e agricultura em geral. Pode seleccionar na legenda as variáveis que pretende excluir da vista.",
+
+    "chart2-opt1": "Crescimento anual",
+    "chart2-opt2": "Média móvel de 10 anos",
+
+    "chart21-title":"Crescimento relativo do valor da produção - #{}",
+    "chart21-dataset1":"Feijão, seco",
+    "chart21-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
+    "chart21-dataset3":"Produto Interno Bruto",
+    "chart2-toggle":"Este gráfico apresenta a evolução histórica das taxas de crescimento do valor da produção do feijão, do PIB e do PIB agrícola. O filtro no canto superior direito permite alternar a exibição entre a taxa de crescimento anual e a média móvel de 10 anos da taxa de crescimento anual. A taxa de crescimento anual reflete a mudança percentual da variável de juros em relação ao ano anterior, enquanto a média móvel expressa a média dessa mudança durante os últimos dez anos. Você pode selecionar na legenda as variáveis que deseja excluir do visor",
+    "chart21-y-axis":"Taxa de crescimento(%)",
+
+    "chart22-title":"Média móvel de 10 anos - #{}",
+    "chart22-dataset1":"Feijão, seco",
+    "chart22-dataset2":"Valor acrescentado (Agricultura, Silvicultura, e Pesca)",
+    "chart22-dataset3":"Produto Interno Bruto",
+    "chart22-y-axis":"Taxa de crescimento(%)",
+
+    "sources-text": "Fontes:",
+    "graphs_maps": "Mapas e Gráficos",
+    "metadata": "Metadados",
+    "metadata_text1_beans": "Esta secção inclui indicadores económicos que reflectem a importância do feijão comum em comparação com o valor da produção para 68 países. Os dados podem ser encontrados em valor nominal em moeda local e dólares.",
+    "metadata_text2_beans": "Estes são os indicadores disponíveis",
+    "metadata_text3_beans": "Valor da produção de feijão comum em comparação com o valor da produção para o total das culturas",
+    "metadata_text4_beans": "Reflecte o valor estimado da produção de feijão comum sobre o valor acrescentado da cultura total.",
+    "metadata_text5_beans": "Valor da produção de feijão comum em comparação com o valor da produção na agricultura",
+    "metadata_text6_beans": "Reflecte o valor estimado da produção líquida de feijão comum no valor acrescentado agrícola. Inclui valores de produção animal.",
+    "metadata_text7_beans": "Referências",
+    "metadata_text8_beans": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "metadata_text9_beans": "Variáveis",
+    "metadata_text10_beans": "Valor de produção - Valor de produção em rede (Milhares de SLCs actuais)",
+    "metadata_text11_beans": "Valor líquido da produção (Milhares de dólares actuais)"
+}

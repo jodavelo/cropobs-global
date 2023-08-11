@@ -1,0 +1,199 @@
+
+.toggle-dropdown svg {
+  width: 24px;
+  height: auto;
+  vertical-align: middle;
+}
+
+.toggle-dropdown {
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  background-color: gray;
+  border: 1px solid gray;
+  position: absolute;
+  margin: 5px;
+  float: inline-end;
+}
+
+.sidebar {
+    height: 20vh; 
+    border: 1px transparent;
+    padding: 0;
+    margin-top: 60px;
+    transition:left,right,293ms;
+}
+
+.content-data {
+    height: 70vh;
+    border: 1px transparent;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+.no-margin{
+    margin: 0 !important;
+}
+
+.padding-left-subcontainers {
+    padding-left: 0px;
+}
+
+.custom-container-fluid {
+    height: 100%;
+    padding: 0;
+}
+
+.custom-subcontainer-fluid {
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.sidebar-container {
+    background-color: transparent;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-component-container {
+    height: 100%;
+    width: 85%;
+    background-color: transparent;
+}
+
+.sidebar-component-container-collapsed {
+    height: 100%;
+    width: 60%;
+    background-color: transparent;
+}
+
+.sidebar-arrow-container {
+    height: 100%;
+    width: 10%;
+    background-color: transparent;
+}
+
+.sidebar-arrow-container-collapsed {
+    height: 100%;
+    width: 40%;
+    background-color: transparent;
+}
+
+.button-collapsed {
+    background: transparent;
+    color: black;
+    border-color: transparent;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.button-collapsed:hover{
+    background: transparent;
+    border-color: transparent;
+    color: black;
+}
+
+.main-content-container {
+    background-color: transparent;
+    height: 100%;
+    padding-left: 10px;
+}
+
+.main-content-container-consumption {
+    background-color: transparent;
+    height: 100%;
+    padding-left: 10px;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        height: 87vh;
+    }
+    .content-data {
+        height: 87vh;
+    }
+}
+
+.search-country-button {
+    color: white;
+    background-color: rgb(168, 47, 49);
+    font-weight: 800;
+    border-color: rgb(80, 0, 0) !important;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+}
+
+.search-country-button:hover {
+    background-color: rgb(111, 31, 33) !important;
+}
+
+.percent-text {
+    color: #494949;
+    font-weight: 800; 
+}
+
+.percent-year-text {
+    color: #494949;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.text-strong {
+    font-weight: bold;
+}
+
+.row-map-selects-filter {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 3;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.loader-gif {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    margin-left: -32px;
+    margin-top: -32px;
+}
+
+.show_loader {
+    display: block;
+}
+
+.hide_loader {
+    display: none;
+}
+
+.coloredTab {
+    /* TODO: Aqui para cambiar el color de los tabs de metadatos y gráficos */
+    color: rgb(112, 106, 106) !important;
+}
+@media (min-width: 991px) {
+    .padding-left-subcontainers {
+        padding-left: 10px;
+    }
+}
+
+@media (max-width: 991px) {
+    .main-content-container {
+        margin-left: 1%;
+        width: 96%!important;
+    }
+    .main-content-container-consumption {
+        margin-left: 1%;
+        width: 96%!important;
+    }
+    .col-right-prodval{
+        width:100%!important
+    }
+}

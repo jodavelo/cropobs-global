@@ -1,0 +1,144 @@
+
+
+.video-general-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container {
+    height: 20vh;
+    width: 100%;
+    /* border: 1px rgb(164, 57, 57) solid; */
+    box-shadow: 5px 10px 25px 10px rgb(117, 117, 117);
+}
+
+.video-subcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* row-gap: 100px; */
+}
+
+.button-box {
+    height: 15vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.video-source-container {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.button {
+    width: 60%;
+    height: 40%;
+    background-color: rgb(169, 169, 169);
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: rgb(52, 52, 52);
+}
+
+.label-button {
+    color: #fff;
+}
+
+.img-button {
+    height: 50%;
+    width: 50%;
+    object-fit: contain;
+}
+
+.video {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-return {
+    color: #fff !important;
+    background-color: rgb(87, 87, 87);
+    border-color: rgb(87, 87, 87);
+}
+
+.button-return:hover {
+    background-color: rgb(50, 50, 50) !important;
+    border-color: rgb(50, 50, 50);
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .video-container { 
+        height: 30vh;
+    }
+}
+
+@media (max-width: 800px) and (min-width: 500px){
+    .video-container { 
+        height: 50vh;
+    }
+    .video-subcontainer{
+        row-gap: 10px;
+    }
+    .button{
+        width: 30%;
+        height: 50%;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .video-container { 
+        height: 40vh;
+        width: 70%;
+        
+    }
+    .video-subcontainer{
+        row-gap: 10px;
+    }
+    .button{
+        width: 30%;
+        height: 50%;
+    }
+
+}
+
+@media  (max-width: 1200px) and (min-width: 1000px) {
+    .video-container { 
+        height: 50vh;
+        width: 60%;
+        
+    }
+    .video-subcontainer{
+        row-gap: 10px;
+    }
+    .button{
+        width: 30%;
+        height: 50%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .video-container { 
+        height: 50vh;
+        width: 40%;
+        
+    }
+    .video-subcontainer{
+        row-gap: 20px;
+    }
+    .button{
+        width: 40%;
+        height: 50%;
+    }
+}

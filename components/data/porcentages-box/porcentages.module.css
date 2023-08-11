@@ -1,0 +1,41 @@
+.porcentages-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.porcentage-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: -webkit-fill-available;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.porcentage-value{
+
+}
+
+.porcentage-text{
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.percent-data {
+    font-size: 45px;
+    color: #494949;
+    font-weight: 800;
+    text-align: center;
+}
+
+.percent-text {
+    color: #494949;
+    font-weight: 800; 
+}
+
+.percent-year-text {
+    color: #494949;
+    font-weight: 800;
+    font-size: 20px;
+}

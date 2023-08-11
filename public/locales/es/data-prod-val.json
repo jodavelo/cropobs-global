@@ -1,0 +1,61 @@
+{
+    "section-name": "Valor de la Producción",
+    "section-text": "Valor de la Producción - #{}",
+    "LOCALE_FILTER_ELEMENT": "ELEMENT_ES",
+    "LOCALE_FILTER_REGION": "region_name_es",
+    "LOCALE_NAME": "ELEMENT_ES",
+    "LOCALE_COUNTRY_NAME": "country_name_es",
+    "search-country": "Buscar País",
+    "world-locale": "Mundo",
+
+    "title-header": "Datos-Valor de Producción",
+    "title-page": "Pagina de Valor de Producción",
+    "label-cropland-area": "",
+
+    "podium-title": "`<span class=${styles['podium-text-description']}>En <span class=${styles['year-text-bold']}>#{2}</span>, los <span class='${styles['year-text-bold']}'>fríjoles</span> fueron el <span class=${styles['text-bold']}>#{1}</span> cultivo más importante en relación con el valor de la producción</span>`",
+    "podium-title1":"Los fríjoles fueron el ",
+    "podium-title2":" cultivo más importante en relación con el valor de la producción en ",
+    "podium-info": "El podio clasifica los cultivos de acuerdo a su producción anual.",
+
+    "porc1-label":"del valor de la producción de cultivos",
+    "porc2-label":"del valor de la producción de legumbres",
+
+    "chart1-title":"Valor bruto de la producción - #{}",
+    "chart1-dataset1":"Frijoles, secos",
+    "chart1-dataset2":"Legumbres",
+    "chart1-dataset3":"Cultivos",
+    "chart1-dataset4":"Agricultura",
+    "chart1-axis-y":"Miles de dólares (USD)",
+    "chart1-toggle":"Este gráfico presenta la evolución histórica del valor de la producción de frijoles en miles de dólares, en relación con el valor agregado de la producción de legumbres, cultivos y agricultura en general. Puede seleccionar en la leyenda las variables que desea excluir de la visualización.",
+
+    "chart2-opt1": "Crecimiento anual",
+    "chart2-opt2": "Media movil de 10 años",
+
+    "chart21-title":"Crecimiento relativo del valor de la producción - #{}",
+    "chart21-dataset1":"Frijoles, secos",
+    "chart21-dataset2":"Valor agregado (Agricultura, Silvicultura y Pesca)",
+    "chart21-dataset3":"Producto Interno Bruto",
+    "chart2-toggle":"Este gráfico presenta la evolución histórica de las tasas de crecimiento del valor de la producción de frijoles, del PIB y del PIB agrícola. El filtro de la esquina superior derecha permite cambiar la visualización entre la tasa de crecimiento anual y la media móvil de 10 años de dicha tasa. La tasa de crecimiento anual refleja el cambio porcentual de la variable de interés en relación con el año anterior, mientras que la media móvil expresa el promedio de ese cambio en los últimos diez años. Puede seleccionar en la leyenda aquellas variables que desee excluir de la visualización.",
+    "chart21-y-axis":"Tasa de crecimiento(%)",
+
+    "chart22-title":"Media móvil de 10 años - #{}",
+    "chart22-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
+    "chart22-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
+    "chart22-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)",
+    "chart22-y-axis":"Tasa de crecimiento(%)",
+
+    "sources-text": "Fuentes:",
+    "graphs_maps": "Mapas y Gráficos",
+    "metadata": "Metadatos",
+    "metadata_text1_beans": "En esta sección se incluyen indicadores económicos que reflejan la importancia del fríjol común en comparación al valor de producción para 68 países. Se pueden encontrar datos en valor nominal en la moneda local y dólares.",
+    "metadata_text2_beans": "Estos son los indicadores disponibles",
+    "metadata_text3_beans": "Valor de producción para fríjol común comparado con el valor de producción para el total de cultivos",
+    "metadata_text4_beans": "Refleja el valor de producción estimado del fríjol común sobre el valor agregado del total de cultivos.",
+    "metadata_text5_beans": "Valor de producción del fríjol común comparado con el valor de producción en la agricultura",
+    "metadata_text6_beans": "Refleja el valor neto de producción estimado para el fríjol común sobre el valor agregado de la agricultura. Incluye valores de producción animal.",
+    "metadata_text7_beans": "Referencias",
+    "metadata_text8_beans": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations.",
+    "metadata_text9_beans": "Variables",
+    "metadata_text10_beans": "Valor de producción-Valor de producción neto (Miles de SLC actuales)",
+    "metadata_text11_beans": "Valor neto de producción (Miles de US$ actuales)"
+}

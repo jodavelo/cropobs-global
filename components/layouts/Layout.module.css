@@ -1,0 +1,229 @@
+
+/* extra components: ( videos, sign up o caoursel ) */
+
+.home {
+    height: auto; /* TODO: Para el alto del contenido main */ /* 400 vh without extra components  */
+    /* border: 1px black solid; */
+}
+
+.padding-main-content {
+    padding: 10px;
+}
+
+.data {
+    padding: 10px 0;
+    height: 150vh;
+}
+
+.data-sf {
+    padding: 10px 0;
+    height: 180vh;
+}
+
+.data-prod {
+    padding: 10px 0;
+    height: 180vh;
+}
+
+.data-prod-value {
+    padding: 10px 0;
+    height: 180vh;
+}
+
+.data-consumption {
+    padding: 10px 0;
+    height: 180vh;
+}
+
+.data-prices {
+    padding: 10px 0;
+    height: 180vh;
+}
+.data-prices-int {
+    padding: 10px 0;
+    height: 180vh;
+}
+
+.data-trade {
+    padding: 10px 0;
+    height: 180vh;
+}
+.data-pests {
+    padding: 10px 0;
+    height: 150vh;
+}
+.data-diseases {
+    padding: 10px 0;
+    height: 150vh;
+}
+.about-us {
+    /*height: 180vh;*/
+    height: auto;
+}
+
+.databases {
+    height: 170vh;
+}
+
+.contact {
+    height: 200vh;
+}
+
+@media (max-width: 500px) and (min-width: 300px){
+    .home {
+        /*height: 530vh;*/   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
+    }
+    .data {
+        height: 300vh;
+    } 
+}
+
+@media (max-width: 800px) and (min-width: 500px){
+    .home {
+        /*height: 555vh;*/ /* TODO: Para el alto del contenido main */ /* 410 vh without extra components  */
+    }
+    .data {
+        height: 300vh;
+    } 
+       
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .home {
+        /*height: 375vh;*/ /* TODO: Para el alto del contenido main */ /* 310 vh without extra components  */
+    }
+    .data {
+        height: 300vh;
+    } 
+    
+}
+
+@media (min-width: 1000px){ 
+    .home {
+        /*height: 435vh*/ /* TODO: Para el alto del contenido main */ /* 290 vh without extra components  */
+    }
+    .data {
+        height: 200vh;
+    } 
+}
+
+
+
+/* for react bootstrap grid system */
+/* @media (max-width: 575px){
+    .about-us {
+        height: 100vh;
+    }
+} */
+
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .about-us {
+        /*height: 165vh;*/        
+    }
+    .databases {
+        height: 160vh;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 576px) and (min-height: 0px) and (max-height: 600px) {
+    .contact {
+        /* background-color: aquamarine; */
+        height: 270vh;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 991px){
+    .about-us {
+        /*height: 210vh;*/        
+    }
+    .databases {
+        height: 140vh;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 991px) and (min-height: 600px) and (max-height: 800px) {
+    .contact {
+        /* background-color: aquamarine; */
+        height: 220vh;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 800px){
+    .contact {
+        height: 200vh;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 991px){
+    .about-us {
+        /*height: 210vh;*/        
+    }
+    .databases {
+        height: 140vh;
+    }
+    .contact {
+        height: 120vh;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+    .about-us {
+        /*height: 145vh;*/ 
+    }
+    .data-sf, .data-prod, .data-prod-value, .data-consumption .data-prices, .data-prices-int {
+        height: 90vh;
+    }
+    .data-trade {
+        height: 100vh;
+    }
+    
+    .databases {
+        height: 130vh;
+    }
+    .contact {
+        
+        height: 120vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .about-us {
+        /*height: 115vh;*/
+        
+    }
+    .data-sf, .data-prod, .data-prod-value, .data-consumption, .data-prices, .data-prices-int, .data-trade {
+        height: 100vh;
+    }
+    .databases {
+        height: 120vh;
+    }
+    .contact {
+        height: 125vh;
+    }
+}
+
+/* For 1366 pixels of width by 768 pixels of height. */
+@media (min-width: 1365px) and (max-width: 1366px) and (min-height: 767px) and (max-height: 768px) {
+    .contact {
+        /* background-color: rgb(127, 148, 255); */
+        height: 150vh !important;
+    }
+}
+
+/* For 1920 pixels of width by 1080 pixels of height. */
+@media (min-width: 1919px) and (max-width: 1920px) and (min-height: 1079px) and (max-height: 1080px) {
+    .contact {
+        /* background-color: rgb(127, 148, 255); */
+        height: 120vh !important;
+    }
+}
+
+/* For 1920 pixels of width by 1080 pixels of height. */
+@media (min-width: 2559px) and (max-width: 2560px) and (min-height: 1439px) and (max-height: 1440px) {
+    .contact {
+        /* background-color: rgb(127, 148, 255); */
+        height: 90vh !important;
+    }
+}

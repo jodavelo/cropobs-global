@@ -1,0 +1,63 @@
+{
+    "title-header": "Datos-Comercio",
+    "title-page": "Página de datos",
+    "label-cropland-area": "De la superficie total de cultivo",
+    "label-chart1": "A dónde ",
+    "label-chart2": "importó ",
+    "label-chart3": "Mundo ",
+    "label-chart4": "common beans ",
+    "label-chart5": "en ",
+
+    "label-chart6": "Valor ",
+    "label-chart7": "importaciones ",
+    "label-chart8": "total",
+
+    "label-perc1": "del valor total de las ",
+    "label-perc1_1": " de alimentos y bebidas",
+    "label-perc2": "del valor total de las ",
+    "label-perc2_2": " de alimentos y bebidas (primario)",
+    "label-perc3": "del valor total de las ",
+    "label-perc3_3": " de legumbre",
+
+    "value-option-filter": "Por valor",
+    "quantity-option-filter": "Por cantidad",
+
+    "tree-toggle" : "Toggle tree Espanol",
+
+    "chart1-title": "de common beans - ",
+    "chart1-axis-y":"Valor (USD) y Cantidad (kg)",
+    "chart1-dataset1":"Valor (US$)",
+    "chart1-dataset2":"Cantidad (kg)",
+    "chart1-toggle" : "Toggle chart 1 español",
+
+    "chart2-title": "Valor de las  ",
+    "chart2-title_1": " por tipo de fríjol - ",
+    "chart2-axis-y":"Valor (US$)",
+    "chart2-dataset1":"",
+    "chart2-dataset2":"",
+    "chart2-dataset4":"",
+    "chart2-dataset3":"",
+    "chart2-toggle" : "Toggle chart 2 espanol",
+
+    "chart2-1-axis-y":"Cantidad (kg)",
+
+    "chart3-opt1": "Crecimiento anual",
+    "chart3-opt2": "Media movil de 10 años",
+
+    "chart31-title":"Crecimiento anual de las <flowID> de frijoles comunes",
+    "chart31-title_1":" de common beans - ",
+    "chart31-dataset1":"Crecimiento de la cantidad (anual)",
+    "chart31-dataset2":"Crecimiento del precio (anual)",
+    "chart31-dataset3":"Crecimiento del valor (anual)",
+    "chart3-toggle":"Toggle chart 3 espanol",
+
+    "chart32-title":"Media móvil de 10 años de las <flowID> de <common beans> - <Mundo>",
+    "chart32-dataset1":"Crecimiento de la cantidad (Media móvil de 10 años)",
+    "chart32-dataset2":"Crecimiento del valor (Crecimiento Media móvil de 10 años)",
+    "chart32-dataset3":"Crecimiento del precio (Crecimiento Media móvil de 10 años)",
+    "trade": "Comercio",
+    "graphs_map": "Gráficos y mapa",
+    "metadata": "Metadatos",
+    "world-locale": "Mundo",
+    "search-country": "Buscar País"
+}

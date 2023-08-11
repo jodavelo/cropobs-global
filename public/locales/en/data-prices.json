@@ -1,0 +1,51 @@
+{
+    "LOCALE_NAME": "ELEMENT_EN",
+    "LOCALE_COUNTRY_NAME": "country_name",
+    "LOCALE_FILTER_REGION": "region_name",
+
+    "country_name": "Central America",
+
+    "world-locale": "World",
+
+    "section-name": "Domestic Prices",
+    "section-text": "Domestic Prices - #{}",
+    "section-int-name": "International Benchmark Prices ",
+    "section-int-text": "International Benchmark Prices  - #{}",
+
+    "country-select-alert": "Please, select a country and type of price",
+
+    "chart-int-info": "The box plot shows annual evolution of international prices by type of beans. The prices in this graph are shown in USD/ton, along with the minimum price, the maximum price and the median price for the selected time period. <br><br>You may select in the legend those variables you wish to exclude from the display.",
+    "chart-int-info2": "This graph presents the historical evolution of monthly international prices by type of beans. The prices are shown in USD/ton for the selected time period. <br><br>You may select in the legend those variables you wish to exclude from the display.",
+    "podiums-info": "This podium ranks crops according to year-on-year growth in production, harvested area and yield for the selected period. The filter allows you to switch between the three variables. The podium will show the three crops that grew the most in relation to the selected variable, as well as the position of the beans in the selected region.",
+    "nominal-option-filter": "Current prices - SLC",
+    "real-option-filter": "Constant prices - SLC",
+    "usd-option-filter": "Current prices - USD",
+    "current-option-filter": "Current prices - USD",
+    "constant-option-filter": "Constant prices - USD",
+    "chart-title-whole-yearly": "Yearly Wholesale Prices",
+    "chart-title-consumer-yearly": "Yearly Consumer Prices",
+    "chart-title-producer-yearly": "Yearly Producer prices",
+    "chart-title-whole-monthly": "Monthly Wholesale Prices",
+    "chart-title-consumer-monthly": "Monthly Consumer Prices",
+    "chart-title-producer-monthly": "Monthly Producer Prices",
+    "chart1-title": " Yearly",
+    "chart1-title2": "Monthly",
+    "chart2-title": "Yearly International Benchmark Prices by type of rice",
+    "chart3-title": "Monthly International Benchmark Prices by type of rice",
+    "chart1-info": "The box plot shows the annual evolution of national prices divided by wholesale prices, producer prices and consumer prices per kilogram. <br><br>The filter in the upper right corner allows switching the display between current and constand prices, whether in local currency (SLC)  or  dollars (USD). You may select in the legend those variables you wish to exclude from the display",
+    "chart2-info":"This graph presents the monthly evolution of national prices by country and according to the level of commercialization such as producer prices, wholesale prices and consumer prices per kilogram. <br><br>The filter in the upper right corner allows switching the display between current and constand prices, whether in local currency (SLC)  or  dollars (USD). You may select in the legend those variables you wish to exclude from the display.", 
+
+    "sources-text": "Data sources:",
+    "graphs_maps": "Maps and Graphs",
+    "metadata": "Metadata",
+    "metadata_text1_beans": "This section includes information to a national level for 67 countries. In addition, you could find the information for four regions (Tropical, Latin American and The Caribbean, Sub-Saharan Africa, and South, South-East Asia, and Pacific).",
+    "metadata_text2_beans": "These are the available indicators",
+    "harvested_area": "Harvested area",
+    "harvested_area_description": "Common bean harvested area in hectares.",
+    "production": "Production",
+    "production_description": "Common bean harvest in tonnes.",
+    "yield": "Yield",
+    "yield_description": "Expressed yield in tonnes per hectares",
+    "references": "References",
+    "faotext": "FAO. (2020). FAOSTAT Dataset. Food and Agriculture Organization of the United Nations."
+}
