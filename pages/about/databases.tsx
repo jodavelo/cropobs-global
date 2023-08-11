@@ -142,6 +142,17 @@ const DatabasesPage: NextPage = () => {
             iso3: iso3
         });
         setResetMap( true );
+        switch (locale) {
+            case 'en':
+                setLocationName( countryName ?? 'english label' )
+                break;
+            case 'es':
+                setLocationName( countryNameEs ?? 'label en español' )
+                break;
+            default:
+                setLocationName( countryNamePt ?? 'etiqueta em inglês' )
+                break;
+        }
         // setIso3Selected( 'WLRD' ); 
     };
 

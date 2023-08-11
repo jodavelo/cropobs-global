@@ -32,6 +32,7 @@
     padding: 0;
     text-align: left;
     margin: 0px 20px;
+    align-items: center;
 }
 
 .main-text-content {
@@ -43,6 +44,8 @@
     font-size: 2rem;
     text-shadow: 0 0 5px #000;
     margin-bottom: 2px;
+    width: 80%;
+    text-align: center;
 }
 
 .submain-text-content {
@@ -57,8 +60,21 @@
 
 @media (max-width: 500px) and (min-width: 300px){
     .submain-text-content {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         padding: 0;
+    }
+}
+
+@media (max-width: 800px) and (min-width: 500px){
+    .main-text-content {
+        font-size: 1.3rem;
+
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 800px){
+    .main-text-content {
+        font-size: 1.5rem;
     }
 }
 
@@ -73,5 +89,12 @@
     .submain-text-content {
         font-size: 1.5rem;
         padding: 0;
+    }
+}
+
+@media (max-width: 1250px) and (min-width: 1000px){
+    .main-text-content {
+        font-size: 1.7rem;
+
     }
 }
