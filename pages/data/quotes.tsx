@@ -25,7 +25,7 @@ interface OtherTexts {
 }
 
 const PestsPage: NextPage = () => {
-    const { t: dataTranslate } = useTranslation('pest-diseases');
+    const { t: dataTranslate } = useTranslation('data-quotes');
     const { locale } = useRouter();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { width } = useWindowSize();
@@ -120,14 +120,14 @@ const PestsPage: NextPage = () => {
     })
     
     
-    useEffect(() => {
+    // useEffect(() => {
         
-        setOtherTexts({section_name: dataTranslate('section-name'), section_text: dataTranslate('section-text')});
+    //     setOtherTexts({section_name: dataTranslate('title'), section_text: dataTranslate('title')});
         
-    }, [dataTranslate]);
+    // }, [dataTranslate]);
 
     return (
-        <Layout title={ otherTexts ? otherTexts.section_name : 'Loading...' }>
+        <Layout title={ dataTranslate('title') }>
             <Container fluid className={ styles['custom-container-fluid'] }>
                 <div className={ styles['custom-subcontainer-fluid'] }>
                     <div className={ styles['sidebar-container'] } style={ width! < 991 ? { display: 'none' } : { width: sideBarColumn }}>
@@ -165,7 +165,7 @@ const PestsPage: NextPage = () => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
-            ...( await serverSideTranslations( locale!, ['pest-diseases'] ) ),
+            ...( await serverSideTranslations( locale!, ['data-quotes'] ) ),
         }
     }
 }
