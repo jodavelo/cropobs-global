@@ -30,13 +30,10 @@ import { BackButton } from '../../components/data/back-button';
 import { GenericMapView } from '../../components/ui/map/generic';
 import { GenericMapContext, GenericMapProvider } from '../../context/map/generic';
 
-import gif from '../../public/Spinner-0.5s-98px.gif';
-// 
 import { RegionsState, SelectOptions, TradeElementState, TradeFlowState, YearsData, YearsState } from '../../interfaces/data';
 import useSWR from 'swr';
 import { SearchCountryModal } from '../../components/data/search-country-modal';
 import { LoadingComponent } from '../../components/ui/loading-component';
-import { TradeApiResponse, TradeObservation } from '../../interfaces/data/trade/trade-helpers';
 
 
 const legendTitleObject = {
@@ -191,16 +188,17 @@ interface sectionState {
 }
 
 // const baseUrl = 'http://cropobscentral.test';
-//const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
-const baseUrl = 'https://commonbeanobservatory.org';
+const baseUrl = 'https://cropobs-central.ciat.cgiar.org';
+// const baseUrl = 'https://commonbeanobservatory.org';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL; //
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP; //176
 const cropName = process.env.NEXT_PUBLIC_CROP_NAME; //beans
 const idGroup = process.env.NEXT_PUBLIC_ID_GROUP; //96001
 const idIndicators = process.env.NEXT_PUBLIC_ID_INDICATORS; //2546
+const tradeTableName = 'TRADE';
 
 //const cropIdTrade = process.env.NEXT_PUBLIC_CROP_ID_TRADE; // 71333
-const cropIdTrade = 71333
+const cropIdTrade = 803
 const cropTableName = process.env.NEXT_PUBLIC_CROP_ID_TRADE; // BEANS
 //const cropIdTradeByProducts1 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_1; // 803
 //const cropIdTradeByProducts2 = process.env.NEXT_PUBLIC_CROP_ID_BY_PRODUCTS_2; // 80310
@@ -230,7 +228,7 @@ const DataPage: NextPage = () => {
         regionCode: 'WLRD',
         macroRegionCode: '10',
         countryCode: 'WLRD',
-        year: 2020,
+        year: 2021,
         admin: 'World',
         locationName: dataTranslate('world-locale'),
         flowId: 1        
@@ -245,10 +243,8 @@ const DataPage: NextPage = () => {
     });
     const [countryCode2, setCountryCode2] = useState('WLRD');
     const { data: yearsData, isLoading: isLoadingYears, error: errorYears } = useSWR<YearsData[]>(`${baseUrl}/api/v1/data/years/OBSERVATIONS`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
-    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData, error: errorTradeTD } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode }/${ elementId }/${cropIdTrade}/${ year }`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
-    //const { data: tradeImports, isLoading: isLoadingTradeImports } = useSWR<number>(`${baseUrl}/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/1/${ countryCode }?cropIds=[${cropIdTrade}]&elementIds=[3001,3002]`, dataFetcher); //EP
-    //const { data: treeMapData, isLoading: isLoadingTreeMapData } = useSWR<TradeApiResponse>(`${ baseUrl }/api/v1/chart/trade/treeMap/BEANS_TRADE_AUX/1/${ countryCode }/3002/713999/${ year }`, dataFetcher);
-
+    const { data: tradeTotalData, isLoading: isLoadingTradeTotalData, error: errorTradeTD } = useSWR<number>(`${baseUrl}/api/v1/data/trade/tradeTotal/${ tradeTableName }/${ flowId }/${ countryCode }/${ elementId }/${cropIdTrade}/${ year }`, dataFetcher, {errorRetryCount:2,revalidateOnFocus:false}); //EP
+    
     const { width } = useWindowSize();
     const { buttonBoth, buttonGraphs, buttonMap } = useContext(LeftSideMenuContext);
     const { map } = useContext(MapContext);
@@ -443,7 +439,7 @@ const DataPage: NextPage = () => {
         if (map)  { 
             map.resize(); 
         }
-        // if( width! < 991 ) setContentColumn('100%');
+
 
         
     })
@@ -520,9 +516,9 @@ const DataPage: NextPage = () => {
         setChartLoading3(true);
         setChartFailed3(false);
         axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3001,3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3301,3303,300001]`), //EP
-            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3302,3304,300003]`) //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3001,3002]`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3301,3303,300001]`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTrade}]&elementIds=[3302,3304,300003]`) //EP
         ])
         .then(axios.spread((...responses) => {
             const responseTwo = responses[0]
@@ -571,28 +567,16 @@ const DataPage: NextPage = () => {
     useEffect(() => {
         setTreeLoading(true);
         setTreeFailed(false)
-        //setChartLoading1(true);
-        //setChartLoading2(true);
         console.log("effect sin []")
         axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year-10 }`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year-10 }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
-            //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ tradeTableName }/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year }`), //EP
+            
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
+            
         ]).then(axios.spread((...responses) => {
-            /*const responseOne = responses[0];
-            const responseTwo = responses[1];
-            const response3 = responses[2];
-            const response4 = responses[3];
-            const response5 = responses[4];
-            const response6 = responses[5];
-            const response7 = responses[6];
-            const response8 = responses[7];*/
-
+            
             const responseOne = responses[0];
             const response4 = responses[1];
             const response5 = responses[2];
@@ -639,63 +623,12 @@ const DataPage: NextPage = () => {
             // en esta línea, por eso usamos newTreeMapObject directamente.
             setTreeMapData([newTreeMapObject]);    
             setTreeLoading(false)
-
-            // ---------------------------------------------------------------------------------------------
-
-            // another chart
-            /*const valuesAux1 = Array<number>(0)
-            const valuesAux2 = Array<number>(0)
-            responseTwo.data.data.observations.map((elem:any) =>{
-                if(elem.id_element == 3002) valuesAux1.push(elem.value)
-                else if(elem.id_element == 3001) valuesAux2.push(elem.value)
-            })
-            setChartValues11(valuesAux1)
-            setChartValues12(valuesAux2)
-            setChartLabels1(responseTwo.data.data.labels)
-            setChartLoading1(false)*/
-
-            // ---------------------------------------------------------------------------------------------
-
-            // another chart
-            /*const valuesAux1_1 = Array<number>(0)
-            const valuesAux2_1 = Array<number>(0)
-            const valuesAux3_1 = Array<number>(0)
-            const valuesAux4_1 = Array<number>(0)
-            const namesAux = Array<string>(0)
-            response3.data.data.observations.map((elem:any) =>{
-                if(!namesAux.includes(elem.crop_name)) namesAux.push(elem.crop_name)
-                if(elem.id_crop == 71331) {valuesAux1_1.push(elem.value) }
-                else if(elem.id_crop == 71332) valuesAux2_1.push(elem.value)
-                else if(elem.id_crop == 71333) valuesAux3_1.push(elem.value)
-                else if(elem.id_crop == 71339) valuesAux4_1.push(elem.value)
-            })
-            setChartValues21(valuesAux3_1)
-            setChartValues22(valuesAux1_1)
-            setChartValues23(valuesAux4_1)
-            setChartValues24(valuesAux2_1)
-            setChartLabels2(response3.data.data.labels)
-            setChartDataNms2(namesAux)
-            setChartLoading2(false)*/
-
             // ---------------------------------------------------------------------------------------------
 
             // indicators
             setpercent1( Math.round(response4.data * 1000)/1000)
             setpercent2( Math.round(response5.data * 100)/100)
             setpercent3( Math.round(response6.data * 100)/100)
-
-            // another chart
-            /*const data = response7.data.data;
-            const datasets = datasetGeneratorPV(data.observations, data.labels, chartConfig[0].config.key,chartConfig[0].config.name);
-            const chartjsData = {labels: data.labels, datasets};
-            console.log(chartjsData)
-            setanualdata(chartjsData)
-        
-            const data_1 = response8.data.data;
-            const datasets_1 = datasetGeneratorPV(data.observations, data.labels, chartConfig[1].config.key,chartConfig[1].config.name);
-            const chartjsData_1 = {labels_1: data_1.labels, datasets_1};
-            settenyearsdata(chartjsData_1)*/
-
         }))
         .catch(errors => {
             // reaccionar apropiadamente dependiendo del error.
@@ -866,7 +799,7 @@ const DataPage: NextPage = () => {
     useEffect(() =>{
         setChartLoading2(true)
         setChartFailed2(false)
-        axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTradeByProducts1},${cropIdTrade},${cropIdTradeByProducts2},${cropIdTradeByProducts3}]&elementIds=[${multiChartTrElementId}]`) //EP
+        axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ tradeTableName }/${ flowId }/${ countryCode2 }?cropIds=[${cropIdTradeByProducts1},${cropIdTrade},${cropIdTradeByProducts2},${cropIdTradeByProducts3}]&elementIds=[${multiChartTrElementId}]`) //EP
         .then(res => {
             const valuesAux1_1 = Array<number>(0)
             const valuesAux2_1 = Array<number>(0)
@@ -1143,6 +1076,7 @@ const DataPage: NextPage = () => {
                                             }
                                         {(treeLoading && chartLoading1 && chartLoading2 && chartLoading3)? <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>:
                                         (!treeLabels.length && !chartLabels1.length && !chartLabels2.length && percent1===1000 && percent2===1000 && percent3===1000) ? <>ERROR</> :
+                                        //(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                         //(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>

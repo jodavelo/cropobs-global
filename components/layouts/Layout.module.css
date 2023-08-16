@@ -69,6 +69,10 @@
     height: 200vh;
 }
 
+.quotes {
+    height: 200vh;
+}
+
 @media (max-width: 500px) and (min-width: 300px){
     .home {
         /*height: 530vh;*/   /* TODO: Para el alto del contenido main */ /* 380 vh without extra components 480 */
@@ -201,6 +205,9 @@
     }
     .contact {
         height: 125vh;
+    }
+    .quotes {
+        height: 120vh;
     }
 }
 
