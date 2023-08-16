@@ -568,21 +568,9 @@ const DataPage: NextPage = () => {
         setTreeLoading(true);
         setTreeFailed(false)
         console.log("effect sin []")
-        axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ tradeTableName }/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year }`), //EP
-            
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
-            
-        ]).then(axios.spread((...responses) => {
-            
-            const responseOne = responses[0];
-            const response4 = responses[1];
-            const response5 = responses[2];
-            const response6 = responses[3];
-
-            // Tree Map
+        axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ tradeTableName }/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year }`) //EP
+        .then( responseOne => {
+             // Tree Map
             // ---------------------------------------------------------------------------------------------
             const valuesAux = Array<number>(0)
             const labelsAux = Array<string>(0)
@@ -625,6 +613,25 @@ const DataPage: NextPage = () => {
             setTreeLoading(false)
             // ---------------------------------------------------------------------------------------------
 
+        })
+        .catch((error)=>{
+            // reaccionar apropiadamente dependiendo del error.
+            setTreeLoading(false)
+            setTreeLabels(Array<string>(0))
+            setTreeFailed(true)
+            console.log(error)
+        }) 
+        axios.all([
+            
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ tradeTableName }/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
+            
+        ]).then(axios.spread((...responses) => {
+            const response4 = responses[0];
+            const response5 = responses[1];
+            const response6 = responses[2];
+           
             // indicators
             setpercent1( Math.round(response4.data * 1000)/1000)
             setpercent2( Math.round(response5.data * 100)/100)
@@ -635,9 +642,6 @@ const DataPage: NextPage = () => {
             setpercent1(1000)
             setpercent2(1000)
             setpercent3(1000)
-            setTreeLoading(false)
-            setTreeLabels(Array<string>(0))
-            setTreeFailed(true)
             console.log(errors)
         })
         if( clickId === null ) {
