@@ -1,0 +1,24 @@
+.main-container{
+    margin: 2%
+}
+.main-title{
+    text-align: center;
+}
+.main-text{
+    font-weight: 300;
+}
+.main-cards-container{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (min-width: 1200px){
+    .main-cards-container{
+        margin-top: 2%;
+        margin-bottom: 2%;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}

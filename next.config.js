@@ -32,7 +32,7 @@ const nextConfig = {
       'www.oneplanetnetwork.org',
       'www.mag.gob.sv',
       'www.mioa.org',
-      'www.thaitapiocastarch.org',
+      'www.thaitapiocastarch.org'      
     ]
   } 
 }

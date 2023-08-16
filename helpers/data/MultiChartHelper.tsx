@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+//const idCrop = process.env.NEXT_PUBLIC_ID_CROP;
 const idCrop = process.env.NEXT_PUBLIC_ID_CROP;
 const cropName = process.env.NEXT_PUBLIC_CROP_NAME;
 const idGroup = process.env.NEXT_PUBLIC_ID_GROUP;
@@ -92,8 +93,8 @@ export const GetChartData2 = (setterLabels: Function,setterdata1: Function,sette
       setterdata1(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
-      setterLabels([0])
-      setterdata1([0])
+      setterLabels([])
+      setterdata1([])
       setterError(true)
       console.log(error)
     })
@@ -102,7 +103,7 @@ export const GetChartData2 = (setterLabels: Function,setterdata1: Function,sette
       setterdata2(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
-      setterdata2([0])
+      setterdata2([])
       setterError(true)
       console.log(error)
     })
@@ -111,7 +112,7 @@ export const GetChartData2 = (setterLabels: Function,setterdata1: Function,sette
       setterdata3(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
-      setterdata3([0])
+      setterdata3([])
       setterError(true)
       console.log(error)
     })
@@ -120,7 +121,7 @@ export const GetChartData2 = (setterLabels: Function,setterdata1: Function,sette
       setterdata4(response.data.data.observations.map((datum: any) => datum.value))
     })
     .catch(error => {
-      setterdata4([0])
+      setterdata4([])
       setterError(true)
       console.log(error)
     })

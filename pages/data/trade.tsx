@@ -292,9 +292,9 @@ const DataPage: NextPage = () => {
     let [chartLoading2, setChartLoading2] = useState(true)
     let [chartFailed2, setChartFailed2] = useState(false)
 
-    let [percent1, setpercent1] = useState(-1000)
-    let [percent2, setpercent2] = useState(-1000)
-    let [percent3, setpercent3] = useState(-1000)
+    let [percent1, setpercent1] = useState(1000)
+    let [percent2, setpercent2] = useState(1000)
+    let [percent3, setpercent3] = useState(1000)
 
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels_1: Array(0), datasets_1: Array<any>(0)});
@@ -556,10 +556,15 @@ const DataPage: NextPage = () => {
         }))
         .catch(errors => {
             // reaccionar apropiadamente dependiendo del error.
+            setChartLoading1(false);
+            setChartLoading3(false);
             setChartFailed1(true);
             setChartFailed3(true);
             console.log(errors)
         })
+        .finally(
+
+        )
 
     },[flowId,countryCode2])
 
@@ -570,11 +575,11 @@ const DataPage: NextPage = () => {
         //setChartLoading2(true);
         console.log("effect sin []")
         axios.all([
-            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/chart/trade/treeMap/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }/3002/${cropIdTrade}/${ year-10 }`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71333]&elementIds=[3001,3002]`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[71339,71333,71332,71331]&elementIds=[3002]`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3101/${cropIdTrade}/${ year }`), //EP
-            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year }`), //EP
+            axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3102/${cropIdTrade}/${ year-10 }`), //EP
             axios.get(`${ baseUrl }/api/v1/data/trade/value/${ cropName?.toUpperCase() }_TRADE_AUX/VALUE/${ flowId }/${ countryCode2 }/3103/${cropIdTrade}/${ year }`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3301,3303,300001]`), //EP
             //axios.get(`${ baseUrl }/api/v1/chart/trade/default/${ cropName?.toUpperCase() }_TRADE_AUX/${ flowId }/${ countryCode2 }?cropIds=[%22713999%22]&elementIds=[3302,3304,300003]`) //EP
@@ -694,6 +699,11 @@ const DataPage: NextPage = () => {
         }))
         .catch(errors => {
             // reaccionar apropiadamente dependiendo del error.
+            setpercent1(1000)
+            setpercent2(1000)
+            setpercent3(1000)
+            setTreeLoading(false)
+            setTreeLabels(Array<string>(0))
             setTreeFailed(true)
             console.log(errors)
         })
@@ -882,6 +892,7 @@ const DataPage: NextPage = () => {
 
         })
         .catch(error => {
+            setChartLoading2(false)
             setChartFailed2(true)
         })
         
@@ -1111,27 +1122,29 @@ const DataPage: NextPage = () => {
                                             }
                                         </Col>
                                         <Col xs={ 12 } lg={ graphsCol } style={ showGraphs && !showMap ? { display: 'block', height: '80vh', overflow: 'auto', paddingLeft: '60px' } : showGraphs ? { display: 'block', height: '80vh', overflow: 'auto' } : { display: 'none' } }>
-                                        {//(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
+                                            {
+                                                showFiltersOnlyCharts ? (
+                                                    <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px', marginTop: '10px'}}>
+                                                        {/* <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
+                                                        <MapSelect id='trade-flow-filter-onlycharts' options={tradeFlowOptions} selected={flowId} setSelected={setSectionState} atrName='flowId'/>
+                                                        {/* <MapSelect id='element-filter-onlycharts' options={tradeElementOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
+                                                        <MapSelect id='year-filter-onlycharts' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
+                                                        <Button
+                                                            className={`${styles['search-country-button']}`}
+                                                            style={{width: '145px', height: 'inherit'}}
+                                                            onClick={() => setShowCountries(true)}
+                                                        >
+                                                            { dataTranslate("search-country") }
+                                                        </Button>
+                                                        {/* <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
+                                                        { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> } */}
+                                                    </Row>
+                                                ) : <></>
+                                            }
+                                        {(treeLoading && chartLoading1 && chartLoading2 && chartLoading3)? <div style={{height:"100%",width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}><LoadingComponent/></div>:
+                                        (!treeLabels.length && !chartLabels1.length && !chartLabels2.length && percent1===1000 && percent2===1000 && percent3===1000) ? <>ERROR</> :
+                                        //(!treeLoading && !chartLoading1 && !chartLoading2 && percent1!==-1000 && percent2!==-1000 && percent3!==-1000 && anualdata.labels.length>0 && tenyearsdata.labels_1.length>0) ?
                                             <>
-                                                {
-                                                    showFiltersOnlyCharts ? (
-                                                        <Row style={{justifyContent: 'center', flexWrap: 'wrap', gap: '5px', marginTop: '10px'}}>
-                                                            {/* <MapSelect id='element-filter' options={elementsOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
-                                                            <MapSelect id='trade-flow-filter-onlycharts' options={tradeFlowOptions} selected={flowId} setSelected={setSectionState} atrName='flowId'/>
-                                                            {/* <MapSelect id='element-filter-onlycharts' options={tradeElementOptions} selected={elementId} setSelected={setSectionState} atrName='elementId'/> */}
-                                                            <MapSelect id='year-filter-onlycharts' options={yearsOptions} selected={year} setSelected={setSectionState} atrName='year'/>
-                                                            <Button
-                                                                className={`${styles['search-country-button']}`}
-                                                                style={{width: '145px', height: 'inherit'}}
-                                                                onClick={() => setShowCountries(true)}
-                                                            >
-                                                                { dataTranslate("search-country") }
-                                                            </Button>
-                                                            {/* <MapSelect id='macro-region-filter' options={macroRegionsOptions} selected={macroRegionCode} setSelected={setSectionState} atrName='macroRegionCode'/>
-                                                            { macroRegionCode == '10' ? <></> : <MapSelect options={regionsOptions} selected={regionCode} setSelected={setSectionState} atrName='regionCode'/> } */}
-                                                        </Row>
-                                                    ) : <></>
-                                                }
                                                 <div style={{display: 'flex', flexDirection: 'row'}}>
                                                     <div style={{width: "60%", padding: "10px"}}>{dataTranslate('label-chart1')} <i> { locale == 'en' ? locationName : ( locale == 'pt' ? locationName : '' ) } <b>{ tradeFlowText2 }</b> { locale == 'es' ? locationName : '' } {dataTranslate('label-chart4')}</i> {dataTranslate('label-chart5')} <i><b>{sectionState.year}</b></i> ?</div>
                                                     <div style={{width: "40%", padding: "10px", textAlign: "center"}}>{dataTranslate('label-chart6')}{ tradeFlowText } {dataTranslate('label-chart8')}: <br/> <i><b>{ tradeTotal }</b></i> USD </div>
@@ -1145,9 +1158,13 @@ const DataPage: NextPage = () => {
                                                 <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
                                                     {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={multiChartTrElementId == 3002 ? chartTxts2 : chartTxts2_1}/>) )} 
                                                 </ChartFrame2Btn>
-                                                <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
-                                                    data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />
-                                                <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')+ tradeFlowText3 + dataTranslate('label-perc3_3') }}/>
+                                                {(percent1===1000 || percent2 ===1000)? <>ERROR</> : 
+                                                    <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
+                                                        data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />
+                                                }
+                                                {(percent3===1000)? <>ERROR</> :
+                                                    <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')+ tradeFlowText3 + dataTranslate('label-perc3_3') }}/>
+                                                }
                                                 <ChartFrame2Btn data={[]} toggleText={dataTranslate('chart3-toggle')} excludedClasses={['chart-select']}>
                                                     <ChartSelectionPV chartConfigList={chartConfig} />
                                                 </ChartFrame2Btn>

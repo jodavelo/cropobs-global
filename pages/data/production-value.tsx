@@ -560,32 +560,21 @@ const PVPage: NextPage = () => {
         ]);
     }, [x_labels, data1, data2, data3, data4, locale]);
 
-    let [valuePorc1, setValuePorc1] = useState(0)
+    let [valuePorc1, setValuePorc1] = useState(-100)
 
-    let [valuePorc2, setValuePorc2] = useState(0)
+    let [valuePorc2, setValuePorc2] = useState(-100)
 
     let [anualdata, setanualdata] = useState({labels: Array(0), datasets: Array<any>(0)});
     let [tenyearsdata, settenyearsdata] = useState({labels: Array(0), datasets: Array<any>(0)});
-    const [errorChart2, setErrorChart2] = useState(false)
     useEffect( () => {
         axios({url: `${ baseURL }/api/v1/data/value/${ cropName }_production_value/VALUE/${countryCode2}/${clickId ? '1059' : '1153'}/${ idCrop }/${year}`}) //EP
         .then(response => {
             setValuePorc1(response.data)
-            setErrorChart2(false)
         })
-        .catch( error => {
-            setErrorChart2(true)
-        })
-
         axios({url: `${ baseURL }/api/v1/data/value/${ cropName }_production_value/VALUE/${countryCode2}/${clickId ? '1060' : '1154'}/${ idCrop }/${year}`}) //EP
         .then(response => {
             setValuePorc2(response.data)
-            setErrorChart2(false)
         })
-        .catch( error => {
-            setErrorChart2(true)
-        })
-
     },[clickId, year, regionCode]);
 
     useEffect(() => {
@@ -596,12 +585,18 @@ const PVPage: NextPage = () => {
                 const chartjsData = {labels: data.labels, datasets};
                 setanualdata(chartjsData)
             })
+            .catch(errors => {
+                console.log(errors)
+            })
         axios({url: `${ baseURL }/api/v1/chart/default/${ cropName }_production_value/${countryCode2}?elementIds=[2058,8184]&cropIds=[${ idCrop },22008,22016]`}) //EP
             .then(response => {
                 const data = response.data.data;
                 const datasets = datasetGeneratorPV(data.observations, data.labels, 'id_crop', 'crop_name');
                 const chartjsData = {labels: data.labels, datasets};
                 settenyearsdata(chartjsData)
+            })
+            .catch(errors => {
+                console.log(errors)
             })
     }, [clickId, regionCode]);
 
@@ -929,26 +924,25 @@ const PVPage: NextPage = () => {
                                                     :
                                                         <></>
                                                 }
-                                                { percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig && dataFrame1 && x_labels && data1 && data2 && data3 && data4 ?
+                                                { (valuePorc1 == -100 && valuePorc2 == -100 && x_labels?.length && data1?.length && data2?.length && data3?.length && data4?.length )? <div>{locale == 'en'? "Oops something went wrong! Please reload" : locale == 'es'? "Ups algo salió mal! Por favor recarga": locale=='pt'? "Ops, algo deu errado! Por favor recarregue": "Oops something went wrong!"}</div> :
+                                                percentConfig1 && percentConfig2 && podiumConfig && chartTxts && chartConfig && dataFrame1 && x_labels && data1 && data2 && data3 && data4 ?
                                                     <>
                                                         <PodiumWithLinkCon dataURL={podiumConfig.url} text={podiumConfig.text} description={podiumConfig.description}/>
                                                         <br></br>
-                                                        <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />
+                                                        {(valuePorc1 == -100 && valuePorc2 == -100 )? <div>Error</div> : <PorcentagesBox data_1={percentConfig1} data_2={percentConfig2} />}
                                                         <br></br>
                                                         {!errorChart?
                                                             <ChartFrame data={dataFrame1} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                            
-                                                                <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />
-                                                            
+                                                                <MultichartPV xLabels={x_labels} data1={data1} data2={data2} data3={data3} data4={data4} chartTexts={chartTxts} />                                                            
                                                             </ChartFrame>
                                                         :
                                                         <div>Error</div>
                                                         }
                                                         <br></br>
-                                                        {!errorChart2?
-                                                        <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
-                                                            <ChartSelectionPV chartConfigList={chartConfig} />
-                                                        </ChartFrame>
+                                                        {anualdata.labels.length && tenyearsdata.labels.length ?
+                                                            <ChartFrame data={dataFrame2} toggleText={dataTranslate('chart2-toggle')} excludedClasses={['chart-select']}>
+                                                                <ChartSelectionPV chartConfigList={chartConfig} />
+                                                            </ChartFrame>
                                                         :
                                                         <div>Error</div>
                                                         }
