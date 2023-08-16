@@ -1097,14 +1097,14 @@ const DataPage: NextPage = () => {
                                                     {chartFailed2 ? (<div>Failed to load</div>) : (chartLoading2 ? (<div>Loading...</div>) : (<MultichartTr setMultiChartTrElementId={setMultiChartTrElementId} xLabels={chartLabels2} data2={chartValues22} data4={chartValues24} data3={chartValues23} data1={chartValues21} chartTexts={multiChartTrElementId == 3002 ? chartTxts2 : chartTxts2_1}/>) )} 
                                                 </ChartFrame2Btn>
                                                 {
-                                                    (percent1===1000 && percent2 ===1000 && percent3===1000)?<>
+                                                    (percent1===1000 && percent2 ===1000 && percent3===1000)? <>ERROR</> : <> 
                                                     {(percent1===1000 || percent2 ===1000)? <>ERROR</> : 
                                                     <PorcentagesBoxTr data_1={{ value: percent1, text: dataTranslate('label-perc1') + tradeFlowText3 + dataTranslate('label-perc1_1') }}
                                                         data_2={{ value: percent2, text: dataTranslate('label-perc2')+ tradeFlowText3 + dataTranslate('label-perc2_2') }} />
                                                     }
                                                     {(percent3===1000)? <>ERROR</> :
                                                     <APorcentagesBoxTr data={{value: percent3, text: dataTranslate('label-perc3')+ tradeFlowText3 + dataTranslate('label-perc3_3') }}/>
-                                                    }</> : <>ERROR</>
+                                                    }</>
 
                                                 }
                                                 
