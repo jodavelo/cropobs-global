@@ -94,7 +94,7 @@ const OurMembers: NextPage = () => {
                     <b>{dataTranslate('main-text2')}</b>
                     {dataTranslate('main-text3')}
                 </div>
-                {members.map((row,idx)=> <div className={ styles['main-cards-container'] }> {row.map(card=><Card imgUrl={card.imgUrl} title={card.title[locale as keyof typeof card.title]} country={card.country[locale as keyof typeof card.title]}  link={card.link} fb={card.fb} tw={card.tw} ig={card.ig} ln={card.ln}/>)} </div>)}                 
+                {members.map((row,idx)=> <div key={idx} className={ styles['main-cards-container'] }> {row.map((card,indx)=><Card key={indx} imgUrl={card.imgUrl} title={card.title[locale as keyof typeof card.title]} country={card.country[locale as keyof typeof card.title]}  link={card.link} fb={card.fb} tw={card.tw} ig={card.ig} ln={card.ln}/>)} </div>)}                 
             </div>
         </Layout>
     )
