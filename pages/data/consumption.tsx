@@ -934,27 +934,38 @@ const DataPage: NextPage = () => {
                                                 }
                                                 {/* {podiumConfig ? <PodiumSelectionCon podiumsList={podiumConfig} /> : 'Loading...'} */}
                                                     <br></br>
-                                                {(podiumConfig && perCapConsup!==-1000 && dataPorcentage1.value!==-1000 && dataComplmnt1!==-1000 && dataPorcentage2.value!==-1000 && dataComplmnt2!==-1000 && dataPorcentage3.value!==-1000 && dataComplmnt3!==-1000 && dataPorcentage4.value!==-1000  && dataComplmnt4!==-1000 && xlabels1.length!==0 && selfSuff!==-1000 && xlabels2.length!==0) || errorChart1 && errorChart2 ?
+                                                { (perCapConsup===-1000 && dataPorcentage1.value===-1000  && dataComplmnt1==-1000 && dataPorcentage2.value==-1000 && dataComplmnt2==-1000 && dataPorcentage3.value==-1000 && dataComplmnt3==-1000 && dataPorcentage4.value==-1000  && dataComplmnt4==-1000 && !xlabels1.length && selfSuff==-1000 && !xlabels2.length)? <>ERROR</> :
+                                                (podiumConfig && perCapConsup!==-1000 && dataPorcentage1.value!==-1000 && dataComplmnt1!==-1000 && dataPorcentage2.value!==-1000 && dataComplmnt2!==-1000 && dataPorcentage3.value!==-1000 && dataComplmnt3!==-1000 && dataPorcentage4.value!==-1000  && dataComplmnt4!==-1000 && xlabels1.length!==0 && selfSuff!==-1000 && xlabels2.length!==0) || errorChart1 && errorChart2 ?
                                                 <>
                                                 <PodiumSelectionCon podiumsList={podiumConfig} />
                                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(eval(dataTranslate('per-capita-text').replace('#{1}',year.toString()).replace('#{2}',(Math.round(perCapConsup * 100) / 100).toString())))}}/>
                                                 <br></br>
-                                                <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
-                                                    data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
-                                                <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt3 * 100) / 100).toString()) }}
-                                                    data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt4 * 100) / 100).toString()) }} />
+                                                {(dataPorcentage1.value===-1000  && dataComplmnt1==-1000 && dataPorcentage2.value==-1000 && dataComplmnt2==-1000)? <>Error</> :
+                                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage1.value, text:dataTranslate('porc1-label').replace('#{}',(Math.round(dataComplmnt1* 100) / 100).toString())}}
+                                                        data_2={{ value: dataPorcentage2.value, text: dataTranslate('porc2-label').replace('#{}', (Math.round(dataComplmnt2 * 100) / 100).toString()) }} />
+                                                }
+                                                {(dataPorcentage3.value==-1000 && dataComplmnt3==-1000 && dataPorcentage4.value==-1000  && dataComplmnt4==-1000)?<>Error</> :
+                                                    <PorcentagesBox evaluate={true} data_1={{ value: dataPorcentage3.value, text: dataTranslate('porc3-label').replace('#{}', (Math.round(dataComplmnt3 * 100) / 100).toString()) }}
+                                                        data_2={{ value: dataPorcentage4.value, text: dataTranslate('porc4-label').replace('#{}', (Math.round(dataComplmnt4 * 100) / 100).toString()) }} />
+                                                }
                                                 <br></br>
-                                                <ChartFrame data={dataFrame1 as any} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
-                                                    { errorChart1 ? (<div>Error</div>) : xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
-                                                </ChartFrame>
+                                                {(!xlabels1.length)? <>Error</> :
+                                                    <ChartFrame data={dataFrame1 as any} toggleText={dataTranslate('chart1-toggle')} excludedClasses={[]}>
+                                                        { errorChart1 ? (<div>Error</div>) : xlabels1.length == 0 ? (<div>Loading...</div>) : (<MultiBar1 xLabels={xlabels1} datapoints={datapoints1} databar1={databar11} databar2={databar12} databar3={databar13} databar4={databar14} databar5={databar15} chartTexts={chartTxts1} />)} 
+                                                    </ChartFrame>
+                                                }
                                                 <br></br>
-                                                <ChartFrame1Btn toggleText={dataTranslate('porc5-toggle')}>
-                                                    <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
-                                                </ChartFrame1Btn>
+                                                {(selfSuff===-1000)? <>Error</> :
+                                                    <ChartFrame1Btn toggleText={dataTranslate('porc5-toggle')}>
+                                                        <APorcentagesBox data={{ value: selfSuff / 100, text: 'Self-sufficiency ratio' }} />
+                                                    </ChartFrame1Btn>
+                                                }
                                                 <br></br>
-                                                <ChartFrame data={dataFrame2 as any} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
-                                                    { errorChart2 ? (<div>Error</div>) : xlabels2.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
-                                                </ChartFrame>
+                                                {!xlabels2.length ? <>Error</> :
+                                                    <ChartFrame data={dataFrame2 as any} toggleText={dataTranslate('chart2-toggle')} excludedClasses={[]}>
+                                                        { errorChart2 ? (<div>Error</div>) : xlabels2.length == 0 ? (<div>Loading...</div>) : (<MultiBar2 xLabels={xlabels2} datapoints={datapoints2} databar1={databar21} databar2={databar22} databar3={databar23} chartTexts={chartTxts2} />)} 
+                                                    </ChartFrame>
+                                                }
                                                 <SourcesComponent sourcesText={dataTranslate('sources-text')} shortName='FAO' year='2022' completeName='FAOSTAT Database' url='http://www.fao.org/faostat/en/#data' />
                                                 </>
                                                 :

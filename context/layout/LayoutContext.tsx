@@ -29,6 +29,8 @@ interface ContextProps {
     setIsDataDiseases: (settingIsDataDiseases: boolean) => void;
     isContact: boolean;
     setIsContact: (settingIsContact: boolean) => void;
+    isQuotes: boolean;
+    setIsQuotes: (settingIsQuotes: boolean) => void;
 }
 
 export const LayoutContext = createContext({} as ContextProps);

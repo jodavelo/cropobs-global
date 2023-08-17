@@ -17,6 +17,7 @@ type LayoutActionType =
     | { type: '[Layout] - Set is Data Pests', payload: boolean}
     | { type: '[Layout] - Set is Data Diseases', payload: boolean}
     | { type: '[Layout] - Set is Contact Page', payload: boolean}
+    | { type: '[Layout] - Set is Quotes Page', payload: boolean}
     // | { type: '[Layout] - Unenable is Home',  }
 
 export const layoutReducer = (state: LayoutState, action: LayoutActionType): LayoutState => {
@@ -92,6 +93,11 @@ export const layoutReducer = (state: LayoutState, action: LayoutActionType): Lay
                 return {
                     ...state,
                     isContact: action.payload
+                }
+            case '[Layout] - Set is Quotes Page':
+                return {
+                    ...state,
+                    isQuotes: action.payload
                 }
         // case '[Layout] - Unenable is Home':
         //     return {
