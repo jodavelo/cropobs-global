@@ -13,12 +13,16 @@ const publ_text = {
     title_es: 'Publicaciones más recientes',
     title_pt: 'Publicações mais recentes',
 }
-
+/*
 const config = {
     url : process.env.NEXT_PUBLIC_JSON_URL + 'beans_publ',
     headers: {
     "api_key": process.env.NEXT_PUBLIC_JSON_API_KEY
     }
+}
+*/
+const config = {
+    url : process.env.NEXT_PUBLIC_BASE_URL + '/api/v2/publications/all/crops',
 }
 
 const buildPubl = (rawPubl:any) => {
@@ -34,7 +38,7 @@ export const PublicationsContainer = () => {
     useEffect(() => {
         axios(config)
         .then(response => {
-            setPubl(JSON.parse(response.data.json));
+            setPubl(JSON.parse(response.data as string));
         })
         .catch(error => {
             console.log(error)
