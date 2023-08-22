@@ -1,0 +1,21 @@
+.policies-container{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    color: #787878;
+}
+.policies-title{
+    text-align: center;
+}
+.policies-body{}
+
+.justify-text{
+    text-align: justify;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.list-element{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

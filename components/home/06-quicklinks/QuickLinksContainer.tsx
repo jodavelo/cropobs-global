@@ -1,8 +1,6 @@
-
-
 import React, { useEffect } from 'react'
 import { QuickLink } from '../../ui'
-import {CardComponent} from '../../tools/card'
+import {CardComponent} from '../../ui/quick-logo'
 
 import styles from './quicklink.module.css';
 
@@ -13,6 +11,7 @@ const links1 = [
         text: "",
         height: "100px",
         width: "320px",
+        color: "#a82f31",
     },
     {
         href: "#",
@@ -20,6 +19,7 @@ const links1 = [
         text: "",
         height: "100px",
         width: "256px",
+        color: "#f5d226",
     },
 ]
 
@@ -30,6 +30,7 @@ const links2 = [
         text: "",
         height: "100px",
         width: "320px",
+        color: "#009933",
     },
     {
         href: "#",
@@ -37,6 +38,7 @@ const links2 = [
         text: "",
         height: "100px",
         width: "256px",
+        color: "#00697a",
     },
 ]
 
@@ -55,10 +57,10 @@ export const QuickLinksContainer = () => {
             <div className={ styles['quicklink-content'] }>
                 <div className={ styles['quicklink-images'] }>
                     <div className={ styles['quicklink-images-row'] }>
-                       {links1.map( (card, idx) => ( <CardComponent key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width}  /> ) )}
+                       {links1.map( (card, idx) => ( <CardComponent key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width} color={card.color} /> ) )}
                     </div>
                     <div className={ styles['quicklink-images-row'] }>
-                       {links2.map( (card, idx) => ( <CardComponent key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width}  /> ) )}
+                       {links2.map( (card, idx) => ( <CardComponent key={idx} href = {card.href} imgUrl={card.imgUrl} text={card.text} height={card.height} width={card.width} color={card.color}  /> ) )}
                     </div>
                     {/* <QuickLink href='https://www.google.com' description='Aliquam quis pellentesque ante. Donec suscipit interdum tellus. Sed pellentesque augue nec imperdiet semper. Interdum et malesuada fames ac ante ipsum primis in faucibus.' imgUrl='/home/homeimage1.jpg' title='Lorem ipsum'/> */}
                 </div>

@@ -9,11 +9,16 @@ import { convertToObject } from "typescript";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
 
+/*
 const config = {
     url : process.env.NEXT_PUBLIC_JSON_URL + 'beans_news',
     headers: {
     "api_key": process.env.NEXT_PUBLIC_JSON_API_KEY
     }
+}
+ */
+const config = {
+    url : process.env.NEXT_PUBLIC_BASE_URL + '/api/v2/news/all/crops',
 }
 
 const buildNews = (oldNews:any) => {
@@ -37,7 +42,7 @@ export const NewsContainer = () => {
     useEffect(() => {
         axios(config)
         .then(response => {
-            setNews (JSON.parse(response.data.json));
+            setNews (JSON.parse(response.data as string));
         })
         .catch(error => {
             console.log(error)
